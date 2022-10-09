@@ -6,7 +6,8 @@
   "scripts": {
     "start": "ts-node ./src",
     "dev": "nodemon ./src/index.ts",
-    "lint": "eslint -c .eslintrc.json src/ --ext .ts"
+    "lint": "eslint -c .eslintrc.json src/ --ext .ts",
+    "lint-fix": "eslint -c .eslintrc.json src/ --ext .ts --fix"
   },
   "repository": {
     "type": "git",

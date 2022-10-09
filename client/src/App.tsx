@@ -1,9 +1,9 @@
-function App() {
-  return (
-    <div className="App">
-      Hello from the other side
-    </div>
-  );
-}
+import React from 'react';
+
+const App : React.FC = () => (
+  <div className="App">
+    Hello from the other side
+  </div>
+);
 
 export default App;
