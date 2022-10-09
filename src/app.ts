@@ -1,17 +1,28 @@
-import express from 'express';
-import compression from 'compression';
-import cookieParser from 'cookie-parser';
-import router from './routes';
+import express, { Application } from 'express'
+import compression from 'compression'
+import cookieParser from 'cookie-parser'
+import router from './routes'
+import environment from './config/environment'
 
-const app = express();
-app.use(compression());
-app.use(cookieParser());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.disable('x-powered-by');
+class App {
+  public app: Application
+  public nodeEnv: string
 
-app.set('port', process.env.PORT || 8080);
+  constructor () {
+    this.app = express()
+    this.nodeEnv = environment.nodeEnv
+    this.initializeMiddlwares()
+  }
 
-app.use('/api/v1', router)
+  private initializeMiddlwares () {
+    this.app.use(compression())
+    this.app.use(express.json())
+    this.app.use(cookieParser())
+    this.app.use(express.urlencoded({ extended: false }))
+    this.app.use('/api/v1', router)
+  }
+}
 
-export default app;
+const { app } = new App()
+
+export default app

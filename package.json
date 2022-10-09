@@ -1,31 +1,30 @@
 {
-  "name": "share-us-team7",
+  "name": "share-us",
   "version": "1.0.0",
   "description": "A free-ticketing platform to share your events, plans and interests.",
   "main": "index.js",
   "scripts": {
     "start": "ts-node ./src",
     "dev": "nodemon ./src/index.ts",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint -c .eslintrc.json src/ --ext .ts"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CA-G12/Share-Us-Team7.git"
+    "url": "git+https://github.com/CA-G12/Share-Us.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/CA-G12/Share-Us-Team7/issues"
+    "url": "https://github.com/CA-G12/Share-Us/issues"
   },
-  "homepage": "https://github.com/CA-G12/Share-Us-Team7#readme",
+  "homepage": "https://github.com/CA-G12/Share-Us#readme",
   "devDependencies": {
     "@types/compression": "^1.7.2",
     "@types/cookie-parser": "^1.4.3",
     "@types/express": "^4.17.14",
     "@types/node": "^18.8.3",
     "@typescript-eslint/eslint-plugin": "^5.39.0",
-    "@typescript-eslint/parser": "^5.39.0",
     "eslint": "^8.25.0",
     "eslint-config-standard-with-typescript": "^23.0.0",
     "eslint-plugin-import": "^2.26.0",

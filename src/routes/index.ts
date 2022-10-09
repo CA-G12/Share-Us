@@ -1,9 +1,9 @@
-import express from 'express';
-const Router = express.Router();
+import express from 'express'
+const Router = express.Router()
 
 Router.get('/hello', (request, response) => {
-  console.log('hello world');
-  response.json({message: "Hiiii"})
-});
+  console.log('hello world')
+  response.json({ message: 'Hiiii' })
+})
 
-export default Router;
+export default Router
