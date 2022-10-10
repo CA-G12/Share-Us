@@ -1,8 +1,9 @@
 import React from 'react';
+import EventCard from './components/EventCard/EventCard';
 
 const App : React.FC = () => (
   <div className="App">
-    Hello from the other side
+    <EventCard />
   </div>
 );
 
