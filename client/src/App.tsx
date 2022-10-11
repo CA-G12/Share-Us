@@ -1,5 +1,5 @@
 import React from 'react';
-import EventCard from './components/EventCard/EventCard';
+import EventCard from './components/EventCard';
 
 const App : React.FC = () => (
   <div className="App">

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import IconButton from '@mui/material/IconButton';
 import { red } from '@mui/material/colors';
-import './EventCard.css';
+import './style.css';
 import {
   Box, Card, CardContent, CardMedia, Button, Typography, CardHeader, Avatar,
 } from '@mui/material';
