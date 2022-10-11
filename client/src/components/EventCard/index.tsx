@@ -1,40 +1,41 @@
 import { FC } from 'react';
-// import IconButton from '@mui/material/IconButton';
-import { red } from '@mui/material/colors';
 import './style.css';
 import {
-  Box, Card, CardContent, CardMedia, Typography, CardHeader, Avatar, Button,
+  Box, Card, CardContent, CardMedia, Typography, Avatar, Button, CardActions,
 } from '@mui/material';
+import { cardProps } from '../../interfaces';
 
-const EventCard:FC = () => (
-
+const EventCard:FC<cardProps> = ({ eventData }) => (
   <Card sx={{ maxWidth: 345 }}>
     <CardMedia
       component="img"
       height="220"
-      image="https://cdn.discordapp.com/attachments/956865613425410078/1029018892019974265/pexels-kseniya-budko-9485465_1.png"
+      image={eventData.img}
       alt="green iguana"
     />
     <Box className="status-date">
-      <Typography className="event-status">In Progress</Typography>
-      <Typography className="event-date">12/10/2022</Typography>
+      <Typography className="event-status">{eventData.status}</Typography>
+      <Typography className="event-date">{eventData.startTime}</Typography>
     </Box>
     <CardContent>
       <Typography gutterBottom variant="h5" component="div">
-        Lizard
+        {eventData.name}
       </Typography>
       <Typography variant="body2" color="text.secondary">
-        Lizards are a widespread group of squamate reptiles, with over 6,000
-        species, ranging across all continents except Antarctica
+        {eventData.description}
       </Typography>
     </CardContent>
-    <CardHeader
-      avatar={(
-        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src="https://cdn.discordapp.com/attachments/956865613425410078/1029018892019974265/pexels-kseniya-budko-9485465_1.png" alt="user-image" />
-        )}
-      action={(<Button sx={{ padding: '10px 0 0' }}>Read more</Button>)}
-      title="Shrimp"
-    />
+    <CardActions sx={{
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+    }}
+    >
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <Avatar aria-label="recipe" src={eventData.profileImage} alt="user-image" />
+        <Typography variant="body1">{eventData.username}</Typography>
+      </Box>
+      <Button sx={{ alignSelf: 'flex-end' }}>Read more</Button>
+    </CardActions>
+
   </Card>
 );
 
