@@ -1,8 +1,9 @@
 import React from 'react';
+import SignUp from './components/auth/SignUp';
 
 const App : React.FC = () => (
   <div className="App">
-    Hello from the other side
+    <SignUp />
   </div>
 );
 

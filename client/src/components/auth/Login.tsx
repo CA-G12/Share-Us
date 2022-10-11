@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { TextField, Button } from '@mui/material';
 import { ReactComponent as GoogleLogo } from '../../assets/icons/logo-google.svg';
 import './auth.css';
+import cover from '../../assets/images/cover.jpg';
 
 const Login: FC = () => (
   <div className="auth">
@@ -24,7 +25,7 @@ const Login: FC = () => (
         <a href="#"> Sign Up!</a>
       </p>
     </div>
-    <img src="https://cdn.discordapp.com/attachments/959502807071867000/1029343065720246354/pexels-rodnae-productions-7348675.jpg" alt="test" style={{ margin: '0', padding: '0' }} />
+    <img src={cover} alt="test" style={{ margin: '0', padding: '0' }} />
   </div>
 );
 
