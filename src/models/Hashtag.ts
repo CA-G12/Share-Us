@@ -2,7 +2,7 @@ import sequelize from '../db/connection'
 import { Model, DataTypes } from 'sequelize'
 
 class Hashtag extends Model {
-  declare id: number
+  declare id?: number
   declare title: string
   declare color: string
 }
@@ -22,7 +22,6 @@ Hashtag.init({
     allowNull: false
   }
 }, {
-  tableName: 'hashtags',
   sequelize
 })
 

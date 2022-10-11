@@ -2,14 +2,14 @@ import sequelize from '../db/connection'
 import { Model, DataTypes } from 'sequelize'
 
 class User extends Model {
-  declare id: number
+  declare id?: number
   declare username: string
   declare email: string
   declare password: string
   declare bio: string
-  declare location: string
-  declare profile_img: string
-  declare header_img: string
+  declare location?: string
+  declare profileImg?: string
+  declare headerImg?: string
   declare followers: number[]
   declare following: number[]
   declare blocked: number[]
@@ -40,13 +40,13 @@ User.init(
     },
     location: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: true
     },
-    profile_img: {
+    profileImg: {
       type: DataTypes.TEXT,
       defaultValue: 'https://st4.depositphotos.com/4329009/19956/v/600/depositphotos_199564354-stock-illustration-creative-vector-illustration-default-avatar.jpg'
     },
-    header_img: {
+    headerImg: {
       type: DataTypes.TEXT,
       defaultValue: 'https://cdn.discordapp.com/attachments/959502807071867000/1029123702052376686/Rectangle_2.png'
     },
@@ -64,7 +64,6 @@ User.init(
     }
   },
   {
-    tableName: 'users',
     sequelize
   }
 )
