@@ -1,16 +1,22 @@
 import { Sequelize } from 'sequelize'
-// import config from '../config/environment'
+import config from '../config/environment'
 
-// let connectionString: string = ''
+let connectionString: string = ''
+let ssl: boolean | object = false
 
-// if (!connectionString) throw new Error('Database url is not valid')
+if (config.nodeEnv === 'development') {
+  connectionString = config.db
+} else if (config.nodeEnv === 'production') {
+  connectionString = config.db_production
+  ssl = {
+    rejectUnauthorized: false
+  }
+} else if (config.nodeEnv === 'test') {
+  connectionString = config.db_test
+} else {
+  throw new Error('Database url is not valid')
+}
 
-// if (config.nodeEnv === 'development') {
-//   connectionString = config.db
-// } else {
-//   connectionString = 'test'
-// }
-
-const sequelize = new Sequelize('postgres://shareshams:123456@localhost:5432/shareus')
+const sequelize = new Sequelize(connectionString, { dialectOptions: { ssl } })
 
 export default sequelize
