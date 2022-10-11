@@ -1,9 +1,9 @@
-.hash-date{
+.status-date{
   padding: 16px 16px 0;
   display: flex;
   justify-content: space-between;
 }
-.hashtag{
+.event-status{
   background-color: rgb(8, 228, 8);
   color: white;
   padding: 2px 20px;

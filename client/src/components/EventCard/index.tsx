@@ -15,9 +15,9 @@ const EventCard:FC = () => (
       image="https://cdn.discordapp.com/attachments/956865613425410078/1029018892019974265/pexels-kseniya-budko-9485465_1.png"
       alt="green iguana"
     />
-    <Box className="hash-date">
-      <Typography className="hashtag">#Business</Typography>
-      <Typography className="date">12/10/2022</Typography>
+    <Box className="status-date">
+      <Typography className="event-status">In Progress</Typography>
+      <Typography className="event-date">12/10/2022</Typography>
     </Box>
     <CardContent>
       <Typography gutterBottom variant="h5" component="div">
