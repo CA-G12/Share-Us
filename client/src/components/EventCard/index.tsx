@@ -1,9 +1,9 @@
 import { FC } from 'react';
-import IconButton from '@mui/material/IconButton';
+// import IconButton from '@mui/material/IconButton';
 import { red } from '@mui/material/colors';
 import './style.css';
 import {
-  Box, Card, CardContent, CardMedia, Button, Typography, CardHeader, Avatar,
+  Box, Card, CardContent, CardMedia, Typography, CardHeader, Avatar, Button,
 } from '@mui/material';
 
 const EventCard:FC = () => (
@@ -32,11 +32,7 @@ const EventCard:FC = () => (
       avatar={(
         <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src="https://cdn.discordapp.com/attachments/956865613425410078/1029018892019974265/pexels-kseniya-budko-9485465_1.png" alt="user-image" />
         )}
-      action={(
-        <IconButton aria-label="settings">
-          <Button size="small">Read More</Button>
-        </IconButton>
-        )}
+      action={(<Button sx={{ padding: '10px 0 0' }}>Read more</Button>)}
       title="Shrimp"
     />
   </Card>
