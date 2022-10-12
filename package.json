@@ -6,7 +6,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./dist",
     "build": "tsc -p .",
-    "build:db": "ts-node ./src/db/build",
+    "build:db": "cross-env NODE_ENV=development ts-node ./src/db/build",
     "test": "cross-env NODE_ENV=test jest --watchAll",
     "dev": "cross-env NODE_ENV=development nodemon ./src/index.ts",
     "lint": "eslint -c .eslintrc.json src/ --ext .ts",
