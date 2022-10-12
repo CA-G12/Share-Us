@@ -1,7 +1,7 @@
 import app from './app'
-import environment from './config/environment'
+import config from './config/environment'
 
-const port = environment.port
+const port = config.port
 
 app.listen(port, () => {
   console.log(`Server is running at port http://localhost:${port}`)
