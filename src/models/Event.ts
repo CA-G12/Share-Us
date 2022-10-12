@@ -37,11 +37,11 @@ Event.init({
     allowNull: false
   },
   startTime: {
-    type: 'TIMESTAMP',
+    type: DataTypes.DATE,
     allowNull: false
   },
   endTime: {
-    type: 'TIMESTAMP',
+    type: DataTypes.DATE,
     allowNull: false
   },
   longitude: {
