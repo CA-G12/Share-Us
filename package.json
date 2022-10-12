@@ -4,7 +4,8 @@
   "description": "A free-ticketing platform to share your events, plans and interests.",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production ts-node ./src",
+    "start": "cross-env NODE_ENV=production node ./dist",
+    "build": "tsc -p .",
     "build:db": "ts-node ./src/db/build",
     "test": "cross-env NODE_ENV=test jest --watchAll",
     "dev": "cross-env NODE_ENV=development nodemon ./src/index.ts",
