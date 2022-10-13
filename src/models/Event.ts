@@ -7,8 +7,8 @@ class Event extends Model {
   declare description: string
   declare img: string
   declare status: 'in-progress' | 'closed' | 'upcoming'
-  declare from: Date
-  declare to: Date
+  declare startTime: Date
+  declare endTime: Date
   declare date: Date
   declare longitude: string
   declare latitude: string
@@ -37,11 +37,11 @@ Event.init({
     defaultValue: 'upcoming',
     allowNull: false
   },
-  from: {
+  startTime: {
     type: DataTypes.DATE,
     allowNull: false
   },
-  to: {
+  endTime: {
     type: DataTypes.DATE,
     allowNull: false
   },

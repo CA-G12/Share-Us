@@ -12,7 +12,7 @@ const allEvents = async (req: Request, res: Response) => {
   if (from && to) {
     whereObj[Op.or] = [
       {
-        from: {
+        startTime: {
           [Op.and]: {
             [Op.gte]: from,
             [Op.lte]: to
@@ -20,7 +20,7 @@ const allEvents = async (req: Request, res: Response) => {
         }
       },
       {
-        to: {
+        endTime: {
           [Op.and]: {
             [Op.gte]: from,
             [Op.lte]: to
