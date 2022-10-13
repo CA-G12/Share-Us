@@ -1,7 +1,7 @@
+import EventsController from './../../controllers/events/EventsController'
 import express from 'express'
-import addEvent from './../../controllers/addEventController'
-const Router = express.Router()
+const router = express.Router()
 
-Router.post('/addEvent', addEvent)
+router.post('/events', EventsController.store)
 
-export default Router
+export default router

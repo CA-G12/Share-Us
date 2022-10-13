@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import querySchema from './../validation/addEventValidate'
 import { Event } from './../models'
+import { Message } from './../config/messages'
 
 const addEvent = async (req: Request, res: Response, next: NextFunction) => {
   const data = req.body
@@ -16,15 +17,15 @@ const addEvent = async (req: Request, res: Response, next: NextFunction) => {
       longitude: data.longitude,
       latitude: data.latitude
     })
-
-    res.status(200).json({
-      message: 'inserted successfully'
+    res.json({
+      message: Message.SUCCESS,
+      data: event
     })
   } catch (err:any) {
     if (err.details[0]) {
       res
-        .status(422)
-        .json({ message: 'You should fill all the required fields' })
+      .status(422)
+      .json({ message: Message.VALIDATION_ERROR, error: err.details[0]})
     }
     next(err)
   }

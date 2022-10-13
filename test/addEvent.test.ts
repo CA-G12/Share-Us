@@ -1,11 +1,13 @@
 import { describe, expect, test } from '@jest/globals'
 import supertest from 'supertest'
 import app from '../src/app'
+import { Message } from '../src/config/messages'
+
 
 describe('Adding event', () => {
   test('Insert data', done => {
     supertest(app)
-      .post('/api/v1/addEvent')
+      .post('/api/v1/events')
       .send({
         name: 'Halloween party',
         description: 'you should wear a custom',
@@ -20,13 +22,13 @@ describe('Adding event', () => {
       .expect(200)
       .end((err, res) => {
         if (err) return done(err)
-        expect(res.body.message).toBe('inserted successfully')
+        expect(res.body.message).toBe(Message.SUCCESS)
         return done()
       })
   })
   test('Image field empty', done => {
     supertest(app)
-      .post('/api/v1/addEvent')
+      .post('/api/v1/events')
       .send({
         name: 'Halloween party',
         description: 'you should wear a custom',
@@ -39,7 +41,7 @@ describe('Adding event', () => {
       .expect(422)
       .end((err, res) => {
         if (err) return done(err)
-        expect(res.body.message).toBe('You should fill all the required fields')
+        expect(res.body.message).toBe(Message.VALIDATION_ERROR)
         return done()
       })
   })

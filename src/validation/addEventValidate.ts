@@ -8,10 +8,10 @@ const querySchema = Joi.object({
     .min(3)
     .required(),
   startTime: Joi.date()
-    .greater('now')
+    .greater(Date.now() + 48 * 60 * 60 * 1000)
     .required(),
   endTime: Joi.date()
-    .greater('now')
+    .greater(Date.now() + 48 * 60 * 60 * 1000)
     .required(),
   img: Joi.string()
     .pattern(imagePattern)
