@@ -10,7 +10,8 @@
           "es2021"
       ],
       "typeRoots": [
-          "node_modules/@types"
+          "node_modules/@types",
+          "./declaration.d.ts"
       ],
       "allowSyntheticDefaultImports": true,
       "experimentalDecorators": true,

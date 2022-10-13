@@ -1,18 +1,11 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
+import querySchema from './../validation/addEventValidate'
 import { Event } from './../models'
 
-const addEvent = async (req: Request, res: Response) => {
+const addEvent = async (req: Request, res: Response, next: NextFunction) => {
   const data = req.body
-  if (
-    data.name &&
-    data.description &&
-    data.img &&
-    data.status &&
-    data.startTime &&
-    data.endTime &&
-    data.longitude &&
-    data.latitude
-  ) {
+  try {
+    await querySchema.validateAsync(req.body)
     const event = await Event.create({
       name: data.name,
       description: data.description,
@@ -23,15 +16,18 @@ const addEvent = async (req: Request, res: Response) => {
       longitude: data.longitude,
       latitude: data.latitude
     })
+
     res.status(200).json({
       message: 'inserted successfully'
     })
-  }else{
-    res.status(400).json({
-      message: 'You should fill all the required fields'
-    })
+  } catch (err:any) {
+    if (err.details[0]) {
+      res
+        .status(422)
+        .json({ message: 'You should fill all the required fields' })
+    }
+    next(err)
   }
-  
 }
 
 export default addEvent

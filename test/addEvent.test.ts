@@ -36,7 +36,7 @@ describe('Adding event', () => {
         longitude: '12,15,200',
         latitude: '20,5,156'
       })
-      .expect(400)
+      .expect(422)
       .end((err, res) => {
         if (err) return done(err)
         expect(res.body.message).toBe('You should fill all the required fields')
