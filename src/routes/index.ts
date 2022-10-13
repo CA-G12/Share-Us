@@ -1,7 +1,7 @@
 import express from 'express'
-import addEvent from './event'
+import events from './event'
 const Router = express.Router()
 
-Router.use(addEvent)
+Router.use(events)
 
 export default Router
