@@ -1,9 +1,7 @@
 import express from 'express'
+import addEvent from './event/AddEvent'
 const Router = express.Router()
 
-Router.get('/hello', (request, response) => {
-  console.log('hello world')
-  response.json({ message: 'Hiiii' })
-})
+Router.use(addEvent)
 
 export default Router
