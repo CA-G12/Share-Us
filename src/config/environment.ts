@@ -26,7 +26,7 @@ if (!connectionString) {
 
 const config = {
   nodeEnv: NODE_ENV,
-  port: PORT || 8081,
+  port: PORT || 8080,
   connectionString,
   ssl,
   secretKey: SECRET_KEY
