@@ -9,7 +9,6 @@ class Event extends Model {
   declare status: 'in-progress' | 'closed' | 'upcoming'
   declare startTime: Date
   declare endTime: Date
-  declare date: Date
   declare longitude: string
   declare latitude: string
 }
@@ -44,9 +43,6 @@ Event.init({
   endTime: {
     type: DataTypes.DATE,
     allowNull: false
-  },
-  date: {
-    type: DataTypes.DATE
   },
   longitude: {
     type: DataTypes.STRING,

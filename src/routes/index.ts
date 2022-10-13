@@ -1,11 +1,6 @@
-import { allEvents } from '../controllers'
 import express from 'express'
+import EventsController from '../controllers/EventsController'
 const Router = express.Router()
 
-Router.get('/hello', (request, response) => {
-  console.log('hello world')
-  response.json({ message: 'Hiiii' })
-})
-
-Router.get('/events', allEvents)
+Router.get('/events', EventsController.index)
 export default Router
