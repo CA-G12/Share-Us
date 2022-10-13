@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
-import querySchema from './../../validation/addEventValidate'
-import { Event } from './../../models'
-import { Message } from './../../config/messages'
+import querySchema from '../validation/addEventValidate'
+import { Event } from '../models'
+import { Message } from '../config/messages'
 
 export default class EventsController {
   // for getting all data
