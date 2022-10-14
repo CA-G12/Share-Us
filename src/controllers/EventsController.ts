@@ -1,4 +1,4 @@
-import { Event } from '../models'
+import { Event, User } from '../db'
 import { NextFunction, Request, Response } from 'express'
 import { Op } from 'sequelize'
 
@@ -32,11 +32,13 @@ export default class EventsController {
       }
 
       return await Event.findAll({
+        attributes: ['name', 'img', 'description', 'status', 'startTime'],
+        include: [{ model: User, attributes: ['username', 'profileImg', 'id'] }],
         where: whereObj,
         order: [
           ['startTime', 'ASC']
         ]
-      }).then((result) => res.json(result))
+      }).then((result: object) => res.json(result))
     } catch (err) {
       next(err)
     }
