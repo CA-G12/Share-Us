@@ -65,6 +65,13 @@
       "password": "123",
       "bio": "I am very smart",
       "location": "gaza"
+    },
+    {
+      "username": "mostafa 2",
+      "email": "most07173@gmail.com",
+      "password": "123",
+      "bio": "I am very smart",
+      "location": "gaza"
     }
   ]
 }

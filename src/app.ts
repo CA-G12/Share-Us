@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser'
 import router from './routes'
 import config from './config/environment'
 import { sequelize } from './db'
+import passport from 'passport'
 
 class App {
   public app: Application
@@ -20,7 +21,8 @@ class App {
     this.app.use(express.json())
     this.app.use(cookieParser())
     this.app.use(express.urlencoded({ extended: false }))
-    this.app.use('/api/v1', router)
+    this.app.use(passport.initialize())
+    this.app.use('/api/v1/', router)
   }
 }
 
