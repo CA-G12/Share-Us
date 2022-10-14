@@ -1,28 +1,28 @@
-import { FC } from 'react';
-import './style.css';
+import { FC } from 'react'
+import './style.css'
 import {
   Box, Card, CardContent, CardMedia, Typography, Avatar, Button, CardActions,
-} from '@mui/material';
-import { cardProps } from '../../interfaces';
+} from '@mui/material'
+import { EventCardProps } from '../../interfaces'
 
-const EventCard:FC<cardProps> = ({ eventData }) => (
+const EventCard:FC<EventCardProps> = ({ event }) => (
   <Card sx={{ maxWidth: 345 }}>
     <CardMedia
       component="img"
       height="220"
-      image={eventData.img}
+      image={event.img}
       alt="green iguana"
     />
     <Box className="status-date">
-      <Typography className="event-status">{eventData.status}</Typography>
-      <Typography className="event-date">{eventData.startTime}</Typography>
+      <Typography className="event-status">{event.status}</Typography>
+      <Typography className="event-date">{event.startTime}</Typography>
     </Box>
     <CardContent>
       <Typography gutterBottom variant="h5" component="div">
-        {eventData.name}
+        {event.name}
       </Typography>
       <Typography variant="body2" color="text.secondary">
-        {eventData.description}
+        {event.description}
       </Typography>
     </CardContent>
     <CardActions sx={{
@@ -30,13 +30,13 @@ const EventCard:FC<cardProps> = ({ eventData }) => (
     }}
     >
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <Avatar aria-label="recipe" src={eventData.profileImage} alt="user-image" />
-        <Typography variant="body1">{eventData.username}</Typography>
+        <Avatar aria-label="recipe" src={event.profileImage} alt="user-image" />
+        <Typography variant="body1">{event.username}</Typography>
       </Box>
       <Button sx={{ alignSelf: 'flex-end' }}>Read more</Button>
     </CardActions>
 
   </Card>
-);
+)
 
-export default EventCard;
+export default EventCard

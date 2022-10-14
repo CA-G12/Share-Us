@@ -1,6 +1,6 @@
-import event from './eventData';
-import cardProps from './cardProps';
+import IEvent from './IEvent'
+import EventCardProps from './props/EventCardProps'
 
 export type {
-  event, cardProps,
-};
+  IEvent, EventCardProps,
+}
