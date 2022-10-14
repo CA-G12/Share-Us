@@ -4,8 +4,8 @@ import config from '../config/environment'
 
 const build = async () => {
   await sequelize.sync({ force: true })
-  await Event.bulkCreate(fakeData.Events)
   await User.bulkCreate(fakeData.Users)
+  await Event.bulkCreate(fakeData.Events)
 }
 
 if (config.nodeEnv !== 'test') {

@@ -8,7 +8,8 @@
       "endTime": "2022-1-29 12:28:44.411133+03",
       "status": "in-progress",
       "longitude": "11,50,2",
-      "latitude": "25,288,10"
+      "latitude": "25,288,10",
+      "UserId": "2"
     },
     {
       "name": "Dance Party",
@@ -18,7 +19,8 @@
       "endTime": "2022-1-29 12:28:44.411133+03",
       "longitude": "11,50,2",
       "status": "upcoming",
-      "latitude": "25,288,10"
+      "latitude": "25,288,10",
+      "UserId": "1"
     },
     {
       "name": "Hiking",
@@ -28,7 +30,8 @@
       "endTime": "2022-1-29 12:28:44.411133+03",
       "status": "upcoming",
       "longitude": "11,50,2",
-      "latitude": "25,288,10"
+      "latitude": "25,288,10",
+      "UserId": "1"
     },
     {
       "name": "Brian Shields And Dean Miller",
@@ -38,7 +41,8 @@
       "endTime": "2022-1-29 12:28:44.411133+03",
       "status": "closed",
       "longitude": "11,50,2",
-      "latitude": "25,288,10"
+      "latitude": "25,288,10",
+      "UserId": "2"
     },
     {
       "name": "Going to the sea",
@@ -48,7 +52,8 @@
       "endTime": "2022-1-29 12:28:44.411133+03",
       "status": "in-progress",
       "longitude": "11,50,2",
-      "latitude": "25,288,10"
+      "latitude": "25,288,10",
+      "UserId": "2"
     }
   ],
   "Users": [
