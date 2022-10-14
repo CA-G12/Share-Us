@@ -1,13 +1,9 @@
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+
 a{
   text-decoration: none;
 }
 .auth{
-  height: 100vh;
+  height: 100vh !important;
   margin: 0;
   padding: 0;
   display: flex;
@@ -24,7 +20,7 @@ a{
 
 .form{
     width: 450px;
-    margin: 50px auto 0;
+    margin: 0 auto ;
     padding: 20px 40px;
 }
 .form a {
@@ -40,12 +36,12 @@ a{
 
 .form h2{
   width: max-content;
-  margin: 0 auto ;
+  margin: 30px auto 0 ;
   color: #2A2A2A;
 }
 .form p.center-pra{
   width: max-content;
-  margin: 2px auto 40px;
+  margin: 2px auto 20px;
   color: #7E7E7E;
 }
 .form TextField{
@@ -58,7 +54,7 @@ a{
   background-color: #2a2a2a;
   display: block;
   letter-spacing: 2px;
-  margin-top: 35px;
+  margin-top: 15px;
 }
 
 .form Button.submit-btn:hover {
