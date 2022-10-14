@@ -6,7 +6,7 @@ import { Message } from '../src/config/messages'
 import { build }  from '../src/db/build'
 import { sequelize } from '../src/db'
 
-beforeEach(() => build())
+beforeAll(() => build())
 afterAll(() => sequelize.close())
 
 describe('Adding event', () => {
