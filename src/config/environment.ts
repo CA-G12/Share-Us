@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-const { NODE_ENV, PORT, DB_URL, DATABASE_URL, TEST_DB, SECRET_KEY } = process.env
+const { NODE_ENV, PORT, DB_URL, DATABASE_URL, TEST_DB, SECRET_KEY, CLIENT_ID, CLIENT_SECRET, CALLBACK_URL } = process.env
 
 let connectionString: string | undefined = ''
 let ssl: boolean | object = false
@@ -29,7 +29,10 @@ const config = {
   port: PORT || 8080,
   connectionString,
   ssl,
-  secretKey: SECRET_KEY
+  secretKey: SECRET_KEY,
+  clientId: CLIENT_ID || '',
+  clientSecret: CLIENT_SECRET || '',
+  callbackUrl: CALLBACK_URL || ''
 }
 
 export default config

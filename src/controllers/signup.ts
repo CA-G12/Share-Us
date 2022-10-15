@@ -32,7 +32,8 @@ const signup = async (req:Request, res: Response) => {
     const userData = await User.create({ ...req.body, password: hashed })
 
     const token = await generateToken({ id: userData.id || 0, username: userData.username })
-    res.cookie('token', token).json(userData)
+    userData.password = ''
+    res.json({ data: userData, token })
   } catch (err) {
     res.status(400).json(err)
   }

@@ -33,7 +33,7 @@ User.init(
     },
     password: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: true
     },
     bio: {
       type: DataTypes.TEXT,
