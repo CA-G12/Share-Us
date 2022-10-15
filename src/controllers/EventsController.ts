@@ -1,5 +1,6 @@
 import { Event, User } from '../db'
 import { NextFunction, Request, Response } from 'express'
+import { Message } from '../config/message'
 import { Op } from 'sequelize'
 
 export default class EventsController {
@@ -31,14 +32,15 @@ export default class EventsController {
         ] as any
       }
 
-      return await Event.findAll({
+      const allEvents = await Event.findAll({
         attributes: ['name', 'img', 'description', 'status', 'startTime'],
         include: [{ model: User, attributes: ['username', 'profileImg', 'id'] }],
         where: whereObj,
         order: [
           ['startTime', 'ASC']
         ]
-      }).then((result: object) => res.json(result))
+      })
+      res.json({ message: Message.SUCCESS, data: allEvents })
     } catch (err) {
       next(err)
     }
