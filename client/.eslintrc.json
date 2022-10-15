@@ -24,6 +24,7 @@
         "react-hooks"
     ],
     "rules": {
+        "semi": [1, "never"],
         "no-nested-ternary": 0,
         "no-use-before-define": "off",
         "max-len": ["error", { "code": 80 }],

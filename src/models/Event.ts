@@ -6,8 +6,9 @@ class Event extends Model {
   declare name: string
   declare description: string
   declare img: string
+  declare status: 'in-progress' | 'closed' | 'upcoming'
   declare startTime: Date
-  declare duration: number
+  declare endTime: Date
   declare longitude: string
   declare latitude: string
 }
@@ -30,19 +31,26 @@ Event.init({
     type: DataTypes.TEXT,
     allowNull: false
   },
-  startTime: {
-    type: 'TIMESTAMP',
+  status: {
+    type: DataTypes.ENUM('in-progress', 'closed', 'upcoming'),
+    defaultValue: 'upcoming',
     allowNull: false
   },
-  duration: {
-    type: DataTypes.INTEGER,
+  startTime: {
+    type: DataTypes.DATE,
+    allowNull: false
+  },
+  endTime: {
+    type: DataTypes.DATE,
     allowNull: false
   },
   longitude: {
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    allowNull: false
   },
   latitude: {
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    allowNull: false
   }
 },
 {

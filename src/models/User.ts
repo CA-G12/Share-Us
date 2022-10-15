@@ -36,7 +36,8 @@ User.init(
       allowNull: false
     },
     bio: {
-      type: DataTypes.TEXT
+      type: DataTypes.TEXT,
+      allowNull: true
     },
     location: {
       type: DataTypes.TEXT,
