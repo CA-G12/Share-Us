@@ -1,12 +1,51 @@
 import { NextFunction, Request, Response } from 'express'
 import querySchema from '../validation/addEventValidate'
-import { Event } from '../models'
 import { Message } from '../config/messages'
+import { Event, User } from '../db'
+import { Op } from 'sequelize'
 
 export default class EventsController {
   // for getting all data
-  public static async index (req: Request, res: Response) {
-    // code here
+  public static async index (req: Request, res: Response, next: NextFunction) {
+    const { status, from, to } = req.query
+    try {
+      const whereObj: {status?: string, [Op.or]? : symbol} = {}
+      if (status) {
+        whereObj.status = status as string
+      }
+      if (from && to) {
+        whereObj[Op.or] = [
+          {
+            startTime: {
+              [Op.and]: {
+                [Op.gte]: from,
+                [Op.lte]: to
+              }
+            }
+          },
+          {
+            endTime: {
+              [Op.and]: {
+                [Op.gte]: from,
+                [Op.lte]: to
+              }
+            }
+          }
+        ] as any
+      }
+
+      const allEvents = await Event.findAll({
+        attributes: ['name', 'img', 'description', 'status', 'startTime'],
+        include: [{ model: User, attributes: ['username', 'profileImg', 'id'] }],
+        where: whereObj,
+        order: [
+          ['startTime', 'ASC']
+        ]
+      })
+      res.json({ message: Message.SUCCESS, data: allEvents })
+    } catch (err) {
+      next(err)
+    }
   }
 
   // for getting just on element of data (like getting just one event may be in event details)

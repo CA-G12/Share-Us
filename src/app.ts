@@ -3,7 +3,6 @@ import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import router from './routes'
 import config from './config/environment'
-import { sequelize } from './db'
 
 class App {
   public app: Application
@@ -24,15 +23,6 @@ class App {
   }
 }
 
-const testing = async () => {
-  try {
-    await sequelize.authenticate()
-    console.log('Connection has been established successfully.')
-  } catch (error) {
-    console.error('Unable to connect to the database:', error)
-  }
-}
-testing()
 const { app } = new App()
 
 export default app
