@@ -40,15 +40,17 @@ const EventModal: FC = () => {
           <h1>Event Details</h1>
 
           <TextField
-            id="outlined-basic"
+            required
+            id="outlined-required"
             label="Event Name"
             variant="outlined"
             fullWidth
             sx={{ display: 'block', margin: '20px 0' }}
           />
-          <div style={{ display: 'flex' }}>
+          <div style={{ display: 'flex', margin: '20px 0' }}>
             <TextField
-              id="outlined-basic"
+              required
+              id="outlined-required"
               label="Start Time"
               type="datetime-local"
               defaultValue="2022-10-16T10:30"
@@ -58,7 +60,8 @@ const EventModal: FC = () => {
               }}
             />
             <TextField
-              id="outlined-basic"
+              required
+              id="outlined-required"
               label="End Time"
               type="datetime-local"
               variant="outlined"
@@ -69,44 +72,52 @@ const EventModal: FC = () => {
             />
           </div>
           <TextField
-            id="outlined-basic"
+            required
+            id="outlined-required"
             label="Status"
             variant="outlined"
             fullWidth
             sx={{ display: 'block', margin: '20px 0' }}
           />
-          <div style={{ display: 'flex' }}>
+          <div style={{ display: 'flex', margin: '20px 0' }}>
             <TextField
-              id="outlined-basic"
+              required
+              id="outlined-required"
               label="Longitude"
               variant="outlined"
               fullWidth
-              sx={{ display: 'block', margin: '20px 0' }}
+              sx={{ display: 'block' }}
             />
             <TextField
-              id="outlined-basic"
+              required
+              id="outlined-required"
               label="Latitude"
               variant="outlined"
               fullWidth
-              sx={{ display: 'block', margin: '20px 0' }}
+              sx={{ display: 'block' }}
             />
           </div>
           <TextField
-            id="outlined-basic"
+            required
+            id="outlined-required"
             label="Event Picture"
             variant="outlined"
             fullWidth
             sx={{ display: 'block', margin: '20px 0' }}
           />
           <TextField
-            id="outlined-basic"
+            required
+            id="outlined-required"
             label="Description"
             variant="outlined"
+            multiline
+            maxRows={4}
             fullWidth
             sx={{ display: 'block', margin: '20px 0' }}
           />
           <TextField
-            id="outlined-basic"
+            required
+            id="outlined-required"
             label="Hashtag"
             variant="outlined"
             fullWidth
