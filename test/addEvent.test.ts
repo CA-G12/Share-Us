@@ -3,7 +3,7 @@ import { describe, expect, test } from '@jest/globals'
 import supertest from 'supertest'
 import app from '../src/app'
 import { Message } from '../src/config/messages'
-import build  from '../src/db/build'
+import build from '../src/db/build'
 import { sequelize } from '../src/db'
 
 beforeAll(() => build())

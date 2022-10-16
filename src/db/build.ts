@@ -9,8 +9,7 @@ const build = async () => {
 }
 
 if (config.nodeEnv !== 'test') {
-  build().then(() => console.log('database built successfully'))
+  build().then(() => console.log('database built successfully')).catch((err) => console.log(err))
 }
-export default build;
 
-
+export default build

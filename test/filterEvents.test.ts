@@ -1,7 +1,7 @@
 import { describe, expect, test } from '@jest/globals'
 import app from '../src/app'
 import supertest from 'supertest'
-import build  from '../src/db/build'
+import build from '../src/db/build'
 import sequelize from '../src/db/connection'
 
 beforeAll(() => build())
@@ -13,7 +13,6 @@ describe('Filter events tests', () => {
       .expect('Content-Type', /json/)
       .end((err, res) => {
         if (err) return done(err)
-        console.log(res.body.data);
         expect(res.body.data.length).toEqual(5)
         return done()
       })
