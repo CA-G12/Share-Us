@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import CustomError from './CustomError'
 
-const errorHandler = (controller: Function) => {
+const expressWrapper = (controller: Function) => {
   return async (req:Request, res: Response, next:NextFunction) => {
     try {
       await controller(req, res, next)
@@ -17,4 +17,4 @@ const errorHandler = (controller: Function) => {
     }
   }
 }
-export default errorHandler
+export default expressWrapper
