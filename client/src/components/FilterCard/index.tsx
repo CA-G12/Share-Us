@@ -11,6 +11,8 @@ const FilterCards:FC = () => {
   const [value, setValue] = React.useState(dayjs('2022-08-18T21:11:54'))
   const handleChange = (newValue:any):void => setValue(newValue)
 
+  const handleFilterEvents = (e:any):void => { console.log('success', e.target) }
+
   return (
     <div className="big-container">
       <Typography variant="h3" gutterBottom>
@@ -37,10 +39,10 @@ const FilterCards:FC = () => {
         </div>
         <div className="event-lists">
           <ul>
-            <li>All events</li>
-            <li>In-progress</li>
-            <li>Upcoming</li>
-            <li>Closed</li>
+            <button type="button" onClick={handleFilterEvents}>All events</button>
+            <button type="button" onClick={handleFilterEvents}>In-progress</button>
+            <button type="button" onClick={handleFilterEvents}>Upcoming</button>
+            <button type="button" onClick={handleFilterEvents}>Closed</button>
           </ul>
         </div>
       </div>

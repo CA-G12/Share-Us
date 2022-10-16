@@ -61,9 +61,10 @@ body {
   cursor: pointer;
 }
 
-.event-lists ul li:first-child {
+.event-lists ul button:first-child {
   padding: 0.3rem 0.5rem;
   background-color: rgb(0, 0, 0);
   border-radius: 5px;
   color: #fff;
+  cursor: pointer;
 }
