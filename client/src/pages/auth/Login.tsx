@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { FC } from 'react';
-import { TextField, Button } from '@mui/material';
+import { FC } from 'react'
+import { TextField, Button } from '@mui/material'
 import { ReactComponent as GoogleLogo } from
-  '../../assets/icons/logo-google.svg';
-import './auth.css';
-import cover from '../../assets/images/cover.jpg';
+  '../../assets/icons/logo-google.svg'
+import './auth.css'
+import cover from '../../assets/images/cover.jpg'
 
 const Login: FC = () => (
   <div className="auth">
@@ -17,16 +17,18 @@ const Login: FC = () => (
         id="outlined-basic"
         label="Email"
         variant="outlined"
+        size="small"
         fullWidth
-        sx={{ display: 'block', margin: '30px 0' }}
+        sx={{ display: 'block', margin: '20px 0' }}
       />
 
       <TextField
         id="outlined-basic"
         label="Password"
         variant="outlined"
+        size="small"
         fullWidth
-        sx={{ display: 'block', margin: '30px 0' }}
+        sx={{ display: 'block', margin: '20px 0 40px' }}
       />
 
       <Button
@@ -49,6 +51,6 @@ const Login: FC = () => (
     </div>
     <img src={cover} alt="test" style={{ margin: '0', padding: '0' }} />
   </div>
-);
+)
 
-export default Login;
+export default Login
