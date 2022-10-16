@@ -9,7 +9,11 @@ const errorHandler = (controller: Function) => {
       if (err.name === 'ValidationError') {
         err.status = 422
       }
-      next(new CustomError(err.message || 'Internal server error', err.status || 500))
+      next(
+        new CustomError(
+          err.message || 'Internal server error', err.status || 500
+        )
+      )
     }
   }
 }

@@ -1,9 +1,15 @@
 import { sequelize, Event, User } from '.'
 import fakeData from './FakeData/fakeData.json'
+import config from '../config/environment'
+
 const build = async () => {
   await sequelize.sync({ force: true })
-  await Event.bulkCreate(fakeData.Events)
   await User.bulkCreate(fakeData.Users)
+  await Event.bulkCreate(fakeData.Events)
 }
 
-build()
+if (config.nodeEnv !== 'test') {
+  build().then(() => console.log('database built successfully')).catch((err) => console.log(err))
+}
+
+export default build

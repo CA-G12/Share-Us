@@ -24,8 +24,10 @@
         "react-hooks"
     ],
     "rules": {
+        "semi": [1, "never"],
         "no-nested-ternary": 0,
         "no-use-before-define": "off",
+        "max-len": ["error", { "code": 80 }],
         "@typescript-eslint/no-use-before-define": ["error"],
         "react/jsx-filename-extension": [ "warn", {"extensions": [".tsx"]} ],
         "func-names": ["error", "never"],

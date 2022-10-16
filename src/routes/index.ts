@@ -1,6 +1,7 @@
 import CustomError from '../error/CustomError'
 import errorHandler from '../error/errorHandler'
 import express, { Request, Response } from 'express'
+import events from './events'
 import * as joi from 'joi'
 const Router = express.Router()
 
@@ -16,5 +17,7 @@ const controller = async (request: Request, response: Response) => {
   response.json({ message: 'Hiiii' })
 }
 Router.get('/hello', errorHandler(controller))
+
+Router.use(events)
 
 export default Router

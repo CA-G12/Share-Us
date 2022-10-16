@@ -27,7 +27,11 @@
       "esModuleInterop": true,
       "resolveJsonModule": true,
       "importHelpers": true,
-      "baseUrl": "src"
+      "baseUrl": "src", 
+      "paths": {
+        "@models/*": ["models/*"],
+        "@db/*": ["db/*"],
+      }
   },
   "include": ["src"]
 }
