@@ -1,85 +1,91 @@
-import { NextFunction, Request, Response } from 'express'
+import { Request, Response } from 'express'
 import querySchema from '../validation/addEventValidate'
 import { Message } from '../config/messages'
 import { Event, User } from '../db'
 import { Op } from 'sequelize'
+import CustomError from '../helpers/CustomError'
 
 export default class EventsController {
   // for getting all data
-  public static async index (req: Request, res: Response, next: NextFunction) {
+  public static async index (req: Request, res: Response) {
     const { status, from, to } = req.query
-    try {
-      const whereObj: {status?: string, [Op.or]? : symbol} = {}
-      if (status) {
-        whereObj.status = status as string
-      }
-      if (from && to) {
-        whereObj[Op.or] = [
-          {
-            startTime: {
-              [Op.and]: {
-                [Op.gte]: from,
-                [Op.lte]: to
-              }
-            }
-          },
-          {
-            endTime: {
-              [Op.and]: {
-                [Op.gte]: from,
-                [Op.lte]: to
-              }
+    const whereObj: {status?: string, [Op.or]? : symbol} = {}
+    if (status) {
+      whereObj.status = status as string
+    }
+    if (from && to) {
+      whereObj[Op.or] = [
+        {
+          startTime: {
+            [Op.and]: {
+              [Op.gte]: from,
+              [Op.lte]: to
             }
           }
-        ] as any
-      }
-
-      const allEvents = await Event.findAll({
-        attributes: ['name', 'img', 'description', 'status', 'startTime'],
-        include: [{ model: User, attributes: ['username', 'profileImg', 'id'] }],
-        where: whereObj,
-        order: [
-          ['startTime', 'ASC']
-        ]
-      })
-      res.json({ message: Message.SUCCESS, data: allEvents })
-    } catch (err) {
-      next(err)
+        },
+        {
+          endTime: {
+            [Op.and]: {
+              [Op.gte]: from,
+              [Op.lte]: to
+            }
+          }
+        }
+      ] as any
     }
+
+    const allEvents = await Event.findAll({
+      attributes: ['name', 'img', 'description', 'status', 'startTime'],
+      include: [{
+        model: User,
+        attributes: ['username', 'profileImg', 'id']
+      }],
+      where: whereObj,
+      order: [
+        ['startTime', 'ASC']
+      ]
+    })
+    res.status(200).json({ message: Message.SUCCESS, data: allEvents })
   }
 
-  // for getting just on element of data (like getting just one event may be in event details)
+  // for getting just on element of data
+  // (like getting just one event may be in event details)
   public static async show (req: Request, res: Response) {
-    // code here
+    const { id } = req.params
+    const eventDetails:any = await Event.findOne({
+      include: [{
+        model: User,
+        attributes: ['username', 'id']
+      }],
+      where: {
+        id
+      }
+    })
+    if (!eventDetails) throw new CustomError(Message.NOTFOUND, 404)
+    res.status(200).json({
+      message: Message.SUCCESS,
+      data: eventDetails.dataValues
+    })
   }
 
   // for storing new data
-  public static async store (req: Request, res: Response, next: NextFunction) {
+  public static async store (req: Request, res: Response) {
     const data = req.body
-    try {
-      await querySchema.validateAsync(req.body)
-      const event = await Event.create({
-        name: data.name,
-        description: data.description,
-        img: data.img,
-        status: data.status,
-        startTime: data.startTime,
-        endTime: data.endTime,
-        longitude: data.longitude,
-        latitude: data.latitude
-      })
-      res.json({
-        message: Message.SUCCESS,
-        data: event
-      })
-    } catch (err:any) {
-      if (err.details[0]) {
-        res
-          .status(422)
-          .json({ message: Message.VALIDATION_ERROR, error: err.details[0] })
-      }
-      next(err)
-    }
+    await querySchema.validateAsync(req.body)
+    const event = await Event.create({
+      name: data.name,
+      description: data.description,
+      img: data.img,
+      status: data.status,
+      startTime: data.startTime,
+      endTime: data.endTime,
+      longitude: data.longitude,
+      latitude: data.latitude
+    })
+    res.json({
+      message: Message.ADDED,
+      data: event
+    })
   }
 
   // for updating new event maybe
