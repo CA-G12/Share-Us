@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable import/no-extraneous-dependencies */
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 
@@ -5,7 +6,8 @@ class ApiService {
   private static axios = axios;
 
   public static init(): void {
-    this.axios.defaults.baseURL = process.env.BASE_URL
+    // this.axios.defaults.baseURL = process.env.BASE_URL
+    this.axios.defaults.baseURL = 'http://localhost:8080'
   }
 
   public static setHeader(): void {

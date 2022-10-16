@@ -1,8 +1,9 @@
+/* eslint-disable max-len */
 import React, { useEffect } from 'react'
 import EventCard from './components/EventCard'
 import BasicModal from './components/AddEvent'
-import ApiService from './helpers/ApiService'
 import { IEvent } from './interfaces'
+import ApiService from './helpers/ApiService'
 
 const App : React.FC = () => {
   const event: IEvent = {

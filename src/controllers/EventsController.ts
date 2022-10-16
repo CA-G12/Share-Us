@@ -56,6 +56,7 @@ export default class EventsController {
   // for storing new data
   public static async store (req: Request, res: Response, next: NextFunction) {
     const data = req.body
+    console.log(data);
     try {
       await querySchema.validateAsync(req.body)
       const event = await Event.create({
@@ -66,14 +67,16 @@ export default class EventsController {
         startTime: data.startTime,
         endTime: data.endTime,
         longitude: data.longitude,
-        latitude: data.latitude
+        latitude: data.latitude,
+        hashtag: data.hashtag
       })
       res.json({
         message: Message.SUCCESS,
         data: event
       })
     } catch (err:any) {
-      if (err.details[0]) {
+      console.log(err)
+      if (err.details) {
         res
           .status(422)
           .json({ message: Message.VALIDATION_ERROR, error: err.details[0] })

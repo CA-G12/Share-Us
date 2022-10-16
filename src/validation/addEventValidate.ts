@@ -8,10 +8,8 @@ const querySchema = Joi.object({
     .min(3)
     .required(),
   startTime: Joi.date()
-    .greater(Date.now())
     .required(),
   endTime: Joi.date()
-    .greater(Date.now())
     .required(),
   img: Joi.string()
     .pattern(imagePattern)
@@ -22,7 +20,8 @@ const querySchema = Joi.object({
     .required(),
   latitude: Joi.string()
     .pattern(latitude)
-    .required()
+    .required(),
+    hashtag:Joi.string().required()
 })
 
 export default querySchema

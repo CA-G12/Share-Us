@@ -11,6 +11,7 @@ class Event extends Model {
   declare endTime: Date
   declare longitude: string
   declare latitude: string
+  declare hashtag: string
 }
 
 Event.init({
@@ -51,6 +52,10 @@ Event.init({
   latitude: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  hashtag: {
+    type: DataTypes.STRING,
+    allowNull: true
   }
 },
 {
