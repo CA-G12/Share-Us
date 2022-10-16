@@ -5,7 +5,7 @@ import {
   Select, MenuItem, SelectChangeEvent, Button,
 } from '@mui/material'
 
-const logo = require('./logo.jpg')
+import logo from './logo.jpg'
 
 const Navbar:FC = () => {
   const [event, setEvent] = useState('event')
