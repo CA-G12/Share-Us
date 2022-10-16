@@ -4,7 +4,7 @@ import supertest from 'supertest'
 import build  from '../src/db/build'
 import sequelize from '../src/db/connection'
 
-beforeEach(() => build())
+beforeAll(() => build())
 
 describe('Filter events tests', () => {
   test('length of all events', (done) => {
@@ -13,7 +13,8 @@ describe('Filter events tests', () => {
       .expect('Content-Type', /json/)
       .end((err, res) => {
         if (err) return done(err)
-        expect(res.body.length).toEqual(5)
+        console.log(res.body.data);
+        expect(res.body.data.length).toEqual(5)
         return done()
       })
   })
@@ -24,7 +25,7 @@ describe('Filter events tests', () => {
       .expect('Content-Type', /json/)
       .end((err, res) => {
         if (err) return done(err)
-        expect(res.body[0].status).toEqual(
+        expect(res.body.data[0].status).toEqual(
           'closed'
         )
         return done()
@@ -37,7 +38,7 @@ describe('Filter events tests', () => {
       .expect('Content-Type', /json/)
       .end((err, res) => {
         if (err) return done(err)
-        expect(res.body[0].name).toEqual(
+        expect(res.body.data[0].name).toEqual(
           'Hiking'
         )
         return done()
