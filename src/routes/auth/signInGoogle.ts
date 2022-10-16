@@ -47,10 +47,16 @@ Router.get('/oauth2/redirect/google', (req, res, next) => {
       const { message } = info
       return res.send({ success: false, message })
     }
-    const { sub, email } = user
+    const { sub, email, name, picture } = user
     console.log('++++++++++++++++', user)
     const token = await generateToken({ sub, email })
-    return res.cookie('token', token).send({ success: true, message: 'authentication succeeded', user })
+    return res.status(200)
+      .json({
+        success: true,
+        message: 'authentication succeeded',
+        user: { sub, name, email, picture },
+        token
+      })
   })(req, res, next)
 })
 

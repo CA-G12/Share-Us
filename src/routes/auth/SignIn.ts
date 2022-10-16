@@ -4,6 +4,7 @@ import express from 'express'
 import passport from 'passport'
 import { User } from '../../db'
 import generateToken from '../../middlewares/generateToken'
+import validateSignIn from '../../validation/signIn'
 import { Strategy as LocalStrategy } from 'passport-local'
 import bcrypt from 'bcrypt'
 const Router = express.Router()
@@ -12,18 +13,18 @@ passport.use(new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password'
 }
-, async (username: any, password: any, done: any) => {
+, async (email: any, password: any, done: any) => {
   try {
+    await validateSignIn({ email, password })
     const user = await User.findOne({
-      attributes: ['id', 'username', 'email', 'profileImg'],
+      attributes: ['id', 'password', 'username', 'email', 'profileImg'],
       where: {
-        email: username
+        email
       }
     })
     if (!user) {
-      return done(null, false, { message: 'can not found user' })
+      return done(null, false, { message: 'email not exist' })
     }
-
     const verified = await bcrypt.compare(password, user.password)
     verified
       ? done(null, user)
@@ -38,11 +39,17 @@ Router.post('/login', (req, res, next) => {
     if (err) { return next(err) }
     if (!user) {
       const { message } = info
-      return res.send({ success: false, message })
+      return res.status(422).json({ success: false, message })
     }
-    const { id, email } = user
+    const { id, email, username, profileImg } = user
     const token = await generateToken({ id, email })
-    return res.cookie('token', token).send({ success: true, message: 'authentication succeeded', user })
+    return res.status(200)
+      .json({
+        success: true,
+        message: 'authentication succeeded',
+        user: { id, username, email, profileImg },
+        token
+      })
   })(req, res, next)
 })
 

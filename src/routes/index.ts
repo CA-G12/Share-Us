@@ -1,7 +1,7 @@
 // import signIn from './auth/SignIn'
 import express from 'express'
 import googleRouter from './auth/signInGoogle'
-import loginRouter from './auth/SignIn'
+import loginRouter from './auth/signIn'
 const Router = express.Router()
 
 Router.get('/', (req, res) => {
