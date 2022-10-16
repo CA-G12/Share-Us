@@ -9,10 +9,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 
 const FilterCards:FC = () => {
   const [value, setValue] = React.useState(dayjs('2022-08-18T21:11:54'))
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const handleChange = (newValue:any) => {
-    setValue(newValue)
-  }
+  const handleChange = (newValue:any):void => setValue(newValue)
+
   return (
     <div className="big-container">
       <Typography variant="h3" gutterBottom>

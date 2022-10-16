@@ -1,16 +1,13 @@
 body {
   height: 100vh;
   background-color: #F0F0F0;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
 }
 
 .App {
   width: 100%;
   display: flex;
   justify-content: center;
-  /* align-items: center; */
+  align-items: flex-start;
   flex-direction: column;
 }
 
