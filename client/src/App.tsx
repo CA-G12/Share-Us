@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import EventCard from './components/EventCard'
-import ApiService from './helpers/ApiService'
+import ApiService from './services/ApiService'
 import { IEvent } from './interfaces'
 
 const App : React.FC = () => {
