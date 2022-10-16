@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap%27');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+header {
+  width: 100%;
+  padding: 1rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #EEF3FF;
+  box-shadow: 0px 1px 4px #afafaf;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem
+}
+
+.logo img{
+  width: 30px;
+}
+
+.logo a{
+  text-decoration: none;
+  color: #2a2a2a;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+header .register .login{
+  font-size: 0.8rem;
+  color: #2a2a2a;
+  outline: 0;
+  border: 0;
+  background: transparent;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+header .register .signup-btn {
+  font-size: 0.7rem;
+  background: #2A2A2A;
+  box-shadow: 0px 1px 4px #2a2a2a;
+  border-radius: 8px;
+  color: #ececec;
+  border: 0;
+  text-transform: capitalize;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  height: 30px;
+
+}
+header .search {
+  width: 40%;
+  display: flex;
+}
+
+header .search Button {
+  padding: 0.3rem 0.7rem;
+  font-size: 0.7rem;
+  text-transform: capitalize;
+  background: #2A2A2A;
+  color: #ececec;
+  box-shadow: 0px 1px 4px #2a2a2a4a;
+  border-radius: 8px;
+  height: 30px;
+}
+
+header .search input {
+  width: 80%;
+  outline: 0;
+  padding: 0.2rem 1rem;
+  border: 1px solid #9f9f9f;
+  filter: drop-shadow(0px 1px 2px #0000000d);
+  background-color: rgba(251, 249, 249, 0.568);
+  border-radius: 0 5px 5px 0;
+}
+
+header .search input::placeholder {
+  font-size: 0.6rem;
+}
+
+header .search .search-btn:hover {
+  background-color: rgba(0, 0, 0, 0.826);
+}

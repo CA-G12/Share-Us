@@ -1,5 +1,6 @@
 import React from 'react'
 import EventCard from './components/EventCard'
+import Navbar from './components/Navbar/Navbar'
 import { IEvent } from './interfaces'
 
 const App : React.FC = () => {
