@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import JwtService from './JwtService'
 
@@ -10,8 +9,8 @@ class ApiService {
   }
 
   public static setHeader(): void {
-    // eslint-disable-next-line max-len
-    this.axios.defaults.headers.common.Authorization = `Bearer ${JwtService.getToken()}`
+    this.axios
+      .defaults.headers.common.Authorization = `Bearer ${JwtService.getToken()}`
     this.axios.defaults.headers.common.Accept = 'application/json'
     this.axios.defaults.headers.common['Content-Type'] = 'application/json'
   }
