@@ -1,5 +1,5 @@
-import Login from './Authentication/Login'
-import SignUp from './Authentication/SignUp'
+import Login from './auth/Login'
+import SignUp from './auth/SignUp'
 import Calender from './Calender'
 import Chat from './Chat'
 import EventDetails from './EventDetails'

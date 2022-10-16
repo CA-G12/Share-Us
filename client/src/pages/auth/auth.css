@@ -1,0 +1,76 @@
+
+a{
+  text-decoration: none;
+}
+.auth{
+  height: 100vh !important;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.auth img{
+  height: 100%;
+  display: block;
+  width: 50%;
+  object-fit:cover;
+}
+
+.form{
+    width: 450px;
+    margin: 0 auto ;
+    padding: 20px 40px;
+}
+.form a {
+  font-weight: 600;
+  color: #2A2A2A;
+}
+
+.form h1{
+  width: max-content;
+  margin: 0 auto ;
+  color: #2A2A2A;
+}
+
+.form h2{
+  width: max-content;
+  margin: 30px auto 0 ;
+  color: #2A2A2A;
+}
+.form p.center-pra{
+  width: max-content;
+  margin: 2px auto 20px;
+  color: #7E7E7E;
+}
+.form TextField{
+  margin: 30px auto;
+  width: 80%;
+  
+  
+}
+.form Button.submit-btn{
+  background-color: #2a2a2a;
+  display: block;
+  letter-spacing: 2px;
+  margin-top: 15px;
+}
+
+.form Button.submit-btn:hover {
+  background-color: #2a2a2ae9;
+}
+
+Button.google-btn{
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+  color: #2A2A2A;
+  border-color: #524c4c3d;
+  margin-top: 10px;
+}
+Button.google-btn p{
+padding: 0 8px;
+}

@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   createBrowserRouter,
   RouterProvider,
 } from 'react-router-dom'
+import ApiService from './services/ApiService'
 
 import {
   Login, SignUp, Home, Profile, SearchResult, EventDetails, Calender, Chat,
@@ -43,6 +44,11 @@ const App : React.FC = () => {
       element: <Calender />,
     },
   ])
+
+  useEffect(() => {
+    ApiService.init()
+    ApiService.setHeader()
+  })
 
   return (
     <div className="App">
