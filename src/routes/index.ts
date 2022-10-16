@@ -1,6 +1,7 @@
 import express from 'express'
-import EventsController from '../controllers/EventsController'
+import events from './event'
 const Router = express.Router()
 
-Router.get('/events', EventsController.index)
+Router.use(events)
+
 export default Router
