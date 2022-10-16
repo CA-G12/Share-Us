@@ -35,7 +35,7 @@ const EventModal: FC = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+        <Box className="container" sx={style}>
           <p>Create an Event</p>
           <h1>Event Details</h1>
 
@@ -44,6 +44,7 @@ const EventModal: FC = () => {
             id="outlined-required"
             label="Event Name"
             variant="outlined"
+            size="small"
             fullWidth
             sx={{ display: 'block', margin: '20px 0' }}
           />
@@ -55,6 +56,7 @@ const EventModal: FC = () => {
               type="datetime-local"
               defaultValue="2022-10-16T10:30"
               variant="outlined"
+              size="small"
               InputLabelProps={{
                 shrink: true,
               }}
@@ -65,6 +67,7 @@ const EventModal: FC = () => {
               label="End Time"
               type="datetime-local"
               variant="outlined"
+              size="small"
               defaultValue="2022-10-16T10:30"
               InputLabelProps={{
                 shrink: true,
@@ -76,6 +79,7 @@ const EventModal: FC = () => {
             id="outlined-required"
             label="Status"
             variant="outlined"
+            size="small"
             fullWidth
             sx={{ display: 'block', margin: '20px 0' }}
           />
@@ -85,6 +89,7 @@ const EventModal: FC = () => {
               id="outlined-required"
               label="Longitude"
               variant="outlined"
+              size="small"
               fullWidth
               sx={{ display: 'block' }}
             />
@@ -93,6 +98,7 @@ const EventModal: FC = () => {
               id="outlined-required"
               label="Latitude"
               variant="outlined"
+              size="small"
               fullWidth
               sx={{ display: 'block' }}
             />
@@ -102,6 +108,7 @@ const EventModal: FC = () => {
             id="outlined-required"
             label="Event Picture"
             variant="outlined"
+            size="small"
             fullWidth
             sx={{ display: 'block', margin: '20px 0' }}
           />
@@ -110,6 +117,7 @@ const EventModal: FC = () => {
             id="outlined-required"
             label="Description"
             variant="outlined"
+            size="small"
             multiline
             maxRows={4}
             fullWidth
@@ -120,6 +128,7 @@ const EventModal: FC = () => {
             id="outlined-required"
             label="Hashtag"
             variant="outlined"
+            size="small"
             fullWidth
             sx={{ display: 'block', margin: '20px 0' }}
           />
