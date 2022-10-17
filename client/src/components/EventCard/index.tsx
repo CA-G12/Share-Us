@@ -3,12 +3,13 @@ import './style.css'
 import {
   Box, Card, CardContent, CardMedia, Typography, Avatar, Button, CardActions,
 } from '@mui/material'
+import dayjs from 'dayjs'
 import { EventCardProps } from '../../interfaces'
 
 const EventCard:FC<EventCardProps> = ({ event }) => (
   <div className="card-container">
     {event.map((evt) => (
-      <Card sx={{ width: 250, maxHeight: 350, margin: '0.5rem 0' }}>
+      <Card sx={{ width: 250, maxHeight: 350, margin: '0.5rem 0' }} key={evt.id}>
         <CardMedia
           component="img"
           height="150"
@@ -16,7 +17,7 @@ const EventCard:FC<EventCardProps> = ({ event }) => (
           alt="green iguana"
         />
         <Box className="status-date">
-          <Typography className="event-status" sx={{ fontSize: 12 }}>{evt.status}</Typography>
+          <Typography className={`event-status ${evt.status}`} sx={{ fontSize: 12 }}>{evt.status}</Typography>
           <Typography
             className="event-date"
             sx={{
@@ -24,7 +25,7 @@ const EventCard:FC<EventCardProps> = ({ event }) => (
               fontWeight: 600,
             }}
           >
-            {evt.startTime}
+            {dayjs(evt.startTime).format('MMM D, YYYY h:mm A')}
 
           </Typography>
         </Box>
@@ -63,12 +64,17 @@ const EventCard:FC<EventCardProps> = ({ event }) => (
 
             </Typography>
           </Box>
-          <Button sx={{
-            fontSize: 10,
-            color: 'black',
-            fontWeight: 600,
-            textTransform: 'capitalize',
-          }}
+          <Button
+            sx={{
+              fontSize: 10,
+              color: '#181818',
+              fontWeight: 600,
+              textTransform: 'capitalize',
+              '&:hover': {
+                backgroundColor: 'transparent',
+              },
+            }}
+
           >
             Read more
           </Button>

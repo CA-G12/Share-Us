@@ -1,3 +1,10 @@
+import { Dayjs } from 'dayjs'
+
 export default interface EventFilterProp {
-  setData: Function
+  setCurrentStatus: Function
+  setStartTime: Function
+  setEndTime: Function
+  startTime: Dayjs
+  endTime: Dayjs
+  currentStatus: string
 }

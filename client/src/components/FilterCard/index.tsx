@@ -1,17 +1,28 @@
-import React, { FC } from 'react'
+/* eslint-disable no-unused-vars */
+import { ChangeEvent, FC } from 'react'
 import './style.css'
-import dayjs from 'dayjs'
+import { Dayjs } from 'dayjs'
 import { Typography, TextField } from '@mui/material'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { EventFilterProp } from '../../interfaces'
 
-const FilterCards:FC<EventFilterProp> = ({ setData }) => {
-  const [value, setValue] = React.useState(dayjs('2022-08-18T21:11:54'))
-  const handleChange = (newValue:any):void => setValue(newValue)
+const FilterCards:FC<EventFilterProp> = ({
+  setCurrentStatus, currentStatus, setStartTime,
+  startTime, endTime, setEndTime,
+}) => {
+  const handleFromChange = (value:any):void => {
+    setStartTime(value.toISOString())
+  }
 
-  const handleFilterEvents = (e:any):void => { setData('success', e.target) }
+  const handleToChange = (value:any):void => {
+    setEndTime(value.toISOString())
+  }
+
+  const handleFilterEvents = (e:any):void => {
+    setCurrentStatus(e.target.value)
+  }
 
   return (
     <div className="big-container">
@@ -23,15 +34,15 @@ const FilterCards:FC<EventFilterProp> = ({ setData }) => {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateTimePicker
               label="From"
-              value={value}
-              onChange={handleChange}
+              value={startTime}
+              onChange={handleFromChange}
             // eslint-disable-next-line react/jsx-props-no-spreading
               renderInput={(params) => <TextField {...params} />}
             />
             <DateTimePicker
               label="To"
-              value={value}
-              onChange={handleChange}
+              value={endTime}
+              onChange={handleToChange}
             // eslint-disable-next-line react/jsx-props-no-spreading
               renderInput={(params) => <TextField {...params} />}
             />
@@ -39,10 +50,10 @@ const FilterCards:FC<EventFilterProp> = ({ setData }) => {
         </div>
         <div className="event-lists">
           <ul>
-            <button type="button" onClick={handleFilterEvents}>All events</button>
-            <button type="button" onClick={handleFilterEvents}>In-progress</button>
-            <button type="button" onClick={handleFilterEvents}>Upcoming</button>
-            <button type="button" onClick={handleFilterEvents}>Closed</button>
+            <button className={currentStatus === 'all' ? 'black' : 'transparent'} type="button" value="all" onClick={handleFilterEvents}>All events</button>
+            <button className={currentStatus === 'in-progress' ? 'green' : 'transparent'} type="button" value="in-progress" onClick={handleFilterEvents}>In-progress</button>
+            <button className={currentStatus === 'upcoming' ? 'orange' : 'transparent'} type="button" value="upcoming" onClick={handleFilterEvents}>Upcoming</button>
+            <button className={currentStatus === 'closed' ? 'red' : 'transparent'} type="button" value="closed" onClick={handleFilterEvents}>Closed</button>
           </ul>
         </div>
       </div>

@@ -2,9 +2,10 @@
   width: 90%;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items:center;
   flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .status-date{
@@ -19,5 +20,16 @@
   color: white;
   padding: 0.2rem 0.5rem;
   border-radius: 15px;
+}
+.closed{
+  background-color: rgb(196, 0, 0)
+}
+
+.upcoming {
+  background-color: rgb(193, 125, 0)
+}
+
+.read-btn Button{
+  background-color: #181818;
 }
 

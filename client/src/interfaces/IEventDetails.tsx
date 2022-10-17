@@ -5,6 +5,7 @@ interface IEventUser {
 }
 
 export default interface IEventDetails {
+  id: number,
   name: string;
   description: string;
   img: string;
