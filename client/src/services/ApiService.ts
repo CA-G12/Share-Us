@@ -1,11 +1,15 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import JwtService from './JwtService'
 
+// require('dotenv').config()
+
+// console.log(process.env.BASE_URL)
+
 class ApiService {
   private static axios = axios;
 
   public static init(): void {
-    this.axios.defaults.baseURL = process.env.BASE_URL
+    this.axios.defaults.baseURL = 'http://localhost:8080'
   }
 
   public static setHeader(): void {

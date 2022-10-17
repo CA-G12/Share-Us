@@ -1,6 +1,9 @@
-import IEvent from './IEvent'
 import EventCardProps from './props/EventCardProps'
+import IEventDetails from './IEventDetails'
+import EventFilterProp from './props/EventFilterProp'
 
 export type {
-  IEvent, EventCardProps,
+  EventCardProps,
+  IEventDetails,
+  EventFilterProp,
 }

@@ -1,17 +1,17 @@
 import React, { FC } from 'react'
 import './style.css'
-import TextField from '@mui/material/TextField'
 import dayjs from 'dayjs'
-import { Typography } from '@mui/material'
+import { Typography, TextField } from '@mui/material'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { EventFilterProp } from '../../interfaces'
 
-const FilterCards:FC = () => {
+const FilterCards:FC<EventFilterProp> = ({ setData }) => {
   const [value, setValue] = React.useState(dayjs('2022-08-18T21:11:54'))
   const handleChange = (newValue:any):void => setValue(newValue)
 
-  const handleFilterEvents = (e:any):void => { console.log('success', e.target) }
+  const handleFilterEvents = (e:any):void => { setData('success', e.target) }
 
   return (
     <div className="big-container">

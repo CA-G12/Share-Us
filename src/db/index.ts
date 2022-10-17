@@ -1,5 +1,8 @@
 import sequelize from './connection'
-import { Event, User, JoinedPeople, InterestedPeople, Comments, Hashtag, HashtagEvent, Chat } from '../models'
+import {
+  Event, User, JoinedPeople,
+  InterestedPeople, Comments, Hashtag, HashtagEvent, Chat
+} from '../models'
 
 User.hasMany(Event)
 Event.belongsTo(User)
@@ -19,4 +22,8 @@ Event.belongsToMany(Hashtag, { through: HashtagEvent })
 Chat.belongsTo(User, { as: 'receiver' })
 Chat.belongsTo(User, { as: 'sender' })
 
-export { sequelize, User, Event, JoinedPeople, InterestedPeople, Comments, Hashtag, HashtagEvent, Chat }
+export {
+  sequelize, User, Event,
+  JoinedPeople, InterestedPeople, Comments,
+  Hashtag, HashtagEvent, Chat
+}
