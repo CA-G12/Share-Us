@@ -3,7 +3,7 @@ import { Request, Response } from 'express'
 import { Message } from '../config/messages'
 import CustomError from '../helpers/CustomError'
 
-export default class EventParticipants {
+export default class EventParticipantsController {
   public static async index (req: Request, res:Response) {
     const { eventId } = req.params
     const allJoined = await JoinedPeople.findAll({
