@@ -1,9 +1,11 @@
 /* eslint-disable max-len */
 import React, { useEffect } from 'react'
+import { ToastContainer } from 'react-toastify'
 import BasicModal from './components/AddEvent'
 import EventCard from './components/EventCard'
 import ApiService from './services/ApiService'
 import { IEvent } from './interfaces'
+import 'react-toastify/dist/ReactToastify.css'
 
 const App : React.FC = () => {
   // const router = createBrowserRouter([
@@ -59,6 +61,18 @@ const App : React.FC = () => {
     <div className="App">
       <BasicModal />
       <EventCard event={event} />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
 
   )

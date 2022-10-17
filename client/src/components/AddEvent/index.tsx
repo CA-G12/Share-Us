@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import {
   useEffect,
   useState,
@@ -9,12 +7,13 @@ import {
 import './style.css'
 import dayjs, { Dayjs } from 'dayjs'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-
+import { toast } from 'react-toastify'
 import {
   Box, Modal, TextField, Button, MenuItem, InputLabel, Select, FormControl,
 } from '@mui/material'
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import ApiService from '../../services/ApiService'
+import schema from '../../validation/addEventValidate'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -28,9 +27,21 @@ const style = {
   p: 4,
 }
 
+interface IData{
+  name?: string,
+  description?: string,
+  img?: string,
+  status?: string,
+  startTime?: string,
+  endTime?: string,
+  longitude?: string,
+  latitude?: string,
+  hashtag?: string
+}
+
 const EventModal: FC = () => {
   const [open, setOpen] = useState(false)
-  const [data, setData] = useState({})
+  const [data, setData] = useState<IData>({})
   const [startTime, setStartTime] = useState<Dayjs | null>(
     dayjs(),
   )
@@ -48,39 +59,48 @@ const EventModal: FC = () => {
 
   const addEvent = (e:FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
-    console.log(data)
-    ApiService.post('/api/v1/events', { ...data })
-      .then((res:object) => console.log(res))
-      .catch()
+    schema.validate(data)
+      .then(() => {
+        ApiService.post('/api/v1/events', { ...data })
+          .then((res) => {
+            toast.success(res.data.message)
+            setOpen(false)
+            setData({})
+          })
+          .catch((err) => {
+            toast.error(err.response.data.message)
+          })
+      })
+      .catch((err) => {
+        toast.warning(err.message)
+        // toast.error(err.errors)
+      })
   }
 
-  const handelChange = (e:any) => {
+  const handelChange = (e:any) : void => {
     const { target } = e
     const value = target.type === 'checkbox' ? target.checked : target.value
     const { name } = target
     setData({ ...data, [name]: value })
   }
 
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
   return (
     <div>
-      <Button variant="outlined" onClick={handleOpen}>
+      <Button variant="outlined" onClick={() => setOpen(true)}>
         Add Event
       </Button>
       <Modal
         className="box"
         open={open}
-        onClose={handleClose}
+        onClose={() => setOpen(false)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box className="container" sx={style}>
+        <Box sx={style}>
           <p>Create an Event</p>
           <h1>Event Details</h1>
           <form onSubmit={addEvent}>
             <TextField
-              required
               onChange={handelChange}
               id="outlined-required"
               label="Event Name"
@@ -112,7 +132,7 @@ const EventModal: FC = () => {
                 />
               </LocalizationProvider>
             </div>
-            <FormControl fullWidth required>
+            <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Status</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -120,9 +140,9 @@ const EventModal: FC = () => {
                 label="Status"
                 name="status"
                 size="small"
-                value="in-progress"
+                onChange={handelChange}
               >
-                <MenuItem value="in-progress" selected>In-Progress</MenuItem>
+                <MenuItem value="in-progress">In-Progress</MenuItem>
                 <MenuItem value="upcoming">Upcoming</MenuItem>
                 <MenuItem value="closed">Closed</MenuItem>
               </Select>
@@ -132,7 +152,6 @@ const EventModal: FC = () => {
               <TextField
                 sx={{ marginRight: '5px' }}
                 name="longitude"
-                required
                 onChange={handelChange}
                 id="outlined-required"
                 label="Longitude"
@@ -142,7 +161,6 @@ const EventModal: FC = () => {
               />
               <TextField
                 name="latitude"
-                required
                 onChange={handelChange}
                 id="outlined-required"
                 label="Latitude"
@@ -152,7 +170,6 @@ const EventModal: FC = () => {
               />
             </div>
             <TextField
-              required
               onChange={handelChange}
               name="img"
               id="outlined-required"
@@ -163,7 +180,6 @@ const EventModal: FC = () => {
               sx={{ display: 'block', margin: '20px 0' }}
             />
             <TextField
-              required
               onChange={handelChange}
               name="description"
               id="outlined-required"
@@ -176,7 +192,6 @@ const EventModal: FC = () => {
               sx={{ display: 'block', margin: '20px 0' }}
             />
             <TextField
-              required
               onChange={handelChange}
               name="hashtag"
               id="outlined-required"
