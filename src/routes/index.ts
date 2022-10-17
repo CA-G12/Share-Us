@@ -2,6 +2,7 @@ import CustomError from '../helpers/CustomError'
 import expressWrapper from '../helpers/expressWrapper'
 import express, { Request, Response } from 'express'
 import events from './events'
+import comments from './comments'
 import * as joi from 'joi'
 const Router = express.Router()
 
@@ -19,5 +20,6 @@ const controller = async (request: Request, response: Response) => {
 Router.get('/hello', expressWrapper(controller))
 
 Router.use(events)
+Router.use(comments)
 
 export default Router
