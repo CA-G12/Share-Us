@@ -6,10 +6,13 @@ import checkUser from '../../middlewares/checkUser'
 const router = express.Router()
 router.get('/events/:eventId/comments'
   , expressWrapper(CommentsController.index))
-router.post('/events/:eventId/comments', expressWrapper(checkUser)
-  , expressWrapper(CommentsController.store))
+
 router.get('/events/:eventId/comments/:id',
   expressWrapper(CommentsController.show))
+
+router.use(expressWrapper(checkUser))
+router.post('/events/:eventId/comments'
+  , expressWrapper(CommentsController.store))
 router.put('/events/:eventId/comments/:id'
   , expressWrapper(CommentsController.update))
 router.delete('/events/:eventId/comments/:id'

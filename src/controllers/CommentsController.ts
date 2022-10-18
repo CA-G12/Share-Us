@@ -28,10 +28,9 @@ export default class CommentsController {
   // for storing new data
   public static async store (req: IUserRequest, res: Response) {
     const { eventId } = req.params
-    await validateParams({ id: eventId })
     const { image, content } = req.body
 
-    await validateComment({ image, content })
+    await Promise.all([validateParams({ id: eventId }), validateComment({ image, content })])
     const comments = await Comments.create(
       { image, UserId: req.user?.id, EventId: eventId, content }
     )
