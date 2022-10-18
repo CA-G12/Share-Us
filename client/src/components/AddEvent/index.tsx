@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable max-len */
 import {
   useEffect,
   useState,
@@ -10,6 +12,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { toast } from 'react-toastify'
 import {
   Box, Modal, TextField, Button, MenuItem, InputLabel, Select, FormControl,
+  Autocomplete, Chip,
 } from '@mui/material'
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import ApiService from '../../services/ApiService'
@@ -27,6 +30,14 @@ const style = {
   p: 4,
 }
 
+// const top100Films = () : any => [
+//   { title: 'The Shawshank Redemption', year: 1994 },
+//   { title: 'The Godfather', year: 1972 },
+//   { title: 'The Godfather: Part II', year: 1974 },
+//   { title: 'The Dark Knight', year: 2008 },
+//   { title: '12 Angry Men', year: 1957 },
+//   { title: "Schindler's List", year: 1993 },
+//   { title: 'Pulp Fiction', year: 1994 }]
 interface IData{
   name?: string,
   description?: string,
@@ -36,7 +47,7 @@ interface IData{
   endTime?: string,
   longitude?: string,
   latitude?: string,
-  hashtag?: string
+  hashtag?: Array<string>
 }
 
 const EventModal: FC = () => {
@@ -48,7 +59,11 @@ const EventModal: FC = () => {
   const [endTime, setEndTime] = useState<Dayjs | null>(
     dayjs(),
   )
+  const [hash, setHash] = useState<Array<string>>([])
 
+  useEffect(() => {
+    setData({ ...data, hashtag: hash })
+  }, [hash])
   useEffect(() => {
     setData({ ...data, startTime: startTime?.toISOString() })
   }, [startTime])
@@ -59,6 +74,7 @@ const EventModal: FC = () => {
 
   const addEvent = (e:FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
+    console.log(data)
     schema.validate(data)
       .then(() => {
         ApiService.post('/api/v1/events', { ...data })
@@ -191,7 +207,7 @@ const EventModal: FC = () => {
               fullWidth
               sx={{ display: 'block', margin: '20px 0' }}
             />
-            <TextField
+            {/* <TextField
               onChange={handelChange}
               name="hashtag"
               id="outlined-required"
@@ -200,6 +216,28 @@ const EventModal: FC = () => {
               size="small"
               fullWidth
               sx={{ display: 'block', margin: '20px 0' }}
+            /> */}
+            <Autocomplete
+              multiple
+              id="tags-outlined"
+              options={['test', 'test1', 'test2']}
+              freeSolo
+              onChange={(event, value) => { console.log(value); setHash(value) }}
+              sx={{ display: 'block', margin: '20px 0' }}
+              renderTags={(value: readonly string[], getTagProps) => value.map((option: string, index: number) => (
+                <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+              ))}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  value={hash}
+                  // onChange={(e) => { onChangeHandler(e.target.value) }}
+                  name="hashtag"
+                  variant="filled"
+                  label="Hashtag"
+                  placeholder="Hashtag"
+                />
+              )}
             />
 
             <Button

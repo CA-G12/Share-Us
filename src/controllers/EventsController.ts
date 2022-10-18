@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import querySchema from '../validation/addEventValidate'
 import { Message } from '../config/messages'
-import { Event, User } from '../db'
+import { Event, Hashtag, HashtagEvent, User } from '../db'
 import { Op } from 'sequelize'
 
 export default class EventsController {
@@ -55,6 +55,8 @@ export default class EventsController {
 
   // for storing new data
   public static async store (req: Request, res: Response, next: NextFunction) {
+    const Hashtags =Event.hasMany(Hashtag, { as: 'hashtag' })
+
     const data = req.body
     console.log(data);
     try {
@@ -68,7 +70,14 @@ export default class EventsController {
         endTime: data.endTime,
         longitude: data.longitude,
         latitude: data.latitude,
-        hashtag: data.hashtag
+        hashtag: [{title:data.hashtag}]
+      },{
+        include: [{
+          association: Hashtags,
+          as: 'hashtag'
+        },{
+          model: HashtagEvent
+        }]
       })
       res.json({
         message: Message.SUCCESS,
