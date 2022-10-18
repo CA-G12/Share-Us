@@ -8,7 +8,7 @@ import { Message } from '../src/config/messages'
 beforeAll(() => build())
 
 describe('Post a comment', () => {
-  const token = 'barer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9' +
+  const token = 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9' +
   '.eyJ1c2VybmFtZSI6InNlZWYiLCJpZCI6IjEiLCJp' +
   'YXQiOjE2NjU5ODQzNTV9.xVpDCu-UcFQZsz6NzIGOnv6XdaOUcD04xbfWSlM1FoM'
   test('Insert comment 2 with image', done => {

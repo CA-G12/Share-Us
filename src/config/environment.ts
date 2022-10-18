@@ -24,6 +24,10 @@ if (!connectionString) {
   throw new Error('Database url is not valid')
 }
 
+if (!SECRET_KEY) {
+  throw new Error('SECRET_KEY is not provided in env vars')
+}
+
 const config = {
   nodeEnv: NODE_ENV,
   port: PORT || 8080,

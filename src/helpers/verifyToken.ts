@@ -3,7 +3,7 @@ import config from '../config/environment'
 
 const verifyToken = (token:string):Promise<any> =>
   new Promise((resolve, reject) => {
-    verify(token, config.secretKey || 'secret', (err, decoded) => {
+    verify(token, config.secretKey, (err, decoded) => {
       if (err) {
         reject(err)
       } else {

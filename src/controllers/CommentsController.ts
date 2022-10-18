@@ -1,14 +1,14 @@
 import { Request, Response } from 'express'
 import validateComment from '../validation/addComment'
 import { Comments, User } from '../db'
-import CustomError from '../helpers/CustomError'
-import verifyToken from '../helpers/verifyToken'
-import { IToken } from '../interfaces/IToken'
+import { IUserRequest } from 'interfaces/IUserRequest'
+import validateParams from '../validation/paramsId'
 
 export default class CommentsController {
   // for getting all data
   public static async index (req: Request, res: Response) {
     const { eventId } = req.params
+    await validateParams({ id: eventId })
     const allComments = await Comments.findAll({
       where: { EventId: eventId },
       include: {
@@ -26,19 +26,14 @@ export default class CommentsController {
   }
 
   // for storing new data
-  public static async store (req: Request, res: Response) {
-    const token = req.headers.authorization?.split(' ')[1]
-    if (!token) {
-      throw new CustomError('unauthorized', 401)
-    }
-    const verified:IToken = await verifyToken(token)
-    const userId = verified.id
+  public static async store (req: IUserRequest, res: Response) {
     const { eventId } = req.params
+    await validateParams({ id: eventId })
     const { image, content } = req.body
 
     await validateComment({ image, content })
     const comments = await Comments.create(
-      { image, UserId: userId, EventId: eventId, content }
+      { image, UserId: req.user?.id, EventId: eventId, content }
     )
     res.json({ message: 'Comment add successfully', data: comments })
   }
