@@ -27,11 +27,7 @@
         "semi": [1, "never"],
         "no-nested-ternary": 0,
         "no-use-before-define": "off",
-<<<<<<< HEAD
-        "max-len": ["error", { "code": 100 }],
-=======
         "max-len": ["error", { "code": 200 }],
->>>>>>> e5a982b7c76b333596a0fc06735ec508192a2ff4
         "@typescript-eslint/no-use-before-define": ["error"],
         "react/jsx-filename-extension": [ "warn", {"extensions": [".tsx"]} ],
         "func-names": ["error", "never"],

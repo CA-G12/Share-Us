@@ -16,10 +16,6 @@
         "@typescript-eslint"
     ],
     "rules": {
-<<<<<<< HEAD
-        "max-len": ["error", { "code": 100 }]
-=======
         "max-len": ["error", { "code": 200 }]
->>>>>>> e5a982b7c76b333596a0fc06735ec508192a2ff4
     }
 }
