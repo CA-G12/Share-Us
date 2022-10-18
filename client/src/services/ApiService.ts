@@ -1,5 +1,5 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import JwtService from './JwtService'
 
 class ApiService {
   private static axios = axios;
@@ -9,12 +9,14 @@ class ApiService {
   }
 
   public static setHeader(): void {
-    this.axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('token')}`
+    this.axios
+      .defaults.headers.common.Authorization = `Bearer ${JwtService.getToken()}`
     this.axios.defaults.headers.common.Accept = 'application/json'
     this.axios.defaults.headers.common['Content-Type'] = 'application/json'
   }
 
-  public static get(resource:string, config?:AxiosRequestConfig):Promise<AxiosResponse> {
+  public static get(resource:string, config?:AxiosRequestConfig)
+  :Promise<AxiosResponse> {
     return this.axios.get(resource, config)
   }
 
@@ -33,7 +35,8 @@ class ApiService {
     return this.axios.put(resource, body, config)
   }
 
-  public static delete(resource:string, config?:AxiosRequestConfig):Promise<AxiosResponse> {
+  public static delete(resource:string, config?:AxiosRequestConfig)
+  :Promise<AxiosResponse> {
     return this.axios.delete(resource, config)
   }
 }
