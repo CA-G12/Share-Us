@@ -1,7 +1,13 @@
 import sequelize from './connection'
 import {
-  Event, User, JoinedPeople,
-  InterestedPeople, Comments, Hashtag, HashtagEvent, Chat
+  Event,
+  User,
+  JoinedPeople,
+  InterestedPeople,
+  Comments,
+  Hashtag,
+  HashtagEvent,
+  Chat
 } from '../models'
 
 User.hasMany(Event)
@@ -26,4 +32,13 @@ export {
   sequelize, User, Event,
   JoinedPeople, InterestedPeople, Comments,
   Hashtag, HashtagEvent, Chat
+  sequelize,
+  User,
+  Event,
+  JoinedPeople,
+  InterestedPeople,
+  Comments,
+  Hashtag,
+  HashtagEvent,
+  Chat
 }
