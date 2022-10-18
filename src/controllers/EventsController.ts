@@ -1,15 +1,29 @@
 import { Request, Response } from 'express'
 import querySchema from '../validation/addEventValidate'
+import filterQuerySchema from '../validation/filterEventValidate'
 import { Message } from '../config/messages'
 import { Event, User } from '../db'
 import { Op } from 'sequelize'
 import CustomError from '../helpers/CustomError'
+import IBetweenFromAndTo from 'interfaces/IFilterEvents'
 
 export default class EventsController {
   // for getting all data
-  public static async index (req: Request, res: Response) {
-    const { status, from, to } = req.query
-    const whereObj: {status?: string, [Op.or]? : symbol} = {}
+  public static async index (req: Request, res: Response):Promise<void> {
+    const { status } = req.query
+    const from = req.query?.from as string
+    const to = req.query?.to as string
+
+    await filterQuerySchema.validate({ status, from, to })
+
+    const whereObj: {
+      status?: string;
+      [Op.or]?: [
+        { startTime: IBetweenFromAndTo },
+        { endTime: IBetweenFromAndTo }
+      ];
+    } = {}
+
     if (status) {
       whereObj.status = status as string
     }
@@ -31,7 +45,7 @@ export default class EventsController {
             }
           }
         }
-      ] as any
+      ]
     }
 
     const allEvents = await Event.findAll({
@@ -45,7 +59,7 @@ export default class EventsController {
         ['startTime', 'ASC']
       ]
     })
-    res.status(200).json({ message: Message.SUCCESS, data: allEvents })
+    res.json({ message: Message.SUCCESS, data: allEvents })
   }
 
   // for getting just on element of data
