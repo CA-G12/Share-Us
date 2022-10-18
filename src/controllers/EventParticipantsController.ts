@@ -2,20 +2,23 @@ import { JoinedPeople } from '../models'
 import { Request, Response } from 'express'
 import { Message } from '../config/messages'
 import CustomError from '../helpers/CustomError'
-
+import joi from 'joi'
 export default class EventParticipantsController {
-  public static async index (req: Request, res:Response) {
+  public static async index (req: Request, res:Response):Promise<void> {
     const { eventId } = req.params
+    joi.assert(eventId, joi.number())
+
     const allJoined = await JoinedPeople.findAll({
       where: { EventId: eventId }
     })
-    if (!allJoined) throw new CustomError(Message.ERROR404, 404)
-    res.status(200).json({ data: allJoined, message: Message.SUCCESS })
+    if (!allJoined) throw new CustomError(Message.NOT_FOUND, 404)
+    res.json({ data: allJoined, message: Message.SUCCESS })
   }
 
   public static async store (req: Request, res:Response) {
     const { eventId } = req.params
     const { UserId } = req.body
+    joi.assert(eventId, joi.number())
 
     const joined = await JoinedPeople.findOne({
       where: {
@@ -28,10 +31,10 @@ export default class EventParticipantsController {
           UserId, EventId: eventId
         }
       })
-      res.status(200).json({ data: destroy, message: Message.NOTJOINED })
+      res.json({ data: destroy, message: Message.NOT_JOINED_ANYMORE })
     } else {
       const addJoined = await JoinedPeople.create({ UserId, EventId: eventId })
-      res.status(200).json({ data: addJoined, message: Message.JOINED })
+      res.json({ data: addJoined, message: Message.JOINED })
     }
   }
 }
