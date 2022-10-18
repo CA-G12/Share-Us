@@ -72,15 +72,26 @@ export default class EventsController {
   public static async store (req: Request, res: Response) {
     const data = req.body
     await querySchema.validateAsync(req.body)
+    const {
+      name,
+      description,
+      img,
+      status,
+      startTime,
+      endTime,
+      longitude,
+      latitude
+    } = req.body
     const event = await Event.create({
-      name: data.name,
-      description: data.description,
-      img: data.img,
-      status: data.status,
-      startTime: data.startTime,
-      endTime: data.endTime,
-      longitude: data.longitude,
-      latitude: data.latitude
+      name,
+      description,
+      img,
+      status,
+      startTime,
+      endTime,
+      longitude,
+      latitude
+    
     })
     res.json({
       message: Message.ADDED,
