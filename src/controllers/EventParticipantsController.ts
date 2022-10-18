@@ -2,12 +2,11 @@ import { JoinedPeople } from '../models'
 import { Request, Response } from 'express'
 import { Message } from '../config/messages'
 import CustomError from '../helpers/CustomError'
-import joi from 'joi'
+import validateParams from '../validation/paramsId'
 export default class EventParticipantsController {
   public static async index (req: Request, res:Response):Promise<void> {
     const { eventId } = req.params
-    joi.assert(eventId, joi.number())
-
+    await validateParams({ id: eventId })
     const allJoined = await JoinedPeople.findAll({
       where: { EventId: eventId }
     })
@@ -18,7 +17,7 @@ export default class EventParticipantsController {
   public static async store (req: Request, res:Response) {
     const { eventId } = req.params
     const { UserId } = req.body
-    joi.assert(eventId, joi.number())
+    await validateParams({ id: eventId })
 
     const joined = await JoinedPeople.findOne({
       where: {
