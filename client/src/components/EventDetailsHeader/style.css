@@ -1,0 +1,67 @@
+
+div.event-details-header div.image-container{
+  background-image: linear-gradient(180deg, #fad5a5, #fff);
+
+}
+
+div.event-details-header div.image-container img.event-cover-img{
+  display: block;
+  margin: 0 auto;
+  width: 75% ;
+  height: 280px;
+}
+
+div.event-details-header div.event-info-container{
+  padding: 8px 0;
+  width: 90%;
+  margin:0 auto;
+  border-bottom: 1.2px rgba(0, 0, 0, 0.304) solid;
+}
+div.event-info-container p {
+  padding: 2px 0;
+  font-size: 14px;
+}
+div.event-info-container p.event-date{
+  color: #E90808;
+}
+
+div.event-info-container h2.event-name{
+padding: 7px 0 10px;
+font-size: 34px;
+font-weight: 500;
+color: #2a2a2a;
+}
+
+div.event-details-header div.event-btns-container{
+display: flex;
+justify-content: space-between;
+padding: 8px 0;
+width: 90%;
+margin:0 auto;
+}
+  
+div.event-btns-container div.btn-container  {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+div.btn-container button{
+  text-align: center;
+
+}
+div.btn-container button:hover{
+  background-color: #4745451e;
+
+}
+
+div.event-btns-container div.btn-container Button:first-child,
+div.event-btns-container div.btn-container Button:last-child
+{
+display: block;
+padding: 0.4rem ;
+margin: 0 5px;
+color: #2a2a2a;
+width: 120px;
+text-align: center;
+}
+
