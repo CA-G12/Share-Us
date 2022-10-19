@@ -1,7 +1,7 @@
 import './style.css'
 
 import { FC, useEffect, useState } from 'react'
-import dayjs from 'dayjs'
+import { Dayjs } from 'dayjs'
 import EventCard from '../../components/EventCard'
 import FilterCards from '../../components/FilterCard'
 import ApiService from '../../services/ApiService'
@@ -10,8 +10,8 @@ import IEventDetails from '../../interfaces/IEventDetails'
 const Home:FC = () => {
   const [data, setData] = useState<IEventDetails[]>([])
   const [currentStatus, setCurrentStatus] = useState('all')
-  const [startTime, setStartTime] = useState(dayjs('2022-01-10T21:11:54'))
-  const [endTime, setEndTime] = useState(dayjs('2022-01-20T21:11:54'))
+  const [startTime, setStartTime] = useState<Dayjs|null>(null)
+  const [endTime, setEndTime] = useState<Dayjs|null>(null)
 
   useEffect(() => {
     ApiService.get('/api/v1/events', {

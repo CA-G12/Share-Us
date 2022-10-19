@@ -4,7 +4,7 @@ export default interface EventFilterProp {
   setCurrentStatus: Function
   setStartTime: Function
   setEndTime: Function
-  startTime: Dayjs
-  endTime: Dayjs
+  startTime: Dayjs | null
+  endTime: Dayjs |null
   currentStatus: string
 }
