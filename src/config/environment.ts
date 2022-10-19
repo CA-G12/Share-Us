@@ -28,7 +28,7 @@ if (!SECRET_KEY) {
   throw new Error('SECRET_KEY is not provided in env vars')
 }
 
-if (!CLIENT_ID || !CLIENT_SECRET || CALLBACK_URL) {
+if (!CLIENT_ID || !CLIENT_SECRET || !CALLBACK_URL) {
   throw new Error('Check google credential')
 }
 
