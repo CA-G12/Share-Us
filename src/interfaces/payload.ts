@@ -1,4 +1,4 @@
 export interface payloadType {
-  id: number,
+  id?: number,
   username: string
 }

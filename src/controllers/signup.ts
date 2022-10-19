@@ -31,7 +31,7 @@ const signup = async (req:Request, res: Response) => {
 
     const userData = await User.create({ ...req.body, password: hashed })
 
-    const token = await generateToken({ id: userData.id || 0, username: userData.username })
+    const token = await generateToken({ id: userData.id, username: userData.username })
     userData.password = ''
     res.json({ data: userData, token })
   } catch (err) {
