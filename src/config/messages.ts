@@ -1,6 +1,6 @@
 export enum Message {
-  // eslint-disable-next-line no-unused-vars
-  SUCCESS = 'Successfully',
-  // eslint-disable-next-line no-unused-vars
+  SUCCESS = 'Data received successfully',
+  NOTFOUND = 'Event Not Found',
+  ADDED = 'Post added successfully',
   VALIDATION_ERROR = 'Check your input'
 }
