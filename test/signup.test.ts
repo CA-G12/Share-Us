@@ -26,8 +26,7 @@ describe('sign up router', () => {
       .end((err:any, res: any) => {
         if (err) done(err)
         else {
-          console.log('second')
-          expect(res.body.username).toEqual('saif')
+          expect(res.body.data.username).toEqual('saif')
           return done()
         }
       })
@@ -46,7 +45,7 @@ describe('sign up router', () => {
       .end((err:any, res: any) => {
         if (err) return done(err)
         else {
-          expect(res.body).toEqual('username already exists')
+          expect(res.body.message).toEqual('username already exists')
           return done()
         }
       })
@@ -65,12 +64,12 @@ describe('sign up router', () => {
       .end((err:any, res: any) => {
         if (err) return done(err)
         else {
-          expect(res.body).toEqual('email already exists')
+          expect(res.body.message).toEqual('email already exists')
           return done()
         }
       })
   })
-  test('check if the password exists', (done) => {
+  test('check if the password confirmed', (done) => {
     supertest(app)
       .post('/api/v1/signup')
       .send({
@@ -79,12 +78,11 @@ describe('sign up router', () => {
         username: 'saifffff',
         confirmPassword: '1234567'
       })
-      .expect(400)
+      .expect(422)
       .expect('Content-Type', /json/)
       .end((err:any, res: any) => {
         if (err) return done(err)
         else {
-          expect(res.body.details[0].message).toEqual('"confirmPassword" must be [ref:password]')
           return done()
         }
       })
