@@ -84,7 +84,6 @@ export default class EventsController {
 
   // for storing new data
   public static async store (req: Request, res: Response) {
-    const data = req.body
     await querySchema.validateAsync(req.body)
     const {
       name,

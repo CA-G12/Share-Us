@@ -1,6 +1,6 @@
 export enum Message {
-  SUCCESS = 'Data received successfully',
-  NOTFOUND = 'Event Not Found',
-  ADDED = 'Post added successfully',
-  VALIDATION_ERROR = 'Check your input'
+  SUCCESS = 'Successfully',
+  VALIDATION_ERROR = 'Check your input',
+  ADDED = "ADDED",
+  NOTFOUND = "NOTFOUND"
 }
