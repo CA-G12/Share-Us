@@ -16,7 +16,7 @@ export default class UserProfileController {
         id
       }
     })
-    if (!profile) throw new CustomError('User not found', 404)
+    if (!profile) throw new CustomError('Not Found', 404)
     res.json({ data: profile })
   }
 
@@ -27,11 +27,12 @@ export default class UserProfileController {
     await validateParams({ id })
     await EditProfileSchema.validateAsync({ username, bio, location, profileImg, headerImg })
 
-    const update = await User.update({ username, bio, location, profileImg, headerImg }, {
+    const [updated, user] = await User.update({ username, bio, location, profileImg, headerImg }, {
       where: { id },
       returning: ['username', 'bio', 'location', 'profileImg', 'headerImg']
     })
-    if (!update) throw new CustomError('Check your input', 400)
-    res.json({ data: update })
+
+    if (!updated) throw new CustomError('Not Found', 404)
+    res.json({ data: user })
   }
 }
