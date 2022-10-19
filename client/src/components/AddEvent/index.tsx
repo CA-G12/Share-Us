@@ -30,14 +30,6 @@ const style = {
   p: 4,
 }
 
-// const top100Films = () : any => [
-//   { title: 'The Shawshank Redemption', year: 1994 },
-//   { title: 'The Godfather', year: 1972 },
-//   { title: 'The Godfather: Part II', year: 1974 },
-//   { title: 'The Dark Knight', year: 2008 },
-//   { title: '12 Angry Men', year: 1957 },
-//   { title: "Schindler's List", year: 1993 },
-//   { title: 'Pulp Fiction', year: 1994 }]
 interface IData{
   name?: string,
   description?: string,
@@ -60,6 +52,14 @@ const EventModal: FC = () => {
     dayjs(),
   )
   const [hash, setHash] = useState<Array<string>>([])
+  const [showHash, setShowHash] = useState<Array<object>>([])
+
+  useEffect(() => {
+    ApiService.get('/api/v1/hashtags')
+      .then((res) => {
+        setShowHash(res.data.data)
+      })
+  }, [open])
 
   useEffect(() => {
     setData({ ...data, hashtag: hash })
@@ -74,7 +74,6 @@ const EventModal: FC = () => {
 
   const addEvent = (e:FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
-    console.log(data)
     schema.validate(data)
       .then(() => {
         ApiService.post('/api/v1/events', { ...data })
@@ -89,7 +88,6 @@ const EventModal: FC = () => {
       })
       .catch((err) => {
         toast.warning(err.message)
-        // toast.error(err.errors)
       })
   }
 
@@ -207,22 +205,12 @@ const EventModal: FC = () => {
               fullWidth
               sx={{ display: 'block', margin: '20px 0' }}
             />
-            {/* <TextField
-              onChange={handelChange}
-              name="hashtag"
-              id="outlined-required"
-              label="Hashtag"
-              variant="outlined"
-              size="small"
-              fullWidth
-              sx={{ display: 'block', margin: '20px 0' }}
-            /> */}
             <Autocomplete
               multiple
               id="tags-outlined"
-              options={['test', 'test1', 'test2']}
+              options={showHash.map((e:any) => e.title)}
               freeSolo
-              onChange={(event, value) => { console.log(value); setHash(value) }}
+              onChange={(event, value) => setHash(value)}
               sx={{ display: 'block', margin: '20px 0' }}
               renderTags={(value: readonly string[], getTagProps) => value.map((option: string, index: number) => (
                 <Chip variant="outlined" label={option} {...getTagProps({ index })} />
@@ -231,7 +219,6 @@ const EventModal: FC = () => {
                 <TextField
                   {...params}
                   value={hash}
-                  // onChange={(e) => { onChangeHandler(e.target.value) }}
                   name="hashtag"
                   variant="filled"
                   label="Hashtag"

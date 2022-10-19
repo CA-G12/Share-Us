@@ -3,7 +3,7 @@ import { Model, DataTypes } from 'sequelize'
 
 class Hashtag extends Model {
   declare id?: number
-  declare title:  Array<string>
+  declare title: string
   declare color: string
 }
 
@@ -14,7 +14,7 @@ Hashtag.init({
     primaryKey: true
   },
   title: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
+    type: DataTypes.STRING,
     allowNull: false
   },
   color: {

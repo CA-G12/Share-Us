@@ -7,8 +7,8 @@ const schema = yup.object().shape({
   endTime: yup.date().min(yup.ref('startTime')).required(),
   img: yup.string().matches(/\.(jpe?g|png|gif|bmp)$/i).required(),
   status: yup.string().oneOf(['in-progress', 'closed', 'upcoming']).required(),
-  longitude: yup.number().required(),
-  latitude: yup.number().required(),
+  longitude: yup.string().required(),
+  latitude: yup.string().required(),
   hashtag: yup.array().of(yup.string()),
 })
 

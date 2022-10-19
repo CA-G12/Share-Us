@@ -11,7 +11,8 @@ class Event extends Model {
   declare endTime: Date
   declare longitude: string
   declare latitude: string
-  declare hashtag: Array<string>
+  setHashtags: any
+  // declare hashtag: Array<string>
 }
 
 Event.init({

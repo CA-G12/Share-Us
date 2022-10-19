@@ -55,12 +55,24 @@ export default class EventsController {
 
   // for storing new data
   public static async store (req: Request, res: Response, next: NextFunction) {
-    const Hashtags =Event.hasMany(Hashtag, { as: 'hashtag' })
 
     const data = req.body
-    console.log(data);
+
     try {
       await querySchema.validateAsync(req.body)
+
+      const hashtagIds = [];
+
+      for(const has of data.hashtag){
+        const [row] = await Hashtag.findOrCreate({
+          where: { title: has },
+          defaults:{
+            color: `#${Math.floor(Math.random()*16777215).toString(16)}`
+          }
+        })
+        hashtagIds.push(row.id);
+      }
+
       const event = await Event.create({
         name: data.name,
         description: data.description,
@@ -70,16 +82,11 @@ export default class EventsController {
         endTime: data.endTime,
         longitude: data.longitude,
         latitude: data.latitude,
-        hashtag: [{title:data.hashtag}]
-      },{
-        include: [{
-          association: Hashtags,
-          as: 'hashtag'
-        },{
-          model: HashtagEvent
-        }]
       })
-      res.json({
+
+      event.setHashtags(hashtagIds)
+
+      res.status(200).json({
         message: Message.SUCCESS,
         data: event
       })
