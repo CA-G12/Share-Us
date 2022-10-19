@@ -1,23 +1,17 @@
-import CustomError from '../helpers/CustomError'
+import express from 'express'
+import signup from '../controllers/signup'
 import expressWrapper from '../helpers/expressWrapper'
-import express, { Request, Response } from 'express'
-import events from './events'
-import * as joi from 'joi'
+import signIn from '../controllers/signin'
+import checkUser from '../middlewares/checkUser'
+
 const Router = express.Router()
 
-const controller = async (request: Request, response: Response) => {
-  const schema = joi.object({
-    user: joi.string().required(),
-    password: joi.string().min(3).max(8).required()
-  })
-  await schema.validateAsync(request.body)
-  if (request.body.user !== 'saif') {
-    throw new CustomError('Your are not saif', 400)
-  }
-  response.json({ message: 'Hiiii' })
-}
-Router.get('/hello', expressWrapper(controller))
+Router.post('/signup', expressWrapper(signup))
 
-Router.use(events)
+// Login local strategy
+
+Router.post('/login', expressWrapper(signIn))
+
+Router.get('/hi', expressWrapper(checkUser))
 
 export default Router

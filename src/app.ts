@@ -23,7 +23,7 @@ class App {
     this.app.use(cors());
     this.app.use('/api/v1', router)
     this.app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-      res.status(err.status).json(err.message)
+      res.status(err.status).json({ message: err.message })
     })
   }
 }
