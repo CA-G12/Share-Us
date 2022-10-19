@@ -2,6 +2,9 @@
 import { FC } from 'react'
 import { TextField, Button } from '@mui/material'
 import { useFormik } from 'formik'
+import { useNavigate } from 'react-router-dom'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import * as yup from 'yup'
 import { ReactComponent as GoogleLogo } from
   '../../assets/icons/logo-google.svg'
@@ -10,6 +13,7 @@ import cover from '../../assets/images/cover.jpg'
 import { useAuth } from '../../helpers/useAuth'
 
 const SignUp: FC = () => {
+  const navigate = useNavigate()
   const auth = useAuth()
   const validationSchema = yup.object({
     email: yup
@@ -31,9 +35,13 @@ const SignUp: FC = () => {
       .required('Confirm password is required'),
 
   })
-  const handleSubmit = (values:object):void => {
-    console.log(auth)
-    window.alert(JSON.stringify(values, null, 2))
+  const handleSubmit = async (values:object):Promise<void> => {
+    const { isLogged, error } = await auth.signUp(values)
+    if (isLogged) {
+      navigate('/')
+    } else {
+      toast(error.response.data.message)
+    }
   }
   const initialValues = {
     username: '',
@@ -131,6 +139,18 @@ const SignUp: FC = () => {
         </p>
       </form>
       <img src={cover} alt="test" style={{ margin: '0', padding: '0' }} />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   )
 }

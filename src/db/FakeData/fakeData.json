@@ -60,14 +60,14 @@
     {
       "username": "mostafa",
       "email": "mostafa@gmail.com",
-      "password": "123",
+      "password": "123456",
       "bio": "I am very very smart",
       "location": "gaza"
     },
     {
       "username": "saif hayek",
       "email": "saif@gmail.com",
-      "password": "123",
+      "password": "123456",
       "bio": "I am very smart",
       "location": "gaza"
     }

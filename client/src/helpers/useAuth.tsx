@@ -9,7 +9,7 @@ interface IUser {
   password: string
 }
 interface IAuthContext {
-  user:IUser
+  user:object
   signIn: Function
   signUp: Function
   signOut: Function
@@ -40,13 +40,13 @@ export const useProvideAuth = ():any => {
     try {
       const userInfo = await ApiService.post('/api/v1/login', payload)
       if (userInfo.status === 200) {
-        setUser(userInfo.data.data)
+        setUser(userInfo.data.user)
         JwtService.setToken(userInfo.data.token)
-      } else {
-        setUser(null)
       }
-    } catch (err) {
-      console.log(err)
+      return { isLogged: true }
+    } catch (err:any) {
+      setUser(null)
+      return { isLogged: false, error: err }
     }
   }
   const signUp = async (payload:any):Promise<any> => {
@@ -55,11 +55,11 @@ export const useProvideAuth = ():any => {
       if (userInfo.status === 200) {
         setUser(userInfo.data.data)
         JwtService.setToken(userInfo.data.token)
-      } else {
-        setUser(null)
       }
+      return { isLogged: true }
     } catch (err) {
-      console.log(err)
+      setUser(null)
+      return { isLogged: false, error: err }
     }
   }
   const signOut = ():any => {
@@ -67,7 +67,19 @@ export const useProvideAuth = ():any => {
     setUser(null)
   }
 
-  useEffect(() => {}, [])
+  useEffect(() => {
+    const getUser = async ():Promise<void> => {
+      try {
+        const userInfo = await ApiService.get('/api/v1/verify')
+        if (userInfo.status === 200) {
+          setUser(userInfo.data.data)
+        }
+      } catch (err:any) {
+        setUser(null)
+      }
+    }
+    getUser()
+  }, [])
   return {
     user, signIn, signUp, signOut,
   }

@@ -3,6 +3,9 @@ import { FC } from 'react'
 import { TextField, Button } from '@mui/material'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { useNavigate } from 'react-router-dom'
 import { ReactComponent as GoogleLogo } from
   '../../assets/icons/logo-google.svg'
 import './auth.css'
@@ -10,6 +13,7 @@ import cover from '../../assets/images/cover.jpg'
 import { useAuth } from '../../helpers/useAuth'
 
 const Login: FC = () => {
+  const navigate = useNavigate()
   const auth = useAuth()
   const validationSchema = yup.object({
     email: yup
@@ -21,9 +25,13 @@ const Login: FC = () => {
       .min(6, 'Password should be of minimum 6 characters length')
       .required('Password is required'),
   })
-  const handleSubmit = (values:object):void => {
-    console.log(auth)
-    window.alert(JSON.stringify(values, null, 2))
+  const handleSubmit = async (values:object):Promise<void> => {
+    const { isLogged, error } = await auth.signIn(values)
+    if (isLogged) {
+      navigate('/')
+    } else {
+      toast(error.response.data.message)
+    }
   }
   const initialValues = {
     password: '',
@@ -36,62 +44,78 @@ const Login: FC = () => {
     onSubmit: handleSubmit,
   })
   return (
-    <div className="auth">
+    <>
 
-      <form className="form" onSubmit={formik.handleSubmit}>
-        <h1>Welcome Back!</h1>
-        <p className="center-pra">Login into your account</p>
+      <div className="auth">
 
-        <TextField
-          id="outlined-basic"
-          label="Email"
-          name="email"
-          variant="outlined"
-          size="small"
-          fullWidth
-          sx={{ display: 'block', margin: '20px 0' }}
-          value={formik.values.email}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          onChange={formik.handleChange}
-          helperText={formik.touched.email && formik.errors.email}
-        />
+        <form className="form" onSubmit={formik.handleSubmit}>
+          <h1>Welcome Back!</h1>
+          <p className="center-pra">Login into your account</p>
 
-        <TextField
-          id="outlined-basic"
-          label="Password"
-          name="password"
-          variant="outlined"
-          size="small"
-          type="password"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
-          fullWidth
-          sx={{ display: 'block', margin: '20px 0 40px' }}
-        />
+          <TextField
+            id="outlined-basic"
+            label="Email"
+            name="email"
+            variant="outlined"
+            size="small"
+            fullWidth
+            sx={{ display: 'block', margin: '20px 0' }}
+            value={formik.values.email}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            onChange={formik.handleChange}
+            helperText={formik.touched.email && formik.errors.email}
+          />
 
-        <Button
-          className="submit-btn"
-          variant="contained"
-          fullWidth
-          type="submit"
-        >
-          Login
-        </Button>
+          <TextField
+            id="outlined-basic"
+            label="Password"
+            name="password"
+            variant="outlined"
+            size="small"
+            type="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
+            fullWidth
+            sx={{ display: 'block', margin: '20px 0 40px' }}
+          />
 
-        <Button className="google-btn" variant="outlined" fullWidth>
-          <GoogleLogo width={20} />
-          <p>Sign in with Google</p>
-        </Button>
+          <Button
+            className="submit-btn"
+            variant="contained"
+            fullWidth
+            type="submit"
+          >
+            Login
+          </Button>
 
-        <p className="center-pra">
-          Don’t have an account ?
-          <a href="#"> Sign Up!</a>
-        </p>
-      </form>
-      <img src={cover} alt="test" style={{ margin: '0', padding: '0' }} />
-    </div>
+          <Button className="google-btn" variant="outlined" fullWidth>
+            <GoogleLogo width={20} />
+            <p>Sign in with Google</p>
+          </Button>
+
+          <p className="center-pra">
+            Don’t have an account ?
+            <a href="#"> Sign Up!</a>
+          </p>
+        </form>
+        <img src={cover} alt="test" style={{ margin: '0', padding: '0' }} />
+      </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+    </>
+
   )
 }
 
