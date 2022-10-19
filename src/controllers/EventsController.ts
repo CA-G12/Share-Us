@@ -105,7 +105,7 @@ export default class EventsController {
       endTime,
       longitude,
       latitude
-    
+
     })
     res.json({
       message: Message.ADDED,
