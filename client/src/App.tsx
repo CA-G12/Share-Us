@@ -48,7 +48,7 @@ const App : React.FC = () => {
   useEffect(() => {
     ApiService.init()
     ApiService.setHeader()
-  })
+  }, [])
 
   return (
     <div className="App">
