@@ -45,11 +45,13 @@ User.init(
     },
     profileImg: {
       type: DataTypes.TEXT,
-      defaultValue: 'https://st4.depositphotos.com/4329009/19956/v/600/depositphotos_199564354-stock-illustration-creative-vector-illustration-default-avatar.jpg'
+      defaultValue: `https://st4.depositphotos.com/4329009/19956/v/600/
+depositphotos_199564354-stock-illustration-creative-vector-illustration-default-avatar.jpg`
     },
     headerImg: {
       type: DataTypes.TEXT,
-      defaultValue: 'https://cdn.discordapp.com/attachments/959502807071867000/1029123702052376686/Rectangle_2.png'
+      defaultValue:
+    'https://cdn.discordapp.com/attachments/959502807071867000/1029123702052376686/Rectangle_2.png'
     },
     followers: {
       type: DataTypes.ARRAY(DataTypes.INTEGER)

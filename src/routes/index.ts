@@ -3,10 +3,11 @@ import passport from 'passport'
 import signup from '../controllers/signup'
 import generateToken from '../helpers/generateToken'
 import googleSignup from '../auth/GoogleSignup'
+import expressWrapper from '../helpers/expressWrapper'
 googleSignup(passport)
 const Router = express.Router()
 
-Router.post('/signup', signup)
+Router.post('/signup', expressWrapper(signup))
 
 Router.get('/', (req, res) => {
   res.send('<a href="v1/signup/google">google</a>')
