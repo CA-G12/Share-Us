@@ -8,6 +8,9 @@ const expressWrapper = (controller: Function) => {
     } catch (err: any) {
       if (err.name === 'ValidationError') {
         err.status = 422
+      } else if (err.name === 'JsonWebTokenError') {
+        err.status = 401
+        err.message = 'unauthorized'
       }
       next(
         new CustomError(
