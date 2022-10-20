@@ -10,13 +10,14 @@ const signIn = async (req:Request, res:Response, next:NextFunction) => {
       const { message } = info
       return res.status(422).json({ success: false, message })
     }
-    const { id, email, username, profileImg } = user
+    const { id, username } = user
     const token = await generateToken({ id, username })
+    user.password = ''
     return res.status(200)
       .json({
         success: true,
         message: 'authentication succeeded',
-        user: { id, username, email, profileImg },
+        user,
         token
       })
   })(req, res, next)
