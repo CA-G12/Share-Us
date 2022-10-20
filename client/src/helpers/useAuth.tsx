@@ -1,42 +1,29 @@
 import React, {
   createContext, useContext, useState, useEffect,
 } from 'react'
+import { IAuthContext, IUser, IAuthContextProps } from '../interfaces'
 import ApiService from '../services/ApiService'
 import JwtService from '../services/JwtService'
 
-interface IUser {
-  username: string,
-  password: string
-}
-interface IAuthContext {
-  user:object
-  signIn: Function
-  signUp: Function
-  signOut: Function
-}
-
- interface IAuthContextProps {
-  children: React.ReactNode,
-}
 const initContext = {
   user: {
-    username: 'saif',
+    id: 0,
+    username: '',
     password: '',
+    email: '',
+    profileImg: '',
+    headerImg: '',
   },
   signIn: () => {},
   signUp: () => {},
   signOut: () => {},
 }
-// const initUser = {
-//   username: 'saif',
-//   password: '',
-// }
 
 export const AuthContext = createContext<IAuthContext>(initContext)
 
-export const useProvideAuth = ():any => {
+export const useProvideAuth = ():IAuthContext => {
   const [user, setUser] = useState<IUser | null>(null)
-  const signIn = async (payload:any): Promise<any> => {
+  const signIn = async (payload:object): Promise<any> => {
     try {
       const userInfo = await ApiService.post('/api/v1/login', payload)
       if (userInfo.status === 200) {
@@ -49,7 +36,7 @@ export const useProvideAuth = ():any => {
       return { isLogged: false, error: err }
     }
   }
-  const signUp = async (payload:any):Promise<any> => {
+  const signUp = async (payload:object):Promise<any> => {
     try {
       const userInfo = await ApiService.post('/api/v1/signup', payload)
       if (userInfo.status === 200) {
@@ -62,7 +49,7 @@ export const useProvideAuth = ():any => {
       return { isLogged: false, error: err }
     }
   }
-  const signOut = ():any => {
+  const signOut = ():void => {
     JwtService.destroyToken()
     setUser(null)
   }
@@ -84,7 +71,7 @@ export const useProvideAuth = ():any => {
     user, signIn, signUp, signOut,
   }
 }
-export const AuthProvider = ({ children }: IAuthContextProps):any => {
+export const AuthProvider = ({ children }: IAuthContextProps):React.ReactElement => {
   const auth = useProvideAuth()
   return (
     <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>

@@ -15,6 +15,7 @@ import { useAuth } from '../../helpers/useAuth'
 const Login: FC = () => {
   const navigate = useNavigate()
   const auth = useAuth()
+
   const validationSchema = yup.object({
     email: yup
       .string()
@@ -114,6 +115,7 @@ const Login: FC = () => {
         pauseOnHover
         theme="light"
       />
+
     </>
 
   )
