@@ -58,5 +58,5 @@ jobs:
         # Environment variables used by the `client.js` script to create a new PostgreSQL table.
         env:
           # The hostname used to communicate with the PostgreSQL service container
-          TEST_DB_URL: postgres://shareus:123456@localhost:5432/shareus
+          TEST_DB: postgres://shareus:123456@localhost:5432/shareus
           SECRET_KEY: ${{secrets.SECRET_KEY}}
