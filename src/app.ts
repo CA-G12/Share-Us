@@ -3,6 +3,7 @@ import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import router from './routes'
 import config from './config/environment'
+import cors from 'cors'
 
 class App {
   public app: Application
@@ -19,9 +20,10 @@ class App {
     this.app.use(express.json())
     this.app.use(cookieParser())
     this.app.use(express.urlencoded({ extended: false }))
+    this.app.use(cors())
     this.app.use('/api/v1', router)
     this.app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-      res.status(err.status).json(err.message)
+      res.status(err.status).json({ message: err.message })
     })
   }
 }
