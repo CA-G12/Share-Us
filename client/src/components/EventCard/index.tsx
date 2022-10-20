@@ -3,40 +3,88 @@ import './style.css'
 import {
   Box, Card, CardContent, CardMedia, Typography, Avatar, Button, CardActions,
 } from '@mui/material'
+import dayjs from 'dayjs'
 import { EventCardProps } from '../../interfaces'
 
 const EventCard:FC<EventCardProps> = ({ event }) => (
-  <Card sx={{ maxWidth: 345 }}>
-    <CardMedia
-      component="img"
-      height="220"
-      image={event.img}
-      alt="green iguana"
-    />
-    <Box className="status-date">
-      <Typography className="event-status">{event.status}</Typography>
-      <Typography className="event-date">{event.startTime}</Typography>
-    </Box>
-    <CardContent>
-      <Typography gutterBottom variant="h5" component="div">
-        {event.name}
-      </Typography>
-      <Typography variant="body2" color="text.secondary">
-        {event.description}
-      </Typography>
-    </CardContent>
-    <CardActions sx={{
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-    }}
-    >
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <Avatar aria-label="recipe" src={event.profileImage} alt="user-image" />
-        <Typography variant="body1">{event.username}</Typography>
-      </Box>
-      <Button sx={{ alignSelf: 'flex-end' }}>Read more</Button>
-    </CardActions>
+  <div className="card-container">
+    {event.map((evt) => (
+      <Card sx={{ width: 250, maxHeight: 350, margin: '0.5rem 0' }} key={evt.id}>
+        <CardMedia
+          component="img"
+          height="150"
+          image={evt.img}
+          alt="green iguana"
+        />
+        <Box className="status-date">
+          <Typography className={`event-status ${evt.status}`} sx={{ fontSize: 12 }}>{evt.status}</Typography>
+          <Typography
+            className="event-date"
+            sx={{
+              fontSize: 11,
+              fontWeight: 600,
+            }}
+          >
+            {dayjs(evt.startTime).format('MMM D, YYYY h:mm A')}
 
-  </Card>
+          </Typography>
+        </Box>
+        <CardContent>
+          <Typography
+            gutterBottom
+            variant="h2"
+            component="div"
+            sx={{ fontSize: 15, fontWeight: 700 }}
+          >
+            {evt.name}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ fontSize: 12 }}>
+            {evt.description}
+          </Typography>
+        </CardContent>
+        <CardActions sx={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        }}
+        >
+          <Box sx={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px',
+          }}
+          >
+            <Avatar
+              aria-label="recipe"
+              src={evt.User.profileImg}
+              alt="user-image"
+              sx={{ width: '30px', height: '30px' }}
+            />
+            <Typography
+              variant="body1"
+              sx={{ fontSize: 13, fontWeight: 500 }}
+            >
+              {evt.User.username}
+
+            </Typography>
+          </Box>
+          <Button
+            sx={{
+              fontSize: 10,
+              color: '#181818',
+              fontWeight: 600,
+              textTransform: 'capitalize',
+              '&:hover': {
+                backgroundColor: 'transparent',
+              },
+            }}
+
+          >
+            Read more
+          </Button>
+        </CardActions>
+
+      </Card>
+    ))}
+
+  </div>
+
 )
 
 export default EventCard
