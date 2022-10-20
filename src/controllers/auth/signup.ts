@@ -1,10 +1,10 @@
-import { User } from '../db'
+import { User } from '../../db'
 
 import * as bcrypt from 'bcrypt'
-import generateToken from '../helpers/generateToken'
+import generateToken from '../../helpers/generateToken'
 import { Request, Response } from 'express'
-import validateSignup from '../validation/signup'
-import CustomError from '../helpers/CustomError'
+import validateSignup from '../../validation/signup'
+import CustomError from '../../helpers/CustomError'
 
 const signup = async (req:Request, res: Response) => {
   await validateSignup(req.body)

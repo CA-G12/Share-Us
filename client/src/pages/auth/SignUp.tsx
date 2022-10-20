@@ -3,7 +3,7 @@ import { FC } from 'react'
 import { TextField, Button } from '@mui/material'
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
-import { toast, ToastContainer } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import * as yup from 'yup'
 import { ReactComponent as GoogleLogo } from
@@ -139,18 +139,7 @@ const SignUp: FC = () => {
         </p>
       </form>
       <img src={cover} alt="test" style={{ margin: '0', padding: '0' }} />
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+
     </div>
   )
 }

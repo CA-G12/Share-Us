@@ -1,6 +1,6 @@
 
-import generateToken from '../helpers/generateToken'
-import passport from '../auth/LocalSignIn'
+import generateToken from '../../helpers/generateToken'
+import passport from '../../passport/LocalSignIn'
 import { Request, Response, NextFunction } from 'express'
 
 const signIn = async (req:Request, res:Response, next:NextFunction) => {

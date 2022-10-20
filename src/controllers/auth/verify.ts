@@ -1,6 +1,6 @@
 import { Response } from 'express'
-import { IUserRequest } from '../interfaces/IUserRequest'
-import { User } from '../db'
+import { IUserRequest } from '../../interfaces/IUserRequest'
+import { User } from '../../db'
 
 const verify = async (req:IUserRequest, res:Response) => {
   const user = req.user

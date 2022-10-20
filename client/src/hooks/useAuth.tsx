@@ -23,9 +23,9 @@ export const AuthContext = createContext<IAuthContext>(initContext)
 
 export const useProvideAuth = ():IAuthContext => {
   const [user, setUser] = useState<IUser | null>(null)
-  const signIn = async (payload:object): Promise<any> => {
+  const signIn = async (payload:object): Promise<object> => {
     try {
-      const userInfo = await ApiService.post('/api/v1/login', payload)
+      const userInfo = await ApiService.post('/api/v1/users/login', payload)
       if (userInfo.status === 200) {
         setUser(userInfo.data.user)
         JwtService.setToken(userInfo.data.token)
@@ -36,9 +36,9 @@ export const useProvideAuth = ():IAuthContext => {
       return { isLogged: false, error: err }
     }
   }
-  const signUp = async (payload:object):Promise<any> => {
+  const signUp = async (payload:object):Promise<object> => {
     try {
-      const userInfo = await ApiService.post('/api/v1/signup', payload)
+      const userInfo = await ApiService.post('/api/v1/users/signup', payload)
       if (userInfo.status === 200) {
         setUser(userInfo.data.data)
         JwtService.setToken(userInfo.data.token)
@@ -57,7 +57,7 @@ export const useProvideAuth = ():IAuthContext => {
   useEffect(() => {
     const getUser = async ():Promise<void> => {
       try {
-        const userInfo = await ApiService.get('/api/v1/verify')
+        const userInfo = await ApiService.get('/api/v1/users/me')
         if (userInfo.status === 200) {
           setUser(userInfo.data.data)
         }
