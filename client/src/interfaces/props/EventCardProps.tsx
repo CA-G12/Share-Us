@@ -1,5 +1,5 @@
-import { IEvent } from '..'
+import { IEventDetails } from '..'
 
 export default interface EventCardProps {
-  event: IEvent
+  event: IEventDetails[]
 }

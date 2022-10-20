@@ -1,9 +1,43 @@
 import './style.css'
 
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
+import { Dayjs } from 'dayjs'
+import EventCard from '../../components/EventCard'
+import FilterCards from '../../components/FilterCard'
+import ApiService from '../../services/ApiService'
+import IEventDetails from '../../interfaces/IEventDetails'
 
-const Home:FC = () => (
-  <div>Home page</div>
-)
+const Home:FC = () => {
+  const [data, setData] = useState<IEventDetails[]>([])
+  const [currentStatus, setCurrentStatus] = useState('all')
+  const [startTime, setStartTime] = useState<Dayjs|null>(null)
+  const [endTime, setEndTime] = useState<Dayjs|null>(null)
+
+  useEffect(() => {
+    ApiService.get('/api/v1/events', {
+      params: {
+        status: currentStatus === 'all' ? '' : currentStatus,
+        from: startTime,
+        to: endTime,
+      },
+    }).then((res) => setData(res.data.data))
+      .catch((err) => console.log(err))
+  }, [currentStatus, startTime, endTime])
+
+  return (
+    <>
+      <FilterCards
+        currentStatus={currentStatus}
+        setCurrentStatus={setCurrentStatus}
+        setStartTime={setStartTime}
+        startTime={startTime}
+        endTime={endTime}
+        setEndTime={setEndTime}
+      />
+      <EventCard event={data} />
+    </>
+
+  )
+}
 
 export default Home
