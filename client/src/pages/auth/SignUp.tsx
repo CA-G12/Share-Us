@@ -10,7 +10,7 @@ import { ReactComponent as GoogleLogo } from
   '../../assets/icons/logo-google.svg'
 import './auth.css'
 import cover from '../../assets/images/cover.jpg'
-import { useAuth } from '../../helpers/useAuth'
+import { useAuth } from '../../hooks/useAuth'
 
 const SignUp: FC = () => {
   const navigate = useNavigate()

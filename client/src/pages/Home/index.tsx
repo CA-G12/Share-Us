@@ -6,7 +6,7 @@ import EventCard from '../../components/EventCard'
 import FilterCards from '../../components/FilterCard'
 import ApiService from '../../services/ApiService'
 import IEventDetails from '../../interfaces/IEventDetails'
-import { useAuth } from '../../helpers/useAuth'
+import { useAuth } from '../../hooks/useAuth'
 
 const Home:FC = () => {
   const [data, setData] = useState<IEventDetails[]>([])

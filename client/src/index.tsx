@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import { AuthProvider } from './helpers/useAuth'
+import { AuthProvider } from './hooks/useAuth'
 import './index.css'
 import ApiService from './services/ApiService'
 
