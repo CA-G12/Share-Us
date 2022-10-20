@@ -1,7 +1,7 @@
 import joi from 'joi'
 
 const EditProfileSchema = joi.object({
-  username: joi.string().min(3).required(),
+  username: joi.string().min(3),
   bio: joi.string(),
   profileImg: joi.string(),
   location: joi.string(),

@@ -22,7 +22,7 @@ export default class UserProfileController {
 
   public static async update (req: Request, res:Response):Promise<void> {
     const { id } = req.params
-    const { username, bio, location, profileImg, headerImg } = req.body
+    const { username, bio, location, profileImg, headerImg } = req.body.profile
 
     await validateParams({ id })
     await EditProfileSchema.validateAsync({ username, bio, location, profileImg, headerImg })

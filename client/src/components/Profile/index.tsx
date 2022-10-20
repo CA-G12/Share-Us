@@ -1,10 +1,10 @@
 import { FC } from 'react'
-import { Button, Typography } from '@mui/material'
-import EditIcon from '@mui/icons-material/Edit'
+import { Typography } from '@mui/material'
 import UserProfileProp from '../../interfaces/props/UserProfileProp'
 import './style.css'
+import EditProfile from '../EditProfile'
 
-const ProfileBio:FC<UserProfileProp> = ({ userData }) => (
+const ProfileBio:FC<UserProfileProp> = ({ userData, getUserData }) => (
   <div className="profile">
     <div className="header-img">
       <img
@@ -66,25 +66,7 @@ const ProfileBio:FC<UserProfileProp> = ({ userData }) => (
         </div>
 
       </div>
-      <Button sx={{
-        fontSize: 10,
-        background: '#5C5858',
-        color: '#fff',
-        fontWeight: 600,
-        padding: '0.3rem 1rem',
-        textTransform: 'capitalize',
-        position: 'absolute',
-        right: '2rem',
-        top: '0.5rem',
-        '&:hover': {
-          background: '#5C5858',
-        },
-      }}
-      >
-        Edit Profile
-        {' '}
-        <EditIcon sx={{ fontSize: '12px', marginLeft: 1 }} />
-      </Button>
+      <EditProfile getUserData={getUserData} userData={userData} />
     </div>
   </div>
 )
