@@ -9,15 +9,32 @@ import IUserProfile from '../../interfaces/IUserProfile'
 import FilterCards from '../../components/FilterCard'
 import IEventDetails from '../../interfaces/IEventDetails'
 import EventCard from '../../components/EventCard'
+import Navbar from '../../components/Navbar'
 
 const Profile:FC = () => {
   const [userData, setUserData] = useState<IUserProfile | null>(null)
-  const [profileInfo, setProfileInfo] = useState({})
   const [allData, setAllData] = useState<IEventDetails[]>([])
   const [currentStatus, setCurrentStatus] = useState('all')
   const [startTime, setStartTime] = useState<Dayjs|null>(null)
   const [endTime, setEndTime] = useState<Dayjs|null>(null)
   const { id } = useParams()
+
+  useEffect(
+    () => {
+      ApiService.get(`/api/v1/users/${id}`)
+        .then((res) => setUserData(res.data.data))
+    },
+    [],
+  )
+
+  const getUserData = async (profileInfo:any):Promise<void> => {
+    try {
+      const userInfo = await ApiService.put(`/api/v1/users/${id}`, { profileInfo })
+      setUserData(userInfo.data.data[0])
+    } catch (err:any) {
+      setUserData(null)
+    }
+  }
 
   useEffect(() => {
     const getEvents = async ():Promise<void> => {
@@ -36,39 +53,12 @@ const Profile:FC = () => {
       }
     }
     getEvents()
-  }, [currentStatus, startTime, endTime, id])
-
-  useEffect(() => {
-    const getUserDate = async ():Promise<void> => {
-      try {
-        const userInfo = await ApiService.get(`/api/v1/users/${id}`)
-        setUserData(userInfo.data.data)
-      } catch (err:any) {
-        setUserData(null)
-      }
-    }
-    getUserDate()
-  }, [id])
-
-  const getUserData = (data:any):void => setProfileInfo(data)
-
-  useEffect(() => {
-    const putData = async ():Promise<void> => {
-      try {
-        const userInfo = await ApiService.put(`/api/v1/users/${id}`, { profileInfo })
-        console.log(userInfo.data.data)
-
-        setUserData(userInfo.data.data[0])
-      } catch (err:any) {
-        setUserData(null)
-      }
-    }
-    putData()
-  }, [profileInfo, id])
+  }, [currentStatus, startTime, endTime])
 
   return (
     <>
-      <ProfileBio userData={userData} getUserData={getUserData} />
+      <Navbar />
+      <ProfileBio userData={userData} getUserData={getUserData} allData={allData} />
       <FilterCards
         currentStatus={currentStatus}
         setCurrentStatus={setCurrentStatus}

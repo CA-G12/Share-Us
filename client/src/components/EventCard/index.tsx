@@ -8,7 +8,11 @@ import { EventCardProps } from '../../interfaces'
 
 const EventCard:FC<EventCardProps> = ({ event }) => (
   <div className="card-container">
-    {event.map((evt) => (
+    {!event.length ? (
+      <Typography sx={{ margin: 'auto' }}>
+        No Events Found
+      </Typography>
+    ) : event.map((evt) => (
       <Card sx={{ width: 250, maxHeight: 350, margin: '0.5rem 0' }} key={evt.id}>
         <CardMedia
           component="img"
@@ -80,7 +84,6 @@ const EventCard:FC<EventCardProps> = ({ event }) => (
                 backgroundColor: 'transparent',
               },
             }}
-
           >
             Read more
           </Button>

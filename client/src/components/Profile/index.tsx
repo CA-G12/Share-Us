@@ -4,7 +4,7 @@ import UserProfileProp from '../../interfaces/props/UserProfileProp'
 import './style.css'
 import EditProfile from '../EditProfile'
 
-const ProfileBio:FC<UserProfileProp> = ({ userData, getUserData }) => (
+const ProfileBio:FC<UserProfileProp> = ({ userData, getUserData, allData }) => (
   <div className="profile">
     <div className="header-img">
       <img
@@ -30,7 +30,7 @@ const ProfileBio:FC<UserProfileProp> = ({ userData, getUserData }) => (
           >
             Following:
             {' '}
-            {userData?.following.length}
+            {userData?.following?.length}
 
           </Typography>
           <Typography
@@ -40,7 +40,7 @@ const ProfileBio:FC<UserProfileProp> = ({ userData, getUserData }) => (
           >
             Followers:
             {' '}
-            {userData?.followers.length}
+            {userData?.followers?.length}
 
           </Typography>
           <Typography
@@ -48,7 +48,9 @@ const ProfileBio:FC<UserProfileProp> = ({ userData, getUserData }) => (
             gutterBottom
             sx={{ fontSize: 12, fontWeight: 600 }}
           >
-            Events: 5
+            Events:
+            {' '}
+            {allData?.length}
 
           </Typography>
         </div>
