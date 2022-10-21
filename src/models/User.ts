@@ -54,13 +54,19 @@ depositphotos_199564354-stock-illustration-creative-vector-illustration-default-
     'https://cdn.discordapp.com/attachments/959502807071867000/1029123702052376686/Rectangle_2.png'
     },
     followers: {
-      type: DataTypes.ARRAY(DataTypes.INTEGER)
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
+      defaultValue: [],
+      allowNull: false
     },
     following: {
-      type: DataTypes.ARRAY(DataTypes.INTEGER)
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
+      defaultValue: [],
+      allowNull: false
     },
     blocked: {
-      type: DataTypes.ARRAY(DataTypes.INTEGER)
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
+      defaultValue: [],
+      allowNull: false
     },
     notifications: {
       type: DataTypes.ARRAY(DataTypes.STRING)
