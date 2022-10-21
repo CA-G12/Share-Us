@@ -1,12 +1,8 @@
-// const supertest = require('supertest');
-// const router = require('../app');
-// const connection = require('../database/config/connection');
 import { describe, expect, test } from '@jest/globals'
 import supertest from 'supertest'
 import { sequelize } from '../src/db'
 import { build } from '../src/db/build'
 import app from '../src/app'
-// import { Response } from 'express'
 
 beforeAll(() => build())
 afterAll(() => sequelize.close())
@@ -14,7 +10,7 @@ afterAll(() => sequelize.close())
 describe('sign up router', () => {
   test('check if the user added successfully', (done) => {
     supertest(app)
-      .post('/api/v1/signup')
+      .post('/api/v1/users/signup')
       .send({
         password: '123456',
         email: 'saifff@gmail.com',
@@ -33,7 +29,7 @@ describe('sign up router', () => {
   })
   test('check if the user already exists', (done) => {
     supertest(app)
-      .post('/api/v1/signup')
+      .post('/api/v1/users/signup')
       .send({
         password: '123456',
         email: 'saifff@gmail.com',
@@ -52,7 +48,7 @@ describe('sign up router', () => {
   })
   test('check if the user already exists', (done) => {
     supertest(app)
-      .post('/api/v1/signup')
+      .post('/api/v1/users/signup')
       .send({
         password: '123456',
         email: 'saifff@gmail.com',
@@ -71,7 +67,7 @@ describe('sign up router', () => {
   })
   test('check if the password confirmed', (done) => {
     supertest(app)
-      .post('/api/v1/signup')
+      .post('/api/v1/users/signup')
       .send({
         password: '123456',
         email: 'saifff@gmail.com',

@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import CustomError from './CustomError'
+import { Message } from '../config/messages'
 
 const expressWrapper = (controller: Function) => {
   return async (req:Request, res: Response, next:NextFunction) => {
@@ -8,6 +9,7 @@ const expressWrapper = (controller: Function) => {
     } catch (err: any) {
       if (err.name === 'ValidationError') {
         err.status = 422
+        err.message = Message.VALIDATION_ERROR
       } else if (err.name === 'JsonWebTokenError') {
         err.status = 401
         err.message = 'unauthorized'

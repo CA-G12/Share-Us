@@ -16,7 +16,7 @@ const Home:FC = () => {
   const auth = useAuth()
 
   useEffect(() => {
-    ApiService.get('/api/v1/events', {
+    ApiService.get('/events', {
       params: {
         status: currentStatus === 'all' ? '' : currentStatus,
         from: startTime,

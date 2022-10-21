@@ -1,16 +1,14 @@
 import express from 'express'
-import signup from '../../controllers/auth/signup'
 import expressWrapper from '../../helpers/expressWrapper'
-import signIn from '../../controllers/auth/signin'
 import isAuth from '../../middlewares/isAuth'
-import verify from '../../controllers/auth/verify'
+import Auth from '../../controllers/Auth'
 
 const Router = express.Router()
 
-Router.post('/signup', expressWrapper(signup))
+Router.post('/signup', expressWrapper(Auth.signUp))
 
-Router.post('/login', expressWrapper(signIn))
+Router.post('/login', expressWrapper(Auth.signIn))
 
-Router.get('/me', expressWrapper(isAuth), expressWrapper(verify))
+Router.get('/me', expressWrapper(isAuth), expressWrapper(Auth.verifyMe))
 
 export default Router

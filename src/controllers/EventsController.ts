@@ -75,7 +75,7 @@ export default class EventsController {
         id
       }
     })
-    if (!eventDetails) throw new CustomError(Message.NOTFOUND, 404)
+    if (!eventDetails) throw new CustomError(Message.NOT_FOUND, 404)
     res.status(200).json({
       message: Message.SUCCESS,
       data: eventDetails.dataValues
@@ -84,7 +84,6 @@ export default class EventsController {
 
   // for storing new data
   public static async store (req: Request, res: Response) {
-    const data = req.body
     await querySchema.validateAsync(req.body)
     const {
       name,
