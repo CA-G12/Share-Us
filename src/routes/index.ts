@@ -3,10 +3,12 @@ import signup from '../controllers/signup'
 import expressWrapper from '../helpers/expressWrapper'
 import signIn from '../controllers/signin'
 import checkUser from '../middlewares/checkUser'
+import SearchResultController from '../controllers/SearchResultController'
 
 const Router = express.Router()
 
 Router.post('/signup', expressWrapper(signup))
+Router.get('/search', expressWrapper(expressWrapper(SearchResultController.index)))
 
 // Login local strategy
 

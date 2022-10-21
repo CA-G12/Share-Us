@@ -27,6 +27,7 @@ const Navbar:FC = () => {
       <div className="search">
         <Paper
           component="form"
+          name="input"
           sx={{
             display: 'flex',
             alignItems: 'center',
@@ -48,6 +49,7 @@ const Navbar:FC = () => {
               value={event}
               onChange={handleChange}
               displayEmpty
+              name="category"
               inputProps={{ 'aria-label': 'Without label' }}
             >
               <MenuItem sx={{ fontSize: 12 }} value="event">event</MenuItem>
