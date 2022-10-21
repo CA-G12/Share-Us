@@ -28,7 +28,9 @@ const ProfileBio:FC<UserProfileProp> = ({ userData, getUserData }) => (
             gutterBottom
             sx={{ fontSize: 12, fontWeight: 600 }}
           >
-            Following: 12
+            Following:
+            {' '}
+            {userData?.following.length}
 
           </Typography>
           <Typography
@@ -36,7 +38,9 @@ const ProfileBio:FC<UserProfileProp> = ({ userData, getUserData }) => (
             gutterBottom
             sx={{ fontSize: 12, fontWeight: 600 }}
           >
-            Followers: 50
+            Followers:
+            {' '}
+            {userData?.followers.length}
 
           </Typography>
           <Typography

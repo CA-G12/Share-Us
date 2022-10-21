@@ -24,7 +24,7 @@ const App : React.FC = () => {
       element: <SignUp />,
     },
     {
-      path: 'profile',
+      path: 'users/:id',
       element: <Profile />,
     },
     {

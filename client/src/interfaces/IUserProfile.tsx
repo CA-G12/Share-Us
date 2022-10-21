@@ -4,4 +4,6 @@ export default interface IUserProfile {
   location: string,
   headerImg: string
   profileImg: string
+  followers: number[]
+  following: number[]
 }

@@ -14,14 +14,21 @@ const Home:FC = () => {
   const [endTime, setEndTime] = useState<Dayjs|null>(null)
 
   useEffect(() => {
-    ApiService.get('/api/v1/events', {
-      params: {
-        status: currentStatus === 'all' ? '' : currentStatus,
-        from: startTime,
-        to: endTime,
-      },
-    }).then((res) => setData(res.data.data))
-      .catch((err) => console.log(err))
+    const getEvents = async ():Promise<void> => {
+      try {
+        const allEvents = await ApiService.get('/api/v1/events', {
+          params: {
+            status: currentStatus === 'all' ? '' : currentStatus,
+            from: startTime,
+            to: endTime,
+          },
+        })
+        setData(allEvents.data.data)
+      } catch (err) {
+        setData([])
+      }
+    }
+    getEvents()
   }, [currentStatus, startTime, endTime])
 
   return (

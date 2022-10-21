@@ -49,10 +49,42 @@ const FilterCards:FC<EventFilterProp> = ({
         </div>
         <div className="event-lists">
           <ul>
-            <button className={currentStatus === 'all' ? 'black' : 'transparent'} type="button" value="all" onClick={handleFilterEvents}>All events</button>
-            <button className={currentStatus === 'in-progress' ? 'green' : 'transparent'} type="button" value="in-progress" onClick={handleFilterEvents}>In-progress</button>
-            <button className={currentStatus === 'upcoming' ? 'orange' : 'transparent'} type="button" value="upcoming" onClick={handleFilterEvents}>Upcoming</button>
-            <button className={currentStatus === 'closed' ? 'red' : 'transparent'} type="button" value="closed" onClick={handleFilterEvents}>Closed</button>
+            <button
+              className={currentStatus === 'all' ? 'black' : 'transparent'}
+              type="button"
+              value="all"
+              onClick={handleFilterEvents}
+            >
+              All events
+
+            </button>
+            <button
+              className={currentStatus === 'in-progress' ? 'green' : 'transparent'}
+              type="button"
+              value="in-progress"
+              onClick={handleFilterEvents}
+            >
+              In-progress
+
+            </button>
+            <button
+              className={currentStatus === 'upcoming' ? 'orange' : 'transparent'}
+              type="button"
+              value="upcoming"
+              onClick={handleFilterEvents}
+            >
+              Upcoming
+
+            </button>
+            <button
+              className={currentStatus === 'closed' ? 'red' : 'transparent'}
+              type="button"
+              value="closed"
+              onClick={handleFilterEvents}
+            >
+              Closed
+
+            </button>
           </ul>
         </div>
       </div>
