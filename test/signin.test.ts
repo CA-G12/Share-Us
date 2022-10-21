@@ -12,7 +12,7 @@ afterAll(() => sequelize.close())
 describe('sign in router', () => {
   test('sign up a user to check it', (done) => {
     supertest(app)
-      .post('/api/v1/users/signup')
+      .post('/api/v1/signup')
       .send({
         password: '123456',
         email: 'mostafaaa@gmail.com',
@@ -31,7 +31,7 @@ describe('sign in router', () => {
   })
   test('check if the user logged in successfully', (done) => {
     supertest(app)
-      .post('/api/v1/users/login')
+      .post('/api/v1/login')
       .send({
         email: 'mostafaaa@gmail.com',
         password: '123456'
@@ -49,7 +49,7 @@ describe('sign in router', () => {
 
   test('check if email not exist', (done) => {
     supertest(app)
-      .post('/api/v1/users/login')
+      .post('/api/v1/login')
       .send({
         email: 'most0717883@gmail.com',
         password: '123456'
@@ -66,7 +66,7 @@ describe('sign in router', () => {
   })
   test('check if password dose not match', (done) => {
     supertest(app)
-      .post('/api/v1/users/login')
+      .post('/api/v1/login')
       .send({
         email: 'mostafaaa@gmail.com',
         password: '123858'

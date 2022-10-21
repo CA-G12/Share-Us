@@ -9,6 +9,6 @@ Router.post('/signup', expressWrapper(Auth.signUp))
 
 Router.post('/login', expressWrapper(Auth.signIn))
 
-Router.get('/me', expressWrapper(isAuth), expressWrapper(Auth.verifyMe))
+Router.get('/users/me', expressWrapper(isAuth), expressWrapper(Auth.verifyMe))
 
 export default Router
