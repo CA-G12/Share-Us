@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import {
   createBrowserRouter,
   RouterProvider,
+  Navigate,
 } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import BasicModal from './components/AddEvent'
@@ -12,8 +13,10 @@ import 'react-toastify/dist/ReactToastify.css'
 import {
   Login, SignUp, Home, Profile, SearchResult, EventDetails, Calender, Chat,
 } from './pages'
+import { useAuth } from './hooks/useAuth'
 
 const App : React.FC = () => {
+  const auth = useAuth()
   const router = createBrowserRouter([
     {
       path: '/',
@@ -21,11 +24,12 @@ const App : React.FC = () => {
     },
     {
       path: 'login',
-      element: <Login />,
+      element: auth.user ? <Navigate to="/" replace /> : <Login />,
+
     },
     {
       path: 'sign-up',
-      element: <SignUp />,
+      element: auth.user ? <Navigate to="/" replace /> : <SignUp />,
     },
     {
       path: 'profile',
