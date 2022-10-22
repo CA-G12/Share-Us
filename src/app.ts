@@ -2,7 +2,6 @@ import express, { Application, NextFunction, Request, Response } from 'express'
 import compression from 'compression'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
-import cors from 'cors'
 import router from './routes'
 import config from './config/environment'
 
