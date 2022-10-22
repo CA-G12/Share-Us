@@ -1,9 +1,9 @@
 import express, { Application, NextFunction, Request, Response } from 'express'
 import compression from 'compression'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
 import router from './routes'
 import config from './config/environment'
-import cors from 'cors'
 
 class App {
   public app: Application
