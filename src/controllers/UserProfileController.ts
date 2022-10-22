@@ -3,6 +3,7 @@ import { Request, Response } from 'express'
 import validateParams from '../validation/paramsId'
 import CustomError from '../helpers/CustomError'
 import EditProfileSchema from '../validation/EditProfileUpdate'
+import { Message } from '..//config/messages'
 
 export default class UserProfileController {
   public static async index (req: Request, res:Response):Promise<void> {
@@ -17,12 +18,12 @@ export default class UserProfileController {
       }
     })
     if (!profile) throw new CustomError('Not Found', 404)
-    res.json({ data: profile })
+    res.json({ data: profile, message: Message.SUCCESS })
   }
 
   public static async update (req: Request, res:Response):Promise<void> {
     const { id } = req.params
-    const { username, bio, location, profileImg, headerImg } = req.body.profileInfo
+    const { username, bio, location, profileImg, headerImg } = req.body.data
 
     await validateParams({ id })
     await EditProfileSchema.validateAsync({ username, bio, location, profileImg, headerImg })
@@ -33,6 +34,6 @@ export default class UserProfileController {
     })
 
     if (!updated) throw new CustomError('Not Found', 404)
-    res.json({ data: user })
+    res.json({ data: user, message: 'Data updated successfully' })
   }
 }

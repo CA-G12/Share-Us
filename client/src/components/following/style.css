@@ -1,0 +1,22 @@
+.user {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+hr {
+  border-width: 0.5px;
+}
+.user .username {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.user .username img{
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+}

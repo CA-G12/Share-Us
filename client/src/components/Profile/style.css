@@ -87,3 +87,7 @@ border-radius: 4px;
   justify-content: center;
   align-items: center;
 }
+
+.btns {
+  background-color: red;
+}

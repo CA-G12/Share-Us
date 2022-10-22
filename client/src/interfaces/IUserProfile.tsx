@@ -6,4 +6,5 @@ export default interface IUserProfile {
   profileImg: string
   followers: number[]
   following: number[]
+  blocked: number[]
 }

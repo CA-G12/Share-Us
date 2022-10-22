@@ -70,6 +70,7 @@ const Navbar:FC = () => {
       <div className="register">
         <button type="button" className="login">Login</button>
         <Button className="signup-btn">Sign Up</Button>
+        <p>Blocked users</p>
       </div>
     </header>
 

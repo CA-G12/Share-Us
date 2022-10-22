@@ -33,7 +33,7 @@ const EditProfile:FC<IEditProfile> = ({ getUserData, userData }) => {
       <Button
         onClick={handleOpen}
         sx={{
-          fontSize: 10,
+          fontSize: 12,
           background: '#5C5858',
           color: '#fff',
           fontWeight: 600,

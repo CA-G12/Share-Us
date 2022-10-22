@@ -17,19 +17,19 @@ const Profile:FC = () => {
   const [currentStatus, setCurrentStatus] = useState('all')
   const [startTime, setStartTime] = useState<Dayjs|null>(null)
   const [endTime, setEndTime] = useState<Dayjs|null>(null)
-  const { id } = useParams()
+  const { followerId } = useParams()
 
   useEffect(
     () => {
-      ApiService.get(`/api/v1/users/${id}`)
+      ApiService.get('/api/v1/users/1')
         .then((res) => setUserData(res.data.data))
     },
     [],
   )
 
-  const getUserData = async (profileInfo:any):Promise<void> => {
+  const getUserData = async (data:any):Promise<void> => {
     try {
-      const userInfo = await ApiService.put(`/api/v1/users/${id}`, { profileInfo })
+      const userInfo = await ApiService.put('/api/v1/users/1', { data })
       setUserData(userInfo.data.data[0])
     } catch (err:any) {
       setUserData(null)
@@ -44,7 +44,7 @@ const Profile:FC = () => {
             status: currentStatus === 'all' ? '' : currentStatus,
             from: startTime,
             to: endTime,
-            userId: id,
+            userId: 1,
           },
         })
         setAllData(allEvents.data.data)
@@ -58,17 +58,28 @@ const Profile:FC = () => {
   return (
     <>
       <Navbar />
-      <ProfileBio userData={userData} getUserData={getUserData} allData={allData} />
-      <FilterCards
-        currentStatus={currentStatus}
-        setCurrentStatus={setCurrentStatus}
-        setStartTime={setStartTime}
-        startTime={startTime}
-        endTime={endTime}
-        setEndTime={setEndTime}
+      <ProfileBio
+        userData={userData}
+        getUserData={getUserData}
+        allData={allData}
+        setUserData={setUserData}
       />
+      {userData?.blocked?.includes(Number(followerId))
+        ? <p>User is blocked</p>
+        : (
+          <>
+            <FilterCards
+              currentStatus={currentStatus}
+              setCurrentStatus={setCurrentStatus}
+              setStartTime={setStartTime}
+              startTime={startTime}
+              endTime={endTime}
+              setEndTime={setEndTime}
+            />
 
-      <EventCard event={allData} />
+            <EventCard event={allData} />
+          </>
+        )}
 
     </>
 
