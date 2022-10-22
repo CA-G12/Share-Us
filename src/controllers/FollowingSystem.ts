@@ -12,7 +12,7 @@ export default class FollowingSystem {
 
   public static async follower (req:Request, res:Response) {
     const { userId, followerId } = req.params
-    if (userId === followerId) throw new CustomError('user can not follow himself', 400)
+    if (userId === followerId) throw new CustomError(Message.VALIDATION_ERROR, 422)
     await Promise.all([validateParams({ id: userId }), validateParams({ id: followerId })])
     const myUsers = (await User.findOne({ where: { id: userId }, attributes: ['followers', 'blocked'] }))
     const myFollowers = myUsers?.followers
@@ -21,6 +21,10 @@ export default class FollowingSystem {
     const hisUsers = (await User.findOne({ where: { id: followerId }, attributes: ['following', 'blocked'] }))
     const hisFollowing = hisUsers?.following
     const hisBlocked = hisUsers?.blocked
+    if (!myFollowers || !myBlocked || !hisFollowing || !hisBlocked) {
+      throw new CustomError(Message.VALIDATION_ERROR, 422)
+    }
+
     if (myFollowers?.includes(+followerId)) {
       // un follow
       const updated = await User.update(
@@ -52,11 +56,14 @@ export default class FollowingSystem {
   public static async following (req:Request, res:Response) {
     // un following
     const { userId, followingId } = req.params
-    if (userId === followingId) throw new CustomError('user can not un following himself', 400)
+    if (userId === followingId) throw new CustomError(Message.VALIDATION_ERROR, 422)
     await Promise.all([validateParams({ id: userId }), validateParams({ id: followingId })])
     const following = (await User.findOne({ where: { id: userId }, attributes: ['following'] }))?.following
     const followers = (await User.findOne({ where: { id: followingId }, attributes: ['followers'] }))?.followers
 
+    if (!following || !followers) {
+      throw new CustomError(Message.VALIDATION_ERROR, 422)
+    }
     const updated = await User.update({ following: following?.filter(ele => ele !== +followingId) }, { where: { id: userId }, returning: true })
     await User.update({ followers: followers?.filter(ele => ele !== +userId) }, { where: { id: followingId } })
     res.json({ data: updated[1], message: 'un following' })
@@ -64,9 +71,13 @@ export default class FollowingSystem {
 
   public static async block (req:Request, res:Response) {
     const { userId, blockId } = req.params
-    if (userId === blockId) throw new CustomError('user can not block himself', 400)
+    if (userId === blockId) throw new CustomError(Message.VALIDATION_ERROR, 422)
     await Promise.all([validateParams({ id: userId }), validateParams({ id: blockId })])
     const blocked = (await User.findOne({ where: { id: userId }, attributes: ['blocked'] }))?.blocked
+    if (!blocked) {
+      throw new CustomError(Message.VALIDATION_ERROR, 422)
+    }
+
     if (blocked?.includes(+blockId)) {
       // un block
       const updated = await User.update(
@@ -82,6 +93,10 @@ export default class FollowingSystem {
       const hisUsers = (await User.findOne({ where: { id: blockId }, attributes: ['following', 'followers'] }))
       const hisFollowers = hisUsers?.followers
       const hisFollowing = hisUsers?.following
+
+      if (!myFollowers || !myFollowing || !hisFollowing || !hisFollowers) {
+        throw new CustomError(Message.VALIDATION_ERROR, 422)
+      }
 
       blocked?.push(+blockId)
       const updated = await User.update(
@@ -103,6 +118,9 @@ export default class FollowingSystem {
     const { userId } = req.params
     await validateParams({ id: userId })
     const followers = (await User.findOne({ where: { id: userId }, attributes: ['followers'] }))?.followers
+    if (!followers) {
+      throw new CustomError(Message.VALIDATION_ERROR, 422)
+    }
     const followersData = await User.findAll({ where: { id: followers }, attributes: { exclude: ['password'] } })
     res.json({
       data: followersData,
@@ -114,6 +132,9 @@ export default class FollowingSystem {
     const { userId } = req.params
     await validateParams({ id: userId })
     const following = (await User.findOne({ where: { id: userId }, attributes: ['following'] }))?.following
+    if (!following) {
+      throw new CustomError(Message.VALIDATION_ERROR, 422)
+    }
     const followingsData = await User.findAll({ where: { id: following }, attributes: { exclude: ['password'] } })
     res.json({
       data: followingsData,
@@ -125,6 +146,9 @@ export default class FollowingSystem {
     const { userId } = req.params
     await validateParams({ id: userId })
     const blocked = (await User.findOne({ where: { id: userId }, attributes: ['blocked'] }))?.blocked
+    if (!blocked) {
+      throw new CustomError(Message.VALIDATION_ERROR, 422)
+    }
     const blockedData = await User.findAll({ where: { id: blocked }, attributes: { exclude: ['blocked'] } })
     res.json({
       data: blockedData,
