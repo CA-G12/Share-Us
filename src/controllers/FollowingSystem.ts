@@ -12,6 +12,7 @@ export default class FollowingSystem {
 
   public static async follower (req:Request, res:Response) {
     const { userId, followerId } = req.params
+    if (userId === followerId) throw new CustomError('user can not follow himself', 400)
     await Promise.all([validateParams({ id: userId }), validateParams({ id: followerId })])
     const myUsers = (await User.findOne({ where: { id: userId }, attributes: ['followers', 'blocked'] }))
     const myFollowers = myUsers?.followers
@@ -51,17 +52,19 @@ export default class FollowingSystem {
   public static async following (req:Request, res:Response) {
     // un following
     const { userId, followingId } = req.params
+    if (userId === followingId) throw new CustomError('user can not un following himself', 400)
     await Promise.all([validateParams({ id: userId }), validateParams({ id: followingId })])
     const following = (await User.findOne({ where: { id: userId }, attributes: ['following'] }))?.following
     const followers = (await User.findOne({ where: { id: followingId }, attributes: ['followers'] }))?.followers
 
     const updated = await User.update({ following: following?.filter(ele => ele !== +followingId) }, { where: { id: userId }, returning: true })
     await User.update({ followers: followers?.filter(ele => ele !== +userId) }, { where: { id: followingId } })
-    res.json(updated[1])
+    res.json({ data: updated[1], message: 'un following' })
   }
 
   public static async block (req:Request, res:Response) {
     const { userId, blockId } = req.params
+    if (userId === blockId) throw new CustomError('user can not block himself', 400)
     await Promise.all([validateParams({ id: userId }), validateParams({ id: blockId })])
     const blocked = (await User.findOne({ where: { id: userId }, attributes: ['blocked'] }))?.blocked
     if (blocked?.includes(+blockId)) {
