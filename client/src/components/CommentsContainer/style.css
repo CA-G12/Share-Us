@@ -1,0 +1,16 @@
+.comments-container{
+  width: 60%;
+  margin: 40px auto;
+  position: relative;
+  padding: 20px;
+}
+
+.comments-container Button{
+  position:absolute;
+  right: 0;
+  top: 0;
+}
+
+.comments-container Button:hover{
+background-color: #2a2a2ad0;
+}
