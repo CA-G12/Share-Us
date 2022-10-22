@@ -27,7 +27,7 @@ describe('Adding event', () => {
       .expect(200)
       .end((err, res) => {
         if (err) return done(err)
-        expect(res.body.message).toBe(Message.SUCCESS)
+        expect(res.body.message).toBe(Message.ADDED)
         return done()
       })
   })

@@ -17,7 +17,13 @@ const EventCard:FC<EventCardProps> = ({ event }) => (
           alt="green iguana"
         />
         <Box className="status-date">
-          <Typography className={`event-status ${evt.status}`} sx={{ fontSize: 12 }}>{evt.status}</Typography>
+          <Typography
+            className={`event-status ${evt.status}`}
+            sx={{ fontSize: 12 }}
+          >
+            {evt.status}
+
+          </Typography>
           <Typography
             className="event-date"
             sx={{
