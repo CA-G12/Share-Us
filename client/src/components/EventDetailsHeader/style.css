@@ -1,13 +1,16 @@
 
-div.event-details-header div.image-container{
-  background-image: linear-gradient(180deg, #fad5a5, #fff);
+div.event-details-header{
+  min-height: 100vh;
+}
 
+div.event-details-header div.image-container{
+  background-image: linear-gradient(180deg, #2e29294b, #fff);
 }
 
 div.event-details-header div.image-container img.event-cover-img{
   display: block;
   margin: 0 auto;
-  width: 75% ;
+  max-width: 80% ;
   height: 280px;
 }
 
@@ -16,13 +19,24 @@ div.event-details-header div.event-info-container{
   width: 90%;
   margin:0 auto;
   border-bottom: 1.2px rgba(0, 0, 0, 0.304) solid;
+  position: relative;
 }
 div.event-info-container p {
   padding: 2px 0;
   font-size: 14px;
+  margin-top: 4px;
+}
+.event-status {
+  width: max-content;
+  padding: 0.2rem 0.8rem !important;
+  margin-top: 7px !important;
+
 }
 div.event-info-container p.event-date{
   color: #E90808;
+}
+div.event-info-container .event-organizer{
+  font-weight: 600;
 }
 
 div.event-info-container h2.event-name{
@@ -49,9 +63,12 @@ div.btn-container button{
   text-align: center;
 
 }
-div.btn-container button:hover{
-  background-color: #4745451e;
+div.btn-container :first-child:hover{
+  background-color: rgba(111, 255, 116, 0.570);
+}
 
+div.btn-container :last-child:hover{
+  background-color:rgba(111, 186, 255, 0.570);
 }
 
 div.event-btns-container div.btn-container Button:first-child,

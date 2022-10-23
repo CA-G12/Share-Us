@@ -1,26 +1,25 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/require-default-props */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable no-undef */
+
 import './style.css'
 
-import React, { FC, SyntheticEvent } from 'react'
-// import { Link } from 'react-router-dom'
+import React, { FC, SyntheticEvent, useState } from 'react'
 import {
-  Button, Tabs, Tab, Box, Typography,
+  Button, Tabs, Tab, Box, Typography, Alert, AlertTitle, CircularProgress,
 } from '@mui/material'
 import StarBorderIcon from '@mui/icons-material/StarBorder'
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
-import headerImage from '../../assets/images/headerImage.png'
 import CommentsContainer from '../CommentsContainer'
+import { IEventDetails } from '../../interfaces'
+import ITabPanelProps from '../../interfaces/props/EventDetails'
 import AboutEvent from '../AboutEvent'
+import ApiService from '../../services/ApiService'
+import Timer from '../Timer'
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
+import calculateDuration from './calculateDuration'
 
-const TabPanel = (props: TabPanelProps) => {
+const TabPanel = (props: ITabPanelProps):JSX.Element => {
   const {
     children, value, index, ...other
   } = props
@@ -42,30 +41,109 @@ const TabPanel = (props: TabPanelProps) => {
   )
 }
 
-function a11yProps(index: number) {
+function a11yProps(index: number): object {
   return {
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
   }
 }
-const EventDetailsHeader:FC = () => {
-  const [value, setValue] = React.useState(0)
-
+const EventDetailsHeader:FC = ():JSX.Element => {
+  // for mui taps
+  const [value, setValue] = useState<number>(0)
   const handleChange = (event: SyntheticEvent, newValue: number):void => {
     setValue(newValue)
+  }
+
+  const initialDetails = {
+    id: 0,
+    User: {
+      id: 0,
+      username: '',
+      profileImg: '',
+    },
+    status: undefined,
+    UserId: 0,
+    createdAt: '',
+    endTime: '',
+    startTime: '',
+    updatedAt: '',
+    description: '',
+    name: '',
+    img: '',
+    latitude: '',
+    longitude: '',
+    Hashtags: [],
+    InterestedPeople: [''],
+    JoinedPeople: [''],
+  }
+
+  const [eventInfo, setEventInfo] = useState<IEventDetails>(initialDetails)
+  const [error, setError] = useState<boolean | string>(false)
+  const [loader, setLoader] = useState<boolean>(true)
+
+  // just for test, startTime: '2022-10-19T05:00:44.411Z', endTime: '2022-10-21T03:01:48.411Z'
+  const resultDuration = calculateDuration(eventInfo.startTime, eventInfo.endTime)
+
+  React.useEffect(() => {
+    (async ():Promise<void> => {
+      try {
+        const test = await ApiService.get('/api/v1/events/1')
+        setEventInfo(test.data.data)
+        setLoader(false)
+      } catch (err) {
+        setError('We\'re having some errors in getting the information. We\'re working on it.')
+        setLoader(false)
+      }
+    })()
+    // fetchData()
+  }, [])
+
+  console.log(eventInfo)
+  // formatting start time
+  const startTime = new Date(eventInfo.startTime)
+  const dateFormat = `${startTime.getHours()}:${startTime.getMinutes()},${startTime.toDateString()}`
+
+  if (loader) {
+    return (
+      <CircularProgress sx={{ margin: '200px auto', display: 'block' }} />
+    )
+  }
+
+  if (error) {
+    return (
+      <Alert severity="error" sx={{ width: '80%', margin: '20px auto' }}>
+        <AlertTitle>Error</AlertTitle>
+        {error}
+      </Alert>
+    )
   }
 
   return (
     <div className="event-details-header">
       <div className="image-container">
-        <img className="event-cover-img" src={headerImage} alt="headerImage" />
+        <img className="event-cover-img" src={eventInfo.img} alt="headerImage" />
       </div>
       <div className="event-info-container">
-        <p className="event-date">Date: friday  7 October 2022  from 7 PM to 11 Pm</p>
-        <p className="event-duration">Duration: 4 hr</p>
-        <p className="event-location">Location: London</p>
-        <p className="event-organizer">by: shams</p>
-        <h2 className="event-name">Halloween Party</h2>
+        <p className="event-date">
+          Date: {dateFormat}
+        </p>
+        <Timer startTime={eventInfo.startTime} />
+        <p className="event-duration">
+          Duration: {resultDuration.days !== 0 && (<>{resultDuration.days} days</>)}
+          {resultDuration.hours !== 0 && (<>, {resultDuration.hours} hours</>) }
+          {resultDuration.minutes !== 0 && (<>, {resultDuration.minutes} minutes</>)}
+        </p>
+        <p className="event-organizer">
+          by: {eventInfo.User.username}
+        </p>
+        <p className="event-status">{eventInfo.status}</p>
+        {/* <p className="event-location">
+          Location: <a href={`https://www.google.com/maps/@
+          ${eventInfo.latitude},${eventInfo.longitude}`}
+          >click here to see location
+                    </a>
+        </p> */}
+        <h2 className="event-name">{eventInfo.name}</h2>
       </div>
       <div className="event-btns-container">
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
@@ -90,7 +168,14 @@ const EventDetailsHeader:FC = () => {
         </div>
       </div>
       <TabPanel value={value} index={0}>
-        <AboutEvent />
+        <AboutEvent
+          description={eventInfo.description}
+          Hashtags={eventInfo.Hashtags}
+          joinedPeople={eventInfo.JoinedPeople}
+          interestedPeople={eventInfo.InterestedPeople}
+          longitude={eventInfo.longitude}
+          latitude={eventInfo.latitude}
+        />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <CommentsContainer />
