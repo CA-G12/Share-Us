@@ -4,7 +4,6 @@ import {
   RouterProvider,
 } from 'react-router-dom'
 import ApiService from './services/ApiService'
-
 import {
   Login, SignUp, Home, Profile, SearchResult, EventDetails, Calender, Chat,
 } from './pages'
@@ -32,7 +31,7 @@ const App : React.FC = () => {
       element: <SearchResult />,
     },
     {
-      path: 'event-details',
+      path: 'event/:id',
       element: <EventDetails />,
     },
     {
