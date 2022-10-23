@@ -60,3 +60,5 @@ jobs:
           # The hostname used to communicate with the PostgreSQL service container
           TEST_DB: postgres://shareus:123456@localhost:5432/shareus
           SECRET_KEY: ${{secrets.SECRET_KEY}}
+          TOKEN1: ${{secrets.TOKEN1}}
+          TOKEN2: ${{secrets.TOKEN2}}
