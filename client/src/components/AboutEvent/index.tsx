@@ -10,7 +10,6 @@ import IPropsAboutEvent from '../../interfaces/props/AboutEvent'
 const AboutEvent:FC < IPropsAboutEvent > = ({
   description, Hashtags, joinedPeople, interestedPeople, longitude, latitude,
 }): JSX.Element => {
-  console.log(Hashtags)
   const [open, setOpen] = useState<boolean>(false)
   const handleOpen = ():void => setOpen(true)
   const handleClose = ():void => setOpen(false)
@@ -56,7 +55,7 @@ const AboutEvent:FC < IPropsAboutEvent > = ({
         </div>
         <div className="map-container">
           <Map longitude={longitude} latitude={latitude} />
-          <p>Location: London</p>
+          <p>Event Location</p>
         </div>
       </div>
       <JoinedPeopleModel joinedPeople={joinedPeople} handleClose={handleClose} open={open} />

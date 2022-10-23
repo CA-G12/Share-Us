@@ -98,7 +98,6 @@ const EventDetailsHeader:FC = ():JSX.Element => {
     // fetchData()
   }, [])
 
-  console.log(eventInfo)
   // formatting start time
   const startTime = new Date(eventInfo.startTime)
   const dateFormat = `${startTime.getHours()}:${startTime.getMinutes()},${startTime.toDateString()}`

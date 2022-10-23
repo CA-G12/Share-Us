@@ -8,7 +8,8 @@ const Comment:FC<ICommentsData> = ({
   id, EventId, image, content, createdAt, User,
 }):JSX.Element => {
   const dateFormat = new Date(createdAt)
-  const createdAtFormatted = `${dateFormat.getHours()}:${dateFormat.getMinutes()},${dateFormat.toDateString()}`
+  const createdAtFormatted = `${dateFormat.getHours()}
+  :${dateFormat.getMinutes()},${dateFormat.toDateString()}`
 
   return (
     <div className="comment">

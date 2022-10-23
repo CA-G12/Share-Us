@@ -56,9 +56,33 @@ const Map:FC<IMapProps> = ({ longitude, latitude }):JSX.Element => {
     <div>
       <button className="fit-btn" onClick={fitBtn} type="button">Fit to Event Location</button>
       <div className="map-style-btn-container">
-        <button value="mapbox://styles/mapbox/dark-v10" className="map-style-btn" onClick={handleMapStyle} type="button">dark</button>
-        <button value="mapbox://styles/mapbox/light-v10" className="map-style-btn" onClick={handleMapStyle} type="button">light</button>
-        <button value="mapbox://styles/mapbox/streets-v11" className="map-style-btn" onClick={handleMapStyle} type="button">streets</button>
+        <button
+          value="mapbox://styles/mapbox/dark-v10"
+          className="map-style-btn"
+          onClick={handleMapStyle}
+          type="button"
+        >
+          dark
+
+        </button>
+        <button
+          value="mapbox://styles/mapbox/light-v10"
+          className="map-style-btn"
+          onClick={handleMapStyle}
+          type="button"
+        >
+          light
+
+        </button>
+        <button
+          value="mapbox://styles/mapbox/streets-v11"
+          className="map-style-btn"
+          onClick={handleMapStyle}
+          type="button"
+        >
+          streets
+
+        </button>
       </div>
 
       <div className="map" ref={mapContainerRef} />
