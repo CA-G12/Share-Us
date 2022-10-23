@@ -55,15 +55,18 @@ depositphotos_199564354-stock-illustration-creative-vector-illustration-default-
     },
     followers: {
       type: DataTypes.ARRAY(DataTypes.INTEGER),
-      defaultValue: []
+      defaultValue: [],
+      allowNull: false
     },
     following: {
       type: DataTypes.ARRAY(DataTypes.INTEGER),
-      defaultValue: []
+      defaultValue: [],
+      allowNull: false
     },
     blocked: {
       type: DataTypes.ARRAY(DataTypes.INTEGER),
-      defaultValue: []
+      defaultValue: [],
+      allowNull: false
     },
     notifications: {
       type: DataTypes.ARRAY(DataTypes.STRING),
