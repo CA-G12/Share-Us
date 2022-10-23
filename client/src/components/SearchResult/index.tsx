@@ -78,8 +78,7 @@ const SearchResult:FC<ISearchResult> = ({
               </CardActions>
             </Card>
           ))
-
-          : category === 'hashtags' || category === 'event'
+          : category === 'event'
             ? data.event && data.event.map((e:any) => (
               <Card sx={{
                 display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: '20px',
@@ -104,6 +103,9 @@ const SearchResult:FC<ISearchResult> = ({
                   <Typography gutterBottom variant="body2" component="div">
                     {e.startTime}
                   </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {e.description}
+                  </Typography>
                   <Typography
                     className={e.status === 'in-progress' ? 'green' : e.status === 'upcoming' ? 'orange' : e.status === 'closed' ? 'red' : 'transparent'}
                     gutterBottom
@@ -111,9 +113,6 @@ const SearchResult:FC<ISearchResult> = ({
                     component="div"
                   >
                     {e.status}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {e.description}
                   </Typography>
                 </CardContent>
                 <CardActions>
@@ -134,9 +133,88 @@ const SearchResult:FC<ISearchResult> = ({
                   </Button>
                 </CardActions>
               </Card>
-            )) : (
-              <>No data to handle try to search for something else</>
-            )
+            ))
+            : category === 'hashtags'
+              ? data.hashtags && data.hashtags.map((e:any) => (
+                <Card sx={{
+                  display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: '20px',
+                }}
+                >
+                  <CardMedia
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      flexDirection: 'column',
+                      height: '100%',
+                      width: '40%',
+                    }}
+                    component="img"
+                    alt="Event Image"
+                    image={e.img}
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {e.name}
+                    </Typography>
+                    <Typography gutterBottom variant="body2" component="div">
+                      {e.startTime}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {e.description}
+                    </Typography>
+                    <Typography
+                      className={e.status === 'in-progress' ? 'green' : e.status === 'upcoming' ? 'orange' : e.status === 'closed' ? 'red' : 'transparent'}
+                      gutterBottom
+                      variant="body2"
+                      component="div"
+                    >
+                      {e.status}
+                    </Typography>
+                    <Box sx={{ display: 'flex' }}>
+                      { e.Hashtags.map((ele:any) => (
+                        <Typography
+                          sx={{
+                            padding: '3px', margin: '5px 5px 5px 0', backgroundColor: 'lightblue', borderRadius: '5px',
+                          }}
+                          variant="body2"
+                          color="text.secondary"
+                        >
+                          {`# ${ele.title}`}
+                        </Typography>
+                      ))}
+                    </Box>
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      sx={{
+                        color: 'white',
+                        margin: '10px',
+                        padding: '10px',
+                        backgroundColor: '#256D85',
+                        '&:hover': {
+                          backgroundColor: '#256D85',
+                          opacity: [0.9, 0.8, 0.7],
+                        },
+                      }}
+                      size="small"
+                    >
+                      Join
+                    </Button>
+                  </CardActions>
+                </Card>
+              ))
+
+              : (
+                <Stack
+                  sx={{
+                    color: 'grey.500', display: 'flex', justifyContent: 'center', alignItems: 'center',
+                  }}
+                  spacing={2}
+                  direction="row"
+                >
+                  <CircularProgress color="primary" />
+                </Stack>
+              )
         : (
           <Stack
             sx={{
