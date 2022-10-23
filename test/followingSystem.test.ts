@@ -155,13 +155,13 @@ describe('Following system routers', () => {
   })
   test('get all following for specific user', (done) => {
     supertest(app)
-      .get('/api/v1/users/2/followers')
+      .get('/api/v1/users/2/following')
       .expect(200)
       .expect('Content-Type', /json/)
       .end((err:any, res: any) => {
         if (err) done(err)
         else {
-          expect(res.body.data.length).toEqual(1)
+          expect(res.body.data.length).toEqual(0)
           return done()
         }
       })
