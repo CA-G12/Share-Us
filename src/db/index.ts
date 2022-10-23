@@ -13,11 +13,17 @@ import {
 User.hasMany(Event)
 Event.belongsTo(User)
 
-User.belongsToMany(Event, { through: JoinedPeople })
-Event.belongsToMany(User, { through: JoinedPeople })
+User.hasMany(JoinedPeople)
+JoinedPeople.belongsTo(User)
 
-User.belongsToMany(Event, { through: InterestedPeople })
-Event.belongsToMany(User, { through: InterestedPeople })
+Event.hasMany(JoinedPeople)
+JoinedPeople.belongsTo(Event)
+
+User.hasMany(InterestedPeople)
+InterestedPeople.belongsTo(User)
+
+Event.hasMany(InterestedPeople)
+InterestedPeople.belongsTo(Event)
 
 User.hasMany(Comments)
 Comments.belongsTo(User)
@@ -27,6 +33,9 @@ Event.belongsToMany(Hashtag, { through: HashtagEvent })
 
 Chat.belongsTo(User, { as: 'receiver' })
 Chat.belongsTo(User, { as: 'sender' })
+
+Event.hasMany(Comments)
+Comments.belongsTo(Event)
 
 export {
   sequelize,

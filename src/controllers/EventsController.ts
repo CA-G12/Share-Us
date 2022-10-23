@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import querySchema from '../validation/addEventValidate'
 import filterQuerySchema from '../validation/filterEventValidate'
 import { Message } from '../config/messages'
-import { Event, User } from '../db'
+import { Event, User, JoinedPeople, Hashtag, InterestedPeople } from '../db'
 import { Op } from 'sequelize'
 import CustomError from '../helpers/CustomError'
 import IBetweenFromAndTo from 'interfaces/IFilterEvents'
@@ -70,12 +70,22 @@ export default class EventsController {
       include: [{
         model: User,
         attributes: ['username', 'id']
-      }],
+      }, {
+        model: Hashtag
+      },
+      {
+        model: JoinedPeople,
+        include: [{ model: User, attributes: ['username', 'id', 'profileImg'] }]
+      },
+      {
+        model: InterestedPeople
+      }
+      ],
       where: {
         id
       }
     })
-    if (!eventDetails) throw new CustomError(Message.NOTFOUND, 404)
+    if (!eventDetails) throw new CustomError(Message.NOT_FOUND, 404)
     res.status(200).json({
       message: Message.SUCCESS,
       data: eventDetails.dataValues
@@ -105,7 +115,7 @@ export default class EventsController {
       endTime,
       longitude,
       latitude
-    
+
     })
     res.json({
       message: Message.ADDED,

@@ -1,4 +1,4 @@
-import { JoinedPeople } from '../models'
+import { JoinedPeople, User } from '../models'
 import { Request, Response } from 'express'
 import { Message } from '../config/messages'
 import CustomError from '../helpers/CustomError'
@@ -8,6 +8,10 @@ export default class EventParticipantsController {
     const { eventId } = req.params
     await validateParams({ id: eventId })
     const allJoined = await JoinedPeople.findAll({
+      include: {
+        model: User,
+        attributes: ['id', 'username', 'profileImg']
+      },
       where: { EventId: eventId }
     })
     if (!allJoined) throw new CustomError(Message.NOT_FOUND, 404)
