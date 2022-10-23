@@ -32,54 +32,9 @@ const SearchResult:FC<ISearchResult> = ({
       }}
     >
 
-      {category === 'friends'
-        ? data.friends && data.friends.map((e:any) => (
-          <Card sx={{
-            display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: '20px',
-          }}
-          >
-            <CardMedia
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                flexDirection: 'column',
-                height: '100%',
-                width: '40%',
-              }}
-              component="img"
-              alt="green iguana"
-              image={e.profileImg}
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {e.username}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {e.bio}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button
-                sx={{
-                  color: 'white',
-                  margin: '10px',
-                  padding: '10px',
-                  backgroundColor: '#256D85',
-                  '&:hover': {
-                    backgroundColor: '#256D85',
-                    opacity: [0.9, 0.8, 0.7],
-                  },
-                }}
-                size="small"
-              >
-                Follow
-              </Button>
-            </CardActions>
-          </Card>
-        ))
-
-        : category === 'hashtags' || category === 'event'
-          ? data.event && data.event.map((e:any) => (
+      {category && input && data
+        ? category === 'friends'
+          ? data.friends && data.friends.map((e:any) => (
             <Card sx={{
               display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: '20px',
             }}
@@ -93,21 +48,15 @@ const SearchResult:FC<ISearchResult> = ({
                   width: '40%',
                 }}
                 component="img"
-                alt="green iguana"
-                image={e.img}
+                alt="Event Image"
+                image={e.profileImg}
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                  {e.name}
-                </Typography>
-                <Typography gutterBottom variant="h5" component="div">
-                  {e.startTime}
-                </Typography>
-                <Typography gutterBottom variant="h5" component="div">
-                  {e.status}
+                  {e.username}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {e.description}
+                  {e.bio}
                 </Typography>
               </CardContent>
               <CardActions>
@@ -128,17 +77,77 @@ const SearchResult:FC<ISearchResult> = ({
                 </Button>
               </CardActions>
             </Card>
-          )) : (
-            <Stack
-              sx={{
-                color: 'grey.500', display: 'flex', justifyContent: 'center', alignItems: 'center',
+          ))
+
+          : category === 'hashtags' || category === 'event'
+            ? data.event && data.event.map((e:any) => (
+              <Card sx={{
+                display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: '20px',
               }}
-              spacing={2}
-              direction="row"
-            >
-              <CircularProgress color="primary" />
-            </Stack>
-          )}
+              >
+                <CardMedia
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    flexDirection: 'column',
+                    height: '100%',
+                    width: '40%',
+                  }}
+                  component="img"
+                  alt="Event Image"
+                  image={e.img}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {e.name}
+                  </Typography>
+                  <Typography gutterBottom variant="body2" component="div">
+                    {e.startTime}
+                  </Typography>
+                  <Typography
+                    className={e.status === 'in-progress' ? 'green' : e.status === 'upcoming' ? 'orange' : e.status === 'closed' ? 'red' : 'transparent'}
+                    gutterBottom
+                    variant="body2"
+                    component="div"
+                  >
+                    {e.status}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {e.description}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button
+                    sx={{
+                      color: 'white',
+                      margin: '10px',
+                      padding: '10px',
+                      backgroundColor: '#256D85',
+                      '&:hover': {
+                        backgroundColor: '#256D85',
+                        opacity: [0.9, 0.8, 0.7],
+                      },
+                    }}
+                    size="small"
+                  >
+                    Join
+                  </Button>
+                </CardActions>
+              </Card>
+            )) : (
+              <>No data to handle try to search for something else</>
+            )
+        : (
+          <Stack
+            sx={{
+              color: 'grey.500', display: 'flex', justifyContent: 'center', alignItems: 'center',
+            }}
+            spacing={2}
+            direction="row"
+          >
+            <CircularProgress color="primary" />
+          </Stack>
+        )}
 
     </Box>
   )

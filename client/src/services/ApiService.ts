@@ -9,7 +9,6 @@ class ApiService {
   private static axios = axios;
 
   public static init(): void {
-    console.log(process.env.REACT_APP_BASE_URL)
     this.axios.defaults.baseURL = process.env.REACT_APP_BASE_URL
     // this.axios.defaults.baseURL = 'http://localhost:8080'
   }

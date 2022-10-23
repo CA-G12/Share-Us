@@ -1,19 +1,12 @@
 import express from 'express'
-import signup from '../controllers/signup'
-import expressWrapper from '../helpers/expressWrapper'
-import signIn from '../controllers/signin'
-import checkUser from '../middlewares/checkUser'
-import SearchResultController from '../controllers/SearchResultController'
+import auth from './auth'
+import events from './events'
+import followingSystem from './FollowingSystem'
 
 const Router = express.Router()
 
-Router.post('/signup', expressWrapper(signup))
-Router.get('/search', expressWrapper(expressWrapper(SearchResultController.index)))
-
-// Login local strategy
-
-Router.post('/login', expressWrapper(signIn))
-
-Router.get('/hi', expressWrapper(checkUser))
+Router.use(auth)
+Router.use(events)
+Router.use(followingSystem)
 
 export default Router

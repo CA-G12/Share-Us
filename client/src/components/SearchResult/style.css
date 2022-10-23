@@ -1,0 +1,25 @@
+.transparent{
+  color: #000;
+  background-color: transparent;
+}
+.red{
+  color: #F0F0F0;
+  padding: 0.3rem 0.5rem;
+  border-radius: 5px;
+  background-color: rgb(196, 0, 0);
+}
+
+.green{
+  color: #F0F0F0;
+  padding: 0.3rem 0.5rem;
+  
+  border-radius: 5px;
+  background-color: rgb(0 171 13);
+}
+
+.orange{
+  color: #F0F0F0;
+  padding: 0.3rem 0.5rem;
+  border-radius: 5px;
+  background-color: rgb(193, 125, 0)
+}

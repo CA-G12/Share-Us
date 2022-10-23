@@ -1,12 +1,8 @@
-// const supertest = require('supertest');
-// const router = require('../app');
-// const connection = require('../database/config/connection');
 import { describe, expect, test } from '@jest/globals'
 import supertest from 'supertest'
 import { sequelize } from '../src/db'
 import { build } from '../src/db/build'
 import app from '../src/app'
-// import { Response } from 'express'
 
 beforeAll(() => build())
 afterAll(() => sequelize.close())
