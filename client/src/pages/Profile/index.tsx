@@ -21,7 +21,7 @@ const Profile:FC = () => {
 
   useEffect(
     () => {
-      ApiService.get('/api/v1/users/1')
+      ApiService.get('/users/1')
         .then((res) => setUserData(res.data.data))
     },
     [],
@@ -29,7 +29,7 @@ const Profile:FC = () => {
 
   const getUserData = async (data:any):Promise<void> => {
     try {
-      const userInfo = await ApiService.put('/api/v1/users/1', { data })
+      const userInfo = await ApiService.put('/users/1', { data })
       setUserData(userInfo.data.data[0])
     } catch (err:any) {
       setUserData(null)
@@ -39,7 +39,7 @@ const Profile:FC = () => {
   useEffect(() => {
     const getEvents = async ():Promise<void> => {
       try {
-        const allEvents = await ApiService.get('/api/v1/events', {
+        const allEvents = await ApiService.get('/events', {
           params: {
             status: currentStatus === 'all' ? '' : currentStatus,
             from: startTime,

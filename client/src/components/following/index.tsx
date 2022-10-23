@@ -14,11 +14,15 @@ const Following:FC<IModalProps> = ({
 }) => {
   const [users, setUsers] = useState<IUserProfile[] | []>([])
   useEffect(() => {
-    const following = async ():Promise<void> => {
-      const allFollwing = await ApiService.get(url)
-      setUsers(allFollwing.data.data)
+    try {
+      const followingUser = async ():Promise<void> => {
+        const allFollowing = await ApiService.get(url)
+        setUsers(allFollowing.data.data)
+      }
+      followingUser()
+    } catch (err) {
+      console.log(err)
     }
-    following()
   }, [])
   return (
     <div className="following-popup">
@@ -28,17 +32,19 @@ const Following:FC<IModalProps> = ({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={{
-          position: 'absolute' as 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 500,
-          bgcolor: 'background.paper',
-          borderRadius: '10px',
-          boxShadow: 24,
-          p: 4,
-        }}
+        <Box
+          className="joined-container"
+          sx={{
+            position: 'absolute' as 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 500,
+            bgcolor: 'background.paper',
+            borderRadius: '10px',
+            boxShadow: 24,
+            p: 4,
+          }}
         >
           <Typography
             id="modal-modal-title"

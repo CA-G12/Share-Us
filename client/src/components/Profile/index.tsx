@@ -19,7 +19,7 @@ const ProfileBio:FC<UserProfileProp> = ({
 
   const followUser = async ():Promise<void> => {
     try {
-      const follow = await ApiService.patch(`/api/v1/users/1/followers/${followerId}`, {})
+      const follow = await ApiService.patch(`/users/1/followers/${followerId}`, {})
       setUserData(follow.data.data[0])
     } catch (err) {
       console.log(err)
@@ -28,7 +28,7 @@ const ProfileBio:FC<UserProfileProp> = ({
 
   const blockUser = async (): Promise<void> => {
     try {
-      const block = await ApiService.patch(`/api/v1/users/1/blocked/${followerId}`, {})
+      const block = await ApiService.patch(`/users/1/blocked/${followerId}`, {})
       setUserData(block.data.data[0])
     } catch (err) {
       console.log(err)
@@ -152,7 +152,7 @@ const ProfileBio:FC<UserProfileProp> = ({
           open={open}
           handleClose={handleClose}
           title="Following"
-          url="/api/v1//users/1/following"
+          url="/users/1/following"
         />
       </div>
     </div>

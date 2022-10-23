@@ -12,7 +12,6 @@ passport.use(new LocalStrategy({
   try {
     await validateSignIn({ email, password })
     const user = await User.findOne({
-      attributes: ['id', 'password', 'username', 'email', 'profileImg'],
       where: {
         email
       }
