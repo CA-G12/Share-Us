@@ -2,8 +2,9 @@ import { FC, useState } from 'react'
 import { Typography, Button } from '@mui/material'
 import { useParams } from 'react-router-dom'
 import UserProfileProp from '../../interfaces/props/UserProfileProp'
+import { useAuth } from '../../hooks/useAuth'
 import './style.css'
-// import EditProfile from '../EditProfile'
+import EditProfile from '../EditProfile'
 import ApiService from '../../services/ApiService'
 import Following from '../following'
 
@@ -12,14 +13,30 @@ const ProfileBio:FC<UserProfileProp> = ({
   userData, getUserData, allData, setUserData,
 }) => {
   const [open, setOpen] = useState<boolean>(false)
+  const [followOpen, setFollowOpen] = useState<boolean>(false)
   const { followerId } = useParams()
 
-  const handleOpen = ():void => setOpen(true)
-  const handleClose = ():void => setOpen(false)
+  const auth = useAuth()
+
+  const handleOpen = ():void => {
+    setOpen(true)
+  }
+  const handleClose = ():void => {
+    setOpen(false)
+  }
+
+  const handleOpenFollow = ():void => {
+    setFollowOpen(true)
+  }
+
+  const handleCloseFollow = ():void => {
+    setFollowOpen(false)
+  }
 
   const followUser = async ():Promise<void> => {
     try {
-      const follow = await ApiService.patch(`/users/1/followers/${followerId}`, {})
+      const follow = await ApiService.patch(`/users/followers/${followerId}`, {})
+
       setUserData(follow.data.data[0])
     } catch (err) {
       console.log(err)
@@ -28,7 +45,7 @@ const ProfileBio:FC<UserProfileProp> = ({
 
   const blockUser = async (): Promise<void> => {
     try {
-      const block = await ApiService.patch(`/users/1/blocked/${followerId}`, {})
+      const block = await ApiService.patch(`/users/blocked/${followerId}`, {})
       setUserData(block.data.data[0])
     } catch (err) {
       console.log(err)
@@ -67,6 +84,7 @@ const ProfileBio:FC<UserProfileProp> = ({
             <Typography
               variant="subtitle2"
               gutterBottom
+              onClick={handleOpenFollow}
               sx={{ fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
             >
               Followers:
@@ -103,28 +121,12 @@ const ProfileBio:FC<UserProfileProp> = ({
           </div>
 
         </div>
-        <Button
-          sx={{
-            fontSize: 12,
-            background: 'rgba(164, 42, 42, 1)',
-            color: '#fff',
-            fontWeight: 600,
-            padding: '0.3rem 1.5rem',
-            textTransform: 'capitalize',
-            position: 'absolute',
-            right: '4rem',
-            top: '0.5rem',
-            '&:hover': {
-              background: 'rgba(164, 42, 42, 1)',
-            },
-          }}
-          onClick={blockUser}
-        >
-          {userData?.blocked?.includes(Number(followerId))
-            ? 'Unblock' : 'Block'}
-        </Button>
 
-        {!userData?.blocked?.includes(Number(followerId))
+        {auth.user?.id === Number(followerId)
+          ? <EditProfile getUserData={getUserData} userData={userData} />
+          : (
+            <>
+              {!userData?.blocked?.includes(Number(followerId))
         && (
         <Button
           sx={{
@@ -147,12 +149,40 @@ const ProfileBio:FC<UserProfileProp> = ({
             ? 'UnFollow' : 'Follow'}
         </Button>
         )}
-        {/* <EditProfile getUserData={getUserData} userData={userData} /> */}
+              <Button
+                sx={{
+                  fontSize: 12,
+                  background: 'rgba(164, 42, 42, 1)',
+                  color: '#fff',
+                  fontWeight: 600,
+                  padding: '0.3rem 1.5rem',
+                  textTransform: 'capitalize',
+                  position: 'absolute',
+                  right: '4rem',
+                  top: '0.5rem',
+                  '&:hover': {
+                    background: 'rgba(164, 42, 42, 1)',
+                  },
+                }}
+                onClick={blockUser}
+              >
+                {userData?.blocked?.includes(Number(followerId))
+                  ? 'Unblock' : 'Block'}
+              </Button>
+            </>
+
+          )}
         <Following
           open={open}
           handleClose={handleClose}
           title="Following"
-          url="/users/1/following"
+          url={`/users/${followerId}/following`}
+        />
+        <Following
+          open={followOpen}
+          handleClose={handleCloseFollow}
+          title="Followers"
+          url={`/users/${followerId}/followers`}
         />
       </div>
     </div>

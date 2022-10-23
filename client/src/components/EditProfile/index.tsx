@@ -14,11 +14,11 @@ const EditProfile:FC<IEditProfile> = ({ getUserData, userData }) => {
 
   useEffect(() => {
     setData({
-      username: userData?.username,
-      bio: userData?.bio,
-      profileImg: userData?.profileImg,
-      headerImg: userData?.headerImg,
-      location: userData?.location,
+      username: userData?.username || '',
+      bio: userData?.bio || '',
+      profileImg: userData?.profileImg || '',
+      headerImg: userData?.headerImg || '',
+      location: userData?.location || '',
     })
   }, [userData])
 
@@ -98,7 +98,7 @@ const EditProfile:FC<IEditProfile> = ({ getUserData, userData }) => {
                 rows: 3,
               }}
               sx={{ width: '100%' }}
-              value={data?.bio}
+              value={data?.bio || ''}
               onChange={(e) => handleChange('bio', e.target.value)}
 
             />

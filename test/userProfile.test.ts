@@ -29,21 +29,23 @@ describe('Testing user profile routes', () => {
       })
   })
 
-  // test('update data', (done) => {
-  //   supertest(app)
-  //     .put('/api/v1/users/2')
-  //     .expect('Content-Type', /json/)
-  //     .send({
-  //       username: 'saif Hayekk'
-  //     })
-  //     .end((err, res) => {
-  //       if (err) return done(err)
-  //       console.log(res.body)
-  //       expect(res.body.message).toEqual('Data updated successfully')
-  //       expect(res.body.data.username).toEqual('saif Hayekk')
-  //       return done()
-  //     })
-  // })
+  test('update data', (done) => {
+    supertest(app)
+      .put('/api/v1/users/2')
+      .expect('Content-Type', /json/)
+      .send({
+        data: {
+          username: 'saif Hayekk'
+        }
+
+      })
+      .end((err, res) => {
+        if (err) return done(err)
+        expect(res.body.message).toEqual('Data updated successfully')
+        expect(res.body.data[0].username).toEqual('saif Hayekk')
+        return done()
+      })
+  })
 
   test('get events of a specific user', (done) => {
     supertest(app)

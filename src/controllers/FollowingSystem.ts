@@ -129,8 +129,6 @@ export default class FollowingSystem {
   }
 
   public static async allFollowings (req:Request, res:Response) {
-    console.log('testt')
-
     const { userId } = req.params
     await validateParams({ id: userId })
     const following = (await User.findOne({ where: { id: userId }, attributes: ['following'] }))?.following

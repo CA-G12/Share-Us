@@ -3,6 +3,7 @@ import './style.css'
 import { FC, useEffect, useState } from 'react'
 import { Dayjs } from 'dayjs'
 import { useParams } from 'react-router-dom'
+import Alert from '@mui/material/Alert'
 import ProfileBio from '../../components/Profile'
 import ApiService from '../../services/ApiService'
 import IUserProfile from '../../interfaces/IUserProfile'
@@ -21,7 +22,7 @@ const Profile:FC = () => {
 
   useEffect(
     () => {
-      ApiService.get('/users/1')
+      ApiService.get(`/users/${followerId}`)
         .then((res) => setUserData(res.data.data))
     },
     [],
@@ -29,7 +30,9 @@ const Profile:FC = () => {
 
   const getUserData = async (data:any):Promise<void> => {
     try {
-      const userInfo = await ApiService.put('/users/1', { data })
+      const userInfo = await ApiService.put(`/users/${followerId}`, { data })
+      console.log(userInfo.data.data[0])
+
       setUserData(userInfo.data.data[0])
     } catch (err:any) {
       setUserData(null)
@@ -44,7 +47,7 @@ const Profile:FC = () => {
             status: currentStatus === 'all' ? '' : currentStatus,
             from: startTime,
             to: endTime,
-            userId: 1,
+            userId: followerId,
           },
         })
         setAllData(allEvents.data.data)
@@ -65,7 +68,16 @@ const Profile:FC = () => {
         setUserData={setUserData}
       />
       {userData?.blocked?.includes(Number(followerId))
-        ? <p>User is blocked</p>
+        ? (
+          <Alert
+            severity="error"
+            variant="filled"
+            sx={{ width: '40%', margin: ' 2rem auto' }}
+          >
+            User is blocked!
+          </Alert>
+        )
+
         : (
           <>
             <FilterCards

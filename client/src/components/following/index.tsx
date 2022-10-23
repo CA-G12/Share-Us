@@ -21,7 +21,7 @@ const Following:FC<IModalProps> = ({
       }
       followingUser()
     } catch (err) {
-      console.log(err)
+      setUsers([])
     }
   }, [])
   return (
@@ -58,10 +58,10 @@ const Following:FC<IModalProps> = ({
               textAlign: 'center',
             }}
           >
-            {title}
+            {title === 'Following' ? 'Following' : title === 'Followers' ? 'Followers' : 'Blocked'}
           </Typography>
           <hr />
-          {users.map((e:IUserProfile) => (
+          {users.length ? users.map((e:IUserProfile) => (
             <div className="user">
               <div className="username">
                 <img
@@ -79,11 +79,19 @@ const Following:FC<IModalProps> = ({
                 color: 'rgba(42, 42, 42, 1)',
               }}
               >
-                {title === 'Following' && 'Unfollow'}
+                {title === 'Following' ? 'Unfollow' : title === 'Followers' ? 'follow' : 'unblock'}
 
               </Button>
             </div>
-          ))}
+          )) : (
+            <Typography
+              sx={{ margin: '1rem auto', textAlign: 'center' }}
+            >
+              {title === 'Following'
+                ? 'No Followings Found' : title === 'Followers'
+                  ? 'No Followers Found' : 'No Blocked Users Found'}
+            </Typography>
+          )}
 
         </Box>
       </Modal>

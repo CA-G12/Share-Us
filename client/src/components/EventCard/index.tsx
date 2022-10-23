@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import './style.css'
 import {
-  Box, Card, CardContent, CardMedia, Typography, Avatar, Button, CardActions,
+  Box, Card, CardContent, CardMedia, Typography, Avatar, Alert, Button, CardActions,
 } from '@mui/material'
 import dayjs from 'dayjs'
 import { EventCardProps } from '../../interfaces'
@@ -9,11 +9,11 @@ import { EventCardProps } from '../../interfaces'
 const EventCard:FC<EventCardProps> = ({ event }) => (
   <div className="card-container">
     {!event.length ? (
-      <Typography sx={{ margin: 'auto' }}>
-        No Events Found
-      </Typography>
-    ) : event.map((evt) => (
-      <Card sx={{ width: 250, maxHeight: 350, margin: '0.5rem 0' }} key={evt.id}>
+      <Alert severity="error" variant="filled">No Events Found</Alert>
+
+    ) : event.map((evt, i) => (
+      // eslint-disable-next-line react/no-array-index-key
+      <Card sx={{ width: 250, maxHeight: 350, margin: '0.5rem 0' }} key={i}>
         <CardMedia
           component="img"
           height="150"
