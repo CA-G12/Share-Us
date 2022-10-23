@@ -3,7 +3,7 @@ import { Op } from 'sequelize'
 import { Event, Hashtag, User } from '../db'
 export default class SearchResultController {
   public static async index (req: Request, res: Response):Promise<void> {
-    const { category, input } = req.body
+    const { category, input } = req.query
     if (category === 'event') {
       const allEvents = await Event.findAll({
         where: {
@@ -26,7 +26,7 @@ export default class SearchResultController {
         }]
       })
       res.json({ hashtags: allHashtags })
-    } else if (category === 'user') {
+    } else if (category === 'friends') {
       const allUsers = await User.findAll({
         where: {
           username: {
@@ -35,6 +35,8 @@ export default class SearchResultController {
         }
       })
       res.json({ friends: allUsers })
+    } else {
+      res.json({ error: 'error' })
     }
   }
 }

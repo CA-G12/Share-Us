@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { FC, useState } from 'react'
 import './style.css'
 import {
@@ -6,10 +7,17 @@ import {
 } from '@mui/material'
 
 import logo from './logo.jpg'
+import { ISearchResult } from '../../interfaces'
 
-const Navbar:FC = () => {
-  const [event, setEvent] = useState('event')
-
+const Navbar:FC<ISearchResult> = ({
+  category, input, setCategory, setInput,
+}) => {
+  const [event, setEvent] = useState<string>(category)
+  const [inputValue, setInputValue] = useState<string>(input)
+  const handleSearch = ():void => {
+    setCategory(event)
+    setInput(inputValue)
+  }
   const handleChange = (e: SelectChangeEvent):void => setEvent(e.target.value as string)
   return (
     <header>
@@ -53,17 +61,21 @@ const Navbar:FC = () => {
               inputProps={{ 'aria-label': 'Without label' }}
             >
               <MenuItem sx={{ fontSize: 12 }} value="event">event</MenuItem>
-              <MenuItem sx={{ fontSize: 12 }} value={2}>friend</MenuItem>
-              <MenuItem sx={{ fontSize: 12 }} value={3}>hashtags</MenuItem>
+              <MenuItem sx={{ fontSize: 12 }} value="friends">friends</MenuItem>
+              <MenuItem sx={{ fontSize: 12 }} value="hashtags">hashtags</MenuItem>
             </Select>
           </FormControl>
           <InputBase
             placeholder="Search here"
+            value={inputValue}
+            name="input"
+            onChange={(e) => setInputValue(e.target.value)}
           />
           <IconButton
             type="button"
             aria-label="search"
             className="search-btn"
+            onClick={handleSearch}
           >
             search
           </IconButton>
