@@ -1,11 +1,16 @@
 import './style.css'
 import { FC } from 'react'
 import EventDetailsHeader from '../../components/EventDetailsHeader'
+import Navbar from '../../components/Navbar/Navbar'
 
 const EventDetails:FC = () => (
-  <div className="event-details-page">
-    <EventDetailsHeader />
-  </div>
+  <>
+    <Navbar />
+    <div className="event-details-page">
+      <EventDetailsHeader />
+    </div>
+  </>
+
 )
 
 export default EventDetails
