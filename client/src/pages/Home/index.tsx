@@ -6,14 +6,13 @@ import EventCard from '../../components/EventCard'
 import FilterCards from '../../components/FilterCard'
 import ApiService from '../../services/ApiService'
 import IEventDetails from '../../interfaces/IEventDetails'
-import { useAuth } from '../../hooks/useAuth'
+import Navbar from '../../components/Navbar'
 
 const Home:FC = () => {
   const [data, setData] = useState<IEventDetails[]>([])
   const [currentStatus, setCurrentStatus] = useState('all')
   const [startTime, setStartTime] = useState<Dayjs|null>(null)
   const [endTime, setEndTime] = useState<Dayjs|null>(null)
-  const auth = useAuth()
 
   useEffect(() => {
     const getEvents = async ():Promise<void> => {
@@ -35,13 +34,7 @@ const Home:FC = () => {
 
   return (
     <>
-      {auth.user && (
-      <p>
-        {auth.user?.username}
-        {' '}
-        <button type="button" onClick={auth.signOut}>logout</button>
-      </p>
-      )}
+      <Navbar />
       <FilterCards
         currentStatus={currentStatus}
         setCurrentStatus={setCurrentStatus}

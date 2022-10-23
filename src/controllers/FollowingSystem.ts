@@ -29,27 +29,27 @@ export default class FollowingSystem {
 
     if (myFollowers?.includes(+followerId)) {
       // un follow
-      const updated = await User.update(
+      const authUser = await User.update(
         { followers: myFollowers?.filter((ele) => ele !== +followerId) },
         { where: { id: userId }, returning: true })
-      await User.update(
+      const updated = await User.update(
         { following: hisFollowing?.filter((ele) => ele !== Number(userId)) },
         { where: { id: followerId }, returning: true })
 
-      res.json({ data: updated[1], message: 'un follow' })
+      res.json({ data: updated[1], authUser: authUser[1], message: 'un follow' })
     } else if (!(myBlocked?.includes(+followerId)) && !(hisBlocked?.includes(Number(userId)))) {
       // follow
       myFollowers?.push(+followerId)
-      const updated = await User.update(
+      const authUser = await User.update(
         { followers: myFollowers },
         { where: { id: userId }, returning: true })
 
       hisFollowing?.push(Number(userId))
-      await User.update(
+      const updated = await User.update(
         { following: hisFollowing },
         { where: { id: followerId }, returning: true })
 
-      res.json({ data: updated[1], message: 'follow' })
+      res.json({ data: updated[1], authUser: authUser[1], message: 'follow' })
     } else {
       throw new CustomError('User id blocked', 400)
     }
@@ -86,10 +86,11 @@ export default class FollowingSystem {
 
     if (blocked?.includes(+blockId)) {
       // un block
-      const updated = await User.update(
+      const authUser = await User.update(
         { blocked: blocked?.filter((ele) => ele !== +blockId) },
         { where: { id: userId }, returning: true })
-      res.json({ data: updated[1], message: 'un blocked' })
+      const updated = await User.findOne({ where: { id: blockId } })
+      res.json({ data: updated, authUser: authUser[1], message: 'un blocked' })
     } else {
       // block
       const myUsers = (await User.findOne({ where: { id: userId }, attributes: ['followers', 'following'] }))
@@ -105,18 +106,18 @@ export default class FollowingSystem {
       }
 
       blocked?.push(+blockId)
-      const updated = await User.update(
+      const authUser = await User.update(
         {
           blocked,
           followers: myFollowers?.filter(ele => ele !== +blockId),
           following: myFollowing?.filter(ele => ele !== +blockId)
         },
         { where: { id: userId }, returning: true })
-      await User.update({
+      const updated = await User.update({
         following: hisFollowing?.filter(ele => ele !== Number(userId)),
         followers: hisFollowers?.filter(ele => ele !== Number(userId))
-      }, { where: { id: blockId } })
-      res.json({ data: updated[1], message: 'blocked' })
+      }, { where: { id: blockId }, returning: true })
+      res.json({ data: updated[1][0], authUser: authUser[1], message: 'blocked' })
     }
   }
 

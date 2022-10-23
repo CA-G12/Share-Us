@@ -3,15 +3,19 @@ import './style.css'
 import {
   Typography, Paper, IconButton, InputBase, FormControl,
   Select, MenuItem, SelectChangeEvent, Button,
+  Box,
 } from '@mui/material'
-
+import { useNavigate, useParams } from 'react-router-dom'
 import logo from './logo.jpg'
 import Following from '../following'
+import { useAuth } from '../../hooks/useAuth'
 
 const Navbar:FC = () => {
+  const { followerId } = useParams()
   const [event, setEvent] = useState('event')
   const [blockOpen, setBlockOpen] = useState<boolean>(false)
-
+  const auth = useAuth()
+  const navigate = useNavigate()
   const handleChange = (e: SelectChangeEvent):void => setEvent(e.target.value as string)
   const handleOpenBlock = ():void => {
     setBlockOpen(true)
@@ -20,10 +24,14 @@ const Navbar:FC = () => {
   const handleCloseBlock = ():void => {
     setBlockOpen(false)
   }
+
   return (
     <>
       <header>
-        <div className="logo">
+        <Box
+          className="logo"
+          onClick={() => navigate('/')}
+        >
           <img src={logo} alt="logo" />
           <Typography
             variant="h5"
@@ -33,7 +41,7 @@ const Navbar:FC = () => {
           >
             SHARE US
           </Typography>
-        </div>
+        </Box>
         <div className="search">
           <Paper
             component="form"
@@ -78,16 +86,48 @@ const Navbar:FC = () => {
           </Paper>
         </div>
         <div className="register">
-          <button type="button" className="login">Login</button>
-          <Button className="signup-btn">Sign Up</Button>
-          <Typography onClick={handleOpenBlock}>Blocked users</Typography>
+          {auth.user
+            ? (
+              <>
+                <Typography
+                  onClick={() => navigate(`/users/${auth.user?.id}`)}
+                  sx={{ cursor: 'pointer' }}
+                >
+                  {auth.user?.username}
+
+                </Typography>
+                {auth.user?.id === Number(followerId)
+                && <Typography onClick={handleOpenBlock}>Blocked users</Typography>}
+                <Button className="signup-btn" onClick={auth.signOut}>Logout</Button>
+              </>
+            )
+            : (
+              <>
+                <button
+                  type="button"
+                  className="login"
+                  onClick={() => navigate('/login')}
+                >
+                  Login
+
+                </button>
+                <Button
+                  className="signup-btn"
+                  onClick={() => navigate('/sign-up')}
+                >
+                  Sign Up
+
+                </Button>
+              </>
+            )}
+
         </div>
       </header>
       <Following
         open={blockOpen}
         handleClose={handleCloseBlock}
         title="Blocked"
-        url="/users/2/blocked"
+        url={`/users/${followerId}/blocked`}
       />
     </>
 

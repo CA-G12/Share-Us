@@ -18,6 +18,7 @@ const Following:FC<IModalProps> = ({
       const followingUser = async ():Promise<void> => {
         const allFollowing = await ApiService.get(url)
         setUsers(allFollowing.data.data)
+        console.log(allFollowing.data.data)
       }
       followingUser()
     } catch (err) {
@@ -62,7 +63,7 @@ const Following:FC<IModalProps> = ({
           </Typography>
           <hr />
           {users.length ? users.map((e:IUserProfile) => (
-            <div className="user">
+            <div className="user" key={e.id}>
               <div className="username">
                 <img
               // eslint-disable-next-line max-len

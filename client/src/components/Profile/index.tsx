@@ -36,7 +36,6 @@ const ProfileBio:FC<UserProfileProp> = ({
   const followUser = async ():Promise<void> => {
     try {
       const follow = await ApiService.patch(`/users/followers/${followerId}`, {})
-
       setUserData(follow.data.data[0])
     } catch (err) {
       console.log(err)
@@ -46,7 +45,12 @@ const ProfileBio:FC<UserProfileProp> = ({
   const blockUser = async (): Promise<void> => {
     try {
       const block = await ApiService.patch(`/users/blocked/${followerId}`, {})
-      setUserData(block.data.data[0])
+      setUserData(block.data.data)
+      // eslint-disable-next-line prefer-destructuring
+      auth.user = block.data.authUser[0]
+      // console.log(block.data.authUser[0])
+      // console.log(block.data.authUser)
+      // auth.user = block.data.authUser[0]
     } catch (err) {
       console.log(err)
     }
@@ -126,7 +130,7 @@ const ProfileBio:FC<UserProfileProp> = ({
           ? <EditProfile getUserData={getUserData} userData={userData} />
           : (
             <>
-              {!userData?.blocked?.includes(Number(followerId))
+              {!auth.user?.blocked?.includes(Number(followerId))
         && (
         <Button
           sx={{
@@ -145,7 +149,7 @@ const ProfileBio:FC<UserProfileProp> = ({
           }}
           onClick={followUser}
         >
-          {userData?.followers.includes(Number(followerId))
+          {userData?.following.includes(Number(auth.user?.id))
             ? 'UnFollow' : 'Follow'}
         </Button>
         )}
@@ -166,7 +170,7 @@ const ProfileBio:FC<UserProfileProp> = ({
                 }}
                 onClick={blockUser}
               >
-                {userData?.blocked?.includes(Number(followerId))
+                {auth.user?.blocked?.includes(Number(followerId))
                   ? 'Unblock' : 'Block'}
               </Button>
             </>

@@ -1,4 +1,5 @@
 export default interface IUserProfile {
+  id: number,
   username: string,
   bio: string,
   location: string,

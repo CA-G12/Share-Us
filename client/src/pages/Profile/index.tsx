@@ -11,8 +11,10 @@ import FilterCards from '../../components/FilterCard'
 import IEventDetails from '../../interfaces/IEventDetails'
 import EventCard from '../../components/EventCard'
 import Navbar from '../../components/Navbar'
+import { useAuth } from '../../hooks/useAuth'
 
 const Profile:FC = () => {
+  const auth = useAuth()
   const [userData, setUserData] = useState<IUserProfile | null>(null)
   const [allData, setAllData] = useState<IEventDetails[]>([])
   const [currentStatus, setCurrentStatus] = useState('all')
@@ -22,17 +24,17 @@ const Profile:FC = () => {
 
   useEffect(
     () => {
+      console.log(followerId)
+
       ApiService.get(`/users/${followerId}`)
         .then((res) => setUserData(res.data.data))
     },
-    [],
+    [followerId],
   )
 
   const getUserData = async (data:any):Promise<void> => {
     try {
       const userInfo = await ApiService.put(`/users/${followerId}`, { data })
-      console.log(userInfo.data.data[0])
-
       setUserData(userInfo.data.data[0])
     } catch (err:any) {
       setUserData(null)
@@ -56,7 +58,7 @@ const Profile:FC = () => {
       }
     }
     getEvents()
-  }, [currentStatus, startTime, endTime])
+  }, [currentStatus, startTime, endTime, followerId])
 
   return (
     <>
@@ -67,7 +69,7 @@ const Profile:FC = () => {
         allData={allData}
         setUserData={setUserData}
       />
-      {userData?.blocked?.includes(Number(followerId))
+      {auth.user?.blocked?.includes(Number(followerId))
         ? (
           <Alert
             severity="error"
@@ -77,7 +79,6 @@ const Profile:FC = () => {
             User is blocked!
           </Alert>
         )
-
         : (
           <>
             <FilterCards
