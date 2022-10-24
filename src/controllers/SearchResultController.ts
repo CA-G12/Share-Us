@@ -15,7 +15,7 @@ export default class SearchResultController {
           model: Hashtag
         }]
       })
-      res.json({ event: allEvents })
+      res.json({ data: allEvents })
     } else if (category === 'hashtags') {
       const allHashtags = await Event.findAll({
         include: [{
@@ -28,7 +28,7 @@ export default class SearchResultController {
           }
         }]
       })
-      res.json({ hashtags: allHashtags })
+      res.json({ data: allHashtags })
     } else if (category === 'friends') {
       const allUsers = await User.findAll({
         where: {
@@ -37,14 +37,14 @@ export default class SearchResultController {
           }
         }
       })
-      res.json({ friends: allUsers })
+      res.json({ data: allUsers })
     } else {
       const allEventsWithoutCategory = await Event.findAll({
         include: [{
           model: Hashtag
         }]
       })
-      res.json({ AllEvent: allEventsWithoutCategory })
+      res.json({ data: allEventsWithoutCategory })
     }
   }
 }

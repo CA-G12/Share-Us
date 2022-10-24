@@ -8,6 +8,8 @@ import ApiService from '../../services/ApiService'
 import IEventDetails from '../../interfaces/IEventDetails'
 import { useAuth } from '../../hooks/useAuth'
 
+import Navbar from '../../components/Navbar/Navbar'
+
 const Home:FC = () => {
   const [data, setData] = useState<IEventDetails[]>([])
   const [currentStatus, setCurrentStatus] = useState('all')
@@ -28,6 +30,7 @@ const Home:FC = () => {
 
   return (
     <>
+      <Navbar />
       {auth.user && (
       <p>
         {auth.user?.username}

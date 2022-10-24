@@ -1,5 +1,8 @@
-/* eslint-disable no-unused-vars */
 import { FC, useState } from 'react'
+import {
+  useNavigate, useSearchParams, useLocation, createSearchParams,
+} from 'react-router-dom'
+
 import './style.css'
 import {
   Typography, Paper, IconButton, InputBase, FormControl,
@@ -7,16 +10,28 @@ import {
 } from '@mui/material'
 
 import logo from './logo.jpg'
-import { ISearchResult } from '../../interfaces'
 
-const Navbar:FC<ISearchResult> = ({
-  category, input, setCategory, setInput,
-}) => {
+const Navbar:FC = () => {
+  const navigate = useNavigate()
+  const location = useLocation()
+
   const [event, setEvent] = useState<string>('event')
-  const [inputValue, setInputValue] = useState<string>(input)
+  const [inputValue, setInputValue] = useState<string>('')
+  // eslint-disable-next-line no-unused-vars
+  const [_, setSearchParams] = useSearchParams()
+
   const handleSearch = ():void => {
-    setCategory(event)
-    setInput(inputValue)
+    if (location.pathname !== '/search') {
+      navigate({
+        pathname: '/search',
+        search: `${createSearchParams({ category: event, q: inputValue })}`,
+      })
+    } else {
+      setSearchParams({
+        category: event,
+        q: inputValue,
+      })
+    }
   }
   const handleChange = (e: SelectChangeEvent):void => setEvent(e.target.value as string)
   return (
