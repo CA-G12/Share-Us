@@ -24,8 +24,6 @@ const Profile:FC = () => {
 
   useEffect(
     () => {
-      console.log(followerId)
-
       ApiService.get(`/users/${followerId}`)
         .then((res) => setUserData(res.data.data))
     },
@@ -36,6 +34,7 @@ const Profile:FC = () => {
     try {
       const userInfo = await ApiService.put(`/users/${followerId}`, { data })
       setUserData(userInfo.data.data[0])
+      auth.setUser(userInfo.data.data[0])
     } catch (err:any) {
       setUserData(null)
     }

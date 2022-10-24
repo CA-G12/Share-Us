@@ -1,6 +1,7 @@
 export default interface IModalProps {
   open: boolean,
-  title: 'Following' | 'Followers' |'Blocked'
+  setOpen: Function,
+  title: 'Followings' | 'Followers' |'Blocked'
   url: string
   handleClose: () => void
 }

@@ -24,7 +24,6 @@ export default class UserProfileController {
 
   public static async update (req: IUserRequest, res:Response):Promise<void> {
     const id = req.user?.id
-    console.log(id)
     const { username, bio, location, profileImg, headerImg } = req.body?.data
 
     await validateParams({ id })

@@ -5,26 +5,31 @@ import {
 } from '@mui/material'
 import Modal from '@mui/material/Modal'
 import './style.css'
+import { useNavigate, useParams } from 'react-router-dom'
 import IModalProps from '../../interfaces/props/IModal'
 import ApiService from '../../services/ApiService'
 import IUserProfile from '../../interfaces/IUserProfile'
+import { useAuth } from '../../hooks/useAuth'
 
 const Following:FC<IModalProps> = ({
-  handleClose, open, title, url,
+  handleClose, open, title, url, setOpen,
 }) => {
   const [users, setUsers] = useState<IUserProfile[] | []>([])
+  const { followerId } = useParams()
+  const auth = useAuth()
+  const navigate = useNavigate()
   useEffect(() => {
     try {
       const followingUser = async ():Promise<void> => {
         const allFollowing = await ApiService.get(url)
         setUsers(allFollowing.data.data)
-        console.log(allFollowing.data.data)
       }
       followingUser()
     } catch (err) {
       setUsers([])
     }
-  }, [])
+  }, [open])
+
   return (
     <div className="following-popup">
       <Modal
@@ -59,36 +64,57 @@ const Following:FC<IModalProps> = ({
               textAlign: 'center',
             }}
           >
-            {title === 'Following' ? 'Following' : title === 'Followers' ? 'Followers' : 'Blocked'}
+            {title === 'Followings' ? 'Followings' : title === 'Followers'
+              ? 'Followers' : 'Blocked'}
           </Typography>
           <hr />
           {users.length ? users.map((e:IUserProfile) => (
             <div className="user" key={e.id}>
-              <div className="username">
+              <Box
+                className="username"
+                onClick={() => {
+                  navigate(`/users/${e.id}`)
+                  setOpen(false)
+                }}
+
+              >
                 <img
               // eslint-disable-next-line max-len
                   src={e.profileImg}
                   alt=""
                 />
-                <Typography sx={{ fontWeight: 600 }}>{e.username}</Typography>
-              </div>
-              <Button sx={{
-                textTransform: 'capitalize',
-                border: '1px solid rgba(42, 42, 42, 0.5)',
-                boxShadow: 'inset 0px -1px 0px rgba(14, 14, 44, 0.4)',
-                borderRadius: '4px',
-                color: 'rgba(42, 42, 42, 1)',
-              }}
-              >
-                {title === 'Following' ? 'Unfollow' : title === 'Followers' ? 'follow' : 'unblock'}
+                <Typography
+                  sx={{ fontWeight: 600, cursor: 'pointer' }}
+                >
+                  {e.username}
 
-              </Button>
+                </Typography>
+              </Box>
+              {
+                  auth.user
+                  && (
+                  <Button sx={{
+                    textTransform: 'capitalize',
+                    border: '1px solid rgba(42, 42, 42, 0.5)',
+                    boxShadow: 'inset 0px -1px 0px rgba(14, 14, 44, 0.4)',
+                    borderRadius: '4px',
+                    color: 'rgba(42, 42, 42, 1)',
+                  }}
+                  >
+                    {
+                       title === 'Followings'
+                         ? 'Unfollow' : title === 'Followers' ? 'follow' : 'unblock'
+                    }
+                  </Button>
+                  )
+              }
+
             </div>
           )) : (
             <Typography
               sx={{ margin: '1rem auto', textAlign: 'center' }}
             >
-              {title === 'Following'
+              {title === 'Followings'
                 ? 'No Followings Found' : title === 'Followers'
                   ? 'No Followers Found' : 'No Blocked Users Found'}
             </Typography>

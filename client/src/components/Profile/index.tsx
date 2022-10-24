@@ -1,6 +1,6 @@
 import { FC, useState } from 'react'
 import { Typography, Button } from '@mui/material'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import UserProfileProp from '../../interfaces/props/UserProfileProp'
 import { useAuth } from '../../hooks/useAuth'
 import './style.css'
@@ -12,6 +12,7 @@ const ProfileBio:FC<UserProfileProp> = ({
   // eslint-disable-next-line no-unused-vars
   userData, getUserData, allData, setUserData,
 }) => {
+  const navigate = useNavigate()
   const [open, setOpen] = useState<boolean>(false)
   const [followOpen, setFollowOpen] = useState<boolean>(false)
   const { followerId } = useParams()
@@ -38,7 +39,7 @@ const ProfileBio:FC<UserProfileProp> = ({
       const follow = await ApiService.patch(`/users/followers/${followerId}`, {})
       setUserData(follow.data.data[0])
     } catch (err) {
-      console.log(err)
+      navigate('/login')
     }
   }
 
@@ -46,13 +47,10 @@ const ProfileBio:FC<UserProfileProp> = ({
     try {
       const block = await ApiService.patch(`/users/blocked/${followerId}`, {})
       setUserData(block.data.data)
-      // eslint-disable-next-line prefer-destructuring
-      auth.user = block.data.authUser[0]
-      // console.log(block.data.authUser[0])
-      // console.log(block.data.authUser)
-      // auth.user = block.data.authUser[0]
+      const [user] = block.data.authUser
+      auth.setUser(user)
     } catch (err) {
-      console.log(err)
+      navigate('/login')
     }
   }
   return (
@@ -80,7 +78,7 @@ const ProfileBio:FC<UserProfileProp> = ({
               onClick={handleOpen}
               sx={{ fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
             >
-              Following:
+              Followers:
               {' '}
               {userData?.following?.length}
 
@@ -91,7 +89,7 @@ const ProfileBio:FC<UserProfileProp> = ({
               onClick={handleOpenFollow}
               sx={{ fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
             >
-              Followers:
+              Followings:
               {' '}
               {userData?.followers?.length}
 
@@ -179,13 +177,15 @@ const ProfileBio:FC<UserProfileProp> = ({
         <Following
           open={open}
           handleClose={handleClose}
-          title="Following"
+          title="Followers"
+          setOpen={setOpen}
           url={`/users/${followerId}/following`}
         />
         <Following
           open={followOpen}
           handleClose={handleCloseFollow}
-          title="Followers"
+          title="Followings"
+          setOpen={setFollowOpen}
           url={`/users/${followerId}/followers`}
         />
       </div>
