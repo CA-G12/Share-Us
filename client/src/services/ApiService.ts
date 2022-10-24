@@ -6,8 +6,7 @@ class ApiService {
 
   public static init(): void {
     this.axios.defaults.baseURL = process.env.REACT_APP_BASE_URL
-    // this.axios.defaults.baseURL = 'http://localhost:8080'
-
+  }
 
   public static setHeader(): void {
     this.axios

@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable max-len */
 import {
   useEffect,
   useState,
@@ -212,9 +211,11 @@ const EventModal: FC = () => {
               freeSolo
               onChange={(event, value) => setHash(value)}
               sx={{ display: 'block', margin: '20px 0' }}
-              renderTags={(value: readonly string[], getTagProps) => value.map((option: string, index: number) => (
-                <Chip variant="outlined" label={option} {...getTagProps({ index })} />
-              ))}
+              renderTags={(value: readonly string[], getTagProps) => {
+                value.map((option: string, index: number) => (
+                  <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                ))
+              }}
               renderInput={(params) => (
                 <TextField
                   {...params}

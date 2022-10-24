@@ -12,7 +12,6 @@ class Event extends Model {
   declare longitude: string
   declare latitude: string
   setHashtags: any
-  // declare hashtag: Array<string>
 }
 
 Event.init({
@@ -53,14 +52,11 @@ Event.init({
   latitude: {
     type: DataTypes.STRING,
     allowNull: false
-  },
-  // hashtag: {
-  //   type: DataTypes.ARRAY(DataTypes.STRING),
-  //   allowNull: true
-  // }
+  }
+
 },
 {
-  sequelize 
+  sequelize
 }
 )
 
