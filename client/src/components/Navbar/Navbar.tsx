@@ -12,7 +12,7 @@ import { ISearchResult } from '../../interfaces'
 const Navbar:FC<ISearchResult> = ({
   category, input, setCategory, setInput,
 }) => {
-  const [event, setEvent] = useState<string>(category)
+  const [event, setEvent] = useState<string>('event')
   const [inputValue, setInputValue] = useState<string>(input)
   const handleSearch = ():void => {
     setCategory(event)
@@ -60,7 +60,7 @@ const Navbar:FC<ISearchResult> = ({
               name="category"
               inputProps={{ 'aria-label': 'Without label' }}
             >
-              <MenuItem sx={{ fontSize: 12 }} value="event">event</MenuItem>
+              <MenuItem sx={{ fontSize: 12 }} selected value="event">event</MenuItem>
               <MenuItem sx={{ fontSize: 12 }} value="friends">friends</MenuItem>
               <MenuItem sx={{ fontSize: 12 }} value="hashtags">hashtags</MenuItem>
             </Select>
