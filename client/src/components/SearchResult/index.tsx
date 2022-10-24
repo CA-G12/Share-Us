@@ -81,13 +81,12 @@ const SearchResult:FC<ISearchResult> = ({
           : category === 'event'
             ? data.event && data.event.map((e:any) => (
               <Card sx={{
-                display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: '20px',
+                display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px',
               }}
               >
                 <CardMedia
                   sx={{
                     display: 'flex',
-                    justifyContent: 'center',
                     flexDirection: 'column',
                     height: '100%',
                     width: '40%',
@@ -114,6 +113,19 @@ const SearchResult:FC<ISearchResult> = ({
                   >
                     {e.status}
                   </Typography>
+                  <Box sx={{ display: 'flex' }}>
+                    { e.Hashtags.map((ele:any) => (
+                      <Typography
+                        sx={{
+                          padding: '3px', margin: '5px 5px 5px 0', backgroundColor: 'lightblue', borderRadius: '5px',
+                        }}
+                        variant="body2"
+                        color="text.secondary"
+                      >
+                        {`# ${ele.title}`}
+                      </Typography>
+                    ))}
+                  </Box>
                 </CardContent>
                 <CardActions>
                   <Button
@@ -137,13 +149,12 @@ const SearchResult:FC<ISearchResult> = ({
             : category === 'hashtags'
               ? data.hashtags && data.hashtags.map((e:any) => (
                 <Card sx={{
-                  display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: '20px',
+                  display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px',
                 }}
                 >
                   <CardMedia
                     sx={{
                       display: 'flex',
-                      justifyContent: 'center',
                       flexDirection: 'column',
                       height: '100%',
                       width: '40%',
@@ -215,17 +226,75 @@ const SearchResult:FC<ISearchResult> = ({
                   <CircularProgress color="primary" />
                 </Stack>
               )
-        : (
-          <Stack
+        : data.AllEvent && data.AllEvent.map((e:any) => (
+          <Card
+            key={e.id}
             sx={{
-              color: 'grey.500', display: 'flex', justifyContent: 'center', alignItems: 'center',
+              display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px',
             }}
-            spacing={2}
-            direction="row"
           >
-            <CircularProgress color="primary" />
-          </Stack>
-        )}
+            <CardMedia
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%',
+                width: '40%',
+              }}
+              component="img"
+              alt="Event Image"
+              image={e.img}
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {e.name}
+              </Typography>
+              <Typography gutterBottom variant="body2" component="div">
+                {e.startTime}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {e.description}
+              </Typography>
+              <Typography
+                className={e.status === 'in-progress' ? 'green' : e.status === 'upcoming' ? 'orange' : e.status === 'closed' ? 'red' : 'transparent'}
+                gutterBottom
+                variant="body2"
+                component="div"
+              >
+                {e.status}
+              </Typography>
+              <Box sx={{ display: 'flex' }}>
+                { e.Hashtags.map((ele:any) => (
+                  <Typography
+                    sx={{
+                      padding: '3px', margin: '5px 5px 5px 0', backgroundColor: 'lightblue', borderRadius: '5px',
+                    }}
+                    variant="body2"
+                    color="text.secondary"
+                  >
+                    {`# ${ele.title}`}
+                  </Typography>
+                ))}
+              </Box>
+            </CardContent>
+            <CardActions>
+              <Button
+                sx={{
+                  color: 'white',
+                  margin: '10px',
+                  padding: '10px',
+                  backgroundColor: '#256D85',
+                  '&:hover': {
+                    backgroundColor: '#256D85',
+                    opacity: [0.9, 0.8, 0.7],
+                  },
+                }}
+                size="small"
+              >
+                Join
+              </Button>
+            </CardActions>
+          </Card>
+        ))}
 
     </Box>
   )

@@ -10,7 +10,10 @@ export default class SearchResultController {
           name: {
             [Op.iLike]: '%' + input + '%'
           }
-        }
+        },
+        include: [{
+          model: Hashtag
+        }]
       })
       res.json({ event: allEvents })
     } else if (category === 'hashtags') {
@@ -36,7 +39,12 @@ export default class SearchResultController {
       })
       res.json({ friends: allUsers })
     } else {
-      res.json({ error: 'error' })
+      const allEventsWithoutCategory = await Event.findAll({
+        include: [{
+          model: Hashtag
+        }]
+      })
+      res.json({ AllEvent: allEventsWithoutCategory })
     }
   }
 }
