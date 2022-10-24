@@ -59,7 +59,7 @@ describe('Post a comment', () => {
       .expect(401)
       .end((err, res) => {
         if (err) return done(err)
-        expect(res.body).toBe('unauthorized')
+        expect(res.body.message).toBe('unauthorized')
         return done()
       })
   })

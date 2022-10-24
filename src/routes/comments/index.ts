@@ -1,7 +1,7 @@
 import express from 'express'
 import expressWrapper from '../../helpers/expressWrapper'
 import CommentsController from '../../controllers/CommentsController'
-import checkUser from '../../middlewares/checkUser'
+import isAuth from '../../middlewares/isAuth'
 
 const router = express.Router()
 router.get('/events/:eventId/comments'
@@ -10,12 +10,11 @@ router.get('/events/:eventId/comments'
 router.get('/events/:eventId/comments/:id',
   expressWrapper(CommentsController.show))
 
-router.use(expressWrapper(checkUser))
-router.post('/events/:eventId/comments'
+router.post('/events/:eventId/comments', expressWrapper(isAuth)
   , expressWrapper(CommentsController.store))
-router.put('/events/:eventId/comments/:id'
+router.put('/events/:eventId/comments/:id', expressWrapper(isAuth)
   , expressWrapper(CommentsController.update))
-router.delete('/events/:eventId/comments/:id'
+router.delete('/events/:eventId/comments/:id', expressWrapper(isAuth)
   , expressWrapper(CommentsController.destroy))
 
 export default router

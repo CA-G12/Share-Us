@@ -1,0 +1,45 @@
+
+div.comment {
+  padding: 20px 30px ;
+  margin: 40px auto;
+  background-color: #f2f2f2;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+div.comment div.user-info{
+  width: max-content ;
+  display: flex;
+  justify-content: space-between;
+}
+div.comment div.user-info img{
+border-radius: 50%;
+width: 45px;
+overflow: hidden;
+}
+div.comment div.user-info .username{
+  width: max-content ;
+  color: #2a2a2a;
+  font-weight: 500;
+  font-size: 19px;
+  padding: 4px 0 4px 13px;
+}
+
+div.comment div.user-info .date{
+  width: max-content ;
+  color: rgba(0, 0, 0,0.40);
+  font-weight: 500;
+  font-size: 13px;
+  padding-left: 13px;
+}
+
+div.comment .comment-content{
+  width: 100%;
+  margin: 20px 0 15px;
+}
+
+div.comment .comment-img{
+  width: 100%;
+  display: block;
+  height: 336px;
+}
