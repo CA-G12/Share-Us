@@ -164,7 +164,7 @@ const Navbar:FC = () => {
             pb: open ? 1 : 0,
             p: 0,
             top: 0,
-            right: '20rem',
+            right: '30rem',
             position: 'absolute',
             paddingBottom: '16px',
             margin: '1rem',

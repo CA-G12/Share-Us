@@ -30,7 +30,7 @@ const Following:FC<IModalProps> = ({
     }
   }, [open])
 
-  const handleClick = (userId:number|string):void => {
+  const handleClick = (userId:number):void => {
     if (auth.user) {
       if (auth.user?.id === userId) {
         navigate(`/users/${auth.user?.id}`)
@@ -109,7 +109,7 @@ const Following:FC<IModalProps> = ({
                   borderRadius: '4px',
                   color: 'rgba(42, 42, 42, 1)',
                 }}
-                onClick={() => handleClick(e.id)}
+                onClick={() => handleClick(Number(e.id))}
               >
                 {
                       ((title === 'Followers' || title === 'Followings')
