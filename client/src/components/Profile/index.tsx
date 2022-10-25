@@ -34,10 +34,20 @@ const ProfileBio:FC<UserProfileProp> = ({
     setFollowOpen(false)
   }
 
-  const followUser = async ():Promise<void> => {
+  const followUser = async (id:number):Promise<void> => {
     try {
-      const follow = await ApiService.patch(`/users/followers/${followerId}`, {})
+      const follow = await ApiService.patch(`/users/following/${id}`, {})
       setUserData(follow.data.data[0])
+      auth.setUser(follow.data.authUser[0])
+    } catch (err) {
+      navigate('/login')
+    }
+  }
+
+  const modalFollow = async (id:number):Promise<void> => {
+    try {
+      const follow = await ApiService.patch(`/users/following/${id}`, {})
+      auth.setUser(follow.data.authUser[0])
     } catch (err) {
       navigate('/login')
     }
@@ -53,11 +63,14 @@ const ProfileBio:FC<UserProfileProp> = ({
       navigate('/login')
     }
   }
+
   return (
     <div className="profile">
       <div className="header-img">
         <img
-          src={userData?.headerImg}
+          src={
+           auth.user?.id === Number(followerId) ? auth.user?.headerImg : userData?.headerImg
+          }
           alt="header-img"
         />
       </div>
@@ -65,12 +78,17 @@ const ProfileBio:FC<UserProfileProp> = ({
         <div className="bio-infos">
           <div className="profile-img">
             <img
-              src={userData?.profileImg}
+              src={auth.user?.id === Number(followerId)
+                ? auth.user?.profileImg : userData?.profileImg}
               alt=""
             />
           </div>
 
-          <Typography variant="h5" gutterBottom>{userData?.username}</Typography>
+          <Typography variant="h5" gutterBottom>
+            {auth.user?.id === Number(followerId)
+              ? auth.user?.username : userData?.username}
+
+          </Typography>
           <div className="friends">
             <Typography
               variant="subtitle2"
@@ -78,9 +96,10 @@ const ProfileBio:FC<UserProfileProp> = ({
               onClick={handleOpen}
               sx={{ fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
             >
-              Followers:
+              Followings:
               {' '}
-              {userData?.following?.length}
+              {auth.user?.id === Number(followerId)
+                ? auth.user?.following?.length : userData?.following?.length}
 
             </Typography>
             <Typography
@@ -89,9 +108,10 @@ const ProfileBio:FC<UserProfileProp> = ({
               onClick={handleOpenFollow}
               sx={{ fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
             >
-              Followings:
+              Followers:
               {' '}
-              {userData?.followers?.length}
+              {auth.user?.id === Number(followerId)
+                ? auth.user?.followers?.length : userData?.followers?.length}
 
             </Typography>
             <Typography
@@ -145,9 +165,9 @@ const ProfileBio:FC<UserProfileProp> = ({
               background: 'rgba(1, 113, 59, 1)',
             },
           }}
-          onClick={followUser}
+          onClick={() => followUser(Number(followerId))}
         >
-          {userData?.following.includes(Number(auth.user?.id))
+          {userData?.followers.includes(Number(auth.user?.id))
             ? 'UnFollow' : 'Follow'}
         </Button>
         )}
@@ -177,16 +197,20 @@ const ProfileBio:FC<UserProfileProp> = ({
         <Following
           open={open}
           handleClose={handleClose}
-          title="Followers"
+          title="Followings"
           setOpen={setOpen}
           url={`/users/${followerId}/following`}
+          button="follow"
+          action={modalFollow}
         />
         <Following
           open={followOpen}
           handleClose={handleCloseFollow}
-          title="Followings"
+          title="Followers"
           setOpen={setFollowOpen}
           url={`/users/${followerId}/followers`}
+          button="follow"
+          action={modalFollow}
         />
       </div>
     </div>

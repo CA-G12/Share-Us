@@ -11,42 +11,42 @@ export default class FollowingSystem {
     res.json(users)
   }
 
-  public static async follower (req:IUserRequest, res:Response) {
+  public static async following (req:IUserRequest, res:Response) {
     const { followerId } = req.params
     const userId = req.user?.id
     if (userId === followerId) throw new CustomError(Message.VALIDATION_ERROR, 422)
     await validateParams({ id: followerId })
-    const myUsers = (await User.findOne({ where: { id: userId }, attributes: ['followers', 'blocked'] }))
-    const myFollowers = myUsers?.followers
+    const myUsers = (await User.findOne({ where: { id: userId }, attributes: ['following', 'blocked'] }))
+    const myFollowing = myUsers?.following
     const myBlocked = myUsers?.blocked
 
-    const hisUsers = (await User.findOne({ where: { id: followerId }, attributes: ['following', 'blocked'] }))
-    const hisFollowing = hisUsers?.following
+    const hisUsers = (await User.findOne({ where: { id: followerId }, attributes: ['followers', 'blocked'] }))
+    const hisFollowers = hisUsers?.followers
     const hisBlocked = hisUsers?.blocked
-    if (!myFollowers || !myBlocked || !hisFollowing || !hisBlocked) {
+    if (!myFollowing || !myBlocked || !hisFollowers || !hisBlocked) {
       throw new CustomError(Message.VALIDATION_ERROR, 422)
     }
 
-    if (myFollowers?.includes(+followerId)) {
+    if (myFollowing?.includes(+followerId)) {
       // un follow
       const authUser = await User.update(
-        { followers: myFollowers?.filter((ele) => ele !== +followerId) },
+        { following: myFollowing?.filter((ele) => ele !== +followerId) },
         { where: { id: userId }, returning: true })
       const updated = await User.update(
-        { following: hisFollowing?.filter((ele) => ele !== Number(userId)) },
+        { followers: hisFollowers?.filter((ele) => ele !== Number(userId)) },
         { where: { id: followerId }, returning: true })
 
       res.json({ data: updated[1], authUser: authUser[1], message: 'un follow' })
     } else if (!(myBlocked?.includes(+followerId)) && !(hisBlocked?.includes(Number(userId)))) {
       // follow
-      myFollowers?.push(+followerId)
+      myFollowing?.push(+followerId)
       const authUser = await User.update(
-        { followers: myFollowers },
+        { following: myFollowing },
         { where: { id: userId }, returning: true })
 
-      hisFollowing?.push(Number(userId))
+      hisFollowers?.push(Number(userId))
       const updated = await User.update(
-        { following: hisFollowing },
+        { followers: hisFollowers },
         { where: { id: followerId }, returning: true })
 
       res.json({ data: updated[1], authUser: authUser[1], message: 'follow' })
@@ -55,7 +55,7 @@ export default class FollowingSystem {
     }
   }
 
-  public static async following (req:IUserRequest, res:Response) {
+  public static async removeFollowing (req:IUserRequest, res:Response) {
     // un following
     const { followingId } = req.params
     const userId = req.user?.id

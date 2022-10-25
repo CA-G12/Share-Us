@@ -3,5 +3,7 @@ export default interface IModalProps {
   setOpen: Function,
   title: 'Followings' | 'Followers' |'Blocked'
   url: string
+  button:string
   handleClose: () => void
+  action:Function
 }

@@ -12,7 +12,7 @@ import IUserProfile from '../../interfaces/IUserProfile'
 import { useAuth } from '../../hooks/useAuth'
 
 const Following:FC<IModalProps> = ({
-  handleClose, open, title, url, setOpen,
+  handleClose, open, title, url, setOpen, button, action,
 }) => {
   const [users, setUsers] = useState<IUserProfile[] | []>([])
   const { followerId } = useParams()
@@ -29,6 +29,19 @@ const Following:FC<IModalProps> = ({
       setUsers([])
     }
   }, [open])
+
+  const handleClick = (userId:number|string):void => {
+    if (auth.user) {
+      if (auth.user?.id === userId) {
+        navigate(`/users/${auth.user?.id}`)
+        setOpen(false)
+      } else {
+        action(userId)
+      }
+    } else {
+      navigate('/login')
+    }
+  }
 
   return (
     <div className="following-popup">
@@ -64,8 +77,7 @@ const Following:FC<IModalProps> = ({
               textAlign: 'center',
             }}
           >
-            {title === 'Followings' ? 'Followings' : title === 'Followers'
-              ? 'Followers' : 'Blocked'}
+            {title}
           </Typography>
           <hr />
           {users.length ? users.map((e:IUserProfile) => (
@@ -79,7 +91,6 @@ const Following:FC<IModalProps> = ({
 
               >
                 <img
-              // eslint-disable-next-line max-len
                   src={e.profileImg}
                   alt=""
                 />
@@ -90,24 +101,25 @@ const Following:FC<IModalProps> = ({
 
                 </Typography>
               </Box>
-              {
-                  auth.user
-                  && (
-                  <Button sx={{
-                    textTransform: 'capitalize',
-                    border: '1px solid rgba(42, 42, 42, 0.5)',
-                    boxShadow: 'inset 0px -1px 0px rgba(14, 14, 44, 0.4)',
-                    borderRadius: '4px',
-                    color: 'rgba(42, 42, 42, 1)',
-                  }}
-                  >
-                    {
-                       title === 'Followings'
-                         ? 'Unfollow' : title === 'Followers' ? 'follow' : 'unblock'
-                    }
-                  </Button>
-                  )
-              }
+              <Button
+                sx={{
+                  textTransform: 'capitalize',
+                  border: '1px solid rgba(42, 42, 42, 0.5)',
+                  boxShadow: 'inset 0px -1px 0px rgba(14, 14, 44, 0.4)',
+                  borderRadius: '4px',
+                  color: 'rgba(42, 42, 42, 1)',
+                }}
+                onClick={() => handleClick(e.id)}
+              >
+                {
+                      ((title === 'Followers' || title === 'Followings')
+                      && auth.user?.following.includes(e.id))
+                        ? 'Unfollow' : ((title === 'Followers' || title === 'Followings')
+                        && auth.user?.id === Number(e.id))
+                          ? 'View' : (title === 'Blocked' && !auth.user?.blocked.includes(e.id))
+                            ? 'block' : button
+                }
+              </Button>
 
             </div>
           )) : (

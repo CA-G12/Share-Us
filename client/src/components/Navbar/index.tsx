@@ -7,7 +7,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import ChatIcon from '@mui/icons-material/Chat'
@@ -18,9 +18,9 @@ import BlockIcon from '@mui/icons-material/Block'
 import { useAuth } from '../../hooks/useAuth'
 import Following from '../following'
 import logo from './logo.jpg'
+import ApiService from '../../services/ApiService'
 
 const Navbar:FC = () => {
-  const { followerId } = useParams()
   const [event, setEvent] = useState('event')
   const [blockOpen, setBlockOpen] = useState<boolean>(false)
   const [open, setOpen] = useState(false)
@@ -41,23 +41,30 @@ const Navbar:FC = () => {
     { icon: <LogoutIcon />, label: 'Logout' },
   ]
 
+  const modalBlock = async (id:number): Promise<void> => {
+    try {
+      const block = await ApiService.patch(`/users/blocked/${id}`, {})
+      auth.setUser(block.data.authUser[0])
+    } catch (err) {
+      navigate('/login')
+    }
+  }
   return (
     <>
       <header>
-        <Box
+        <Link
+          to="/"
           className="logo"
-          onClick={() => navigate('/')}
         >
           <img src={logo} alt="logo" />
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href=""
+            component="h5"
           >
             SHARE US
           </Typography>
-        </Box>
+        </Link>
         <div className="search">
           <Paper
             component="form"
@@ -120,15 +127,12 @@ const Navbar:FC = () => {
                   {auth.user?.username}
 
                 </Typography>
-                {auth.user?.id === Number(followerId)
-                && (
                 <Typography
                   onClick={handleOpenBlock}
                   sx={{ cursor: 'pointer' }}
                 >
                   Blocked users
                 </Typography>
-                )}
                 <Button className="signup-btn" onClick={auth.signOut}>Logout</Button>
               </>
             )
@@ -220,13 +224,15 @@ const Navbar:FC = () => {
 
       </header>
       {
-        followerId && (
+        auth.user && (
         <Following
           open={blockOpen}
           handleClose={handleCloseBlock}
           title="Blocked"
-          url={`/users/${followerId}/blocked`}
+          button="unblock"
+          url={`/users/${auth.user?.id}/blocked`}
           setOpen={setBlockOpen}
+          action={modalBlock}
         />
         )
       }
