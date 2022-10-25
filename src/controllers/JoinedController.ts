@@ -3,7 +3,7 @@ import { Request, Response } from 'express'
 import { Message } from '../config/messages'
 import CustomError from '../helpers/CustomError'
 import validateParams from '../validation/paramsId'
-export default class EventParticipantsController {
+export default class JoinedController {
   public static async index (req: Request, res:Response):Promise<void> {
     const { eventId } = req.params
     await validateParams({ id: eventId })
