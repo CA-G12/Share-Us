@@ -78,7 +78,8 @@ export default class EventsController {
         include: [{ model: User, attributes: ['username', 'id', 'profileImg'] }]
       },
       {
-        model: InterestedPeople
+        model: InterestedPeople,
+        include: [{ model: User, attributes: ['username', 'id', 'profileImg'] }]
       }
       ],
       where: {
