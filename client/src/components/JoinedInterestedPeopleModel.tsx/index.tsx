@@ -7,7 +7,9 @@ import Modal from '@mui/material/Modal'
 import './style.css'
 import IModalProps from '../../interfaces/props/IModalProps'
 
-const JoinedPeopleModel:FC<IModalProps> = ({ handleClose, open, joinedPeople }) => (
+const JoinedPeopleModel:FC<IModalProps> = ({
+  title, handleClose, open, listPeople,
+}) => (
   <div className="following-popup">
     <Modal
       open={open}
@@ -41,12 +43,12 @@ const JoinedPeopleModel:FC<IModalProps> = ({ handleClose, open, joinedPeople }) 
             textAlign: 'center',
           }}
         >
-          Joined People
+          {title}
         </Typography>
         <hr />
 
         {
-          joinedPeople.map((ele):any => (
+          listPeople.map((ele):any => (
             <div className="user">
               <div className="username">
                 <img
