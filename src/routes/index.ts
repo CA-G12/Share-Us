@@ -23,7 +23,9 @@ Router.get('/events/:eventId/comments', expressWrapper(async (req: Request, res:
     include: {
       model: User,
       attributes: ['id', 'username', 'profileImg']
-    }
+    },
+    order: [['createdAt', 'desc']]
+
   })
   res.json({ message: 'Comments received successfully', data: allComments })
 }))
@@ -36,7 +38,7 @@ Router.post('/events/:eventId/comments'
       { image, UserId: 1, EventId: eventId, content }
     )
     const commentsAndPublisher = await Comments.findOne({
-      where: { UserId: 1 },
+      where: { UserId: 1, id: comments.id },
       include: {
         model: User,
         attributes: ['id', 'username', 'profileImg']

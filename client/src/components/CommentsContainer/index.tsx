@@ -78,7 +78,7 @@ const CommentsContainer:FC = ():any => {
   }, [])
 
   React.useEffect(() => {
-    if (newComment.data.id) { comments.data.push(newComment.data) }
+    setComments({ ...comments, data: [newComment.data, ...comments.data] })
   }, [newComment])
 
   if (loader) {
@@ -114,10 +114,9 @@ const CommentsContainer:FC = ():any => {
         there is no comments yet for this event
       </Alert>
       )}
-
       {comments.data.map((ele) => (
         <Comment
-          key={ele.id}
+          key={ele.id * Math.random()}
           id={ele.id}
           User={ele.User}
           image={ele.image}
@@ -127,7 +126,11 @@ const CommentsContainer:FC = ():any => {
         />
       ))}
 
-      <AddCommentModal handleClose={handleClose} open={open} setNewComments={setNewComments} />
+      <AddCommentModal
+        handleClose={handleClose}
+        open={open}
+        setNewComments={setNewComments}
+      />
     </div>
 
   )

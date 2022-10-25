@@ -33,7 +33,9 @@ interface modalProps {
   setNewComments: Dispatch<SetStateAction<IOneComment>>;
 }
 
-const AddCommentModal:FC<modalProps> = ({ open, handleClose, setNewComments }) => {
+const AddCommentModal:FC<modalProps> = ({
+  open, handleClose, setNewComments,
+}) => {
   const formik:any = useFormik({
     initialValues: {
       content: '',
@@ -46,6 +48,7 @@ const AddCommentModal:FC<modalProps> = ({ open, handleClose, setNewComments }) =
           '/api/v1/events/1/comments',
           { content: values.content, image: values.image },
         )
+        handleClose()
         setNewComments(newComment.data)
       } catch (err) {
         console.log(err)
