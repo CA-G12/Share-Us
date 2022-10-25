@@ -14,8 +14,14 @@ interface ICommentsData {
   EventId:number;
   User: IEventUser;
 }
+ interface IOneComment {
+  message: string;
+  data:ICommentsData;
+}
 
-export default interface IComments {
+interface IComments {
   message: string;
   data:ICommentsData[];
 }
+
+export type { IComments, IOneComment }

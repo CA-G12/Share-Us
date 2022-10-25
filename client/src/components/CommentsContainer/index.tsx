@@ -1,17 +1,21 @@
+/* eslint-disable no-useless-escape */
 import './style.css'
 
 import React, { FC, useState } from 'react'
 import {
   Button, Alert, AlertTitle, CircularProgress,
 } from '@mui/material'
-
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
+
 import Comment from '../Comment'
 import ApiService from '../../services/ApiService'
-import { IComments } from '../../interfaces'
-
+import {
+  IComments,
+  IOneComment,
+} from '../../interfaces'
+import AddCommentModal from '../AddCommentModal'
 // eslint-disable-next-line no-undef
-const CommentsContainer:FC = ():JSX.Element => {
+const CommentsContainer:FC = ():any => {
   const initCommentsValue: IComments = {
     message: '',
     data: [
@@ -32,12 +36,36 @@ const CommentsContainer:FC = ():JSX.Element => {
     ],
   }
 
+  const initOneCommentValue: IOneComment = {
+    message: '',
+    data:
+      {
+        id: 0,
+        content: '',
+        image: '',
+        createdAt: '',
+        updatedAt: '',
+        UserId: 1,
+        EventId: 1,
+        User: {
+          id: 1,
+          username: '',
+          profileImg: '',
+        },
+      },
+
+  }
+
   const [comments, setComments] = React.useState<IComments>(initCommentsValue)
+  const [newComment, setNewComments] = React.useState<IOneComment>(initOneCommentValue)
+  const [open, setOpen] = React.useState<boolean>(false)
   const [error, setError] = useState<boolean | string>(false)
   const [loader, setLoader] = useState<boolean>(true)
+  const handleOpen = ():void => setOpen(true)
+  const handleClose = ():void => setOpen(false)
 
   React.useEffect(() => {
-    async function fetchData(): Promise<void> {
+    (async (): Promise<void> => {
       try {
         const result = await ApiService.get('/api/v1/events/1/comments')
         setComments(result.data)
@@ -46,10 +74,12 @@ const CommentsContainer:FC = ():JSX.Element => {
         setError('We\'re having some errors in getting the information. We\'re working on it.')
         setLoader(false)
       }
-    }
-
-    fetchData()
+    })()
   }, [])
+
+  React.useEffect(() => {
+    if (newComment.data.id) { comments.data.push(newComment.data) }
+  }, [newComment])
 
   if (loader) {
     return (
@@ -69,6 +99,7 @@ const CommentsContainer:FC = ():JSX.Element => {
   return (
     <div className="comments-container">
       <Button
+        onClick={handleOpen}
         variant="contained"
         sx={{ backgroundColor: '#2A2A2A' }}
       >
@@ -95,9 +126,10 @@ const CommentsContainer:FC = ():JSX.Element => {
           EventId={ele.EventId}
         />
       ))}
-      {/* <Comment /> */}
 
+      <AddCommentModal handleClose={handleClose} open={open} setNewComments={setNewComments} />
     </div>
+
   )
 }
 
