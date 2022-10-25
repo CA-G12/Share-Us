@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-undef */
@@ -23,7 +25,6 @@ const TabPanel = (props: ITabPanelProps):JSX.Element => {
   const {
     children, value, index, ...other
   } = props
-
   return (
     <div
       role="tabpanel"
@@ -73,13 +74,19 @@ const EventDetailsHeader:FC = ():JSX.Element => {
     latitude: '',
     longitude: '',
     Hashtags: [],
-    InterestedPeople: [''],
-    JoinedPeople: [''],
+    InterestedPeople: [],
+    JoinedPeople: [],
   }
 
   const [eventInfo, setEventInfo] = useState<IEventDetails>(initialDetails)
   const [error, setError] = useState<boolean | string>(false)
   const [loader, setLoader] = useState<boolean>(true)
+  const [join, setJoin] = useState<boolean>(false)
+  const [interestedList, setInterestedList] = useState<any>(0)
+  const [joinedList, setJoinedList] = useState<any>(0)
+
+  const [interest, setInterest] = useState<boolean>(false)
+  const userId = 1
 
   // just for test, startTime: '2022-10-19T05:00:44.411Z', endTime: '2022-10-21T03:01:48.411Z'
   const resultDuration = calculateDuration(eventInfo.startTime, eventInfo.endTime)
@@ -87,16 +94,72 @@ const EventDetailsHeader:FC = ():JSX.Element => {
   React.useEffect(() => {
     (async ():Promise<void> => {
       try {
-        const test = await ApiService.get('/api/v1/events/1')
-        setEventInfo(test.data.data)
+        const eventDetails = await ApiService.get('/api/v1/events/1')
+        const { data } = eventDetails.data
+        setEventInfo(data)
+        const checkInterest = (data.InterestedPeople.filter((ele:any) => ele.User.id === userId))
+        if (checkInterest.length) setInterest(true); else setInterest(false)
+
+        const checkJoin = (data.JoinedPeople.filter((ele:any) => ele.User.id === userId))
+        if (checkJoin.length) setJoin(true)
+
         setLoader(false)
       } catch (err) {
         setError('We\'re having some errors in getting the information. We\'re working on it.')
         setLoader(false)
       }
     })()
-    // fetchData()
   }, [])
+
+  const handleJoin = async (UserId:number):Promise<void> => {
+    try {
+      const addJoin = await ApiService.post('/api/v1/events/1/joined', { UserId })
+      if (addJoin.data.message === 'You are joined successfully') {
+        setEventInfo({ ...eventInfo, JoinedPeople: [...eventInfo.JoinedPeople, addJoin.data.data] })
+        setJoin(true)
+      } else if (addJoin.data.message === 'You are not joined anymore') {
+        setEventInfo({ ...eventInfo, JoinedPeople: eventInfo.JoinedPeople.filter((ele) => ele.UserId !== userId) })
+        setJoin(false)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const handleInterest = async (UserId:number):Promise<void> => {
+    try {
+      const addInterest = await ApiService.post('/api/v1/events/1/interested', { UserId })
+      if (addInterest.data.message === 'interested is expressed') {
+        setEventInfo({
+          ...eventInfo,
+          InterestedPeople: [...eventInfo.InterestedPeople, addInterest.data.data],
+        })
+        setInterest(true)
+      } else if (addInterest.data.message === 'You are not interested anymore') {
+        setEventInfo({
+          ...eventInfo,
+          InterestedPeople: eventInfo.InterestedPeople.filter((ele) => ele.UserId !== userId),
+        })
+        setInterest(false)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  React.useEffect(() => {
+    (async ():Promise<void> => {
+      const result = await ApiService.get('/api/v1/events/1/Joined')
+      setJoinedList(result.data.data)
+    })()
+  }, [eventInfo])
+
+  React.useEffect(() => {
+    (async ():Promise<void> => {
+      const result = await ApiService.get('/api/v1/events/1/interested')
+      setInterestedList(result.data.data)
+    })()
+  }, [eventInfo])
 
   // formatting start time
   const startTime = new Date(eventInfo.startTime)
@@ -136,12 +199,6 @@ const EventDetailsHeader:FC = ():JSX.Element => {
           by: {eventInfo.User.username}
         </p>
         <p className="event-status">{eventInfo.status}</p>
-        {/* <p className="event-location">
-          Location: <a href={`https://www.google.com/maps/@
-          ${eventInfo.latitude},${eventInfo.longitude}`}
-          >click here to see location
-                    </a>
-        </p> */}
         <h2 className="event-name">{eventInfo.name}</h2>
       </div>
       <div className="event-btns-container">
@@ -151,15 +208,20 @@ const EventDetailsHeader:FC = ():JSX.Element => {
         </Tabs>
         <div className="btn-container">
           <Button
+            onClick={() => handleJoin(userId)}
             variant="contained"
-            sx={{ backgroundColor: 'rgba(111, 255, 116, 0.370)' }}
+            sx={join ? { backgroundColor: 'rgba(111, 255, 116, 1)' }
+              : { backgroundColor: 'rgba(111, 255, 116, 0.370)' }}
           >
             <CheckCircleOutlinedIcon className="test" />
             Join
           </Button>
+
           <Button
+            onClick={() => handleInterest(userId)}
             variant="contained"
-            sx={{ backgroundColor: 'rgba(111, 186, 255, 0.370)' }}
+            sx={interest ? { backgroundColor: 'rgba(111, 186, 255, 1)' }
+              : { backgroundColor: 'rgba(111, 186, 255, 0.370)' }}
           >
             <StarBorderIcon className="star-icon" />
             Interest
@@ -170,8 +232,8 @@ const EventDetailsHeader:FC = ():JSX.Element => {
         <AboutEvent
           description={eventInfo.description}
           Hashtags={eventInfo.Hashtags}
-          joinedPeople={eventInfo.JoinedPeople}
-          interestedPeople={eventInfo.InterestedPeople}
+          joinedPeople={joinedList}
+          interestedPeople={interestedList}
           longitude={eventInfo.longitude}
           latitude={eventInfo.latitude}
         />
