@@ -51,7 +51,7 @@ export default class FollowingSystem {
 
       res.json({ data: updated[1], authUser: authUser[1], message: 'follow' })
     } else {
-      throw new CustomError('User id blocked', 400)
+      throw new CustomError('User is blocked', 400)
     }
   }
 
@@ -62,15 +62,17 @@ export default class FollowingSystem {
 
     if (userId === followingId) throw new CustomError(Message.VALIDATION_ERROR, 422)
     await validateParams({ id: followingId })
-    const following = (await User.findOne({ where: { id: userId }, attributes: ['following'] }))?.following
-    const followers = (await User.findOne({ where: { id: followingId }, attributes: ['followers'] }))?.followers
+    const followers = (await User.findOne({ where: { id: userId }, attributes: ['followers'] }))?.followers
+    const following = (await User.findOne({ where: { id: followingId }, attributes: ['following'] }))?.following
 
     if (!following || !followers) {
       throw new CustomError(Message.VALIDATION_ERROR, 422)
     }
-    const updated = await User.update({ following: following?.filter(ele => ele !== +followingId) }, { where: { id: userId }, returning: true })
-    await User.update({ followers: followers?.filter(ele => ele !== Number(userId)) }, { where: { id: followingId } })
-    res.json({ data: updated[1], message: 'un following' })
+    const authUser = await User.update({ followers: followers?.filter(ele => ele !== +followingId) },
+      { where: { id: userId }, returning: true })
+    const updated = await User.update({ following: following?.filter(ele => ele !== Number(userId)) },
+      { where: { id: followingId }, returning: true })
+    res.json({ data: updated[1], authUser: authUser[1], message: 'un following' })
   }
 
   public static async block (req:IUserRequest, res:Response) {

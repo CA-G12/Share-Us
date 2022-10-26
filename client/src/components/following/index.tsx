@@ -6,6 +6,7 @@ import {
 import Modal from '@mui/material/Modal'
 import './style.css'
 import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import IModalProps from '../../interfaces/props/IModal'
 import ApiService from '../../services/ApiService'
 import IUserProfile from '../../interfaces/IUserProfile'
@@ -40,6 +41,15 @@ const Following:FC<IModalProps> = ({
       }
     } else {
       navigate('/login')
+    }
+  }
+
+  const removeFollowing = async (userId:number):Promise<void> => {
+    try {
+      const removed = await ApiService.patch(`/users/removeFollowing/${userId}`, {})
+      auth.setUser(removed.data.authUser[0])
+    } catch (err) {
+      toast('something went wrong')
     }
   }
 
@@ -101,17 +111,22 @@ const Following:FC<IModalProps> = ({
 
                 </Typography>
               </Box>
-              <Button
-                sx={{
-                  textTransform: 'capitalize',
-                  border: '1px solid rgba(42, 42, 42, 0.5)',
-                  boxShadow: 'inset 0px -1px 0px rgba(14, 14, 44, 0.4)',
-                  borderRadius: '4px',
-                  color: 'rgba(42, 42, 42, 1)',
-                }}
-                onClick={() => handleClick(Number(e.id))}
+              <Box sx={
+                { display: 'flex', gap: '10px' }
+                }
               >
-                {
+
+                <Button
+                  sx={{
+                    textTransform: 'capitalize',
+                    border: '1px solid rgba(42, 42, 42, 0.5)',
+                    boxShadow: 'inset 0px -1px 0px rgba(14, 14, 44, 0.4)',
+                    borderRadius: '4px',
+                    color: 'rgba(42, 42, 42, 1)',
+                  }}
+                  onClick={() => handleClick(Number(e.id))}
+                >
+                  {
                       ((title === 'Followers' || title === 'Followings')
                       && auth.user?.following.includes(e.id))
                         ? 'Unfollow' : ((title === 'Followers' || title === 'Followings')
@@ -119,7 +134,24 @@ const Following:FC<IModalProps> = ({
                           ? 'View' : (title === 'Blocked' && !auth.user?.blocked.includes(e.id))
                             ? 'block' : button
                 }
-              </Button>
+                </Button>
+                {
+                auth.user && auth.user?.followers?.includes(e.id) && (
+                  <Button
+                    sx={{
+                      textTransform: 'capitalize',
+                      border: '1px solid rgba(42, 42, 42, 0.5)',
+                      boxShadow: 'inset 0px -1px 0px rgba(14, 14, 44, 0.4)',
+                      borderRadius: '4px',
+                      color: 'rgba(42, 42, 42, 1)',
+                    }}
+                    onClick={() => removeFollowing(e.id)}
+                  >
+                    remove follower
+                  </Button>
+                )
+              }
+              </Box>
 
             </div>
           )) : (

@@ -1,6 +1,7 @@
 import { FC, useState } from 'react'
 import { Typography, Button } from '@mui/material'
 import { useParams, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import UserProfileProp from '../../interfaces/props/UserProfileProp'
 import { useAuth } from '../../hooks/useAuth'
 import './style.css'
@@ -39,8 +40,13 @@ const ProfileBio:FC<UserProfileProp> = ({
       const follow = await ApiService.patch(`/users/following/${id}`, {})
       setUserData(follow.data.data[0])
       auth.setUser(follow.data.authUser[0])
-    } catch (err) {
-      navigate('/login')
+    } catch (err:any) {
+      if (err?.response?.status === 400) {
+        toast(err?.response?.data?.message)
+      } else {
+        toast('something went wrong')
+        navigate('/login')
+      }
     }
   }
 
@@ -48,8 +54,13 @@ const ProfileBio:FC<UserProfileProp> = ({
     try {
       const follow = await ApiService.patch(`/users/following/${id}`, {})
       auth.setUser(follow.data.authUser[0])
-    } catch (err) {
-      navigate('/login')
+    } catch (err:any) {
+      if (err?.response?.status === 400) {
+        toast(err?.response?.data?.message)
+      } else {
+        toast('something went wrong')
+        navigate('/login')
+      }
     }
   }
 
@@ -167,7 +178,7 @@ const ProfileBio:FC<UserProfileProp> = ({
           }}
           onClick={() => followUser(Number(followerId))}
         >
-          {userData?.followers.includes(Number(auth.user?.id))
+          {userData?.followers?.includes(Number(auth.user?.id))
             ? 'UnFollow' : 'Follow'}
         </Button>
         )}
