@@ -3,11 +3,14 @@ import app from '../src/app'
 import supertest from 'supertest'
 import build from '../src/db/build'
 import { sequelize } from '../src/db'
+import config from '../src/config/environment'
 
 beforeAll(() => build())
 afterAll(() => sequelize.close())
 
 describe('Testing user profile routes', () => {
+  const token = config.token
+
   test('user not found', (done) => {
     supertest(app)
       .get('/api/v1/users/6')
@@ -32,6 +35,7 @@ describe('Testing user profile routes', () => {
   test('update data', (done) => {
     supertest(app)
       .put('/api/v1/users/2')
+      .set({ authorization: token })
       .expect('Content-Type', /json/)
       .send({
         data: {
