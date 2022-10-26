@@ -9,18 +9,19 @@ import ApiService from '../../services/ApiService'
 
 const EventCalendar:FC = () => {
   const [initialEvents, setInitialEvents] = useState([])
+  const [interestedEvents, setInterestedEvents] = useState([])
   const navigate = useNavigate()
   const handleEventClick = (clickInfo:any):void => {
     const eventId = clickInfo?.event?.extendedProps.eventId
 
-    if (window.confirm(`Are you sure you want to go 
-    to the event '${clickInfo.event.title}'`)) {
+    if (window.confirm(`Are you sure you want to go to the event '${clickInfo.event.title}'`)) {
       navigate(`/event/${eventId}`)
     }
   }
 
   const renderEventContent = (eventInfo:any):any => {
     const status = eventInfo?.event.extendedProps.status
+    const type = eventInfo?.event.extendedProps.type
     return (
       <div style={{
         flexDirection: 'column',
@@ -30,8 +31,15 @@ const EventCalendar:FC = () => {
         margin: 'auto',
       }}
       >
+        <h3 style={{ textTransform: 'capitalize', fontSize: '0.8rem' }}>{type}</h3>
         <p className="calendar-event-info">{eventInfo.timeText}</p>
-        <p className="calendar-event-info">{eventInfo.event.title}</p>
+        <p
+          className="calendar-event-info"
+          style={{ fontSize: '1rem', fontWeight: 500 }}
+        >
+          {eventInfo.event.title}
+
+        </p>
         <p className={`event-status ${status}`}>{status}</p>
       </div>
     )
@@ -59,13 +67,14 @@ const EventCalendar:FC = () => {
   useEffect(() => {
     const allJoined = async ():Promise<void> => {
       try {
-        const calendar = await ApiService.get('/events/joined')
-        const init = calendar.data.data.map((ele:any) => ({
+        const joined = await ApiService.get('/events/joined')
+        const init = joined.data.data.map((ele:any) => ({
           id: ele.id,
           title: ele.Event.name,
           start: ele.Event.startTime,
           status: ele.Event.status,
           eventId: ele.EventId,
+          type: 'joined',
         }))
 
         setInitialEvents(init)
@@ -74,6 +83,24 @@ const EventCalendar:FC = () => {
       }
     }
     allJoined()
+
+    const allInterested = async ():Promise<void> => {
+      try {
+        const interested = await ApiService.get('/events/interested')
+        const init = interested.data.data.map((ele:any) => ({
+          id: ele.id,
+          title: ele.Event.name,
+          start: ele.Event.startTime,
+          status: ele.Event.status,
+          eventId: ele.EventId,
+          type: 'interested',
+        }))
+        setInterestedEvents(init)
+      } catch (err) {
+        setInterestedEvents([])
+      }
+    }
+    allInterested()
   }, [])
 
   return (
@@ -81,12 +108,22 @@ const EventCalendar:FC = () => {
       <div className="demo-app-sidebar">
         <div className="demo-app-sidebar-section">
           <h2>
-            All Events (
+            All Joined Events (
             {initialEvents.length}
             )
           </h2>
           <ul>
             {initialEvents.map(renderSidebarEvent)}
+          </ul>
+        </div>
+        <div className="demo-app-sidebar-section">
+          <h2>
+            All Interested Events (
+            {interestedEvents.length}
+            )
+          </h2>
+          <ul>
+            {interestedEvents.map(renderSidebarEvent)}
           </ul>
         </div>
       </div>
@@ -104,7 +141,7 @@ const EventCalendar:FC = () => {
           dayMaxEvents
           eventContent={renderEventContent}
           eventClick={handleEventClick}
-          events={initialEvents}
+          events={initialEvents.concat(interestedEvents)}
         />
       </div>
     </div>
