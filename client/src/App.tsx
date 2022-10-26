@@ -44,7 +44,7 @@ const App : React.FC = () => {
       element: <Chat />,
     },
     {
-      path: 'calender',
+      path: 'calendar',
       element: <Calender />,
     },
   ])

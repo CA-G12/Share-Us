@@ -3,54 +3,11 @@ import FullCalendar, { formatDate } from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-// import { Box } from '@mui/material'
 import './style.css'
 import ApiService from '../../services/ApiService'
 
-let eventGuid = 0
-const todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of today
-
-// eslint-disable-next-line no-plusplus
-export const createEventId = ():string => String(eventGuid++)
-
-export const INITIAL_EVENTS = [
-  {
-    id: createEventId(),
-    title: 'All-day event',
-    start: todayStr,
-  },
-  {
-    id: createEventId(),
-    title: 'Timed event',
-    start: `${todayStr}T12:00:00`,
-  },
-  {
-    id: createEventId(),
-    title: 'swimming',
-    start: '2022-10-24',
-  },
-]
-
 const EventCalendar:FC = () => {
-  const [currentEvents, setCurrentEvents] = useState([])
   const [initialEvents, setInitialEvents] = useState([])
-
-  const handleDateSelect = (selectInfo:any):void => {
-    const title = window.prompt('Please enter a new title for your event')
-    const calendarApi = selectInfo.view.calendar
-
-    calendarApi.unselect() // clear date selection
-
-    if (title) {
-      calendarApi.addEvent({
-        id: createEventId(),
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay,
-      })
-    }
-  }
 
   const handleEventClick = (clickInfo:any):void => {
     if (window.confirm(`Are you sure you want to delete 
@@ -59,21 +16,41 @@ const EventCalendar:FC = () => {
     }
   }
 
-  const handleEvents = (events:any):void => {
-    setCurrentEvents(events)
+  const renderEventContent = (eventInfo:any):any => {
+    const status = eventInfo?.event.extendedProps.status
+    return (
+      <div style={{
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center',
+        margin: 'auto',
+      }}
+      >
+        <p className="calendar-event-info">{eventInfo.timeText}</p>
+        <p className="calendar-event-info">{eventInfo.event.title}</p>
+        <p className={`event-status ${status}`}>{status}</p>
+      </div>
+    )
   }
 
-  const renderEventContent = (eventInfo:any):any => (
-    <>
-      <b>{eventInfo.timeText}</b>
-      <i>{eventInfo.event.title}</i>
-    </>
-  )
-
   const renderSidebarEvent = (event:any):any => (
-    <li key={event.id}>
+    <li
+      key={event.id}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        gap: '3px',
+        listStyle: 'circle',
+      }}
+    >
       <b>{formatDate(event.start, { year: 'numeric', month: 'short', day: 'numeric' })}</b>
-      <i>{event.title}</i>
+
+      <b>{event.title}</b>
+
+      <span className={`event-status ${event.status}`}>{event.status}</span>
+
     </li>
   )
   useEffect(() => {
@@ -84,6 +61,7 @@ const EventCalendar:FC = () => {
           id: ele.id,
           title: ele.Event.name,
           start: ele.Event.startTime,
+          status: ele.Event.status,
         }))
         setInitialEvents(init)
       } catch (err) {
@@ -92,7 +70,6 @@ const EventCalendar:FC = () => {
     }
     allJoined()
   }, [])
-  console.log(currentEvents)
 
   return (
     <div className="demo-app">
@@ -100,11 +77,11 @@ const EventCalendar:FC = () => {
         <div className="demo-app-sidebar-section">
           <h2>
             All Events (
-            {currentEvents.length}
+            {initialEvents.length}
             )
           </h2>
           <ul>
-            {currentEvents.map(renderSidebarEvent)}
+            {initialEvents.map(renderSidebarEvent)}
           </ul>
         </div>
       </div>
@@ -117,16 +94,13 @@ const EventCalendar:FC = () => {
             right: 'dayGridMonth,timeGridWeek,timeGridDay',
           }}
           initialView="dayGridMonth"
-          editable
+          // editable
           selectable
           selectMirror
           dayMaxEvents
-          initialEvents={initialEvents}
-            // alternatively, use the `events` setting to fetch from a feed
-          select={handleDateSelect}
           eventContent={renderEventContent} // custom render function
           eventClick={handleEventClick}
-          eventsSet={handleEvents}
+          events={initialEvents}
         />
       </div>
     </div>
