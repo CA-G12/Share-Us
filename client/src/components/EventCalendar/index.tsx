@@ -4,15 +4,18 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import './style.css'
+import { useNavigate } from 'react-router-dom'
 import ApiService from '../../services/ApiService'
 
 const EventCalendar:FC = () => {
   const [initialEvents, setInitialEvents] = useState([])
-
+  const navigate = useNavigate()
   const handleEventClick = (clickInfo:any):void => {
-    if (window.confirm(`Are you sure you want to delete 
-    the event '${clickInfo.event.title}'`)) {
-      clickInfo.event.remove()
+    const eventId = clickInfo?.event?.extendedProps.eventId
+
+    if (window.confirm(`Are you sure you want to go 
+    to the event '${clickInfo.event.title}'`)) {
+      navigate(`/event/${eventId}`)
     }
   }
 
@@ -62,7 +65,9 @@ const EventCalendar:FC = () => {
           title: ele.Event.name,
           start: ele.Event.startTime,
           status: ele.Event.status,
+          eventId: ele.EventId,
         }))
+
         setInitialEvents(init)
       } catch (err) {
         setInitialEvents([])
@@ -94,11 +99,10 @@ const EventCalendar:FC = () => {
             right: 'dayGridMonth,timeGridWeek,timeGridDay',
           }}
           initialView="dayGridMonth"
-          // editable
           selectable
           selectMirror
           dayMaxEvents
-          eventContent={renderEventContent} // custom render function
+          eventContent={renderEventContent}
           eventClick={handleEventClick}
           events={initialEvents}
         />
