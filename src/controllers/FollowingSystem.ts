@@ -4,6 +4,11 @@ import { User } from '../db'
 import { Message } from '../config/messages'
 import CustomError from '../helpers/CustomError'
 import { IUserRequest } from '../interfaces/IUserRequest'
+import getFromUsers from '../queries/getFromUsers'
+import deleteFromUsers from '../queries/deleteFromUsers'
+import addToUsers from '../queries/addToUsers'
+import blockUser from '../queries/blockUser'
+import unBlock from '../queries/unBlockUser'
 
 export default class FollowingSystem {
   public static async allUsers (req:Request, res:Response) {
@@ -12,42 +17,28 @@ export default class FollowingSystem {
   }
 
   public static async following (req:IUserRequest, res:Response) {
-    const { followerId } = req.params
-    const userId = req.user?.id
-    if (userId === followerId) throw new CustomError(Message.VALIDATION_ERROR, 422)
+    const followerId = Number(req.params.followerId)
+    const userId = Number(req.user?.id)
+    if (userId === +followerId) throw new CustomError(Message.VALIDATION_ERROR, 422)
     await validateParams({ id: followerId })
-    const myUsers = (await User.findOne({ where: { id: userId }, attributes: ['following', 'blocked'] }))
-    const myFollowing = myUsers?.following
-    const myBlocked = myUsers?.blocked
+    const { following: myFollowing, blocked: myBlocked } = await getFromUsers(userId, ['following', 'blocked'])
 
-    const hisUsers = (await User.findOne({ where: { id: followerId }, attributes: ['followers', 'blocked'] }))
-    const hisFollowers = hisUsers?.followers
-    const hisBlocked = hisUsers?.blocked
+    const { followers: hisFollowers, blocked: hisBlocked } = await getFromUsers(followerId, ['followers', 'blocked'])
+
     if (!myFollowing || !myBlocked || !hisFollowers || !hisBlocked) {
       throw new CustomError(Message.VALIDATION_ERROR, 422)
     }
 
-    if (myFollowing?.includes(+followerId)) {
-      // un follow
-      const authUser = await User.update(
-        { following: myFollowing?.filter((ele) => ele !== +followerId) },
-        { where: { id: userId }, returning: true })
-      const updated = await User.update(
-        { followers: hisFollowers?.filter((ele) => ele !== Number(userId)) },
-        { where: { id: followerId }, returning: true })
-
+    if (myFollowing?.includes(followerId)) {
+      // un Follow
+      const authUser = await deleteFromUsers(userId, followerId, myFollowing, 'following')
+      const updated = await deleteFromUsers(followerId, userId, hisFollowers, 'followers')
       res.json({ data: updated[1], authUser: authUser[1], message: 'un follow' })
-    } else if (!(myBlocked?.includes(+followerId)) && !(hisBlocked?.includes(Number(userId)))) {
+    } else if (!(myBlocked?.includes(followerId)) && !(hisBlocked?.includes(userId))) {
       // follow
-      myFollowing?.push(+followerId)
-      const authUser = await User.update(
-        { following: myFollowing },
-        { where: { id: userId }, returning: true })
 
-      hisFollowers?.push(Number(userId))
-      const updated = await User.update(
-        { followers: hisFollowers },
-        { where: { id: followerId }, returning: true })
+      const authUser = await addToUsers(userId, followerId, myFollowing, 'following')
+      const updated = await addToUsers(followerId, userId, hisFollowers, 'followers')
 
       res.json({ data: updated[1], authUser: authUser[1], message: 'follow' })
     } else {
@@ -76,49 +67,25 @@ export default class FollowingSystem {
   }
 
   public static async block (req:IUserRequest, res:Response) {
-    const { blockId } = req.params
-    const userId = req.user?.id
+    const blockId = Number(req.params.blockId)
+    const userId = Number(req.user?.id)
 
     if (userId === blockId) throw new CustomError(Message.VALIDATION_ERROR, 422)
     await validateParams({ id: blockId })
-    const blocked = (await User.findOne({ where: { id: userId }, attributes: ['blocked'] }))?.blocked
+    const { blocked } = await getFromUsers(userId, ['blocked'])
     if (!blocked) {
       throw new CustomError(Message.VALIDATION_ERROR, 422)
     }
 
-    if (blocked?.includes(+blockId)) {
+    if (blocked?.includes(blockId)) {
       // un block
-      const authUser = await User.update(
-        { blocked: blocked?.filter((ele) => ele !== +blockId) },
-        { where: { id: userId }, returning: true })
-      const updated = await User.findOne({ where: { id: blockId } })
+
+      const { updated, authUser } = await unBlock(userId, blockId, blocked)
+
       res.json({ data: updated, authUser: authUser[1], message: 'un blocked' })
     } else {
       // block
-      const myUsers = (await User.findOne({ where: { id: userId }, attributes: ['followers', 'following'] }))
-      const myFollowers = myUsers?.followers
-      const myFollowing = myUsers?.following
-
-      const hisUsers = (await User.findOne({ where: { id: blockId }, attributes: ['following', 'followers'] }))
-      const hisFollowers = hisUsers?.followers
-      const hisFollowing = hisUsers?.following
-
-      if (!myFollowers || !myFollowing || !hisFollowing || !hisFollowers) {
-        throw new CustomError(Message.VALIDATION_ERROR, 422)
-      }
-
-      blocked?.push(+blockId)
-      const authUser = await User.update(
-        {
-          blocked,
-          followers: myFollowers?.filter(ele => ele !== +blockId),
-          following: myFollowing?.filter(ele => ele !== +blockId)
-        },
-        { where: { id: userId }, returning: true })
-      const updated = await User.update({
-        following: hisFollowing?.filter(ele => ele !== Number(userId)),
-        followers: hisFollowers?.filter(ele => ele !== Number(userId))
-      }, { where: { id: blockId }, returning: true })
+      const { updated, authUser } = await blockUser(userId, blockId, blocked)
       res.json({ data: updated[1][0], authUser: authUser[1], message: 'blocked' })
     }
   }
