@@ -1,17 +1,16 @@
-import './style.css'
-
 import { FC, useEffect, useState } from 'react'
 import { Dayjs } from 'dayjs'
 import { useParams } from 'react-router-dom'
 import Alert from '@mui/material/Alert'
-import ProfileBio from '../../components/Profile'
+import ProfileBio from '../../components/UserProfile'
 import ApiService from '../../services/ApiService'
 import IUserProfile from '../../interfaces/IUserProfile'
 import FilterCards from '../../components/FilterCard'
 import IEventDetails from '../../interfaces/IEventDetails'
-import EventCard from '../../components/EventCard'
+import EventCardContainer from '../../components/EventCard'
 import Navbar from '../../components/Navbar'
 import { useAuth } from '../../hooks/useAuth'
+import './style.css'
 
 const Profile:FC = () => {
   const auth = useAuth()
@@ -21,6 +20,7 @@ const Profile:FC = () => {
   const [startTime, setStartTime] = useState<Dayjs|null>(null)
   const [endTime, setEndTime] = useState<Dayjs|null>(null)
   const { followerId } = useParams()
+  const isBlocked = auth.user?.blocked?.includes(Number(followerId))
 
   useEffect(
     () => {
@@ -30,7 +30,7 @@ const Profile:FC = () => {
     [followerId],
   )
 
-  const getUserData = async (data:any):Promise<void> => {
+  const editUserData = async (data:any):Promise<void> => {
     try {
       const userInfo = await ApiService.put(`/users/${followerId}`, { data })
       setUserData(userInfo.data.data[0])
@@ -64,37 +64,35 @@ const Profile:FC = () => {
       <Navbar />
       <ProfileBio
         userData={userData}
-        getUserData={getUserData}
+        editUserData={editUserData}
         allData={allData}
         setUserData={setUserData}
       />
-      {auth.user?.blocked?.includes(Number(followerId))
-        ? (
-          <Alert
-            severity="error"
-            variant="filled"
-            sx={{ width: '40%', margin: ' 2rem auto' }}
-          >
-            User is blocked!
-          </Alert>
-        )
-        : (
-          <>
-            <FilterCards
-              currentStatus={currentStatus}
-              setCurrentStatus={setCurrentStatus}
-              setStartTime={setStartTime}
-              startTime={startTime}
-              endTime={endTime}
-              setEndTime={setEndTime}
-            />
+      {isBlocked && (
+      <Alert
+        severity="error"
+        variant="filled"
+        sx={{ width: '40%', margin: ' 2rem auto' }}
+      >
+        User is blocked!
+      </Alert>
+      )}
+      {!isBlocked && (
+      <>
+        <FilterCards
+          currentStatus={currentStatus}
+          setCurrentStatus={setCurrentStatus}
+          setStartTime={setStartTime}
+          startTime={startTime}
+          endTime={endTime}
+          setEndTime={setEndTime}
+        />
 
-            <EventCard event={allData} />
-          </>
-        )}
+        <EventCardContainer allEvents={allData} />
+      </>
+      )}
 
     </>
-
   )
 }
 

@@ -8,7 +8,7 @@ import './style.css'
 import IEditProfile from '../../interfaces/props/IEditProfile'
 import IUserProfile from '../../interfaces/IUserProfile'
 
-const EditProfile:FC<IEditProfile> = ({ getUserData, userData }) => {
+const EditProfile:FC<IEditProfile> = ({ editUserData, userData }) => {
   const [open, setOpen] = useState(false)
   const [data, setData] = useState<Partial<IUserProfile>>()
 
@@ -134,7 +134,7 @@ const EditProfile:FC<IEditProfile> = ({ getUserData, userData }) => {
               size="small"
               onClick={() => {
                 setOpen(false)
-                getUserData(data)
+                editUserData(data)
               }}
               sx={{
                 width: '80%',

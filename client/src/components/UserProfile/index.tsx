@@ -1,39 +1,29 @@
 import { FC, useState } from 'react'
-import { Typography, Button } from '@mui/material'
+import { Typography } from '@mui/material'
 import { useParams, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import UserProfileProp from '../../interfaces/props/UserProfileProp'
 import { useAuth } from '../../hooks/useAuth'
-import './style.css'
-import EditProfile from '../EditProfile'
 import ApiService from '../../services/ApiService'
-import Following from '../following'
+import UserAudience from '../UserAudience'
+import './style.css'
+import ProfileActions from './ProfileActions'
 
 const ProfileBio:FC<UserProfileProp> = ({
-  // eslint-disable-next-line no-unused-vars
-  userData, getUserData, allData, setUserData,
+  userData, editUserData, allData, setUserData,
 }) => {
   const navigate = useNavigate()
   const [open, setOpen] = useState<boolean>(false)
   const [followOpen, setFollowOpen] = useState<boolean>(false)
   const { followerId } = useParams()
-
   const auth = useAuth()
+  const user = auth.user?.id === Number(followerId)
 
-  const handleOpen = ():void => {
-    setOpen(true)
-  }
-  const handleClose = ():void => {
-    setOpen(false)
-  }
+  const handleOpen = ():void => { setOpen(true) }
+  const handleClose = ():void => { setOpen(false) }
 
-  const handleOpenFollow = ():void => {
-    setFollowOpen(true)
-  }
-
-  const handleCloseFollow = ():void => {
-    setFollowOpen(false)
-  }
+  const handleOpenFollow = ():void => { setFollowOpen(true) }
+  const handleCloseFollow = ():void => { setFollowOpen(false) }
 
   const followUser = async (id:number):Promise<void> => {
     try {
@@ -68,8 +58,8 @@ const ProfileBio:FC<UserProfileProp> = ({
     try {
       const block = await ApiService.patch(`/users/blocked/${followerId}`, {})
       setUserData(block.data.data)
-      const [user] = block.data.authUser
-      auth.setUser(user)
+      const [userInfos] = block.data.authUser
+      auth.setUser(userInfos)
     } catch (err) {
       navigate('/login')
     }
@@ -79,9 +69,7 @@ const ProfileBio:FC<UserProfileProp> = ({
     <div className="profile">
       <div className="header-img">
         <img
-          src={
-           auth.user?.id === Number(followerId) ? auth.user?.headerImg : userData?.headerImg
-          }
+          src={user ? auth.user?.headerImg : userData?.headerImg}
           alt="header-img"
         />
       </div>
@@ -89,15 +77,13 @@ const ProfileBio:FC<UserProfileProp> = ({
         <div className="bio-infos">
           <div className="profile-img">
             <img
-              src={auth.user?.id === Number(followerId)
-                ? auth.user?.profileImg : userData?.profileImg}
+              src={user ? auth.user?.profileImg : userData?.profileImg}
               alt=""
             />
           </div>
 
           <Typography variant="h5" gutterBottom>
-            {auth.user?.id === Number(followerId)
-              ? auth.user?.username : userData?.username}
+            {user ? auth.user?.username : userData?.username}
 
           </Typography>
           <div className="friends">
@@ -109,8 +95,7 @@ const ProfileBio:FC<UserProfileProp> = ({
             >
               Followings:
               {' '}
-              {auth.user?.id === Number(followerId)
-                ? auth.user?.following?.length : userData?.following?.length}
+              {user ? auth.user?.following?.length : userData?.following?.length}
 
             </Typography>
             <Typography
@@ -121,8 +106,7 @@ const ProfileBio:FC<UserProfileProp> = ({
             >
               Followers:
               {' '}
-              {auth.user?.id === Number(followerId)
-                ? auth.user?.followers?.length : userData?.followers?.length}
+              {user ? auth.user?.followers?.length : userData?.followers?.length}
 
             </Typography>
             <Typography
@@ -142,7 +126,6 @@ const ProfileBio:FC<UserProfileProp> = ({
               sx={{ fontSize: 15, fontWeight: 600, marginTop: '10px' }}
             >
               Bio:
-
             </Typography>
             <Typography
               variant="body2"
@@ -152,60 +135,15 @@ const ProfileBio:FC<UserProfileProp> = ({
               {userData?.bio}
             </Typography>
           </div>
-
         </div>
 
-        {auth.user?.id === Number(followerId)
-          ? <EditProfile getUserData={getUserData} userData={userData} />
-          : (
-            <>
-              {!auth.user?.blocked?.includes(Number(followerId))
-        && (
-        <Button
-          sx={{
-            fontSize: 12,
-            background: 'rgba(1, 113, 59, 1)',
-            color: '#fff',
-            fontWeight: 600,
-            padding: '0.3rem 1.5rem',
-            textTransform: 'capitalize',
-            position: 'absolute',
-            right: '10rem',
-            top: '0.5rem',
-            '&:hover': {
-              background: 'rgba(1, 113, 59, 1)',
-            },
-          }}
-          onClick={() => followUser(Number(followerId))}
-        >
-          {userData?.followers?.includes(Number(auth.user?.id))
-            ? 'UnFollow' : 'Follow'}
-        </Button>
-        )}
-              <Button
-                sx={{
-                  fontSize: 12,
-                  background: 'rgba(164, 42, 42, 1)',
-                  color: '#fff',
-                  fontWeight: 600,
-                  padding: '0.3rem 1.5rem',
-                  textTransform: 'capitalize',
-                  position: 'absolute',
-                  right: '4rem',
-                  top: '0.5rem',
-                  '&:hover': {
-                    background: 'rgba(164, 42, 42, 1)',
-                  },
-                }}
-                onClick={blockUser}
-              >
-                {auth.user?.blocked?.includes(Number(followerId))
-                  ? 'Unblock' : 'Block'}
-              </Button>
-            </>
-
-          )}
-        <Following
+        <ProfileActions
+          userData={userData}
+          blockUser={blockUser}
+          followUser={followUser}
+          editUserData={editUserData}
+        />
+        <UserAudience
           open={open}
           handleClose={handleClose}
           title="Followings"
@@ -214,7 +152,7 @@ const ProfileBio:FC<UserProfileProp> = ({
           button="follow"
           action={modalFollow}
         />
-        <Following
+        <UserAudience
           open={followOpen}
           handleClose={handleCloseFollow}
           title="Followers"

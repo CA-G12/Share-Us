@@ -2,11 +2,11 @@ import './style.css'
 
 import { FC, useEffect, useState } from 'react'
 import { Dayjs } from 'dayjs'
-import EventCard from '../../components/EventCard'
 import FilterCards from '../../components/FilterCard'
 import ApiService from '../../services/ApiService'
 import IEventDetails from '../../interfaces/IEventDetails'
 import Navbar from '../../components/Navbar'
+import EventCardContainer from '../../components/EventCard'
 
 const Home:FC = () => {
   const [data, setData] = useState<IEventDetails[]>([])
@@ -43,7 +43,7 @@ const Home:FC = () => {
         endTime={endTime}
         setEndTime={setEndTime}
       />
-      <EventCard event={data} />
+      <EventCardContainer allEvents={data} />
     </>
 
   )
