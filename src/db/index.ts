@@ -26,6 +26,9 @@ Event.hasMany(InterestedPeople)
 InterestedPeople.belongsTo(Event)
 
 User.hasMany(Comments)
+Event.hasMany(Comments)
+
+Comments.belongsTo(Event)
 Comments.belongsTo(User)
 
 Hashtag.belongsToMany(Event, { through: HashtagEvent })

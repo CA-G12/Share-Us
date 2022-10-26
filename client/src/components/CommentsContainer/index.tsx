@@ -5,15 +5,16 @@ import React, { FC, useState } from 'react'
 import {
   Button, Alert, AlertTitle, CircularProgress,
 } from '@mui/material'
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
+// import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 
+import { useParams } from 'react-router-dom'
 import Comment from '../Comment'
 import ApiService from '../../services/ApiService'
 import {
   IComments,
   IOneComment,
 } from '../../interfaces'
-import AddCommentModal from '../AddCommentModal'
+import AddCommentModal from '../AddCommentsModal'
 // eslint-disable-next-line no-undef
 const CommentsContainer:FC = ():any => {
   const initCommentsValue: IComments = {
@@ -64,10 +65,12 @@ const CommentsContainer:FC = ():any => {
   const handleOpen = ():void => setOpen(true)
   const handleClose = ():void => setOpen(false)
 
+  const idParams = useParams().id
+
   React.useEffect(() => {
     (async (): Promise<void> => {
       try {
-        const result = await ApiService.get('/api/v1/events/1/comments')
+        const result = await ApiService.get(`/events/${idParams}/comments`)
         setComments(result.data)
         setLoader(false)
       } catch (err) {
@@ -103,7 +106,7 @@ const CommentsContainer:FC = ():any => {
         variant="contained"
         sx={{ backgroundColor: '#2A2A2A' }}
       >
-        <AddOutlinedIcon />
+        {/* <AddOutlinedIcon /> */}
         Add Comments
       </Button>
 

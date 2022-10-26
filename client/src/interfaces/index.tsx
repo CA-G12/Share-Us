@@ -1,11 +1,13 @@
 import EventCardProps from './props/EventCardProps'
+import IAuthContextProps from './props/IAuthContextProps'
+import IUser from './IUser'
+import IAuthContext from './IAuthContext'
 import IEventDetails from './IEventDetails'
 import EventFilterProp from './props/EventFilterProp'
 import { IComments, IOneComment } from './IComments'
 
 export type {
-  EventCardProps,
-  IEventDetails,
+  EventCardProps, IUser, IAuthContext, IAuthContextProps, IEventDetails,
   EventFilterProp,
   IComments,
   IOneComment,

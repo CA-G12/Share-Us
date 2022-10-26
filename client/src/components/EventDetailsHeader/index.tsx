@@ -10,16 +10,19 @@ import React, { FC, SyntheticEvent, useState } from 'react'
 import {
   Button, Tabs, Tab, Box, Typography, Alert, AlertTitle, CircularProgress,
 } from '@mui/material'
-import StarBorderIcon from '@mui/icons-material/StarBorder'
-import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
+// import StarOutlineIcon from '@mui/icons-material/StarOutline'
+// import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
+import { useParams, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import CommentsContainer from '../CommentsContainer'
 import { IEventDetails } from '../../interfaces'
 import ITabPanelProps from '../../interfaces/props/EventDetails'
 import AboutEvent from '../AboutEvent'
 import ApiService from '../../services/ApiService'
 import Timer from '../Timer'
-
 import calculateDuration from './calculateDuration'
+import { useAuth } from '../../hooks/useAuth'
+import 'react-toastify/dist/ReactToastify.css'
 
 const TabPanel = (props: ITabPanelProps):JSX.Element => {
   const {
@@ -84,9 +87,12 @@ const EventDetailsHeader:FC = ():JSX.Element => {
   const [join, setJoin] = useState<boolean>(false)
   const [interestedList, setInterestedList] = useState<any>(0)
   const [joinedList, setJoinedList] = useState<any>(0)
-
   const [interest, setInterest] = useState<boolean>(false)
-  const userId = 1
+
+  const useAuthorization = useAuth()
+  const userId = useAuthorization.user?.id
+  const idParams = useParams().id
+  const navigate = useNavigate()
 
   // just for test, startTime: '2022-10-19T05:00:44.411Z', endTime: '2022-10-21T03:01:48.411Z'
   const resultDuration = calculateDuration(eventInfo.startTime, eventInfo.endTime)
@@ -94,69 +100,79 @@ const EventDetailsHeader:FC = ():JSX.Element => {
   React.useEffect(() => {
     (async ():Promise<void> => {
       try {
-        const eventDetails = await ApiService.get('/api/v1/events/1')
+        const eventDetails = await ApiService.get(`/events/${idParams}`)
         const { data } = eventDetails.data
-        setEventInfo(data)
-        const checkInterest = (data.InterestedPeople.filter((ele:any) => ele.User.id === userId))
+        const checkInterest = (data.InterestedPeople.filter((ele:any) => ele.User?.id === userId))
         if (checkInterest.length) setInterest(true); else setInterest(false)
-
-        const checkJoin = (data.JoinedPeople.filter((ele:any) => ele.User.id === userId))
-        if (checkJoin.length) setJoin(true)
-
+        const checkJoin = (data.JoinedPeople.filter((ele:any) => ele.User?.id === userId))
+        if (checkJoin.length) setJoin(true); else setJoin(false)
+        setEventInfo(data)
         setLoader(false)
       } catch (err) {
         setError('We\'re having some errors in getting the information. We\'re working on it.')
         setLoader(false)
       }
     })()
-  }, [])
+  }, [userId])
 
   const handleJoin = async (UserId:number):Promise<void> => {
     try {
-      const addJoin = await ApiService.post('/api/v1/events/1/joined', { UserId })
-      if (addJoin.data.message === 'You are joined successfully') {
-        setEventInfo({ ...eventInfo, JoinedPeople: [...eventInfo.JoinedPeople, addJoin.data.data] })
-        setJoin(true)
-      } else if (addJoin.data.message === 'You are not joined anymore') {
-        setEventInfo({ ...eventInfo, JoinedPeople: eventInfo.JoinedPeople.filter((ele) => ele.UserId !== userId) })
-        setJoin(false)
+      if (userId) {
+        const addJoin = await ApiService.post(`/events/${idParams}/joined`, { UserId })
+        if (addJoin.data.message === 'You are joined successfully') {
+          setEventInfo({ ...eventInfo, JoinedPeople: [...eventInfo.JoinedPeople, addJoin.data.data] })
+          setJoin(true)
+          toast(addJoin.data.message)
+        } else if (addJoin.data.message === 'You are not joined anymore') {
+          setEventInfo({ ...eventInfo, JoinedPeople: eventInfo.JoinedPeople.filter((ele) => ele.UserId !== userId) })
+          setJoin(false)
+          toast(addJoin.data.message)
+        }
+      } else {
+        navigate('/login')
       }
-    } catch (err) {
-      console.log(err)
+    } catch (err:any) {
+      toast(err.response.data.message)
     }
   }
 
   const handleInterest = async (UserId:number):Promise<void> => {
     try {
-      const addInterest = await ApiService.post('/api/v1/events/1/interested', { UserId })
-      if (addInterest.data.message === 'interested is expressed') {
-        setEventInfo({
-          ...eventInfo,
-          InterestedPeople: [...eventInfo.InterestedPeople, addInterest.data.data],
-        })
-        setInterest(true)
-      } else if (addInterest.data.message === 'You are not interested anymore') {
-        setEventInfo({
-          ...eventInfo,
-          InterestedPeople: eventInfo.InterestedPeople.filter((ele) => ele.UserId !== userId),
-        })
-        setInterest(false)
+      if (userId) {
+        const addInterest = await ApiService.post(`/events/${idParams}/interested`, { UserId })
+        if (addInterest.data.message === 'interested is expressed') {
+          setEventInfo({
+            ...eventInfo,
+            InterestedPeople: [...eventInfo.InterestedPeople, addInterest.data.data],
+          })
+          setInterest(true)
+          toast(addInterest.data.message)
+        } else if (addInterest.data.message === 'You are not interested anymore') {
+          setEventInfo({
+            ...eventInfo,
+            InterestedPeople: eventInfo.InterestedPeople.filter((ele) => ele.UserId !== userId),
+          })
+          setInterest(false)
+          toast(addInterest.data.message)
+        }
+      } else {
+        navigate('/login')
       }
-    } catch (err) {
-      console.log(err)
+    } catch (err:any) {
+      toast(err.response.data.message)
     }
   }
 
   React.useEffect(() => {
     (async ():Promise<void> => {
-      const result = await ApiService.get('/api/v1/events/1/Joined')
+      const result = await ApiService.get(`/events/${idParams}/Joined`)
       setJoinedList(result.data.data)
     })()
   }, [eventInfo])
 
   React.useEffect(() => {
     (async ():Promise<void> => {
-      const result = await ApiService.get('/api/v1/events/1/interested')
+      const result = await ApiService.get(`/events/${idParams}/interested`)
       setInterestedList(result.data.data)
     })()
   }, [eventInfo])
@@ -210,21 +226,23 @@ const EventDetailsHeader:FC = ():JSX.Element => {
           <Button
             onClick={() => handleJoin(userId)}
             variant="contained"
-            sx={join ? { backgroundColor: 'rgba(111, 255, 116, 1)' }
+            className="join-interest-btn"
+            sx={join ? { backgroundColor: '#EEEEEE' }
               : { backgroundColor: 'rgba(111, 255, 116, 0.370)' }}
           >
-            <CheckCircleOutlinedIcon className="test" />
-            Join
+            {/* <CheckCircleOutlinedIcon className="test" /> */}
+            {join ? <>UnJoined</> : <>Join</>}
           </Button>
 
           <Button
             onClick={() => handleInterest(userId)}
             variant="contained"
-            sx={interest ? { backgroundColor: 'rgba(111, 186, 255, 1)' }
+            className="join-interest-btn"
+            sx={interest ? { backgroundColor: '#EEEEEE' }
               : { backgroundColor: 'rgba(111, 186, 255, 0.370)' }}
           >
-            <StarBorderIcon className="star-icon" />
-            Interest
+            {/* <StarOutlineIcon /> */}
+            {interest ? <>unInterest</> : <>interest</>}
           </Button>
         </div>
       </div>

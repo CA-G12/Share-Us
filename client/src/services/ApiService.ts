@@ -9,7 +9,7 @@ class ApiService {
   private static axios = axios;
 
   public static init(): void {
-    this.axios.defaults.baseURL = 'http://localhost:8080'
+    this.axios.defaults.baseURL = 'http://localhost:8080/api/v1'
   }
 
   public static setHeader(): void {

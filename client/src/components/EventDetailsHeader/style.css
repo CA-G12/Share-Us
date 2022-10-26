@@ -64,11 +64,11 @@ div.btn-container button{
 
 }
 div.btn-container :first-child:hover{
-  background-color: rgba(111, 255, 116, 0.570);
+  background-color:#eeeeeeca;
 }
 
 div.btn-container :last-child:hover{
-  background-color:rgba(111, 186, 255, 0.570);
+  background-color:#eeeeeeca;
 }
 
 div.event-btns-container div.btn-container Button:first-child,
@@ -82,3 +82,6 @@ width: 120px;
 text-align: center;
 }
 
+.join-interest-btn{
+  text-transform: capitalize !important;
+}

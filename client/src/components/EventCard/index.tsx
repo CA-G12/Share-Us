@@ -13,15 +13,15 @@ const EventCard:FC<EventCardProps> = ({ event }) => (
         <CardMedia
           component="img"
           height="150"
-          image={evt.img}
+          image={evt?.img}
           alt="green iguana"
         />
         <Box className="status-date">
           <Typography
-            className={`event-status ${evt.status}`}
+            className={`event-status ${evt?.status}`}
             sx={{ fontSize: 12 }}
           >
-            {evt.status}
+            {evt?.status}
 
           </Typography>
           <Typography
@@ -31,7 +31,7 @@ const EventCard:FC<EventCardProps> = ({ event }) => (
               fontWeight: 600,
             }}
           >
-            {dayjs(evt.startTime).format('MMM D, YYYY h:mm A')}
+            {dayjs(evt?.startTime).format('MMM D, YYYY h:mm A')}
 
           </Typography>
         </Box>
@@ -42,10 +42,10 @@ const EventCard:FC<EventCardProps> = ({ event }) => (
             component="div"
             sx={{ fontSize: 15, fontWeight: 700 }}
           >
-            {evt.name}
+            {evt?.name}
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ fontSize: 12 }}>
-            {evt.description}
+            {evt?.description}
           </Typography>
         </CardContent>
         <CardActions sx={{
@@ -58,7 +58,7 @@ const EventCard:FC<EventCardProps> = ({ event }) => (
           >
             <Avatar
               aria-label="recipe"
-              src={evt.User.profileImg}
+              src={evt.User?.profileImg}
               alt="user-image"
               sx={{ width: '30px', height: '30px' }}
             />
@@ -66,7 +66,7 @@ const EventCard:FC<EventCardProps> = ({ event }) => (
               variant="body1"
               sx={{ fontSize: 13, fontWeight: 500 }}
             >
-              {evt.User.username}
+              {evt.User?.username}
 
             </Typography>
           </Box>

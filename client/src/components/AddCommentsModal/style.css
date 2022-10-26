@@ -1,0 +1,19 @@
+
+#modal-modal-title{
+  width: 90% !important;
+  margin-left: auto !important; 
+  margin-right: auto !important;
+}
+.add-modal TextField{
+  margin: 20px 0 !important;
+}
+.first-input{
+  margin: 25px auto 0px !important;
+  width: 90% !important;
+  display: block !important;
+}
+.inputs {
+  margin: 15px auto !important;
+  width: 90% !important;
+  display: block !important;
+}

@@ -7,9 +7,14 @@ import {
 } from '@mui/material'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
-import ApiService from '../services/ApiService'
-import { IOneComment } from '../interfaces'
+// import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { useParams, useNavigate } from 'react-router-dom'
+import ApiService from '../../services/ApiService'
+import './style.css'
+import { IOneComment } from '../../interfaces'
+import { useAuth } from '../../hooks/useAuth'
 
 const validationSchema = yup.object().shape({
   content: yup.string()
@@ -36,6 +41,10 @@ interface modalProps {
 const AddCommentModal:FC<modalProps> = ({
   open, handleClose, setNewComments,
 }) => {
+  const useAuthorization = useAuth()
+  const userId = useAuthorization.user?.id
+  const idParams = useParams().id
+  const navigate = useNavigate()
   const formik:any = useFormik({
     initialValues: {
       content: '',
@@ -43,16 +52,35 @@ const AddCommentModal:FC<modalProps> = ({
     },
     validationSchema,
     onSubmit: async (values) => {
-      try {
-        const newComment = await ApiService.post(
-          '/api/v1/events/1/comments',
-          { content: values.content, image: values.image },
-        )
-        handleClose()
-        setNewComments(newComment.data)
-      } catch (err) {
-        console.log(err)
+        interface IBody {
+        content?: string,
+        image?: string,
       }
+        const body:IBody = {
+          content: values.content,
+          image: values.image,
+        }
+        const testContent:string = values.content!
+        const testImage:string = values.image!
+        if (testContent.trim() === '') {
+        // body.content = testContent
+          delete body.content
+        }
+        if (testImage.trim() === '') {
+          delete body.image
+        }
+        try {
+          if (userId) {
+            const newComment = await ApiService.post(`/events/${idParams}/comments`, body)
+            handleClose()
+            setNewComments(newComment.data)
+            toast(newComment.data.message)
+          } else {
+            navigate('/login')
+          }
+        } catch (error:any) {
+          toast(error.response.data.message)
+        }
     },
   })
 
@@ -62,9 +90,10 @@ const AddCommentModal:FC<modalProps> = ({
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 400,
+    height: 420,
     bgcolor: '#fff',
-    border: '2px solid #000',
     boxShadow: 24,
+    borderRadius: 2,
     p: 4,
   }
   return (
@@ -74,7 +103,7 @@ const AddCommentModal:FC<modalProps> = ({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>
+      <Box sx={style} className="add-modal">
 
         <form
           onSubmit={formik.handleSubmit}
@@ -83,10 +112,14 @@ const AddCommentModal:FC<modalProps> = ({
             Add New Comments
           </Typography>
           <TextField
-            id="outlined-basic"
+            className="first-input"
             label="Content"
             variant="outlined"
             name="content"
+            id="outlined-multiline-static"
+            multiline
+            fullWidth
+            rows={4}
             value={formik.values.content}
             onChange={formik.handleChange}
             error={formik.touched.content && Boolean(formik.errors.content)}
@@ -96,6 +129,8 @@ const AddCommentModal:FC<modalProps> = ({
             id="outlined-basic"
             label="select image"
             variant="outlined"
+            fullWidth
+            className="inputs"
             name="image"
             value={formik.values.image}
             onChange={formik.handleChange}
@@ -105,9 +140,10 @@ const AddCommentModal:FC<modalProps> = ({
           <Button
             type="submit"
             variant="contained"
+            className="inputs"
             sx={{ backgroundColor: '#2A2A2A' }}
           >
-            <AddOutlinedIcon />
+            {/* <AddOutlinedIcon /> */}
             Add Comments
           </Button>
 
