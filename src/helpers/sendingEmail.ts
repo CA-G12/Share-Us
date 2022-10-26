@@ -2,19 +2,15 @@
 import mail from '@sendgrid/mail'
 import config from '../config/environment'
 
-mail.setApiKey(config.shareus || '')
+mail.setApiKey(config.SENDGRID_API_KEY)
 
 const sendEmail = async (to:string, subject:string, text:string) => {
   const message = {
     to,
-    from: 'dbakeza2002@hotmail.com',
+    from: config.SENDGRID_EMAIL,
     subject,
     text
   }
-  try {
-    return await mail.send(message)
-  } catch (error) {
-    console.log('error', error)
-  }
+  return mail.send(message)
 }
 export default sendEmail
