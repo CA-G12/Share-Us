@@ -13,8 +13,13 @@ import {
 User.hasMany(Event)
 Event.belongsTo(User)
 
-User.belongsToMany(Event, { through: JoinedPeople })
-Event.belongsToMany(User, { through: JoinedPeople })
+// User.belongsToMany(Event, { through: JoinedPeople })
+// Event.belongsToMany(User, { through: JoinedPeople })
+User.hasMany(JoinedPeople)
+JoinedPeople.belongsTo(User)
+
+Event.hasMany(JoinedPeople)
+JoinedPeople.belongsTo(Event)
 
 User.belongsToMany(Event, { through: InterestedPeople })
 Event.belongsToMany(User, { through: InterestedPeople })

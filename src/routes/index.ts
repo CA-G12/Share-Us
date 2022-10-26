@@ -6,8 +6,8 @@ import followingSystem from './FollowingSystem'
 
 const Router = express.Router()
 
-Router.use(auth)
 Router.use(events)
+Router.use(auth)
 Router.use(followingSystem)
 
 export default Router

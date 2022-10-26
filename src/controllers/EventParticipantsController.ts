@@ -1,14 +1,16 @@
-import { JoinedPeople } from '../models'
+import { Event, JoinedPeople } from '../models'
 import { Request, Response } from 'express'
 import { Message } from '../config/messages'
 import CustomError from '../helpers/CustomError'
 import validateParams from '../validation/paramsId'
+import { IUserRequest } from '../interfaces/IUserRequest'
 export default class EventParticipantsController {
-  public static async index (req: Request, res:Response):Promise<void> {
-    const { eventId } = req.params
-    await validateParams({ id: eventId })
+  public static async index (req: IUserRequest, res:Response):Promise<void> {
     const allJoined = await JoinedPeople.findAll({
-      where: { EventId: eventId }
+      include: [{
+        model: Event
+      }],
+      where: { UserId: req.user?.id }
     })
     if (!allJoined) throw new CustomError(Message.NOT_FOUND, 404)
     res.json({ data: allJoined, message: Message.SUCCESS })
