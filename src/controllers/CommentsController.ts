@@ -14,7 +14,9 @@ export default class CommentsController {
       include: {
         model: User,
         attributes: ['id', 'username', 'profileImg']
-      }
+      },
+      order: [['createdAt', 'desc']]
+
     })
     res.json({ message: 'Comments received successfully', data: allComments })
   }
@@ -29,12 +31,18 @@ export default class CommentsController {
   public static async store (req: IUserRequest, res: Response) {
     const { eventId } = req.params
     const { image, content } = req.body
-
     await Promise.all([validateParams({ id: eventId }), validateComment({ image, content })])
     const comments = await Comments.create(
       { image, UserId: req.user?.id, EventId: eventId, content }
     )
-    res.json({ message: 'Comment add successfully', data: comments })
+    const commentsAndPublisher = await Comments.findOne({
+      where: { UserId: req.user?.id, id: comments.id },
+      include: {
+        model: User,
+        attributes: ['id', 'username', 'profileImg']
+      }
+    })
+    res.json({ message: 'Comment add successfully', data: commentsAndPublisher })
   }
 
   // for updating new event maybe

@@ -6,6 +6,7 @@
     "files.eol": "\n",
     "editor.tabSize": 2,
     "cSpell.words": [
-        "Formik"
+        "Formik",
+        "toastify"
     ],
 }
