@@ -8,11 +8,12 @@ import { Message } from '../src/config/messages'
 
 beforeAll(() => build())
 afterAll(() => sequelize.close())
-
+const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJtb3N0YWZhIiwiaWF0IjoxNjY2NTExODQwfQ.LUdcIEgpLB_4m9p8tnQGVKwihZyqlEob_7HsQSXZUgc'
 describe('Event Joined routes', () => {
   test('get all Joined people', done => {
     supertest(app)
       .get('/api/v1/events/1/joined')
+      .set({ authorization: token })
       .expect('Content-Type', /json/)
       .expect(200)
       .end((err, res) => {
@@ -24,6 +25,7 @@ describe('Event Joined routes', () => {
   test('add join to an event', done => {
     supertest(app)
       .post('/api/v1/events/3/joined')
+      .set({ authorization: token })
       .expect(200)
       .send({ UserId: 1 })
       .end((err, res) => {
