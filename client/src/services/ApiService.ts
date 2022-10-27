@@ -1,10 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import JwtService from './JwtService'
 
-// require('dotenv').config()
-
-// console.log(process.env.BASE_URL)
-
 class ApiService {
   private static axios = axios;
 
