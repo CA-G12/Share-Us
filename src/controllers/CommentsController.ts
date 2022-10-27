@@ -8,7 +8,7 @@ export default class CommentsController {
   // for getting all data
   public static async index (req: Request, res: Response) {
     const { eventId } = req.params
-    const { offset }:any = req.query
+    const { offset = 1 }:any = req.query
     await validateParams({ id: eventId })
     const allComments = await Comments.findAll({
       where: { EventId: eventId },
@@ -16,7 +16,7 @@ export default class CommentsController {
         model: User,
         attributes: ['id', 'username', 'profileImg']
       },
-      offset: 10 * offset,
+      offset: 10 * (+offset - 1),
       limit: 10,
       order: [['createdAt', 'desc']]
 

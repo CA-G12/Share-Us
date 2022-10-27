@@ -11,7 +11,7 @@ router.get('/events/:id', expressWrapper(EventsController.show))
 router.get('/events/:eventId/joined', expressWrapper(JoinedController.index))
 router.get('/events/:eventId/interested', expressWrapper(InterestedController.index))
 
-router.post('/events', EventsController.store)
+router.post('/events', expressWrapper(EventsController.store))
 router.post('/events/:eventId/joined', expressWrapper(JoinedController.store))
 router.post('/events/:eventId/interested', expressWrapper(InterestedController.store))
 
