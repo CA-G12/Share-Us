@@ -16,7 +16,7 @@ const ProfileBio:FC<UserProfileProp> = ({
   const [followOpen, setFollowOpen] = useState<boolean>(false)
   const { followerId } = useParams()
   const auth = useAuth()
-  const user = auth.user?.id === Number(followerId)
+  const user = auth.user?.id === Number(followerId) ? auth.user : userData
 
   const handleOpen = ():void => { setOpen(true) }
   const handleClose = ():void => { setOpen(false) }
@@ -58,7 +58,7 @@ const ProfileBio:FC<UserProfileProp> = ({
     <div className="profile">
       <div className="header-img">
         <img
-          src={user ? auth.user?.headerImg : userData?.headerImg}
+          src={user?.headerImg}
           alt="header-img"
         />
       </div>
@@ -66,13 +66,13 @@ const ProfileBio:FC<UserProfileProp> = ({
         <div className="bio-infos">
           <div className="profile-img">
             <img
-              src={user ? auth.user?.profileImg : userData?.profileImg}
+              src={user?.profileImg}
               alt=""
             />
           </div>
 
           <Typography variant="h5" gutterBottom>
-            {user ? auth.user?.username : userData?.username}
+            {user?.username}
 
           </Typography>
           <div className="friends">
@@ -84,7 +84,7 @@ const ProfileBio:FC<UserProfileProp> = ({
             >
               Followings:
               {' '}
-              {user ? auth.user?.following?.length : userData?.following?.length}
+              {user?.following?.length}
 
             </Typography>
             <Typography
@@ -95,7 +95,7 @@ const ProfileBio:FC<UserProfileProp> = ({
             >
               Followers:
               {' '}
-              {user ? auth.user?.followers?.length : userData?.followers?.length}
+              {user?.followers?.length}
 
             </Typography>
             <Typography
@@ -121,7 +121,7 @@ const ProfileBio:FC<UserProfileProp> = ({
               gutterBottom
               sx={{ fontSize: '12px' }}
             >
-              {userData?.bio}
+              {user?.bio}
             </Typography>
           </div>
         </div>
