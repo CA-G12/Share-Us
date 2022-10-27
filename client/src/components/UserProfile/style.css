@@ -82,7 +82,7 @@ border-radius: 4px;
 
 .container-info {
   width: 100%;
-  position: relative;
+  position: relative !important;
   display: flex;
   justify-content: center;
   align-items: center;

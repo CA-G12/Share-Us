@@ -1,5 +1,9 @@
 import { IEventDetails } from '..'
 
-export default interface EventCardProps {
-  event: IEventDetails[]
+export interface CardContainerProps {
+  allEvents: IEventDetails[]
+}
+
+export interface EventCardProps {
+  event: IEventDetails
 }
