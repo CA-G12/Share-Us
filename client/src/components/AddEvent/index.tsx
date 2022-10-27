@@ -43,6 +43,7 @@ interface IData{
 
 const EventModal: FC = () => {
   const [open, setOpen] = useState(false)
+  const [mapOpen, setMapOpen] = useState(false)
   const [data, setData] = useState<IData>({})
   const [startTime, setStartTime] = useState<Dayjs | null>(
     dayjs(),
@@ -161,7 +162,13 @@ const EventModal: FC = () => {
               </Select>
             </FormControl>
 
-            <div style={{ display: 'flex', margin: '20px 0' }}>
+            <div style={{
+              display: 'flex',
+              margin: '20px 0',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            >
               <TextField
                 sx={{ marginRight: '5px' }}
                 name="longitude"
@@ -181,6 +188,23 @@ const EventModal: FC = () => {
                 size="small"
                 fullWidth
               />
+              {/* <div className="mapContainer"> */}
+              <Button variant="outlined" onClick={() => setMapOpen(true)}>
+                Map
+              </Button>
+              <Modal
+                className="box"
+                open={mapOpen}
+                onClose={() => setMapOpen(false)}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box sx={style}>
+                  <h1>Map</h1>
+                </Box>
+
+              </Modal>
+              {/* </div> */}
             </div>
             <TextField
               onChange={handelChange}
@@ -211,11 +235,12 @@ const EventModal: FC = () => {
               freeSolo
               onChange={(event, value) => setHash(value)}
               sx={{ display: 'block', margin: '20px 0' }}
-              renderTags={(value: readonly string[], getTagProps) => {
-                value.map((option: string, index: number) => (
-                  <Chip variant="outlined" label={option} {...getTagProps({ index })} />
-                ))
-              }}
+              renderTags={
+                (value: readonly string[], getTagProps) => (
+                  value.map((option: string, index: number) => (
+                    <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                  )))
+              }
               renderInput={(params) => (
                 <TextField
                   {...params}

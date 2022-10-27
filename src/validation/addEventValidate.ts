@@ -21,7 +21,7 @@ const querySchema = Joi.object({
   latitude: Joi.string()
     .pattern(latitude)
     .required(),
-    hashtag:Joi.array().items(Joi.string())
+  hashtag: Joi.array().items(Joi.string())
 })
 
 export default querySchema
