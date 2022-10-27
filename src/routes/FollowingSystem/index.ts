@@ -11,7 +11,7 @@ router.get('/users/:userId/following', expressWrapper(FollowingSystem.allFollowi
 router.get('/users/:userId/blocked', expressWrapper(FollowingSystem.allBlocked))
 
 router.patch('/users/following/:followingId', expressWrapper(isAuth), expressWrapper(FollowingSystem.toggleFollowing))
-router.delete('/users/removeFollower/:followerId', expressWrapper(isAuth), expressWrapper(FollowingSystem.removeFollower))
+router.delete('/users/follower/:followerId', expressWrapper(isAuth), expressWrapper(FollowingSystem.removeFollower))
 router.patch('/users/blocked/:blockId', expressWrapper(isAuth), expressWrapper(FollowingSystem.block))
 
 export default router

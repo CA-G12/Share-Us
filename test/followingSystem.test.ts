@@ -57,7 +57,7 @@ describe('Following system routers', () => {
   })
   test('check if the user can remove following other user successfully', (done) => {
     supertest(app)
-      .delete('/api/v1/users/removeFollower/2')
+      .delete('/api/v1/users/follower/2')
       .set({ authorization: token })
       .expect(200)
       .expect('Content-Type', /json/)
