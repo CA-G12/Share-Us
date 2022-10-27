@@ -57,7 +57,7 @@ describe('Following system routers', () => {
   })
   test('check if the user can remove following other user successfully', (done) => {
     supertest(app)
-      .patch('/api/v1/users/removeFollowing/2')
+      .delete('/api/v1/users/removeFollower/2')
       .set({ authorization: token })
       .expect(200)
       .expect('Content-Type', /json/)
@@ -143,7 +143,7 @@ describe('Following system routers', () => {
   test('check if the user can follow other user successfully after un block', (done) => {
     supertest(app)
       .patch('/api/v1/users/following/1')
-      .set({ authorization: token })
+      .set({ authorization: token2 })
       .expect(200)
       .expect('Content-Type', /json/)
       .end((err:any, res: any) => {
@@ -162,7 +162,7 @@ describe('Following system routers', () => {
       .end((err:any, res: any) => {
         if (err) done(err)
         else {
-          expect(res.body.data.length).toEqual(0)
+          expect(res.body.data.length).toEqual(1)
           return done()
         }
       })
