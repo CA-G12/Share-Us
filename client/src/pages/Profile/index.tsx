@@ -60,7 +60,10 @@ const Profile:FC = () => {
   }, [currentStatus, startTime, endTime, followerId])
 
   return (
+    userData
+    && (
     <>
+
       <Navbar />
       <ProfileBio
         userData={userData}
@@ -94,6 +97,7 @@ const Profile:FC = () => {
         )}
 
     </>
+    )
 
   )
 }

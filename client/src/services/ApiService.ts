@@ -1,15 +1,23 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import { toast } from 'react-toastify'
+// import { useNavigate } from 'react-router-dom'
 import JwtService from './JwtService'
 
 // require('dotenv').config()
 
 // console.log(process.env.BASE_URL)
-
 class ApiService {
   private static axios = axios;
 
   public static init(): void {
     this.axios.defaults.baseURL = process.env.REACT_APP_BASE_URL
+
+    this.axios.interceptors.response.use((res) => res, (err) => {
+      if (err?.response?.status === 400 || err?.response?.status === 422) {
+        toast(err?.response?.data?.message)
+      }
+      return Promise.reject(err)
+    })
   }
 
   public static setHeader(): void {

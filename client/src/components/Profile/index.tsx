@@ -53,7 +53,7 @@ const ProfileBio:FC<UserProfileProp> = ({
   const modalFollow = async (id:number):Promise<void> => {
     try {
       const follow = await ApiService.patch(`/users/following/${id}`, {})
-      auth.setUser(follow.data.authUser[0])
+      auth.setUser(follow?.data?.authUser[0])
     } catch (err:any) {
       if (err?.response?.status === 400) {
         toast(err?.response?.data?.message)

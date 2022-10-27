@@ -23,7 +23,7 @@ const Following:FC<IModalProps> = ({
     try {
       const followingUser = async ():Promise<void> => {
         const allFollowing = await ApiService.get(url)
-        setUsers(allFollowing.data.data)
+        setUsers(allFollowing?.data?.data)
       }
       followingUser()
     } catch (err) {
