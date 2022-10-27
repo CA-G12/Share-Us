@@ -22,13 +22,17 @@ const Profile:FC = () => {
   const { followerId } = useParams()
   const isBlocked = auth.user?.blocked?.includes(Number(followerId))
 
-  useEffect(
-    () => {
-      ApiService.get(`/users/${followerId}`)
-        .then((res) => setUserData(res.data.data))
-    },
-    [followerId],
-  )
+  useEffect(() => {
+    const userInfo = async ():Promise<void> => {
+      try {
+        const user = await ApiService.get(`/users/${followerId}`)
+        setUserData(user.data.data)
+      } catch (err) {
+        setUserData(null)
+      }
+    }
+    userInfo()
+  }, [followerId])
 
   const editUserData = async (data:any):Promise<void> => {
     try {

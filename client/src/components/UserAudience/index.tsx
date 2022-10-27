@@ -58,6 +58,12 @@ const UserAudience: FC<IModalProps> = ({
       toast('something went wrong')
     }
   }
+
+  const isBlocked = (id:number):boolean => auth.user?.blocked.includes(id)
+  const isAuth = (id:number):boolean => auth.user?.id === Number(id)
+  const isInFollowing = (id:number):boolean => auth.user?.following.includes(id)
+  const isInFollower = (id:number): boolean => auth.user?.followers?.includes(id)
+
   const getNoDataText = (titles: string): string => {
     let text = ''
     if (titles === 'Followings') {
@@ -66,6 +72,19 @@ const UserAudience: FC<IModalProps> = ({
       text = 'No Followers Found'
     } else {
       text = 'No Blocked Users Found'
+    }
+    return text
+  }
+  const getButtonText = (titles: string, id:number):string => {
+    let text = ''
+    if ((titles === 'Followers' || titles === 'Followings') && isInFollowing(id)) {
+      text = 'Unfollow'
+    } else if ((titles === 'Followers' || titles === 'Followings') && isAuth(id)) {
+      text = 'view'
+    } else if (titles === 'Blocked' && !isBlocked(id)) {
+      text = 'block'
+    } else {
+      text = button
     }
     return text
   }
@@ -108,18 +127,9 @@ const UserAudience: FC<IModalProps> = ({
                     sx={sx.buttonAction}
                     onClick={() => handleClick(Number(e.id))}
                   >
-                    {(title === 'Followers' || title === 'Followings')
-                      && auth.user?.following.includes(e.id)
-                      ? 'Unfollow'
-                      : (title === 'Followers' || title === 'Followings')
-                        && auth.user?.id === Number(e.id)
-                        ? 'View'
-                        : title === 'Blocked'
-                          && !auth.user?.blocked.includes(e.id)
-                          ? 'block'
-                          : button}
+                    {getButtonText(title, e.id)}
                   </Button>
-                  {auth.user && auth.user?.followers?.includes(e.id) && (
+                  {auth.user && isInFollower(e.id) && (
                     <Button
                       sx={sx.buttonAction}
                       onClick={() => removeFollowing(e.id)}

@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { toast } from 'react-toastify'
-// import { useNavigate } from 'react-router-dom'
 import JwtService from './JwtService'
 
 class ApiService {
@@ -10,7 +9,7 @@ class ApiService {
     this.axios.defaults.baseURL = process.env.REACT_APP_BASE_URL
 
     this.axios.interceptors.response.use((res) => res, (err) => {
-      if (err?.response?.status === 400 || err?.response?.status === 422) {
+      if (err?.response?.status >= 400 && err?.response?.status < 500) {
         toast(err?.response?.data?.message)
       }
       return Promise.reject(err)

@@ -1,7 +1,6 @@
 import { FC, useState } from 'react'
 import { Typography } from '@mui/material'
 import { useParams, useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
 import UserProfileProp from '../../interfaces/props/UserProfileProp'
 import { useAuth } from '../../hooks/useAuth'
 import ApiService from '../../services/ApiService'
@@ -26,41 +25,31 @@ const ProfileBio:FC<UserProfileProp> = ({
   const handleCloseFollow = ():void => { setFollowOpen(false) }
 
   const followUser = async (id:number):Promise<void> => {
-    try {
+    if (auth.user) {
       const follow = await ApiService.patch(`/users/following/${id}`, {})
       setUserData(follow.data.data[0])
       auth.setUser(follow.data.authUser[0])
-    } catch (err:any) {
-      if (err?.response?.status === 400) {
-        toast(err?.response?.data?.message)
-      } else {
-        toast('something went wrong')
-        navigate('/login')
-      }
+    } else {
+      navigate('/login')
     }
   }
 
   const modalFollow = async (id:number):Promise<void> => {
-    try {
+    if (auth.user) {
       const follow = await ApiService.patch(`/users/following/${id}`, {})
       auth.setUser(follow?.data?.authUser[0])
-    } catch (err:any) {
-      if (err?.response?.status === 400) {
-        toast(err?.response?.data?.message)
-      } else {
-        toast('something went wrong')
-        navigate('/login')
-      }
+    } else {
+      navigate('/login')
     }
   }
 
   const blockUser = async (): Promise<void> => {
-    try {
+    if (auth.user) {
       const block = await ApiService.patch(`/users/blocked/${followerId}`, {})
       setUserData(block.data.data)
       const [userInfos] = block.data.authUser
       auth.setUser(userInfos)
-    } catch (err) {
+    } else {
       navigate('/login')
     }
   }
