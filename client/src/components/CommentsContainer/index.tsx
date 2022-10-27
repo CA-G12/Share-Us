@@ -8,6 +8,7 @@ import {
 // import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 
 import { useParams } from 'react-router-dom'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import Comment from '../Comment'
 import ApiService from '../../services/ApiService'
 import {
@@ -16,7 +17,7 @@ import {
 } from '../../interfaces'
 import AddCommentModal from '../AddCommentsModal'
 // eslint-disable-next-line no-undef
-const CommentsContainer:FC = ():any => {
+const CommentsContainer:FC = (): JSX.Element => {
   const initCommentsValue: IComments = {
     message: '',
     data: [
@@ -57,28 +58,35 @@ const CommentsContainer:FC = ():any => {
 
   }
 
-  const [comments, setComments] = React.useState<IComments>(initCommentsValue)
-  const [newComment, setNewComments] = React.useState<IOneComment>(initOneCommentValue)
-  const [open, setOpen] = React.useState<boolean>(false)
+  const [comments, setComments] = useState<IComments>(initCommentsValue)
+  const [newComment, setNewComments] = useState<IOneComment>(initOneCommentValue)
+  const [showMore, setShowMore] = useState<number>(1)
+  const [allComments, setAllComments] = useState<IComments[]>([])
+  const [hasMore, setHasMore] = useState<boolean>(true)
+  const [open, setOpen] = useState<boolean>(false)
   const [error, setError] = useState<boolean | string>(false)
   const [loader, setLoader] = useState<boolean>(true)
+
   const handleOpen = ():void => setOpen(true)
   const handleClose = ():void => setOpen(false)
+  const handleShowMore = ():void => setShowMore(showMore + 1)
 
   const idParams = useParams().id
 
   React.useEffect(() => {
     (async (): Promise<void> => {
       try {
-        const result = await ApiService.get(`/events/${idParams}/comments`)
+        const result = await ApiService.get(`/events/${idParams}/comments?offset=${showMore}`)
         setComments(result.data)
+        setAllComments([...allComments, ...result.data.data])
+        if (!result.data.data.length) setHasMore(false)
         setLoader(false)
       } catch (err) {
         setError('We\'re having some errors in getting the information. We\'re working on it.')
         setLoader(false)
       }
     })()
-  }, [])
+  }, [idParams, showMore])
 
   React.useEffect(() => {
     setComments({ ...comments, data: [newComment.data, ...comments.data] })
@@ -117,17 +125,26 @@ const CommentsContainer:FC = ():any => {
         there is no comments yet for this event
       </Alert>
       )}
-      {comments.data.map((ele) => (
-        <Comment
-          key={ele.id * Math.random()}
-          id={ele.id}
-          User={ele.User}
-          image={ele.image}
-          content={ele.content}
-          createdAt={ele.createdAt}
-          EventId={ele.EventId}
-        />
-      ))}
+      <InfiniteScroll
+        dataLength={allComments.length}
+        next={handleShowMore}
+        hasMore={hasMore}
+        loader={<CircularProgress sx={{ margin: '10px auto', display: 'block' }} />}
+        endMessage={<p className="end-message">There are no more Comments</p>}
+      >
+        {allComments.map((ele:any) => (
+          <Comment
+            key={ele.id * Math.random()}
+            id={ele.id}
+            User={ele.User}
+            image={ele.image}
+            content={ele.content}
+            createdAt={ele.createdAt}
+            EventId={ele.EventId}
+          />
+        ))}
+
+      </InfiniteScroll>
 
       <AddCommentModal
         handleClose={handleClose}
