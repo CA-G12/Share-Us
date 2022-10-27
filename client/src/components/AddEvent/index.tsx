@@ -54,6 +54,10 @@ const EventModal: FC = () => {
   const [hash, setHash] = useState<Array<string>>([])
   const [showHash, setShowHash] = useState<Array<object>>([])
 
+  const [lon, setLon] = useState('')
+  const [lat, setLat] = useState('')
+  const [placeName, setPlaceName] = useState('')
+
   useEffect(() => {
     ApiService.get('/api/v1/hashtags')
       .then((res) => {
@@ -173,6 +177,7 @@ const EventModal: FC = () => {
                 sx={{ marginRight: '5px' }}
                 name="longitude"
                 onChange={handelChange}
+                value={lon}
                 id="outlined-required"
                 label="Longitude"
                 variant="outlined"
@@ -182,14 +187,26 @@ const EventModal: FC = () => {
               <TextField
                 name="latitude"
                 onChange={handelChange}
+                value={lat}
                 id="outlined-required"
                 label="Latitude"
                 variant="outlined"
                 size="small"
                 fullWidth
               />
-              <AddEventMap />
+              <AddEventMap setLon={setLon} setLat={setLat} setPlaceName={setPlaceName} />
             </div>
+
+            <TextField
+              name="placeName"
+              onChange={handelChange}
+              value={placeName}
+              id="outlined-required"
+              label="Place Name"
+              variant="outlined"
+              size="small"
+              fullWidth
+            />
             <TextField
               onChange={handelChange}
               name="img"
@@ -249,6 +266,7 @@ const EventModal: FC = () => {
           </form>
         </Box>
       </Modal>
+
     </div>
   )
 }
