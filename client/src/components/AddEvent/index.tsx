@@ -16,6 +16,7 @@ import {
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import ApiService from '../../services/ApiService'
 import schema from '../../validation/addEventValidate'
+import AddEventMap from '../AddEventMap'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -43,7 +44,6 @@ interface IData{
 
 const EventModal: FC = () => {
   const [open, setOpen] = useState(false)
-  const [mapOpen, setMapOpen] = useState(false)
   const [data, setData] = useState<IData>({})
   const [startTime, setStartTime] = useState<Dayjs | null>(
     dayjs(),
@@ -188,23 +188,7 @@ const EventModal: FC = () => {
                 size="small"
                 fullWidth
               />
-              {/* <div className="mapContainer"> */}
-              <Button variant="outlined" onClick={() => setMapOpen(true)}>
-                Map
-              </Button>
-              <Modal
-                className="box"
-                open={mapOpen}
-                onClose={() => setMapOpen(false)}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-              >
-                <Box sx={style}>
-                  <h1>Map</h1>
-                </Box>
-
-              </Modal>
-              {/* </div> */}
+              <AddEventMap />
             </div>
             <TextField
               onChange={handelChange}
