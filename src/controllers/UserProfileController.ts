@@ -33,8 +33,8 @@ export default class UserProfileController {
       username,
       bio,
       location,
-      profileImg: profileImg || 'https://st4.depositphotos.com/4329009/19956/v/600/\ndepositphotos_199564354-stock-illustration-creative-vector-illustration-default-avatar.jpg',
-      headerImg: headerImg || 'https://cdn.discordapp.com/attachments/959502807071867000/1029123702052376686/Rectangle_2.png'
+      profileImg,
+      headerImg
     }, {
       where: { id },
 

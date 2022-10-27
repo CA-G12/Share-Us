@@ -16,18 +16,14 @@ const Home:FC = () => {
 
   useEffect(() => {
     const getEvents = async ():Promise<void> => {
-      try {
-        const allEvents = await ApiService.get('/events', {
-          params: {
-            status: currentStatus === 'all' ? '' : currentStatus,
-            from: startTime,
-            to: endTime,
-          },
-        })
-        setData(allEvents.data.data)
-      } catch (err) {
-        setData([])
-      }
+      const allEvents = await ApiService.get('/events', {
+        params: {
+          status: currentStatus === 'all' ? '' : currentStatus,
+          from: startTime,
+          to: endTime,
+        },
+      })
+      setData(allEvents.data.data)
     }
     getEvents()
   }, [currentStatus, startTime, endTime])

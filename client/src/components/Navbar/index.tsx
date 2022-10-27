@@ -11,6 +11,7 @@ import ChatIcon from '@mui/icons-material/Chat'
 import { useAuth } from '../../hooks/useAuth'
 import logo from './logo.jpg'
 import DropDown from './DropDown'
+import { sx } from './styledMenu'
 
 const Navbar:FC = () => {
   const [event, setEvent] = useState('event')
@@ -38,22 +39,11 @@ const Navbar:FC = () => {
       <div className="search">
         <Paper
           component="form"
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            width: 500,
-            height: 30,
-            background: 'transparent',
-            border: 0,
-            outline: 0,
-            boxShadow: 0,
-          }}
+          sx={sx.paperForm}
         >
           <FormControl sx={{ width: 80 }}>
             <Select
-              sx={{
-                height: 31, fontSize: 12, borderRadius: '5px 0 0 5px',
-              }}
+              sx={sx.select}
               className="select"
               size="small"
               value={event}
@@ -87,29 +77,26 @@ const Navbar:FC = () => {
           />
           <NotificationsIcon sx={{ cursor: 'pointer' }} />
         </div>
-        {auth.user
-          ? (
-            <DropDown />
-          )
-          : (
-            <>
-              <button
-                type="button"
-                className="login"
-                onClick={() => navigate('/login')}
-              >
-                Login
+        {auth.user && <DropDown />}
+        {!auth.user && (
+        <>
+          <button
+            type="button"
+            className="login"
+            onClick={() => navigate('/login')}
+          >
+            Login
 
-              </button>
-              <Button
-                className="signup-btn"
-                onClick={() => navigate('/sign-up')}
-              >
-                Sign Up
+          </button>
+          <Button
+            className="signup-btn"
+            onClick={() => navigate('/sign-up')}
+          >
+            Sign Up
 
-              </Button>
-            </>
-          )}
+          </Button>
+        </>
+        )}
 
       </div>
 

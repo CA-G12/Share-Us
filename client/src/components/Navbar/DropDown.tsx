@@ -30,10 +30,10 @@ const CustomizedMenus: FC = () => {
   const handleCloseBlock = (): void => setBlockOpen(false)
 
   const modalBlock = async (id: number): Promise<void> => {
-    try {
+    if (auth.user) {
       const block = await ApiService.patch(`/users/blocked/${id}`, {})
       auth.setUser(block.data.authUser[0])
-    } catch (err) {
+    } else {
       navigate('/login')
     }
   }

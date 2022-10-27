@@ -24,41 +24,29 @@ const Profile:FC = () => {
 
   useEffect(() => {
     const userInfo = async ():Promise<void> => {
-      try {
-        const user = await ApiService.get(`/users/${followerId}`)
-        setUserData(user.data.data)
-      } catch (err) {
-        setUserData(null)
-      }
+      const user = await ApiService.get(`/users/${followerId}`)
+      setUserData(user.data.data)
     }
     userInfo()
   }, [followerId])
 
   const editUserData = async (data:any):Promise<void> => {
-    try {
-      const userInfo = await ApiService.put(`/users/${followerId}`, { data })
-      setUserData(userInfo.data.data[0])
-      auth.setUser(userInfo.data.data[0])
-    } catch (err:any) {
-      setUserData(null)
-    }
+    const userInfo = await ApiService.put(`/users/${followerId}`, { data })
+    setUserData(userInfo.data.data[0])
+    auth.setUser(userInfo.data.data[0])
   }
 
   useEffect(() => {
     const getEvents = async ():Promise<void> => {
-      try {
-        const allEvents = await ApiService.get('/events', {
-          params: {
-            status: currentStatus === 'all' ? '' : currentStatus,
-            from: startTime,
-            to: endTime,
-            userId: followerId,
-          },
-        })
-        setAllData(allEvents.data.data)
-      } catch (err) {
-        setAllData([])
-      }
+      const allEvents = await ApiService.get('/events', {
+        params: {
+          status: currentStatus === 'all' ? '' : currentStatus,
+          from: startTime,
+          to: endTime,
+          userId: followerId,
+        },
+      })
+      setAllData(allEvents.data.data)
     }
     getEvents()
   }, [currentStatus, startTime, endTime, followerId])

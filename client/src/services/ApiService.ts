@@ -9,7 +9,8 @@ class ApiService {
     this.axios.defaults.baseURL = process.env.REACT_APP_BASE_URL
 
     this.axios.interceptors.response.use((res) => res, (err) => {
-      if (err?.response?.status >= 400 && err?.response?.status < 500) {
+      if (err?.response?.status >= 400 && err?.response?.status < 500
+         && err.config.url !== '/users/me') {
         toast(err?.response?.data?.message)
       }
       return Promise.reject(err)
