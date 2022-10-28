@@ -15,8 +15,8 @@ const Navbar:FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const [event, setEvent] = useState<string>('event')
-  const [inputValue, setInputValue] = useState<string>('')
+  const [category, setCategory] = useState<string>('event')
+  const [search, setSearch] = useState<string>('')
   // eslint-disable-next-line no-unused-vars
   const [_, setSearchParams] = useSearchParams()
 
@@ -24,16 +24,16 @@ const Navbar:FC = () => {
     if (location.pathname !== '/search') {
       navigate({
         pathname: '/search',
-        search: `${createSearchParams({ category: event, q: inputValue })}`,
+        search: `${createSearchParams({ category, q: search })}`,
       })
     } else {
       setSearchParams({
-        category: event,
-        q: inputValue,
+        category,
+        q: search,
       })
     }
   }
-  const handleChange = (e: SelectChangeEvent):void => setEvent(e.target.value as string)
+  const handleChange = (e: SelectChangeEvent):void => setCategory(e.target.value as string)
   return (
     <header>
       <div className="logo">
@@ -69,7 +69,7 @@ const Navbar:FC = () => {
               }}
               className="select"
               size="small"
-              value={event}
+              value={category}
               onChange={handleChange}
               displayEmpty
               name="category"
@@ -82,9 +82,9 @@ const Navbar:FC = () => {
           </FormControl>
           <InputBase
             placeholder="Search here"
-            value={inputValue}
+            value={search}
             name="input"
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={(e) => setSearch(e.target.value)}
           />
           <IconButton
             type="button"

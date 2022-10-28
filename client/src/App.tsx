@@ -47,10 +47,6 @@ const App : React.FC = () => {
       path: 'calender',
       element: <Calender />,
     },
-    {
-      path: 'search',
-      element: <SearchResult />,
-    },
   ])
 
   useEffect(() => {
