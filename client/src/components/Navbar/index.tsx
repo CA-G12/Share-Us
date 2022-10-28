@@ -1,6 +1,6 @@
 import { FC, useState } from 'react'
 import {
-  useNavigate, useSearchParams, useLocation, createSearchParams,
+  useNavigate, Link, useSearchParams, useLocation, createSearchParams,
 } from 'react-router-dom'
 
 import './style.css'
@@ -8,8 +8,13 @@ import {
   Typography, Paper, IconButton, InputBase, FormControl,
   Select, MenuItem, SelectChangeEvent, Button,
 } from '@mui/material'
-
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
+import NotificationsIcon from '@mui/icons-material/Notifications'
+import ChatIcon from '@mui/icons-material/Chat'
+import { useAuth } from '../../hooks/useAuth'
 import logo from './logo.jpg'
+import DropDown from './DropDown'
+import { sx } from './styledMenu'
 
 const Navbar:FC = () => {
   const navigate = useNavigate()
@@ -33,40 +38,34 @@ const Navbar:FC = () => {
       })
     }
   }
+  const auth = useAuth()
   const handleChange = (e: SelectChangeEvent):void => setCategory(e.target.value as string)
+
   return (
     <header>
-      <div className="logo">
+      <Link
+        to="/"
+        className="logo"
+      >
         <img src={logo} alt="logo" />
         <Typography
-          variant="h5"
+          variant="h6"
           noWrap
-          component="a"
-          href=""
+          component="h5"
+          sx={{ color: '#2A2A2A' }}
         >
           SHARE US
         </Typography>
-      </div>
+      </Link>
       <div className="search">
         <Paper
           component="form"
           name="input"
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            width: 500,
-            height: 30,
-            background: 'transparent',
-            border: 0,
-            outline: 0,
-            boxShadow: 0,
-          }}
+          sx={sx.paperForm}
         >
           <FormControl sx={{ width: 80 }}>
             <Select
-              sx={{
-                height: 31, fontSize: 12, borderRadius: '5px 0 0 5px',
-              }}
+              sx={sx.select}
               className="select"
               size="small"
               value={category}
@@ -97,9 +96,37 @@ const Navbar:FC = () => {
         </Paper>
       </div>
       <div className="register">
-        <button type="button" className="login">Login</button>
-        <Button className="signup-btn">Sign Up</Button>
+        <div className="icons">
+          <ChatIcon onClick={() => { navigate('/chat') }} sx={{ cursor: 'pointer' }} />
+          <CalendarMonthIcon
+            onClick={() => { navigate('/calender') }}
+            sx={{ cursor: 'pointer' }}
+          />
+          <NotificationsIcon sx={{ cursor: 'pointer' }} />
+        </div>
+        {auth.user && <DropDown />}
+        {!auth.user && (
+        <>
+          <button
+            type="button"
+            className="login"
+            onClick={() => navigate('/login')}
+          >
+            Login
+
+          </button>
+          <Button
+            className="signup-btn"
+            onClick={() => navigate('/sign-up')}
+          >
+            Sign Up
+
+          </Button>
+        </>
+        )}
+
       </div>
+
     </header>
 
   )
