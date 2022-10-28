@@ -14,6 +14,7 @@ const initContext = {
     profileImg: '',
     headerImg: '',
   },
+  setUser: () => {},
   signIn: () => {},
   signUp: () => {},
   signOut: () => {},
@@ -29,6 +30,7 @@ export const useProvideAuth = ():IAuthContext => {
       if (userInfo.status === 200) {
         setUser(userInfo.data.user)
         JwtService.setToken(userInfo.data.token)
+        ApiService.setHeader()
       }
       return { isLogged: true }
     } catch (err:any) {
@@ -42,6 +44,7 @@ export const useProvideAuth = ():IAuthContext => {
       if (userInfo.status === 200) {
         setUser(userInfo.data.data)
         JwtService.setToken(userInfo.data.token)
+        ApiService.setHeader()
       }
       return { isLogged: true }
     } catch (err) {
@@ -51,6 +54,7 @@ export const useProvideAuth = ():IAuthContext => {
   }
   const signOut = ():void => {
     JwtService.destroyToken()
+    ApiService.setHeader()
     setUser(null)
   }
 
@@ -68,7 +72,7 @@ export const useProvideAuth = ():IAuthContext => {
     getUser()
   }, [])
   return {
-    user, signIn, signUp, signOut,
+    user, signIn, signUp, signOut, setUser,
   }
 }
 export const AuthProvider = ({ children }: IAuthContextProps):React.ReactElement => {

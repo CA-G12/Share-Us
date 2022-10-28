@@ -34,6 +34,19 @@ header {
   font-size: 0.8rem;
 }
 
+header .register {
+  display: flex;
+  gap: 1rem;
+}
+
+header .register .icons {
+  margin: 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #2a2a2a;
+}
+
 header .register .login{
   font-size: 0.8rem;
   color: #2a2a2a;
@@ -58,8 +71,9 @@ header .register .signup-btn {
 
 }
 header .search {
-  width: 40%;
+  width: 30%;
   display: flex;
+  justify-content: center;
 }
 
 header .search Button {

@@ -17,7 +17,7 @@ passport.use(new LocalStrategy({
       }
     })
     if (!user) {
-      return done(null, false, { message: 'email not exist' })
+      return done(null, false, { message: 'email does not exist' })
     }
     const verified = await bcrypt.compare(password, user.password)
     verified

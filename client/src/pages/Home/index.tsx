@@ -2,39 +2,35 @@ import './style.css'
 
 import { FC, useEffect, useState } from 'react'
 import { Dayjs } from 'dayjs'
-import EventCard from '../../components/EventCard'
 import FilterCards from '../../components/FilterCard'
 import ApiService from '../../services/ApiService'
 import IEventDetails from '../../interfaces/IEventDetails'
-import { useAuth } from '../../hooks/useAuth'
+import Navbar from '../../components/Navbar'
+import EventCardContainer from '../../components/EventCard'
 
 const Home:FC = () => {
   const [data, setData] = useState<IEventDetails[]>([])
   const [currentStatus, setCurrentStatus] = useState('all')
   const [startTime, setStartTime] = useState<Dayjs|null>(null)
   const [endTime, setEndTime] = useState<Dayjs|null>(null)
-  const auth = useAuth()
 
   useEffect(() => {
-    ApiService.get('/events', {
-      params: {
-        status: currentStatus === 'all' ? '' : currentStatus,
-        from: startTime,
-        to: endTime,
-      },
-    }).then((res) => setData(res.data.data))
-      .catch((err) => console.log(err))
+    const getEvents = async ():Promise<void> => {
+      const allEvents = await ApiService.get('/events', {
+        params: {
+          status: currentStatus === 'all' ? '' : currentStatus,
+          from: startTime,
+          to: endTime,
+        },
+      })
+      setData(allEvents.data.data)
+    }
+    getEvents()
   }, [currentStatus, startTime, endTime])
 
   return (
     <>
-      {auth.user && (
-      <p>
-        {auth.user?.username}
-        {' '}
-        <button type="button" onClick={auth.signOut}>logout</button>
-      </p>
-      )}
+      <Navbar />
       <FilterCards
         currentStatus={currentStatus}
         setCurrentStatus={setCurrentStatus}
@@ -43,7 +39,7 @@ const Home:FC = () => {
         endTime={endTime}
         setEndTime={setEndTime}
       />
-      <EventCard event={data} />
+      <EventCardContainer allEvents={data} />
     </>
 
   )

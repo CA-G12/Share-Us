@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
   createBrowserRouter,
   RouterProvider,
@@ -7,7 +7,6 @@ import {
 } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import BasicModal from './components/AddEvent'
-import ApiService from './services/ApiService'
 import 'react-toastify/dist/ReactToastify.css'
 
 import {
@@ -32,7 +31,7 @@ const App : React.FC = () => {
       element: auth.user ? <Navigate to="/" replace /> : <SignUp />,
     },
     {
-      path: 'profile',
+      path: 'users/:followerId',
       element: <Profile />,
     },
     {
@@ -40,11 +39,11 @@ const App : React.FC = () => {
       element: <SearchResult />,
     },
     {
-      path: 'event-details',
+      path: 'event/:id',
       element: <EventDetails />,
     },
     {
-      path: 'Chat',
+      path: 'chat',
       element: <Chat />,
     },
     {
@@ -52,11 +51,6 @@ const App : React.FC = () => {
       element: <Calender />,
     },
   ])
-
-  useEffect(() => {
-    ApiService.init()
-    ApiService.setHeader()
-  }, [])
 
   return (
     <div className="App">
