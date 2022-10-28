@@ -1,4 +1,4 @@
-import EventCardProps from './props/EventCardProps'
+import { EventCardProps } from './props/EventCardProps'
 import IAuthContextProps from './props/IAuthContextProps'
 import IUser from './IUser'
 import IAuthContext from './IAuthContext'

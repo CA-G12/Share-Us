@@ -24,6 +24,7 @@
         "react-hooks"
     ],
     "rules": {
+        "no-param-reassign": 0,
         "semi": [1, "never"],
         "no-nested-ternary": 0,
         "no-use-before-define": "off",
