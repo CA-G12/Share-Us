@@ -7,7 +7,7 @@ import CalendarInterestedController from '../../controllers/CalendarInterestedCo
 const router = express.Router()
 
 router.get('/events', expressWrapper(EventsController.index))
-router.get('/events/:eventId/joined', expressWrapper(isAuth), expressWrapper(EventParticipantsController.index))
+router.get('/events/joined', expressWrapper(isAuth), expressWrapper(EventParticipantsController.index))
 router.get('/events/interested', expressWrapper(isAuth), expressWrapper(CalendarInterestedController.index))
 router.get('/events/:id', expressWrapper(EventsController.show))
 

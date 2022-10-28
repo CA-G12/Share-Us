@@ -17,8 +17,6 @@ export default class EventParticipantsController {
   }
 
   public static async store (req: Request, res:Response) {
-    console.log('yyyyy')
-
     const { eventId } = req.params
     const { UserId } = req.body
     await validateParams({ id: eventId })
