@@ -39,6 +39,7 @@ interface IData{
   endTime?: string,
   longitude?: string,
   latitude?: string,
+  placeName?: string,
   hashtag?: Array<string>
 }
 
@@ -68,6 +69,7 @@ const EventModal: FC = () => {
   useEffect(() => {
     setData({ ...data, hashtag: hash })
   }, [hash])
+
   useEffect(() => {
     setData({ ...data, startTime: startTime?.toISOString() })
   }, [startTime])
@@ -104,7 +106,19 @@ const EventModal: FC = () => {
 
   return (
     <div>
-      <Button variant="outlined" onClick={() => setOpen(true)}>
+      <Button sx={{  
+        fontSize: '0.7rem',
+        background: '#2A2A2A',
+        boxShadow:' 0px 1px 4px #2a2a2a',
+        borderRadius: '8px',
+        color: '#ececec',
+        border: '0',
+        textTransform: 'capitalize',
+        padding: '0.4rem 0.8rem',
+        cursor: 'pointer',
+        height: '30px'
+  }}
+   variant="outlined" onClick={() => setOpen(true)}>
         Add Event
       </Button>
       <Modal

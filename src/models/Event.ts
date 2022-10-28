@@ -11,6 +11,7 @@ class Event extends Model {
   declare endTime: Date
   declare longitude: string
   declare latitude: string
+  declare placeName: string
   setHashtags: any
 }
 
@@ -50,6 +51,10 @@ Event.init({
     allowNull: false
   },
   latitude: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  placeName: {
     type: DataTypes.STRING,
     allowNull: false
   }

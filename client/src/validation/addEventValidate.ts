@@ -9,6 +9,7 @@ const schema = yup.object().shape({
   status: yup.string().oneOf(['in-progress', 'closed', 'upcoming']).required(),
   longitude: yup.string().required(),
   latitude: yup.string().required(),
+  placeName: yup.string().required(),
   hashtag: yup.array().of(yup.string()),
 })
 

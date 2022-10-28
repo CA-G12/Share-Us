@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import querySchema from '../validation/addEventValidate'
 import filterQuerySchema from '../validation/filterEventValidate'
 import { Message } from '../config/messages'
-import { Event, Hashtag, HashtagEvent, User } from '../db'
+import { Event, User } from '../db'
 import { Op } from 'sequelize'
 import CustomError from '../helpers/CustomError'
 import IBetweenFromAndTo from 'interfaces/IFilterEvents'
@@ -99,7 +99,8 @@ export default class EventsController {
       startTime,
       endTime,
       longitude,
-      latitude
+      latitude,
+      placeName
     } = req.body
     const event = await Event.create({
       name,
@@ -109,7 +110,8 @@ export default class EventsController {
       startTime,
       endTime,
       longitude,
-      latitude
+      latitude,
+      placeName
 
     })
     res.json({

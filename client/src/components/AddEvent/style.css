@@ -21,3 +21,12 @@ p{
   align-items: center;
   margin: 0;
 }
+.add{
+  font-size: 0.8rem;
+  color: #2a2a2a;
+  outline: 0;
+  border: 0;
+  background: transparent;
+  margin-right: 1rem;
+  cursor: pointer;
+}
