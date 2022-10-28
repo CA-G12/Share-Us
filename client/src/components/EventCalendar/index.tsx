@@ -1,7 +1,7 @@
 import {
-  FC, useState, useEffect, ReactElement,
+  FC, useState, useEffect,
 } from 'react'
-import FullCalendar from '@fullcalendar/react'
+import FullCalendar, { EventClickArg } from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
@@ -9,42 +9,16 @@ import './style.css'
 import { useNavigate } from 'react-router-dom'
 import ApiService from '../../services/ApiService'
 import SideBarCalendar from './SideBarCalendar'
+import renderEventContent from './EventContent'
 
 const EventCalendar:FC = () => {
   const [joinedEvents, setJoinedEvents] = useState([])
   const [interestedEvents, setInterestedEvents] = useState([])
   const navigate = useNavigate()
 
-  const handleEventClick = (clickInfo:any):any => {
+  const handleEventClick = (clickInfo:EventClickArg):any => {
     const eventId = clickInfo?.event?.extendedProps.eventId
-    if (window.confirm(`Are you sure you want to go to the event '${clickInfo.event.title}'`)) {
-      navigate(`/event/${eventId}`)
-    }
-  }
-  const renderEventContent = (eventInfo:any):ReactElement => {
-    const status = eventInfo?.event.extendedProps.status
-    const type = eventInfo?.event.extendedProps.type
-    return (
-      <div style={{
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        textAlign: 'center',
-        margin: 'auto',
-      }}
-      >
-        <h3 style={{ textTransform: 'capitalize', fontSize: '0.8rem' }}>{type}</h3>
-        <p className="calendar-event-info">{eventInfo.timeText}</p>
-        <p
-          className="calendar-event-info"
-          style={{ fontSize: '1rem', fontWeight: 500 }}
-        >
-          {eventInfo.event.title}
-
-        </p>
-        <p className={`event-status ${status}`}>{status}</p>
-      </div>
-    )
+    navigate(`/event/${eventId}`)
   }
 
   useEffect(() => {
