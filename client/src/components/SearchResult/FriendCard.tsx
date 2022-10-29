@@ -8,9 +8,9 @@ import {
   Typography,
   Button,
 } from '@mui/material'
-import { IEventCard } from '../../interfaces'
+import { IFriendCard } from '../../interfaces'
 
-const FriendCard:FC<IEventCard> = ({
+const FriendCard:FC<IFriendCard> = ({
   image,
   username,
   bio,
