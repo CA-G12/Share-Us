@@ -9,7 +9,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import {
-  Login, SignUp, Home, Profile, SearchResult, EventDetails, Calender, Chat,
+  Login, SignUp, Home, Profile, SearchResult, EventDetails, Calender, Chat, ErrorPage,
 } from './pages'
 import { useAuth } from './hooks/useAuth'
 
@@ -48,6 +48,10 @@ const App : React.FC = () => {
     {
       path: 'calendar',
       element: <Calender />,
+    },
+    {
+      path: '*',
+      element: <ErrorPage />,
     },
   ])
 
