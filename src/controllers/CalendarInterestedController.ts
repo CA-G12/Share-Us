@@ -1,19 +1,18 @@
-import { Event, JoinedPeople } from '../models'
-import { Request, Response } from 'express'
+import { InterestedPeople, Event } from '../db'
+import { Response, Request } from 'express'
+import { IUserRequest } from 'interfaces/IUserRequest'
 import { Message } from '../config/messages'
-import CustomError from '../helpers/CustomError'
 import validateParams from '../validation/paramsId'
-import { IUserRequest } from '../interfaces/IUserRequest'
-export default class EventParticipantsController {
+
+export default class CalendarInterestedController {
   public static async index (req: IUserRequest, res:Response):Promise<void> {
-    const allJoined = await JoinedPeople.findAll({
+    const allInterested = await InterestedPeople.findAll({
       include: [{
         model: Event
       }],
       where: { UserId: req.user?.id }
     })
-    if (!allJoined) throw new CustomError(Message.NOT_FOUND, 404)
-    res.json({ data: allJoined, message: Message.SUCCESS })
+    res.json({ data: allInterested })
   }
 
   public static async store (req: Request, res:Response) {
@@ -21,21 +20,21 @@ export default class EventParticipantsController {
     const { UserId } = req.body
     await validateParams({ id: eventId })
 
-    const joined = await JoinedPeople.findOne({
+    const joined = await InterestedPeople.findOne({
       where: {
         UserId, EventId: eventId
       }
     })
     if (joined) {
-      const destroy = await JoinedPeople.destroy({
+      const destroy = await InterestedPeople.destroy({
         where: {
           UserId, EventId: eventId
         }
       })
       res.json({ data: destroy, message: Message.NOT_JOINED_ANYMORE })
     } else {
-      const addJoined = await JoinedPeople.create({ UserId, EventId: eventId })
-      res.json({ data: addJoined, message: Message.JOINED })
+      const addInterested = await InterestedPeople.create({ UserId, EventId: eventId })
+      res.json({ data: addInterested, message: Message.JOINED })
     }
   }
 }

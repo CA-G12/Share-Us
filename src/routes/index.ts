@@ -7,8 +7,8 @@ import followingSystem from './FollowingSystem'
 
 const Router = express.Router()
 
-Router.use(auth)
 Router.use(events)
+Router.use(auth)
 Router.use(users)
 Router.use(comments)
 Router.use(followingSystem)
