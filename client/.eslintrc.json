@@ -24,6 +24,7 @@
         "react-hooks"
     ],
     "rules": {
+        "eol-last": ["error", "always"],
         "no-param-reassign": 0,
         "semi": [1, "never"],
         "no-nested-ternary": 0,

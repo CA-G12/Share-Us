@@ -4,7 +4,6 @@
 import './style.css'
 
 import React, { FC, SyntheticEvent } from 'react'
-// import { Link } from 'react-router-dom'
 import {
   Button, Tabs, Tab, Box, Typography,
 } from '@mui/material'

@@ -19,7 +19,7 @@ Hashtag.init({
   },
   color: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true
   }
 }, {
   sequelize

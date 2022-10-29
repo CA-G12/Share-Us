@@ -55,7 +55,7 @@ export default class EventsController {
     }
 
     const allEvents = await Event.findAll({
-      attributes: ['name', 'img', 'description', 'status', 'startTime', 'id'],
+      attributes: ['name', 'img', 'description', 'status', 'startTime', 'placeName', 'id'],
       include: [{
         model: User,
         attributes: ['username', 'profileImg', 'id']
@@ -99,7 +99,8 @@ export default class EventsController {
       startTime,
       endTime,
       longitude,
-      latitude
+      latitude,
+      placeName
     } = req.body
     const event = await Event.create({
       name,
@@ -109,7 +110,8 @@ export default class EventsController {
       startTime,
       endTime,
       longitude,
-      latitude
+      latitude,
+      placeName
 
     })
     res.json({
