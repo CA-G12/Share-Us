@@ -8,8 +8,9 @@ import React, { FC, SyntheticEvent, useState } from 'react'
 import {
   Button, Tabs, Tab, Box, Typography, Alert, AlertTitle, CircularProgress,
 } from '@mui/material'
-// import StarOutlineIcon from '@mui/icons-material/StarOutline'
-// import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
+import StarOutlineIcon from '@mui/icons-material/StarOutline'
+import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
 import { useParams, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import dayjs from 'dayjs'
@@ -52,9 +53,9 @@ function a11yProps(index: number): object {
 }
 const EventDetailsHeader:FC = () => {
   // for mui taps
-  const [value, setValue] = useState<number>(0)
+  const [countForTap, setCountForTap] = useState<number>(0)
   const handleChange = (event: SyntheticEvent, newValue: number):void => {
-    setValue(newValue)
+    setCountForTap(newValue)
   }
 
   const initialDetails = {
@@ -93,7 +94,6 @@ const EventDetailsHeader:FC = () => {
   const idParams = useParams().id
   const navigate = useNavigate()
 
-  // just for test, startTime: '2022-10-19T05:00:44.411Z', endTime: '2022-10-21T03:01:48.411Z'
   const resultDuration = calculateDuration(eventInfo.startTime, eventInfo.endTime)
 
   React.useEffect(() => {
@@ -222,35 +222,37 @@ const EventDetailsHeader:FC = () => {
         <h2 className="event-name">{eventInfo.name}</h2>
       </div>
       <div className="event-btns-container">
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+        <Tabs value={countForTap} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="About" {...a11yProps(0)} />
           <Tab label="Comments" {...a11yProps(1)} />
         </Tabs>
         <div className="btn-container">
+
           <Button
+            startIcon={join ? <CancelOutlinedIcon /> : <CheckCircleOutlinedIcon />}
             onClick={() => handleJoin(userId)}
             variant="contained"
             className="join-interest-btn"
             sx={join ? { backgroundColor: '#EEEEEE' }
               : { backgroundColor: 'rgba(111, 255, 116, 0.370)' }}
           >
-            {/* <CheckCircleOutlinedIcon className="test" /> */}
             {join ? <>cancel</> : <>Join</>}
           </Button>
 
           <Button
+            startIcon={interest ? <CancelOutlinedIcon /> : <StarOutlineIcon />}
             onClick={() => handleInterest(userId)}
             variant="contained"
             className="join-interest-btn"
             sx={interest ? { backgroundColor: '#EEEEEE' }
               : { backgroundColor: 'rgba(111, 186, 255, 0.370)' }}
           >
-            {/* <StarOutlineIcon /> */}
             {interest ? <>cancel</> : <>interest</>}
           </Button>
+
         </div>
       </div>
-      <TabPanel value={value} index={0}>
+      <TabPanel value={countForTap} index={0}>
         <AboutEvent
           description={eventInfo.description}
           Hashtags={eventInfo.Hashtags}
@@ -260,7 +262,7 @@ const EventDetailsHeader:FC = () => {
           latitude={eventInfo.latitude}
         />
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel value={countForTap} index={1}>
         <CommentsContainer />
       </TabPanel>
     </div>

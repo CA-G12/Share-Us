@@ -1,8 +1,16 @@
 import { useEffect, useState } from 'react'
-import { intervalToDuration, isBefore } from 'date-fns'
+import {
+  intervalToDuration, isBefore, differenceInSeconds,
+} from 'date-fns'
 
 export const useTimer = (futureDate : Date) : any => {
+  const oneDay = 60 * 60 * 24
+  const oneHour = 60 * 60
+  const oneMinute = 60
+
   const [now, setNow] = useState(new Date())
+
+  const diffInSeconds = differenceInSeconds(futureDate, now)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -22,9 +30,14 @@ export const useTimer = (futureDate : Date) : any => {
     }
   }
 
-  const {
-    days, hours, minutes, seconds,
-  } = intervalToDuration({
+  const days = Math.floor(diffInSeconds / oneDay)
+  const hours = Math.floor((diffInSeconds - days * oneDay) / oneHour)
+  const minutes = Math.floor(
+    (diffInSeconds - days * oneDay - hours * oneHour) / oneMinute,
+  )
+  const seconds = diffInSeconds - days * oneDay - hours * oneHour - minutes * oneMinute
+
+  intervalToDuration({
     start: now,
     end: futureDate,
   })

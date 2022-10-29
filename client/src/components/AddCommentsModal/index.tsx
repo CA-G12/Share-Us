@@ -4,10 +4,10 @@ import {
 } from '@mui/material'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
-// import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useParams, useNavigate } from 'react-router-dom'
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import ApiService from '../../services/ApiService'
 import './style.css'
 import { IOneComment } from '../../interfaces'
@@ -92,7 +92,7 @@ const AddCommentModal:FC<modalProps> = ({
     bgcolor: '#fff',
     boxShadow: 24,
     borderRadius: 2,
-    p: 4,
+    p: 5,
   }
   return (
     <Modal
@@ -130,18 +130,20 @@ const AddCommentModal:FC<modalProps> = ({
             fullWidth
             className="inputs"
             name="image"
+            size="small"
             value={formik.values.image}
             onChange={formik.handleChange}
             error={formik.touched.image && Boolean(formik.errors.image)}
             helperText={formik.touched.image && formik.errors.image}
           />
           <Button
+            startIcon={<AddOutlinedIcon />}
             type="submit"
             variant="contained"
             className="inputs"
+            fullWidth
             sx={{ backgroundColor: '#2A2A2A' }}
           >
-            {/* <AddOutlinedIcon /> */}
             Add Comments
           </Button>
 

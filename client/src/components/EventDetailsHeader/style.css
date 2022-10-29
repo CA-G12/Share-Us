@@ -58,6 +58,7 @@ div.event-btns-container div.btn-container  {
   display: flex;
   justify-content: space-between;
   text-align: center;
+  flex-wrap: wrap;
 }
 div.btn-container button{
   text-align: center;
@@ -74,12 +75,15 @@ div.btn-container :last-child:hover{
 div.event-btns-container div.btn-container Button:first-child,
 div.event-btns-container div.btn-container Button:last-child
 {
-display: block;
 padding: 0.4rem ;
 margin: 0 5px;
 color: #2a2a2a;
 width: 120px;
 text-align: center;
+}
+
+div.event-btns-container Button {
+  color: #2a2a2a;
 }
 
 .join-interest-btn{

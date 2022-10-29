@@ -1,6 +1,5 @@
 
 #modal-modal-title{
-  width: 90% !important;
   margin-left: auto !important; 
   margin-right: auto !important;
 }
@@ -9,12 +8,9 @@
 }
 .first-input{
   margin: 25px auto 0px !important;
-  width: 90% !important;
-  display: block !important;
   position: relative;
 }
 .inputs {
   margin: 15px auto !important;
-  width: 90% !important;
-  display: block !important;
 }
+

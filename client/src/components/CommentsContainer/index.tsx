@@ -4,7 +4,7 @@ import React, { FC, useState } from 'react'
 import {
   Button, Alert, AlertTitle, CircularProgress,
 } from '@mui/material'
-// import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 
 import { useParams } from 'react-router-dom'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -109,11 +109,11 @@ const CommentsContainer:FC = () => {
   return (
     <div className="comments-container">
       <Button
+        startIcon={<AddOutlinedIcon />}
         onClick={handleOpen}
         variant="contained"
         sx={{ backgroundColor: '#2A2A2A' }}
       >
-        {/* <AddOutlinedIcon /> */}
         Add Comments
       </Button>
 
