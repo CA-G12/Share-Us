@@ -109,7 +109,7 @@ const CommentsContainer:FC = () => {
   return (
     <div className="comments-container">
       <Button
-        startIcon={<AddOutlinedIcon />}
+        startIcon={<AddOutlinedIcon sx={{ fill: 'white' }} />}
         onClick={handleOpen}
         variant="contained"
         sx={{ backgroundColor: '#2A2A2A' }}

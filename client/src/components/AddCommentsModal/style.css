@@ -14,3 +14,26 @@
   margin: 15px auto !important;
 }
 
+
+.add-form{
+  position: relative;
+}
+.Emoji-Btn{
+  position: absolute !important;
+  top: 145px  !important;
+  left: 285px  !important;
+}
+
+.picker-container{
+  position: absolute;
+  top: 100px !important;
+  left:  150px !important;
+  height: 300px !important;
+  overflow-y: hidden !important;
+  border-radius: 10px !important;
+  z-index: 20 !important;
+  width: max-content;
+}
+.add-btn:hover {
+  background-color: #2a2a2ae7 !important;
+}

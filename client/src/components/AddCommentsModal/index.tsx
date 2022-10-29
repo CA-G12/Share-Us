@@ -96,6 +96,13 @@ const AddCommentModal:FC<modalProps> = ({
     const text = content.slice(0, cursor) + event.native + content.slice(cursor)
     setContent(text)
   }
+  const [openEmoji, setOpenEmoji] = useState<boolean>(false)
+  const handleOpenEmoji = ():void => {
+    setOpenEmoji(true)
+  }
+  const handleCloseEmoji = ():void => {
+    setOpenEmoji(false)
+  }
 
   const style = {
     position: 'absolute' as 'absolute',
@@ -120,6 +127,7 @@ const AddCommentModal:FC<modalProps> = ({
 
         <form
           onSubmit={formik.handleSubmit}
+          className="add-form"
         >
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Add New Comments
@@ -142,7 +150,12 @@ const AddCommentModal:FC<modalProps> = ({
             error={formik.touched.content && Boolean(formik.errors.content)}
             helperText={formik.touched.content && formik.errors.content}
           />
-          <IconButton color="primary" aria-label="add to shopping cart">
+          <IconButton
+            className="Emoji-Btn"
+            color="primary"
+            aria-label="add to shopping cart"
+            onClick={handleOpenEmoji}
+          >
             <EmojiEmotionsOutlinedIcon />
           </IconButton>
           <TextField
@@ -159,18 +172,35 @@ const AddCommentModal:FC<modalProps> = ({
             helperText={formik.touched.image && formik.errors.image}
           />
           <Button
-            startIcon={<AddOutlinedIcon />}
+            startIcon={<AddOutlinedIcon sx={{ fill: 'white' }} />}
             type="submit"
             variant="contained"
-            className="inputs"
             fullWidth
-            sx={{ backgroundColor: '#2A2A2A' }}
+            className="add-btn"
+            sx={{ backgroundColor: '#2A2A2A', color: 'white' }}
           >
             Add Comments
           </Button>
 
         </form>
-        <Picker data={data} onEmojiSelect={onEmojiClick} />
+        <Modal
+          open={openEmoji}
+          onClose={handleCloseEmoji}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box
+            className="picker-container"
+          >
+            <Picker
+              style={{ width: '300' }}
+              data={data}
+              onEmojiSelect={onEmojiClick}
+              perLine={6}
+            />
+          </Box>
+        </Modal>
+
       </Box>
     </Modal>
   )

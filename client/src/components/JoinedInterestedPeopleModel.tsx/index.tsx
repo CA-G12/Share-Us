@@ -49,7 +49,7 @@ const JoinedPeopleModel:FC<IModalProps> = ({
           </Typography>
           <hr />
 
-          {!listPeople.length && <p className='no-users-msg'>no users Found</p>}
+          {!listPeople.length && <p className="no-users-msg">no users Found</p>}
 
           {
           listPeople.map((ele):any => (
