@@ -14,7 +14,3 @@ export default interface ICommentsData {
   EventId:number;
   User: IEventUser;
 }
-
-// export default interface CommentsProps {
-//   data:ICommentsData[]
-// }
