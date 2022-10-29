@@ -1,6 +1,8 @@
-import { FC, Dispatch, SetStateAction } from 'react'
 import {
-  Button, Modal, Typography, TextField, Box,
+  FC, Dispatch, SetStateAction, useRef, useState,
+} from 'react'
+import {
+  Button, Modal, Typography, TextField, Box, IconButton,
 } from '@mui/material'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
@@ -8,6 +10,10 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useParams, useNavigate } from 'react-router-dom'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
+import EmojiEmotionsOutlinedIcon from '@mui/icons-material/EmojiEmotionsOutlined'
+// import Picker from 'emoji-picker-react'
+import data from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
 import ApiService from '../../services/ApiService'
 import './style.css'
 import { IOneComment } from '../../interfaces'
@@ -82,6 +88,15 @@ const AddCommentModal:FC<modalProps> = ({
     onSubmit: onSubmitAddComment,
   })
 
+  const [content, setContent] = useState('')
+  const ref = useRef<any>(null)
+  const onEmojiClick = (event:any):any => {
+    const cursor = ref.current.selectionStart
+    ref.current.focus()
+    const text = content.slice(0, cursor) + event.native + content.slice(cursor)
+    setContent(text)
+  }
+
   const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -118,11 +133,18 @@ const AddCommentModal:FC<modalProps> = ({
             multiline
             fullWidth
             rows={4}
-            value={formik.values.content}
-            onChange={formik.handleChange}
+            inputRef={ref}
+            value={formik.values.content + content}
+            onChange={(e) => {
+              formik.handleChange(e)
+              setContent('')
+            }}
             error={formik.touched.content && Boolean(formik.errors.content)}
             helperText={formik.touched.content && formik.errors.content}
           />
+          <IconButton color="primary" aria-label="add to shopping cart">
+            <EmojiEmotionsOutlinedIcon />
+          </IconButton>
           <TextField
             id="outlined-basic"
             label="select image"
@@ -148,6 +170,7 @@ const AddCommentModal:FC<modalProps> = ({
           </Button>
 
         </form>
+        <Picker data={data} onEmojiSelect={onEmojiClick} />
       </Box>
     </Modal>
   )

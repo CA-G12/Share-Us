@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/jsx-one-expression-per-line */
 
@@ -24,7 +23,7 @@ import calculateDuration from '../../helpers/calculateDuration'
 import { useAuth } from '../../hooks/useAuth'
 import 'react-toastify/dist/ReactToastify.css'
 
-const TabPanel = (props: ITabPanelProps) => {
+const TabPanel = (props: ITabPanelProps):any => {
   const {
     children, value, index, ...other
   } = props

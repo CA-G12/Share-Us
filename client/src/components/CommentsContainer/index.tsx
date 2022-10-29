@@ -59,7 +59,7 @@ const CommentsContainer:FC = () => {
 
   const [comments, setComments] = useState<IComments>(initCommentsValue)
   const [newComment, setNewComments] = useState<any>(initOneCommentValue)
-  const [showMore, setShowMore] = useState<number>(1)
+  const [nextPage, setNextPage] = useState<number>(1)
   const [allComments, setAllComments] = useState<IComments[]>([])
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [open, setOpen] = useState<boolean>(false)
@@ -68,24 +68,24 @@ const CommentsContainer:FC = () => {
 
   const handleOpen = ():void => setOpen(true)
   const handleClose = ():void => setOpen(false)
-  const handleShowMore = ():void => setShowMore(showMore + 1)
+  const handleShowMore = ():void => setNextPage(nextPage + 1)
 
   const idParams = useParams().id
 
   React.useEffect(() => {
     (async (): Promise<void> => {
       try {
-        const result = await ApiService.get(`/events/${idParams}/comments?offset=${showMore}`)
+        const result = await ApiService.get(`/events/${idParams}/comments?offset=${nextPage}`)
         setComments(result.data)
         setAllComments([...allComments, ...result.data.data])
         if (!result.data.data.length) setHasMore(false)
         setLoader(false)
       } catch (err:any) {
-        setError(err.message)
+        setError(err.response.message)
         setLoader(false)
       }
     })()
-  }, [idParams, showMore])
+  }, [idParams, nextPage])
 
   React.useEffect(() => {
     setAllComments([newComment.data, ...allComments])

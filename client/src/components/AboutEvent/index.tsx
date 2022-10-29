@@ -1,5 +1,3 @@
-/* eslint-disable react/button-has-type */
-/* eslint-disable no-undef */
 import './style.css'
 import {
   useState, FC,
@@ -13,7 +11,7 @@ import IPropsAboutEvent from '../../interfaces/props/AboutEvent'
 const AboutEvent:FC < IPropsAboutEvent > = ({
   description, Hashtags, joinedPeople, interestedPeople, longitude,
   latitude,
-}): JSX.Element => {
+}) => {
   const [open, setOpen] = useState<boolean>(false)
   const [listPeople, setListPeople] = useState<any>([])
   const [modalTitle, setModalTitle] = useState<string>('')
@@ -49,20 +47,24 @@ const AboutEvent:FC < IPropsAboutEvent > = ({
         <div className="participants-container">
           <h3>Participants</h3>
           <div>
-            <button onClick={() => {
-              setListPeople(interestedPeople)
-              setModalTitle('Interested People')
-              handleOpen()
-            }}
+            <button
+              type="button"
+              onClick={() => {
+                setListPeople(interestedPeople)
+                setModalTitle('Interested People')
+                handleOpen()
+              }}
             >
               <span>{interestedPeople.length}</span>
               interested
             </button>
-            <button onClick={() => {
-              setListPeople(joinedPeople)
-              setModalTitle('Joined People')
-              handleOpen()
-            }}
+            <button
+              type="button"
+              onClick={() => {
+                setListPeople(joinedPeople)
+                setModalTitle('Joined People')
+                handleOpen()
+              }}
             >
               <span>{joinedPeople.length}</span>
               Joined

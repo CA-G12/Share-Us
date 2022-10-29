@@ -1,7 +1,6 @@
-/* eslint-disable no-unused-vars */
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import {
-  Button, Typography, TextField, Box,
+  Button, Typography, Box,
 } from '@mui/material'
 import Modal from '@mui/material/Modal'
 import './style.css'
