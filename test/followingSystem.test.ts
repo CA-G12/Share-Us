@@ -15,7 +15,7 @@ describe('Following system routers', () => {
 
   test('check if the user can follow other user successfully', (done) => {
     supertest(app)
-      .patch('/api/v1/users/followers/2')
+      .patch('/api/v1/users/following/2')
       .set({ authorization: token })
       .expect(200)
       .expect('Content-Type', /json/)
@@ -29,7 +29,7 @@ describe('Following system routers', () => {
   })
   test('check if the user can response the following from other user', (done) => {
     supertest(app)
-      .patch('/api/v1/users/followers/2')
+      .patch('/api/v1/users/following/1')
       .set({ authorization: token2 })
       .expect(200)
       .expect('Content-Type', /json/)
@@ -43,7 +43,7 @@ describe('Following system routers', () => {
   })
   test('check if the user can un follow other user successfully', (done) => {
     supertest(app)
-      .patch('/api/v1/users/followers/2')
+      .patch('/api/v1/users/following/2')
       .set({ authorization: token })
       .expect(200)
       .expect('Content-Type', /json/)
@@ -55,9 +55,9 @@ describe('Following system routers', () => {
         }
       })
   })
-  test('check if the user can un following other user successfully', (done) => {
+  test('check if the user can remove following other user successfully', (done) => {
     supertest(app)
-      .patch('/api/v1/users/following/1')
+      .delete('/api/v1/users/follower/2')
       .set({ authorization: token })
       .expect(200)
       .expect('Content-Type', /json/)
@@ -71,7 +71,7 @@ describe('Following system routers', () => {
   })
   test('check if the un followed user can follow the other user after un following', (done) => {
     supertest(app)
-      .patch('/api/v1/users/followers/2')
+      .patch('/api/v1/users/following/2')
       .set({ authorization: token })
       .expect(200)
       .expect('Content-Type', /json/)
@@ -92,35 +92,35 @@ describe('Following system routers', () => {
       .end((err:any, res: any) => {
         if (err) done(err)
         else {
-          expect(res.body.data[0].blocked.length).toEqual(1)
+          expect(res.body.authUser[0].blocked.length).toEqual(1)
           return done()
         }
       })
   })
   test('check if the blocked user can not follow the other user', (done) => {
     supertest(app)
-      .patch('/api/v1/users/followers/2')
+      .patch('/api/v1/users/following/2')
       .set({ authorization: token })
       .expect(400)
       .expect('Content-Type', /json/)
       .end((err:any, res: any) => {
         if (err) done(err)
         else {
-          expect(res.body.message).toEqual('User id blocked')
+          expect(res.body.message).toEqual('User is blocked')
           return done()
         }
       })
   })
   test('check if the blocker user can not follow the other user', (done) => {
     supertest(app)
-      .patch('/api/v1/users/followers/1')
+      .patch('/api/v1/users/following/1')
       .set({ authorization: token2 })
       .expect(400)
       .expect('Content-Type', /json/)
       .end((err:any, res: any) => {
         if (err) done(err)
         else {
-          expect(res.body.message).toEqual('User id blocked')
+          expect(res.body.message).toEqual('User is blocked')
           return done()
         }
       })
@@ -134,7 +134,7 @@ describe('Following system routers', () => {
       .end((err:any, res: any) => {
         if (err) done(err)
         else {
-          expect(res.body.data[0].blocked.length).toEqual(0)
+          expect(res.body.authUser[0].blocked.length).toEqual(0)
           return done()
         }
       })
@@ -142,8 +142,8 @@ describe('Following system routers', () => {
 
   test('check if the user can follow other user successfully after un block', (done) => {
     supertest(app)
-      .patch('/api/v1/users/followers/1')
-      .set({ authorization: token })
+      .patch('/api/v1/users/following/1')
+      .set({ authorization: token2 })
       .expect(200)
       .expect('Content-Type', /json/)
       .end((err:any, res: any) => {
@@ -175,7 +175,7 @@ describe('Following system routers', () => {
       .end((err:any, res: any) => {
         if (err) done(err)
         else {
-          expect(res.body.data.length).toEqual(1)
+          expect(res.body.data.length).toEqual(0)
           return done()
         }
       })

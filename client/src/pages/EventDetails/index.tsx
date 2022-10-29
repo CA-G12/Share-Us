@@ -1,7 +1,7 @@
 import './style.css'
 import { FC } from 'react'
 import EventDetailsHeader from '../../components/EventDetailsHeader'
-import Navbar from '../../components/Navbar/Navbar'
+import Navbar from '../../components/Navbar/index'
 
 const EventDetails:FC = () => (
   <>

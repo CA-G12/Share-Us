@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
   createBrowserRouter,
   RouterProvider,
   Navigate,
 } from 'react-router-dom'
-import ApiService from './services/ApiService'
+
 import {
   Login, SignUp, Home, Profile, SearchResult, EventDetails, Calender, Chat,
 } from './pages'
@@ -27,11 +27,11 @@ const App : React.FC = () => {
       element: auth.user ? <Navigate to="/" replace /> : <SignUp />,
     },
     {
-      path: 'profile',
+      path: 'users/:followerId',
       element: <Profile />,
     },
     {
-      path: 'search-result',
+      path: 'search',
       element: <SearchResult />,
     },
     {
@@ -39,19 +39,14 @@ const App : React.FC = () => {
       element: <EventDetails />,
     },
     {
-      path: 'Chat',
+      path: 'chat',
       element: <Chat />,
     },
     {
-      path: 'calender',
+      path: 'calendar',
       element: <Calender />,
     },
   ])
-
-  useEffect(() => {
-    ApiService.init()
-    ApiService.setHeader()
-  }, [])
 
   return (
     <div className="App">

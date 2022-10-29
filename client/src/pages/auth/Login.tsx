@@ -5,7 +5,7 @@ import { useFormik } from 'formik'
 import * as yup from 'yup'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { ReactComponent as GoogleLogo } from
   '../../assets/icons/logo-google.svg'
 import './auth.css'
@@ -31,7 +31,7 @@ const Login: FC = () => {
     if (isLogged) {
       navigate('/')
     } else {
-      toast(error.response.data.message)
+      toast.error(error.response.data.message)
     }
   }
   const initialValues = {
@@ -96,7 +96,7 @@ const Login: FC = () => {
 
         <p className="center-pra">
           Don’t have an account ?
-          <a href="#"> Sign Up!</a>
+          <Link to="/sign-up"> Sign Up!</Link>
         </p>
       </form>
       <img src={cover} alt="test" style={{ margin: '0', padding: '0' }} />

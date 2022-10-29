@@ -11,6 +11,8 @@ export default class EventsController {
   // for getting all data
   public static async index (req: Request, res: Response):Promise<void> {
     const { status } = req.query
+    const userId = req.query?.userId as string
+
     const from = req.query?.from as string
     const to = req.query?.to as string
 
@@ -22,6 +24,7 @@ export default class EventsController {
         { startTime: IBetweenFromAndTo },
         { endTime: IBetweenFromAndTo }
       ];
+      UserId?: string
     } = {}
 
     if (status) {
@@ -47,9 +50,12 @@ export default class EventsController {
         }
       ]
     }
+    if (userId) {
+      whereObj.UserId = userId
+    }
 
     const allEvents = await Event.findAll({
-      attributes: ['name', 'img', 'description', 'status', 'startTime'],
+      attributes: ['name', 'img', 'description', 'status', 'startTime', 'id'],
       include: [{
         model: User,
         attributes: ['username', 'profileImg', 'id']

@@ -47,7 +47,7 @@ describe('sign in router', () => {
       })
   })
 
-  test('check if email not exist', (done) => {
+  test('check if email does not exist', (done) => {
     supertest(app)
       .post('/api/v1/login')
       .send({
@@ -59,7 +59,7 @@ describe('sign in router', () => {
       .end((err:any, res: any) => {
         if (err) done(err)
         else {
-          expect(res.body.message).toEqual('email not exist')
+          expect(res.body.message).toEqual('email does not exist')
           return done()
         }
       })
