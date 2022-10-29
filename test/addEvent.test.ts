@@ -22,7 +22,8 @@ describe('Adding event', () => {
         startTime: '2022-12-24 08:59:37.398 +00:00',
         endTime: '2022-12-30 08:59:37.398 +00:00',
         longitude: '35.233154',
-        latitude: '31.952162'
+        latitude: '31.952162',
+        placeName: 'Gaza'
       })
       .expect(200)
       .end((err, res) => {
@@ -41,7 +42,8 @@ describe('Adding event', () => {
         startTime: '2022-12-24 08:59:37.398 +00:00',
         endTime: '2022-12-30 08:59:37.398 +00:00',
         longitude: '35.233154',
-        latitude: '31.952162'
+        latitude: '31.952162',
+        placeName: 'Gaza'
       })
       .expect(422)
       .end((err, res) => {
