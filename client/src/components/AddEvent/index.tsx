@@ -55,9 +55,12 @@ const EventModal: FC = () => {
   const [hash, setHash] = useState<Array<string>>([])
   const [showHash, setShowHash] = useState<Array<object>>([])
 
-  const [lon, setLon] = useState('')
-  const [lat, setLat] = useState('')
-  const [placeName, setPlaceName] = useState('')
+  // const [lon, setLon] = useState('')
+  // const [lat, setLat] = useState('')
+  // const [placeName, setPlaceName] = useState('')
+  const [lon, setLon] = useState<string>()
+  const [lat, setLat] = useState<string>()
+  const [placeName, setPlaceName] = useState<string>()
 
   useEffect(() => {
     ApiService.get('/api/v1/hashtags')
@@ -73,6 +76,16 @@ const EventModal: FC = () => {
   useEffect(() => {
     setData({ ...data, startTime: startTime?.toISOString() })
   }, [startTime])
+
+  useEffect(() => {
+    setData({ ...data, latitude: lat })
+  }, [lat])
+  useEffect(() => {
+    setData({ ...data, longitude: lon })
+  }, [lon])
+  useEffect(() => {
+    setData({ ...data, placeName })
+  }, [placeName])
 
   useEffect(() => {
     setData({ ...data, endTime: endTime?.toISOString() })
@@ -106,19 +119,22 @@ const EventModal: FC = () => {
 
   return (
     <div>
-      <Button sx={{  
-        fontSize: '0.7rem',
-        background: '#2A2A2A',
-        boxShadow:' 0px 1px 4px #2a2a2a',
-        borderRadius: '8px',
-        color: '#ececec',
-        border: '0',
-        textTransform: 'capitalize',
-        padding: '0.4rem 0.8rem',
-        cursor: 'pointer',
-        height: '30px'
-  }}
-   variant="outlined" onClick={() => setOpen(true)}>
+      <Button
+        sx={{
+          fontSize: '0.7rem',
+          background: '#2A2A2A',
+          boxShadow: ' 0px 1px 4px #2a2a2a',
+          borderRadius: '8px',
+          color: '#ececec',
+          border: '0',
+          textTransform: 'capitalize',
+          padding: '0.4rem 0.8rem',
+          cursor: 'pointer',
+          height: '30px',
+        }}
+        variant="outlined"
+        onClick={() => setOpen(true)}
+      >
         Add Event
       </Button>
       <Modal

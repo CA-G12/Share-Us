@@ -23,9 +23,9 @@ const style = {
 }
 
 interface mapProps{
-  setLat: React.Dispatch<React.SetStateAction<string>>;
-  setLon: React.Dispatch<React.SetStateAction<string>>;
-  setPlaceName: React.Dispatch<React.SetStateAction<string>>;
+  setLat: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setLon: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setPlaceName: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
 const AddEventMap: FC<mapProps> = ({ setLon, setLat, setPlaceName }):JSX.Element => {

@@ -13,9 +13,9 @@ mapboxgl.accessToken = `pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29ia
 zA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA`
 
 interface mapProps{
-  setLat: React.Dispatch<React.SetStateAction<string>>;
-  setLon: React.Dispatch<React.SetStateAction<string>>;
-  setPlaceName: React.Dispatch<React.SetStateAction<string>>;
+  setLat: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setLon: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setPlaceName: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
 const MapContainer: FC <mapProps> = ({ setLon, setLat, setPlaceName }):JSX.Element => {
