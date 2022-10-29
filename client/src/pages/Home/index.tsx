@@ -7,6 +7,7 @@ import ApiService from '../../services/ApiService'
 import IEventDetails from '../../interfaces/IEventDetails'
 import Navbar from '../../components/Navbar'
 import EventCardContainer from '../../components/EventCard'
+import AddEvent from '../../components/AddEvent'
 
 const Home:FC = () => {
   const [data, setData] = useState<IEventDetails[]>([])
@@ -39,6 +40,7 @@ const Home:FC = () => {
         endTime={endTime}
         setEndTime={setEndTime}
       />
+      <AddEvent />
       <EventCardContainer allEvents={data} />
     </>
 

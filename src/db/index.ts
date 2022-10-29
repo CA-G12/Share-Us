@@ -32,7 +32,7 @@ Comments.belongsTo(Event)
 Comments.belongsTo(User)
 
 Hashtag.belongsToMany(Event, { through: HashtagEvent })
-Event.belongsToMany(Hashtag, { through: HashtagEvent })
+Event.belongsToMany(Hashtag, { as: 'Hashtags', through: HashtagEvent })
 
 Chat.belongsTo(User, { as: 'receiver' })
 Chat.belongsTo(User, { as: 'sender' })

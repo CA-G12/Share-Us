@@ -1,9 +1,12 @@
+/* eslint-disable max-len */
 import React from 'react'
 import {
   createBrowserRouter,
   RouterProvider,
   Navigate,
 } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import {
   Login, SignUp, Home, Profile, SearchResult, EventDetails, Calender, Chat,
@@ -51,6 +54,19 @@ const App : React.FC = () => {
   return (
     <div className="App">
       <RouterProvider router={router} />
+      {/* <EventCard event={event} /> */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
 
   )
