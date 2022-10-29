@@ -3,9 +3,11 @@ import EventsController from '../../controllers/EventsController'
 import expressWrapper from '../../helpers/expressWrapper'
 import HashtagController from '../../controllers/HashtagsController'
 import EventParticipantsController from '../../controllers/EventParticipantsController'
+import SearchResultController from '../../controllers/SearchResultController'
 import isAuth from '../../middlewares/isAuth'
 import CalendarInterestedController from '../../controllers/CalendarInterestedController'
 const router = express.Router()
+router.get('/search', expressWrapper(expressWrapper(SearchResultController.index)))
 
 router.post('/events', expressWrapper(EventsController.store))
 router.get('/hashtags', expressWrapper(HashtagController.show))

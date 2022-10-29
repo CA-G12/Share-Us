@@ -34,7 +34,7 @@ const App : React.FC = () => {
       element: <Profile />,
     },
     {
-      path: 'search-result',
+      path: 'search',
       element: <SearchResult />,
     },
     {
