@@ -6,7 +6,6 @@ import {
   Navigate,
 } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import BasicModal from './components/AddEvent'
 import 'react-toastify/dist/ReactToastify.css'
 
 import {
@@ -55,7 +54,6 @@ const App : React.FC = () => {
   return (
     <div className="App">
       <RouterProvider router={router} />
-      <BasicModal />
       {/* <EventCard event={event} /> */}
       <ToastContainer
         position="top-right"

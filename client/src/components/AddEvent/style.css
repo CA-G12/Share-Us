@@ -30,3 +30,9 @@ p{
   margin-right: 1rem;
   cursor: pointer;
 }
+.container{
+  display:flex;
+  justify-content:flex-end;
+  align-items:flex-end;
+  margin: 0 5%;
+}

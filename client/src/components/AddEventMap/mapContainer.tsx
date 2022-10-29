@@ -9,15 +9,15 @@ import mapboxgl from 'mapbox-gl'
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 
-mapboxgl.accessToken = `pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29ia
-zA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA`
+// const accessToken = process.env.REACT_APP_MAP_ACCESS_TOKEN
 
+mapboxgl.accessToken = `pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.
+-g_vE53SD2WrJ6tFX7QHmA`
 interface mapProps{
   setLat: React.Dispatch<React.SetStateAction<string | undefined>>;
   setLon: React.Dispatch<React.SetStateAction<string | undefined>>;
   setPlaceName: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
-
 const MapContainer: FC <mapProps> = ({ setLon, setLat, setPlaceName }):JSX.Element => {
   const mapContainerRef = useRef<any>(null!)
   const myMap:any = useRef()
@@ -30,8 +30,8 @@ const MapContainer: FC <mapProps> = ({ setLon, setLat, setPlaceName }):JSX.Eleme
     })
 
     const geocoder = new MapboxGeocoder({
-      accessToken: `pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29ia
-      zA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA`,
+      accessToken: `pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.
+      -g_vE53SD2WrJ6tFX7QHmA`,
       mapboxgl,
       mode: 'mapbox.places',
       placeholder: 'Search for places in Berkeley',

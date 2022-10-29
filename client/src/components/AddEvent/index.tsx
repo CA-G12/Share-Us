@@ -43,7 +43,7 @@ interface IData{
   hashtag?: Array<string>
 }
 
-const EventModal: FC = () => {
+const AddEvent: FC = () => {
   const [open, setOpen] = useState(false)
   const [data, setData] = useState<IData>({})
   const [startTime, setStartTime] = useState<Dayjs | null>(
@@ -54,10 +54,6 @@ const EventModal: FC = () => {
   )
   const [hash, setHash] = useState<Array<string>>([])
   const [showHash, setShowHash] = useState<Array<object>>([])
-
-  // const [lon, setLon] = useState('')
-  // const [lat, setLat] = useState('')
-  // const [placeName, setPlaceName] = useState('')
   const [lon, setLon] = useState<string>()
   const [lat, setLat] = useState<string>()
   const [placeName, setPlaceName] = useState<string>()
@@ -118,11 +114,14 @@ const EventModal: FC = () => {
   }
 
   return (
-    <div>
+    <div className="container">
       <Button
         sx={{
+          '&:hover': {
+            backgroundColor: '#2A2A2A',
+          },
           fontSize: '0.7rem',
-          background: '#2A2A2A',
+          backgroundColor: '#2A2A2A',
           boxShadow: ' 0px 1px 4px #2a2a2a',
           borderRadius: '8px',
           color: '#ececec',
@@ -301,4 +300,4 @@ const EventModal: FC = () => {
   )
 }
 
-export default EventModal
+export default AddEvent
