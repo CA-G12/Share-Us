@@ -4,9 +4,11 @@ import IUser from './IUser'
 import IAuthContext from './IAuthContext'
 import IEventDetails from './IEventDetails'
 import EventFilterProp from './props/EventFilterProp'
+import IEventCard from './IEventCard'
+import IFriendCard from './IFriendCard'
 
 export type {
   EventCardProps, IUser, IAuthContext, IAuthContextProps, IEventDetails,
   EventFilterProp,
-
+  IEventCard, IFriendCard,
 }
