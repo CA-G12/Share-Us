@@ -246,7 +246,7 @@ const EventDetailsHeader:FC = () => {
             sx={interest ? { backgroundColor: '#EEEEEE' }
               : { backgroundColor: 'rgba(111, 186, 255, 0.370)' }}
           >
-            {interest ? <>cancel</> : <>interest</>}
+            {interest ? <>not interested</> : <>interest</>}
           </Button>
 
         </div>
