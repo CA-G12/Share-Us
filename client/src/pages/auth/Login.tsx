@@ -31,7 +31,7 @@ const Login: FC = () => {
     if (isLogged) {
       navigate('/')
     } else {
-      toast(error.response.data.message)
+      toast.error(error.response.data.message)
     }
   }
   const initialValues = {

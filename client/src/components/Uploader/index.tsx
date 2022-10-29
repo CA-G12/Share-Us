@@ -5,19 +5,15 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Stack from '@mui/material/Stack'
 import './style.css'
 import { toast } from 'react-toastify'
-import { FormikProps } from 'formik'
+import { IUploaderProps } from '../../interfaces/props/IUploaderProps'
 
-interface IUploaderProps {
-  name: string
-  formik:FormikProps<any>
-  btnName: string
-}
 const Uploader:FC<IUploaderProps> = ({ name, formik, btnName }) => {
   const [url, setUrl] = useState('')
   const [loading, setLoading] = useState(false)
 
   const uploadImage = (e:any):void => {
     const data = new FormData()
+
     data.append('file', e.target.files[0])
     data.append('upload_preset', 'shamskhodary')
     data.append('cloud_name', 'dobsqpncd')
@@ -32,7 +28,7 @@ const Uploader:FC<IUploaderProps> = ({ name, formik, btnName }) => {
         formik.setFieldValue(name, data1.url)
         setLoading(false)
       })
-      .catch(() => toast('Please, try again'))
+      .catch(() => toast.error('Please, try again'))
   }
   return (
     <div className="upload-container">

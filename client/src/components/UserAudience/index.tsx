@@ -55,7 +55,7 @@ const UserAudience: FC<IModalProps> = ({
       )
       auth.setUser(removed.data.authUser[0])
     } catch (err) {
-      toast('something went wrong')
+      toast.error('something went wrong')
     }
   }
 
