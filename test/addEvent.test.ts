@@ -5,14 +5,18 @@ import app from '../src/app'
 import { Message } from '../src/config/messages'
 import build from '../src/db/build'
 import { sequelize } from '../src/db'
+import config from '../src/config/environment'
 
 beforeAll(() => build())
 afterAll(() => sequelize.close())
+
+const token = config.token
 
 describe('Adding event', () => {
   test('Insert data', done => {
     supertest(app)
       .post('/api/v1/events')
+      .set({ authorization: token })
       .send({
         name: 'Halloween party',
         description: 'you should wear a custom',
@@ -34,6 +38,7 @@ describe('Adding event', () => {
   test('Image field empty', done => {
     supertest(app)
       .post('/api/v1/events')
+      .set({ authorization: token })
       .send({
         name: 'Halloween party',
         description: 'you should wear a custom',
