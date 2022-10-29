@@ -11,6 +11,7 @@
   margin: 25px auto 0px !important;
   width: 90% !important;
   display: block !important;
+  position: relative;
 }
 .inputs {
   margin: 15px auto !important;

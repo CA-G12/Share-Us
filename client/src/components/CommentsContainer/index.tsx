@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-escape */
 import './style.css'
 
 import React, { FC, useState } from 'react'
@@ -16,8 +15,8 @@ import {
   IOneComment,
 } from '../../interfaces'
 import AddCommentModal from '../AddCommentsModal'
-// eslint-disable-next-line no-undef
-const CommentsContainer:FC = (): JSX.Element => {
+
+const CommentsContainer:FC = () => {
   const initCommentsValue: IComments = {
     message: '',
     data: [
@@ -59,7 +58,7 @@ const CommentsContainer:FC = (): JSX.Element => {
   }
 
   const [comments, setComments] = useState<IComments>(initCommentsValue)
-  const [newComment, setNewComments] = useState<IOneComment>(initOneCommentValue)
+  const [newComment, setNewComments] = useState<any>(initOneCommentValue)
   const [showMore, setShowMore] = useState<number>(1)
   const [allComments, setAllComments] = useState<IComments[]>([])
   const [hasMore, setHasMore] = useState<boolean>(true)
@@ -81,15 +80,15 @@ const CommentsContainer:FC = (): JSX.Element => {
         setAllComments([...allComments, ...result.data.data])
         if (!result.data.data.length) setHasMore(false)
         setLoader(false)
-      } catch (err) {
-        setError('We\'re having some errors in getting the information. We\'re working on it.')
+      } catch (err:any) {
+        setError(err.message)
         setLoader(false)
       }
     })()
   }, [idParams, showMore])
 
   React.useEffect(() => {
-    setComments({ ...comments, data: [newComment.data, ...comments.data] })
+    setAllComments([newComment.data, ...allComments])
   }, [newComment])
 
   if (loader) {
@@ -118,13 +117,6 @@ const CommentsContainer:FC = (): JSX.Element => {
         Add Comments
       </Button>
 
-      { !comments.data.length
-      && (
-      <Alert severity="info" sx={{ width: '80%', margin: '50px auto' }}>
-        <AlertTitle>no comments</AlertTitle>
-        there is no comments yet for this event
-      </Alert>
-      )}
       <InfiniteScroll
         dataLength={allComments.length}
         next={handleShowMore}

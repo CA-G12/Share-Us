@@ -1,5 +1,3 @@
-/* eslint-disable radix */
-/* eslint-disable no-undef */
 import {
   useRef, useEffect, FC, useState,
 } from 'react'
@@ -10,15 +8,12 @@ import IMapProps from '../../interfaces/props/IMapProps'
 mapboxgl.accessToken = `pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29ia
 zA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA`
 
-const Map:FC<IMapProps> = ({ longitude, latitude }):JSX.Element => {
+const Map:FC<IMapProps> = ({ longitude, latitude }) => {
   const mapContainerRef = useRef(null!)
   const [original, setOriginal] = useState(0)
   const [mapStyle, setMapStyle] = useState<string>('mapbox://styles/mapbox/streets-v11')
   const latitudeNumber = parseFloat(latitude.replace(/,/g, '.'))
   const longitudeNumber = parseFloat(longitude.replace(/,/g, '.'))
-  // mapbox://styles/mapbox/dark-v10
-  // mapbox://styles/mapbox/outdoors-v11
-  // mapbox://styles/mapbox/streets-v11
   // Initialize map when component mounts
   const myMap:any = useRef()
   useEffect(() => {

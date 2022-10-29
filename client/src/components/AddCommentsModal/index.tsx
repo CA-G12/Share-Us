@@ -1,6 +1,3 @@
-/* eslint-disable no-useless-escape */
-// import './style.css'
-
 import { FC, Dispatch, SetStateAction } from 'react'
 import {
   Button, Modal, Typography, TextField, Box,
@@ -45,43 +42,44 @@ const AddCommentModal:FC<modalProps> = ({
   const userId = useAuthorization.user?.id
   const idParams = useParams().id
   const navigate = useNavigate()
+
+  const onSubmitAddComment = async (values:any):Promise<any> => {
+    const body: {
+      content?: string,
+      image?: string,
+    } = {
+      content: values.content,
+      image: values.image,
+    }
+    const testContent:string = values.content!
+    const testImage:string = values.image!
+    if (testContent.trim() === '') {
+      delete body.content
+    }
+    if (testImage.trim() === '') {
+      delete body.image
+    }
+    try {
+      if (userId) {
+        const newComment = await ApiService.post(`/events/${idParams}/comments`, body)
+        handleClose()
+        setNewComments(newComment.data)
+        toast(newComment.data.message)
+      } else {
+        navigate('/login')
+      }
+    } catch (error:any) {
+      toast(error.response.data.message)
+    }
+  }
+
   const formik:any = useFormik({
     initialValues: {
       content: '',
       image: '',
     },
     validationSchema,
-    onSubmit: async (values) => {
-        interface IBody {
-        content?: string,
-        image?: string,
-      }
-        const body:IBody = {
-          content: values.content,
-          image: values.image,
-        }
-        const testContent:string = values.content!
-        const testImage:string = values.image!
-        if (testContent.trim() === '') {
-        // body.content = testContent
-          delete body.content
-        }
-        if (testImage.trim() === '') {
-          delete body.image
-        }
-        try {
-          if (userId) {
-            const newComment = await ApiService.post(`/events/${idParams}/comments`, body)
-            handleClose()
-            setNewComments(newComment.data)
-            toast(newComment.data.message)
-          } else {
-            navigate('/login')
-          }
-        } catch (error:any) {
-          toast(error.response.data.message)
-        }
-    },
+    onSubmit: onSubmitAddComment,
   })
 
   const style = {

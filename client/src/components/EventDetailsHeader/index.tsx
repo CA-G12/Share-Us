@@ -1,8 +1,6 @@
-/* eslint-disable max-len */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable no-undef */
+/* eslint-disable react/jsx-one-expression-per-line */
 
 import './style.css'
 
@@ -14,17 +12,18 @@ import {
 // import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
 import { useParams, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import dayjs from 'dayjs'
 import CommentsContainer from '../CommentsContainer'
 import { IEventDetails } from '../../interfaces'
 import ITabPanelProps from '../../interfaces/props/EventDetails'
 import AboutEvent from '../AboutEvent'
 import ApiService from '../../services/ApiService'
 import Timer from '../Timer'
-import calculateDuration from './calculateDuration'
+import calculateDuration from '../../helpers/calculateDuration'
 import { useAuth } from '../../hooks/useAuth'
 import 'react-toastify/dist/ReactToastify.css'
 
-const TabPanel = (props: ITabPanelProps):JSX.Element => {
+const TabPanel = (props: ITabPanelProps) => {
   const {
     children, value, index, ...other
   } = props
@@ -51,7 +50,7 @@ function a11yProps(index: number): object {
     'aria-controls': `simple-tabpanel-${index}`,
   }
 }
-const EventDetailsHeader:FC = ():JSX.Element => {
+const EventDetailsHeader:FC = () => {
   // for mui taps
   const [value, setValue] = useState<number>(0)
   const handleChange = (event: SyntheticEvent, newValue: number):void => {
@@ -102,14 +101,15 @@ const EventDetailsHeader:FC = ():JSX.Element => {
       try {
         const eventDetails = await ApiService.get(`/events/${idParams}`)
         const { data } = eventDetails.data
-        const checkInterest = (data.InterestedPeople.filter((ele:any) => ele.User?.id === userId))
-        if (checkInterest.length) setInterest(true); else setInterest(false)
-        const checkJoin = (data.JoinedPeople.filter((ele:any) => ele.User?.id === userId))
-        if (checkJoin.length) setJoin(true); else setJoin(false)
         setEventInfo(data)
         setLoader(false)
-      } catch (err) {
-        setError('We\'re having some errors in getting the information. We\'re working on it.')
+
+        const checkInterest = (data.InterestedPeople.find((ele:any) => ele.User?.id === userId))
+        if (checkInterest) setInterest(true); else setInterest(false)
+        const checkJoin = (data.JoinedPeople.find((ele:any) => ele.User?.id === userId))
+        if (checkJoin) setJoin(true); else setJoin(false)
+      } catch (err:any) {
+        setError(err.message)
         setLoader(false)
       }
     })()
@@ -119,12 +119,18 @@ const EventDetailsHeader:FC = ():JSX.Element => {
     try {
       if (userId) {
         const addJoin = await ApiService.post(`/events/${idParams}/joined`, { UserId })
-        if (addJoin.data.message === 'You are joined successfully') {
-          setEventInfo({ ...eventInfo, JoinedPeople: [...eventInfo.JoinedPeople, addJoin.data.data] })
+        if (addJoin.data.status === 'joined') {
+          setEventInfo({
+            ...eventInfo,
+            JoinedPeople: [...eventInfo.JoinedPeople, addJoin.data.data],
+          })
           setJoin(true)
           toast(addJoin.data.message)
-        } else if (addJoin.data.message === 'You are not joined anymore') {
-          setEventInfo({ ...eventInfo, JoinedPeople: eventInfo.JoinedPeople.filter((ele) => ele.UserId !== userId) })
+        } else if (addJoin.data.status === 'canceled') {
+          setEventInfo({
+            ...eventInfo,
+            JoinedPeople: eventInfo.JoinedPeople.filter((ele) => ele.UserId !== userId),
+          })
           setJoin(false)
           toast(addJoin.data.message)
         }
@@ -140,14 +146,14 @@ const EventDetailsHeader:FC = ():JSX.Element => {
     try {
       if (userId) {
         const addInterest = await ApiService.post(`/events/${idParams}/interested`, { UserId })
-        if (addInterest.data.message === 'interested is expressed') {
+        if (addInterest.data.status === 'interested') {
           setEventInfo({
             ...eventInfo,
             InterestedPeople: [...eventInfo.InterestedPeople, addInterest.data.data],
           })
           setInterest(true)
           toast(addInterest.data.message)
-        } else if (addInterest.data.message === 'You are not interested anymore') {
+        } else if (addInterest.data.status === 'canceled') {
           setEventInfo({
             ...eventInfo,
             InterestedPeople: eventInfo.InterestedPeople.filter((ele) => ele.UserId !== userId),
@@ -168,18 +174,16 @@ const EventDetailsHeader:FC = ():JSX.Element => {
       const result = await ApiService.get(`/events/${idParams}/Joined`)
       setJoinedList(result.data.data)
     })()
-  }, [eventInfo])
+  }, [eventInfo.JoinedPeople])
 
   React.useEffect(() => {
     (async ():Promise<void> => {
       const result = await ApiService.get(`/events/${idParams}/interested`)
       setInterestedList(result.data.data)
     })()
-  }, [eventInfo])
+  }, [eventInfo.InterestedPeople])
 
-  // formatting start time
-  const startTime = new Date(eventInfo.startTime)
-  const dateFormat = `${startTime.getHours()}:${startTime.getMinutes()},${startTime.toDateString()}`
+  const dateFormat = dayjs(new Date(eventInfo.startTime)).format('dddd, MMMM D YYYY')
 
   if (loader) {
     return (
@@ -231,7 +235,7 @@ const EventDetailsHeader:FC = ():JSX.Element => {
               : { backgroundColor: 'rgba(111, 255, 116, 0.370)' }}
           >
             {/* <CheckCircleOutlinedIcon className="test" /> */}
-            {join ? <>UnJoined</> : <>Join</>}
+            {join ? <>cancel</> : <>Join</>}
           </Button>
 
           <Button
@@ -242,7 +246,7 @@ const EventDetailsHeader:FC = ():JSX.Element => {
               : { backgroundColor: 'rgba(111, 186, 255, 0.370)' }}
           >
             {/* <StarOutlineIcon /> */}
-            {interest ? <>unInterest</> : <>interest</>}
+            {interest ? <>cancel</> : <>interest</>}
           </Button>
         </div>
       </div>

@@ -34,10 +34,10 @@ export default class JoinedController {
           UserId, EventId: eventId
         }
       })
-      res.json({ data: destroy, message: Message.NOT_JOINED_ANYMORE })
+      res.json({ data: destroy, message: Message.NOT_JOINED_ANYMORE, status: 'canceled' })
     } else {
       const addJoined = await JoinedPeople.create({ UserId, EventId: eventId })
-      res.json({ data: addJoined, message: Message.JOINED })
+      res.json({ data: addJoined, message: Message.JOINED, status: 'joined' })
     }
   }
 }

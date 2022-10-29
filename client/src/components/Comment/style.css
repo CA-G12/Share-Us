@@ -38,6 +38,8 @@ div.comment div.user-info .date{
 div.comment .comment-content{
   width: 100%;
   margin: 20px 0 15px;
+  overflow-wrap: break-word;
+
 }
 
 div.comment .comment-img{

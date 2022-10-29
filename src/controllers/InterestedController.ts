@@ -34,10 +34,10 @@ export default class InterestedController {
           UserId, EventId: eventId
         }
       })
-      res.json({ data: destroy, message: Message.NOT_INTERESTED_ANYMORE })
+      res.json({ data: destroy, message: Message.NOT_INTERESTED_ANYMORE, status: 'canceled' })
     } else {
       const addJoined = await InterestedPeople.create({ UserId, EventId: eventId })
-      res.json({ data: addJoined, message: Message.INTERESTED })
+      res.json({ data: addJoined, message: Message.INTERESTED, status: 'interested' })
     }
   }
 }
