@@ -99,7 +99,7 @@ const Navbar:FC = () => {
         <div className="icons">
           <ChatIcon onClick={() => { navigate('/chat') }} sx={{ cursor: 'pointer' }} />
           <CalendarMonthIcon
-            onClick={() => { navigate('/calender') }}
+            onClick={() => { navigate('/calendar') }}
             sx={{ cursor: 'pointer' }}
           />
           <NotificationsIcon sx={{ cursor: 'pointer' }} />
