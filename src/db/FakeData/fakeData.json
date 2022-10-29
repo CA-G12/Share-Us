@@ -9,6 +9,7 @@
       "status": "in-progress",
       "longitude": "11,50,2",
       "latitude": "25,288,10",
+      "placeName": "Gaza",
       "UserId": "2"
     },
     {
@@ -20,6 +21,7 @@
       "longitude": "11,50,2",
       "status": "upcoming",
       "latitude": "25,288,10",
+      "placeName": "Gaza",
       "UserId": "1"
     },
     {
@@ -31,6 +33,7 @@
       "status": "upcoming",
       "longitude": "11,50,2",
       "latitude": "25,288,10",
+      "placeName": "Gaza",
       "UserId": "1"
     },
     {
@@ -42,6 +45,7 @@
       "status": "closed",
       "longitude": "11,50,2",
       "latitude": "25,288,10",
+      "placeName": "Gaza",
       "UserId": "2"
     },
     {
@@ -53,6 +57,7 @@
       "status": "in-progress",
       "longitude": "11,50,2",
       "latitude": "25,288,10",
+      "placeName": "Gaza",
       "UserId": "2"
     }
   ],
