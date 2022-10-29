@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/require-default-props */
 import { FC } from 'react'
 
 import {
@@ -12,18 +10,19 @@ import {
   Box,
 } from '@mui/material'
 import dayjs from 'dayjs'
+import { IEventCard } from '../../interfaces'
 
-interface cardData{
-  image?: string
-  eventname?: string
-  startTime?: string
-  status?: string
-  Hashtags?: any
-  button?: string
-  description?: string
+const getStatusClassName = (status :string |undefined):string => {
+  if (status === 'in-progress') {
+    return 'green'
+  } if (status === 'upcoming') {
+    return 'orange'
+  } if (status === 'closed') {
+    return 'red'
+  }
+  return 'transparent'
 }
-
-const EventCardHandler:FC<cardData> = ({
+const EventCard:FC<IEventCard> = ({
   image,
   eventname,
   startTime,
@@ -63,10 +62,7 @@ const EventCardHandler:FC<cardData> = ({
         {description}
       </Typography>
       <Typography
-        className={status === 'in-progress'
-          ? 'green' : status === 'upcoming'
-            ? 'orange' : status === 'closed'
-              ? 'red' : 'transparent'}
+        className={getStatusClassName(status)}
         gutterBottom
         variant="body2"
         component="div"
@@ -76,16 +72,17 @@ const EventCardHandler:FC<cardData> = ({
       <Box sx={{ display: 'flex' }}>
         { Hashtags?.map((ele:any) => (
           <Typography
+            key={ele.id}
             sx={{
               padding: '3px',
               margin: '5px 5px 5px 0',
-              backgroundColor: 'lightblue',
+              backgroundColor: ele.color,
               borderRadius: '5px',
             }}
             variant="body2"
             color="text.secondary"
           >
-            {`# ${ele.Hashtags}`}
+            {`# ${ele.title}`}
           </Typography>
         ))}
       </Box>
@@ -109,4 +106,4 @@ const EventCardHandler:FC<cardData> = ({
     </CardActions>
   </Card>
 )
-export default EventCardHandler
+export default EventCard

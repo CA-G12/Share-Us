@@ -4,10 +4,10 @@ import IUser from './IUser'
 import IAuthContext from './IAuthContext'
 import IEventDetails from './IEventDetails'
 import EventFilterProp from './props/EventFilterProp'
-import ISearchResult from './ISearchResult'
+import IEventCard from './IEventCard'
 
 export type {
   EventCardProps, IUser, IAuthContext, IAuthContextProps, IEventDetails,
   EventFilterProp,
-  ISearchResult,
+  IEventCard,
 }

@@ -5,8 +5,8 @@ import {
   Stack, CircularProgress, Box,
 } from '@mui/material'
 import ApiService from '../../services/ApiService'
-import EventCardHandler from './EventCardHandler'
-import FriendCardHandler from './FriendCardHandler'
+import EventCard from './EventCard'
+import FriendCard from './FriendCard'
 
 const SearchResult: FC = () => {
   const [data, setData] = useState<any>([])
@@ -48,23 +48,31 @@ const SearchResult: FC = () => {
       )}
 
       {category && category === 'friends' && data?.data?.map((e:any) => (
-        <FriendCardHandler image={e.profileImg} username={e.username} bio={e.bio} button="Follow" />
+        <FriendCard
+          key={e.id}
+          image={e.profileImg}
+          username={e.username}
+          bio={e.bio}
+          button="Follow"
+        />
       ))}
 
       {category && (category === 'event' || category === 'hashtags') && data?.data?.map((e:any) => (
-        <EventCardHandler
+        <EventCard
+          key={e.id}
           image={e.img}
           eventname={e.name}
           startTime={e.startTime}
           description={e.description}
           status={e.status}
-          Hashtags={e.title}
+          Hashtags={e.Hashtags}
           button="Join"
         />
       ))}
 
       {!category && data?.data?.map((e:any) => (
-        <EventCardHandler
+        <EventCard
+          key={e.id}
           image={e.img}
           eventname={e.name}
           startTime={e.startTime}

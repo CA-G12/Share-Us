@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/require-default-props */
 import { FC } from 'react'
 
 import {
@@ -10,15 +8,9 @@ import {
   Typography,
   Button,
 } from '@mui/material'
+import { IEventCard } from '../../interfaces'
 
-interface cardData{
-  image?: string
-  username?: string
-  bio?: string
-  button?: string
-}
-
-const FriendCardHandler:FC<cardData> = ({
+const FriendCard:FC<IEventCard> = ({
   image,
   username,
   bio,
@@ -72,4 +64,4 @@ const FriendCardHandler:FC<cardData> = ({
     </CardActions>
   </Card>
 )
-export default FriendCardHandler
+export default FriendCard
