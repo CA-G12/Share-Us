@@ -1,7 +1,8 @@
 import { IEventDetails } from '..'
 
 export interface CardContainerProps {
-  allEvents: IEventDetails[]
+  allEvents: IEventDetails[],
+  followerId?:number
 }
 
 export interface EventCardProps {
