@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import {
   Login, SignUp, Home, Profile, SearchResult, EventDetails, Calender, Chat,
+  LandingPage,
 } from './pages'
 import { useAuth } from './hooks/useAuth'
 
@@ -18,6 +19,10 @@ const App : React.FC = () => {
   const router = createBrowserRouter([
     {
       path: '/',
+      element: <LandingPage />,
+    },
+    {
+      path: '/home',
       element: <Home />,
     },
     {

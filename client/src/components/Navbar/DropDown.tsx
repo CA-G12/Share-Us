@@ -61,8 +61,8 @@ const CustomizedMenus: FC = () => {
           <Avatar
             src={auth.user?.profileImg}
             sx={{
-              width: '50px',
-              height: '50px',
+              width: '40px',
+              height: '40px',
               borderRadius: '50%',
               position: 'absolute',
             }}
