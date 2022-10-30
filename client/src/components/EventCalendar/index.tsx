@@ -18,7 +18,7 @@ const EventCalendar:FC = () => {
 
   const handleEventClick = (clickInfo:EventClickArg):any => {
     const eventId = clickInfo?.event?.extendedProps.eventId
-    navigate(`/event/${eventId}`)
+    navigate(`/events/${eventId}`)
   }
 
   useEffect(() => {

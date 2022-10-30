@@ -38,7 +38,7 @@ const App : React.FC = () => {
       element: <SearchResult />,
     },
     {
-      path: 'event/:id',
+      path: 'events/:id',
       element: <EventDetails />,
     },
     {

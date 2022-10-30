@@ -1,20 +1,27 @@
 import './style.css'
 import { FC } from 'react'
-import profile from '../../assets/images/profile.png'
-import commentPic from '../../assets/images/commentPic.png'
+import ICommentsData from '../../interfaces/props/CommentsProps'
 
-const Comment:FC = () => (
-  <div className="comment">
-    <div className="user-info">
-      <img src={profile} alt="profile-img" />
-      <div>
-        <p className="username">saif hayek</p>
-        <p className="date">2022-09-10 at 09:57:55</p>
+const Comment:FC<ICommentsData> = ({
+  id, EventId, image, content, createdAt, User,
+}) => {
+  const dateFormat = new Date(createdAt)
+  const createdAtFormatted = `${dateFormat.getHours()}
+  :${dateFormat.getMinutes()},${dateFormat.toDateString()}`
+
+  return (
+    <div className="comment">
+      <div className="user-info">
+        <img src={User.profileImg} alt="profile-img" />
+        <div>
+          <p className="username">{User.username}</p>
+          <p className="date">{createdAtFormatted}</p>
+        </div>
       </div>
-    </div>
-    <p className="comment-content">Nice day with friends</p>
-    <img className="comment-img" src={commentPic} alt="" />
-  </div>
-)
+      {content && <p className="comment-content">{content}</p>}
+      {image && <img className="comment-img" src={image} alt="comments-img" />}
 
+    </div>
+  )
+}
 export default Comment

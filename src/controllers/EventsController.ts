@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import querySchema from '../validation/addEventValidate'
 import filterQuerySchema from '../validation/filterEventValidate'
 import { Message } from '../config/messages'
-import { Event, User, Hashtag } from '../db'
+import { Event, User, JoinedPeople, Hashtag, InterestedPeople } from '../db'
 import { Op } from 'sequelize'
 import CustomError from '../helpers/CustomError'
 import IBetweenFromAndTo from 'interfaces/IFilterEvents'
@@ -76,7 +76,18 @@ export default class EventsController {
       include: [{
         model: User,
         attributes: ['username', 'id']
-      }],
+      }, {
+        model: Hashtag, as: 'Hashtags'
+      },
+      {
+        model: JoinedPeople,
+        include: [{ model: User, attributes: ['username', 'id', 'profileImg'] }]
+      },
+      {
+        model: InterestedPeople,
+        include: [{ model: User, attributes: ['username', 'id', 'profileImg'] }]
+      }
+      ],
       where: {
         id
       }
@@ -87,38 +98,6 @@ export default class EventsController {
       data: eventDetails.dataValues
     })
   }
-
-  // for storing new data
-  // public static async store (req: Request, res: Response) {
-  //   await querySchema.validateAsync(req.body)
-  //   const {
-  //     name,
-  //     description,
-  //     img,
-  //     status,
-  //     startTime,
-  //     endTime,
-  //     longitude,
-  //     latitude,
-  //     placeName
-  //   } = req.body
-  //   const event = await Event.create({
-  //     name,
-  //     description,
-  //     img,
-  //     status,
-  //     startTime,
-  //     endTime,
-  //     longitude,
-  //     latitude,
-  //     placeName
-
-  //   })
-  //   res.json({
-  //     message: Message.ADDED,
-  //     data: event
-  //   })
-  // }
 
   public static async store (req: Request, res: Response) {
     const {
@@ -161,8 +140,8 @@ export default class EventsController {
 
     event.setHashtags(hashtagIds)
 
-    res.status(200).json({
-      message: Message.SUCCESS,
+    res.json({
+      message: Message.ADDED,
       data: event
     })
   }
