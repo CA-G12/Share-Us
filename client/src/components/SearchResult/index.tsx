@@ -16,7 +16,7 @@ const SearchResult: FC = () => {
 
   useEffect(() => {
     setLoading(true)
-    ApiService.get('/api/v1/search', {
+    ApiService.get('/search', {
       params: {
         input: searchParams.get('q'),
         category: searchParams.get('category'),

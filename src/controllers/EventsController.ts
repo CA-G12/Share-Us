@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import querySchema from '../validation/addEventValidate'
 import filterQuerySchema from '../validation/filterEventValidate'
 import { Message } from '../config/messages'
-import { Event, User } from '../db'
+import { Event, User, Hashtag } from '../db'
 import { Op } from 'sequelize'
 import CustomError from '../helpers/CustomError'
 import IBetweenFromAndTo from 'interfaces/IFilterEvents'
@@ -89,8 +89,38 @@ export default class EventsController {
   }
 
   // for storing new data
+  // public static async store (req: Request, res: Response) {
+  //   await querySchema.validateAsync(req.body)
+  //   const {
+  //     name,
+  //     description,
+  //     img,
+  //     status,
+  //     startTime,
+  //     endTime,
+  //     longitude,
+  //     latitude,
+  //     placeName
+  //   } = req.body
+  //   const event = await Event.create({
+  //     name,
+  //     description,
+  //     img,
+  //     status,
+  //     startTime,
+  //     endTime,
+  //     longitude,
+  //     latitude,
+  //     placeName
+
+  //   })
+  //   res.json({
+  //     message: Message.ADDED,
+  //     data: event
+  //   })
+  // }
+
   public static async store (req: Request, res: Response) {
-    await querySchema.validateAsync(req.body)
     const {
       name,
       description,
@@ -102,6 +132,20 @@ export default class EventsController {
       latitude,
       placeName
     } = req.body
+    const data = req.body
+
+    await querySchema.validateAsync(req.body)
+    const hashtagIds = []
+
+    for (const has of data.hashtag) {
+      const [row] = await Hashtag.findOrCreate({
+        where: { title: has },
+        defaults: {
+          color: `#${Math.floor(Math.random() * 16777215).toString(16)}`
+        }
+      })
+      hashtagIds.push(row.id)
+    }
     const event = await Event.create({
       name,
       description,
@@ -114,8 +158,11 @@ export default class EventsController {
       placeName
 
     })
-    res.json({
-      message: Message.ADDED,
+
+    event.setHashtags(hashtagIds)
+
+    res.status(200).json({
+      message: Message.SUCCESS,
       data: event
     })
   }
