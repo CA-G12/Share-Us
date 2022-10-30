@@ -9,7 +9,7 @@ export default interface IEventDetails {
   name: string;
   description: string;
   img: string;
-  status: 'in-progress' | 'closed' | 'upcoming';
+  status?: 'in-progress' | 'closed' | 'upcoming';
   startTime: string;
   endTime: string;
   longitude:string;
@@ -17,4 +17,7 @@ export default interface IEventDetails {
   createdAt: string;
   updatedAt:string;
   User: IEventUser;
+  Hashtags:string[] |[];
+  InterestedPeople: any[];
+  JoinedPeople: any[];
 }

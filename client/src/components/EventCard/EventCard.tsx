@@ -87,7 +87,7 @@ const EventCard:FC<EventCardProps> = ({ event }) => {
               backgroundColor: 'transparent',
             },
           }}
-          onClick={() => navigate(`/event/${event.id}`)}
+          onClick={() => navigate(`/events/${event.id}`)}
         >
           Read more
         </Button>

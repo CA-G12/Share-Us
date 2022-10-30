@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable no-undef */
 import {
   useRef,
@@ -30,8 +31,8 @@ const MapContainer: FC <mapProps> = ({ setLon, setLat, setPlaceName }):JSX.Eleme
     })
 
     const geocoder = new MapboxGeocoder({
-      accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.'
-      + '-g_vE53SD2WrJ6tFX7QHmA',
+      accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2'
+      + 'gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA',
       mapboxgl,
       mode: 'mapbox.places',
       placeholder: 'Search for places in Berkeley',
@@ -49,6 +50,12 @@ const MapContainer: FC <mapProps> = ({ setLon, setLat, setPlaceName }):JSX.Eleme
         },
       })
 
+      myMap.current.on('click', (e:any) => {
+        setLon(e.lngLat.lng)
+        setLat(e.lngLat.lat)
+        myMap.current.addControl(new mapboxgl.Marker()
+          .setLngLat([e.lngLat.lng, e.lngLat.lat]).addTo(myMap.current))
+      })
       geocoder.on('result', (event) => {
         myMap.current.getSource('single-point').setData(event.result.geometry)
         setLon(event.result.center[0])
@@ -64,6 +71,6 @@ const MapContainer: FC <mapProps> = ({ setLon, setLat, setPlaceName }):JSX.Eleme
   }, [])
 
   return (
-    <div ref={mapContainerRef} className="map-container"> hhhhhhhhhhhhh</div>)
+    <div ref={mapContainerRef} className="map-container"> </div>)
 }
 export default MapContainer

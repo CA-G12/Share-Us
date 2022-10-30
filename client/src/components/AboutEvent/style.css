@@ -40,7 +40,7 @@ width: 80%;
 margin: 0 auto;
 flex-wrap: wrap;
 }
-.participants-container div p{
+.participants-container div button{
   font-size: 15px;
   padding: 0.2rem 1rem ;
   width: 165px;
@@ -50,9 +50,10 @@ flex-wrap: wrap;
   border-radius: 4px;
   cursor: pointer;
   margin-top: 5px;
+  border: none;
   }
 
-  .participants-container div p span{
+  .participants-container div button span{
   display: block;
   font-weight: 500;
     }
@@ -76,24 +77,15 @@ flex-wrap: wrap;
   margin-top: 6px;
 }
 
-.hashtag-container :first-child{
-  background-color: rgba(0, 0, 255, 0.152);
-
-}
-
-.hashtag-container :last-child{
-background-color: rgba(255, 255, 0, 0.149);
-}
-
 .map-container{
   margin-top: 30px;
   background-color: #f1f1f1b9;
   border-radius: 8px;
+  /* overflow: hidden; */
+  height: 400px;
+  position: relative;
 }
-.map-container .map{
-  width: 100%;
-  display: block; 
-}
+
 
 .map-container p{
   padding: 15px;

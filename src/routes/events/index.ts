@@ -1,11 +1,14 @@
 import express from 'express'
 import EventsController from '../../controllers/EventsController'
 import expressWrapper from '../../helpers/expressWrapper'
+import JoinedController from '../../controllers/JoinedController'
+import InterestedController from '../../controllers/InterestedController'
 import HashtagController from '../../controllers/HashtagsController'
-import EventParticipantsController from '../../controllers/EventParticipantsController'
 import SearchResultController from '../../controllers/SearchResultController'
 import isAuth from '../../middlewares/isAuth'
 import CalendarInterestedController from '../../controllers/CalendarInterestedController'
+import CalendarJoinedController from '../../controllers/CalendarJoinedController'
+
 const router = express.Router()
 router.get('/search', expressWrapper(expressWrapper(SearchResultController.index)))
 
@@ -13,12 +16,15 @@ router.post('/events', expressWrapper(isAuth), expressWrapper(EventsController.s
 router.get('/hashtags', expressWrapper(HashtagController.show))
 
 router.get('/events', expressWrapper(EventsController.index))
-router.get('/events/joined', expressWrapper(isAuth), expressWrapper(EventParticipantsController.index))
+router.get('/events/joined', expressWrapper(isAuth), expressWrapper(CalendarJoinedController.index))
+
 router.get('/events/interested', expressWrapper(isAuth), expressWrapper(CalendarInterestedController.index))
 router.get('/events/:id', expressWrapper(EventsController.show))
+router.get('/events/:eventId/joined', expressWrapper(JoinedController.index))
+router.get('/events/:eventId/interested', expressWrapper(InterestedController.index))
 
-router.post('/events', expressWrapper(EventsController.store))
-router.post('/events/:eventId/joined', expressWrapper(isAuth), expressWrapper(EventParticipantsController.store))
-router.post('/events/:eventId/interested', expressWrapper(CalendarInterestedController.store))
+router.post('/events', expressWrapper(isAuth), expressWrapper(EventsController.store))
+router.post('/events/:eventId/joined', expressWrapper(isAuth), expressWrapper(JoinedController.store))
+router.post('/events/:eventId/interested', expressWrapper(isAuth), expressWrapper(InterestedController.store))
 
 export default router

@@ -5,8 +5,7 @@ import {
   Stack, CircularProgress, Box,
 } from '@mui/material'
 import ApiService from '../../services/ApiService'
-import EventCard from '../EventCard/EventCard'
-// import EventCardHashtag from './EventCard'
+import EventCard from './EventCard'
 import FriendCard from './FriendCard'
 
 const SearchResult: FC = () => {
@@ -68,7 +67,17 @@ const SearchResult: FC = () => {
             <div className="card-container">
               {
             data?.data?.map((e:any) => (
-              <EventCard event={e} key={e.id} />
+              <EventCard
+                key={e.id}
+                image={e.img}
+                eventname={e.name}
+                startTime={e.startTime}
+                description={e.description}
+                status={e.status}
+                Hashtags={e.Hashtags}
+                button="Show details"
+                id={e.id}
+              />
             ))
           }
             </div>
@@ -76,7 +85,16 @@ const SearchResult: FC = () => {
         )}
 
       {!category && data?.data?.map((e:any) => (
-        <EventCard event={e} />
+        <EventCard
+          key={e.id}
+          image={e.img}
+          eventname={e.name}
+          startTime={e.startTime}
+          description={e.description}
+          status={e.status}
+          Hashtags={e.Hashtags}
+          button="Show details"
+        />
 
       ))}
     </Box>
