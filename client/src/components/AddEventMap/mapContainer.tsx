@@ -1,7 +1,9 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable no-undef */
 import {
   useRef,
   useEffect,
+  useState,
   FC,
 } from 'react'
 
@@ -20,6 +22,7 @@ interface mapProps{
 }
 const MapContainer: FC <mapProps> = ({ setLon, setLat, setPlaceName }):JSX.Element => {
   const mapContainerRef = useRef<any>(null!)
+  const [marker, setMarker] = useState<any>([])
   const myMap:any = useRef()
   useEffect(() => {
     myMap.current = new mapboxgl.Map({
@@ -49,6 +52,12 @@ const MapContainer: FC <mapProps> = ({ setLon, setLat, setPlaceName }):JSX.Eleme
         },
       })
 
+      myMap.current.on('click', (e:any) => {
+        setLon(e.lngLat.lng)
+        setLat(e.lngLat.lat)
+        myMap.current.addControl(new mapboxgl.Marker()
+          .setLngLat([e.lngLat.lng, e.lngLat.lat]).addTo(myMap.current))
+      })
       geocoder.on('result', (event) => {
         myMap.current.getSource('single-point').setData(event.result.geometry)
         setLon(event.result.center[0])
