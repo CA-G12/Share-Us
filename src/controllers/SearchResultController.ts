@@ -46,7 +46,9 @@ export default class SearchResultController {
     } else {
       const allEventsWithoutCategory = await Event.findAll({
         include: [{
-          model: Hashtag
+          model: Hashtag,
+          as: 'Hashtags'
+
         }]
       })
       res.json({ data: allEventsWithoutCategory })

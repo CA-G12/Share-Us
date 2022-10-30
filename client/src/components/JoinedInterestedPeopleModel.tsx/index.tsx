@@ -6,11 +6,27 @@ import Modal from '@mui/material/Modal'
 import './style.css'
 import { useNavigate } from 'react-router-dom'
 import IModalProps from '../../interfaces/props/IModalProps'
+import { useFollowing } from '../../hooks/useFollowing'
 
 const JoinedPeopleModel:FC<IModalProps> = ({
   title, handleClose, open, listPeople,
 }) => {
   const navigate = useNavigate()
+  const followingHook = useFollowing()
+
+  const handleFollow = async (e:any, id:number):Promise<any> => {
+    if (e.target.value === 'Follow' || e.target.value === 'Unfollow') {
+      const isDone = await followingHook.followUser(id)
+      if (!isDone) {
+        navigate('/login')
+      }
+    } else if (e.target.value === 'View') {
+      navigate(`/users/${id}`)
+    } else if (e.target.value === 'Unblock') {
+      await followingHook.blockUser(id)
+    }
+  }
+
   return (
     <div className="following-popup">
       <Modal
@@ -54,15 +70,19 @@ const JoinedPeopleModel:FC<IModalProps> = ({
           {
           listPeople.map((ele):any => (
             <div className="user">
-              <Box className="username" onClick={() => navigate(`/users/${ele.User.id}`)}>
+              <Box className="username" onClick={() => navigate(`/users/${ele.User?.id}`)}>
                 <img
                   src={ele.User.profileImg}
                   alt=""
                 />
                 <Typography sx={{ fontWeight: 600 }}>{ele.User.username}</Typography>
               </Box>
-              <Button className="follow-btn">
-                Follow
+              <Button
+                className="follow-btn"
+                value={followingHook.getBtnContent(ele.User?.id, 'Follow')}
+                onClick={(e:any) => handleFollow(e, ele.User.id)}
+              >
+                {followingHook.getBtnContent(ele.User?.id, 'Follow')}
               </Button>
             </div>
           ))

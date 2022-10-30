@@ -10,7 +10,6 @@ import {
 } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { IFriendCard } from '../../interfaces'
-import { useAuth } from '../../hooks/useAuth'
 import { useFollowing } from '../../hooks/useFollowing'
 
 const FriendCard:FC<IFriendCard> = ({
@@ -21,11 +20,8 @@ const FriendCard:FC<IFriendCard> = ({
   id,
 }) => {
   const navigate = useNavigate()
-  const auth = useAuth()
   const followingHook = useFollowing()
-  const isInMyFollowing = (userId:number):boolean => auth.user?.following?.includes(userId)
-  const isMe = (userId:number):boolean => auth.user?.id === userId
-  const isInMyBlocked = (userId:number):boolean => auth.user?.blocked?.includes(userId)
+
   const handleFollow = async (e:any):Promise<any> => {
     if (e.target.value === button || e.target.value === 'Unfollow') {
       const isDone = await followingHook.followUser(id)
@@ -37,20 +33,6 @@ const FriendCard:FC<IFriendCard> = ({
     } else if (e.target.value === 'Unblock') {
       await followingHook.blockUser(id)
     }
-  }
-
-  const getBtnContent = ():string => {
-    let text = ''
-    if (isInMyFollowing(id)) {
-      text = 'Unfollow'
-    } else if (isMe(id)) {
-      text = 'View'
-    } else if (isInMyBlocked(id)) {
-      text = 'Unblock'
-    } else {
-      text = button
-    }
-    return text
   }
 
   return (
@@ -103,11 +85,11 @@ const FriendCard:FC<IFriendCard> = ({
               opacity: [0.9, 0.8, 0.7],
             },
           }}
-          value={getBtnContent()}
+          value={followingHook.getBtnContent(id, button)}
           onClick={handleFollow}
           size="small"
         >
-          {getBtnContent()}
+          {followingHook.getBtnContent(id, button)}
         </Button>
       </CardActions>
     </Card>

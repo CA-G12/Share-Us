@@ -18,6 +18,7 @@ import ApiService from '../../services/ApiService'
 import './style.css'
 import { IOneComment } from '../../interfaces'
 import { useAuth } from '../../hooks/useAuth'
+import Uploader from '../Uploader'
 
 const validationSchema = yup.object().shape({
   content: yup.string()
@@ -158,19 +159,8 @@ const AddCommentModal:FC<modalProps> = ({
           >
             <EmojiEmotionsOutlinedIcon />
           </IconButton>
-          <TextField
-            id="outlined-basic"
-            label="select image"
-            variant="outlined"
-            fullWidth
-            className="inputs"
-            name="image"
-            size="small"
-            value={formik.values.image}
-            onChange={formik.handleChange}
-            error={formik.touched.image && Boolean(formik.errors.image)}
-            helperText={formik.touched.image && formik.errors.image}
-          />
+
+          <Uploader formik={formik} name="image" btnName="image" />
           <Button
             startIcon={<AddOutlinedIcon sx={{ fill: 'white' }} />}
             type="submit"

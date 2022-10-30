@@ -112,9 +112,22 @@ export default class EventsController {
       endTime,
       longitude,
       latitude,
-      placeName
+      placeName,
+      hashtag = []
     } = req.body
-    console.log(req.body)
+
+    await querySchema.validateAsync(req.body)
+    const hashtagIds = []
+
+    for (const has of hashtag) {
+      const [row] = await Hashtag.findOrCreate({
+        where: { title: has },
+        defaults: {
+          color: `#${Math.floor(Math.random() * 16777215).toString(16)}`
+        }
+      })
+      hashtagIds.push(row.id)
+    }
 
     const event = await Event.create({
       name,
@@ -128,6 +141,9 @@ export default class EventsController {
       placeName,
       UserId: req.user?.id
     })
+
+    event.setHashtags(hashtagIds)
+
     res.json({
       message: Message.ADDED,
       data: event

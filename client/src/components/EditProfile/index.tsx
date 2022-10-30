@@ -12,7 +12,7 @@ import './style.css'
 import Uploader from '../Uploader'
 import { useAuth } from '../../hooks/useAuth'
 
-const EditProfile:FC<IEditProfile> = ({ editUserData, userData }) => {
+const EditProfile:FC<IEditProfile> = ({ editUserData }) => {
   const [open, setOpen] = useState(false)
   const auth = useAuth()
 

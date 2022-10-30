@@ -54,7 +54,6 @@ const App : React.FC = () => {
   return (
     <div className="App">
       <RouterProvider router={router} />
-      {/* <EventCard event={event} /> */}
       <ToastContainer
         position="top-right"
         autoClose={5000}

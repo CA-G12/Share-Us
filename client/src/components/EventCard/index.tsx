@@ -14,7 +14,7 @@ const EventCardContainer:FC<CardContainerProps> = ({ allEvents, followerId }) =>
   const filteredEvents = (events:IEventDetails[]):IEventDetails[] => events
     .filter((evt) => isInFollowing(evt?.User?.id)
     || isMe(evt?.User?.id)
-    || isUserProfile(evt?.User.id))
+    || isUserProfile(evt?.User?.id))
 
   return (
     <div className="card-container">
