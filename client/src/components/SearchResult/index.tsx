@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import './style.css'
 import {
-  Stack, CircularProgress, Box,
+  Stack, CircularProgress, Box, Alert,
 } from '@mui/material'
 import ApiService from '../../services/ApiService'
 import EventCard from './EventCard'
@@ -62,9 +62,7 @@ const SearchResult: FC = () => {
 
       {category && (category === 'event' || category === 'hashtags')
         && (
-          <>
-            <h3 className="search-title">Searched Results</h3>
-            <div className="card-container">
+          <div className="card-container">
               {
             data?.data?.map((e:any) => (
               <EventCard
@@ -80,10 +78,20 @@ const SearchResult: FC = () => {
               />
             ))
           }
-            </div>
-          </>
+          </div>
         )}
 
+      {
+        !data?.data?.length && (
+          <Alert
+            severity="error"
+            variant="filled"
+            sx={{ width: '40%', margin: ' 2rem auto' }}
+          >
+            No result found
+          </Alert>
+        )
+      }
       {!category && data?.data?.map((e:any) => (
         <EventCard
           key={e.id}
