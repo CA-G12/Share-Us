@@ -37,6 +37,9 @@ Event.belongsToMany(Hashtag, { as: 'Hashtags', through: HashtagEvent })
 Chat.belongsTo(User, { as: 'receiver' })
 Chat.belongsTo(User, { as: 'sender' })
 
+Event.hasMany(Comments)
+Comments.belongsTo(Event)
+
 export {
   sequelize,
   User,
