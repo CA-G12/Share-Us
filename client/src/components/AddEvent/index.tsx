@@ -13,9 +13,12 @@ import {
   Box, Modal, TextField, Button, MenuItem, InputLabel, Select, FormControl,
   Autocomplete, Chip,
 } from '@mui/material'
+import {
+  useFormik,
+} from 'formik'
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers'
-import ApiService from '../../services/ApiService'
 import schema from '../../validation/addEventValidate'
+import ApiService from '../../services/ApiService'
 import AddEventMap from '../AddEventMap'
 
 const style = {
@@ -44,6 +47,19 @@ interface IData{
 }
 
 const AddEvent: FC = () => {
+  const initialValues = {
+    name: '',
+    description: '',
+    img: '',
+    status: '',
+    startTime: '',
+    endTime: '',
+    longitude: '',
+    latitude: '',
+    placeName: '',
+    hashtag: [''],
+  }
+
   const [open, setOpen] = useState(false)
   const [data, setData] = useState<IData>({})
   const [startTime, setStartTime] = useState<Dayjs | null>(
@@ -65,53 +81,52 @@ const AddEvent: FC = () => {
       })
   }, [open])
 
-  useEffect(() => {
-    setData({ ...data, hashtag: hash })
-  }, [hash])
+  // useEffect(() => {
+  //   setData({ ...data, hashtag: hash })
+  // }, [hash])
 
-  useEffect(() => {
-    setData({ ...data, startTime: startTime?.toISOString() })
-  }, [startTime])
+  // useEffect(() => {
+  //   setData({ ...data, startTime: startTime?.toISOString() })
+  // }, [startTime])
 
-  useEffect(() => {
-    setData({ ...data, latitude: lat })
-  }, [lat])
-  useEffect(() => {
-    setData({ ...data, longitude: lon })
-  }, [lon])
-  useEffect(() => {
-    setData({ ...data, placeName })
-  }, [placeName])
+  // useEffect(() => {
+  //   setData({ ...data, latitude: lat })
+  // }, [lat])
+  // useEffect(() => {
+  //   setData({ ...data, longitude: lon })
+  // }, [lon])
+  // useEffect(() => {
+  //   setData({ ...data, placeName })
+  // }, [placeName])
 
-  useEffect(() => {
-    setData({ ...data, endTime: endTime?.toISOString() })
-  }, [endTime])
+  // useEffect(() => {
+  //   setData({ ...data, endTime: endTime?.toISOString() })
+  // }, [endTime])
 
-  const addEvent = (e:FormEvent<HTMLFormElement>): void => {
-    e.preventDefault()
-    schema.validate(data)
-      .then(() => {
-        ApiService.post('/events', { ...data })
-          .then((res) => {
-            toast.success(res.data.message)
-            setOpen(false)
-            setData({})
-          })
-          .catch((err) => {
-            toast.error(err.response.data.message)
-          })
-      })
-      .catch((err) => {
-        toast.warning(err.message)
-      })
-  }
+  // const handleSubmit = (values:any): void => {
+  //   console.log(values)
+  //   ApiService.post('/events', { ...values })
+  //     .then((res) => {
+  //       toast.success(res.data.message)
+  //       setOpen(false)
+  //       setData({})
+  //     })
+  //     .catch((err) => {
+  //       toast.error(err.response.data.message)
+  //     })
+  // }
+  const formik = useFormik({
+    initialValues,
+    validationSchema: schema,
+    onSubmit: (values) => console.log(values),
+  })
 
-  const handelChange = (e:any) : void => {
-    const { target } = e
-    const value = target.type === 'checkbox' ? target.checked : target.value
-    const { name } = target
-    setData({ ...data, [name]: value })
-  }
+  // const handelChange = (e:any) : void => {
+  //   const { target } = e
+  //   const { value } = target
+  //   const { name } = target
+  //   setData({ ...data, [name]: value })
+  // }
 
   return (
     <div className="container">
@@ -146,23 +161,31 @@ const AddEvent: FC = () => {
         <Box sx={style}>
           <p>Create an Event</p>
           <h1>Event Details</h1>
-          <form onSubmit={addEvent}>
+          <form onSubmit={formik.handleSubmit}>
             <TextField
-              onChange={handelChange}
               id="outlined-required"
               label="Event Name"
               variant="outlined"
               size="small"
               fullWidth
               name="name"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              error={formik.touched.name && Boolean(formik.errors.name)}
+              helperText={formik.touched.name && formik.errors.name}
               sx={{ display: 'block', margin: '20px 0' }}
             />
             <div style={{ display: 'flex', margin: '20px 0' }}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
                   label="Start Time"
-                  value={startTime}
-                  onChange={setStartTime}
+                  value={formik.values.startTime}
+                  // name="startTime"
+                  onChange={
+                    (e:any) => formik.setFieldValue('startTime', e.toISOString())
+                  }
+                  // error={formik.touched.startTime && Boolean(formik.errors.startTime)}
+                  // helperText={formik.touched.startTime && formik.errors.startTime}
                   renderInput={(params) => (
                     <TextField
                       // eslint-disable-next-line react/jsx-props-no-spreading
@@ -172,8 +195,13 @@ const AddEvent: FC = () => {
                 />
                 <DateTimePicker
                   label="End Time"
-                  value={endTime}
-                  onChange={setEndTime}
+                  // name="endTime"
+                  value={formik.values.endTime}
+                  onChange={
+                    (e:any) => formik.setFieldValue('endTime', e.toISOString())
+                  }
+                  // error={formik.touched.endTime && Boolean(formik.errors.endTime)}
+                  // helperText={formik.touched.endTime && formik.errors.endTime}
                 // eslint-disable-next-line react/jsx-props-no-spreading
                   renderInput={(params) => <TextField {...params} />}
                 />
@@ -187,7 +215,10 @@ const AddEvent: FC = () => {
                 label="Status"
                 name="status"
                 size="small"
-                onChange={handelChange}
+                value={formik.values.status}
+                onChange={formik.handleChange}
+                error={formik.touched.status && Boolean(formik.errors.status)}
+                // helperText={formik.touched.status && formik.errors.status}
               >
                 <MenuItem value="in-progress">In-Progress</MenuItem>
                 <MenuItem value="upcoming">Upcoming</MenuItem>
@@ -205,8 +236,10 @@ const AddEvent: FC = () => {
               <TextField
                 sx={{ marginRight: '5px' }}
                 name="longitude"
-                onChange={handelChange}
-                value={lon}
+                value={formik.values.longitude}
+                onChange={formik.handleChange}
+                error={formik.touched.longitude && Boolean(formik.errors.longitude)}
+                helperText={formik.touched.longitude && formik.errors.longitude}
                 id="outlined-required"
                 label="Longitude"
                 variant="outlined"
@@ -215,8 +248,10 @@ const AddEvent: FC = () => {
               />
               <TextField
                 name="latitude"
-                onChange={handelChange}
-                value={lat}
+                value={formik.values.latitude}
+                onChange={formik.handleChange}
+                error={formik.touched.latitude && Boolean(formik.errors.latitude)}
+                helperText={formik.touched.latitude && formik.errors.latitude}
                 id="outlined-required"
                 label="Latitude"
                 variant="outlined"
@@ -228,8 +263,10 @@ const AddEvent: FC = () => {
 
             <TextField
               name="placeName"
-              onChange={handelChange}
-              value={placeName}
+              value={formik.values.placeName}
+              onChange={formik.handleChange}
+              error={formik.touched.placeName && Boolean(formik.errors.placeName)}
+              helperText={formik.touched.placeName && formik.errors.placeName}
               id="outlined-required"
               label="Place Name"
               variant="outlined"
@@ -237,7 +274,10 @@ const AddEvent: FC = () => {
               fullWidth
             />
             <TextField
-              onChange={handelChange}
+              value={formik.values.img}
+              onChange={formik.handleChange}
+              error={formik.touched.img && Boolean(formik.errors.img)}
+              helperText={formik.touched.img && formik.errors.img}
               name="img"
               id="outlined-required"
               label="Event Picture"
@@ -247,7 +287,10 @@ const AddEvent: FC = () => {
               sx={{ display: 'block', margin: '20px 0' }}
             />
             <TextField
-              onChange={handelChange}
+              value={formik.values.description}
+              onChange={formik.handleChange}
+              error={formik.touched.description && Boolean(formik.errors.description)}
+              helperText={formik.touched.description && formik.errors.description}
               name="description"
               id="outlined-required"
               label="Description"
@@ -263,7 +306,9 @@ const AddEvent: FC = () => {
               id="tags-outlined"
               options={showHash.map((e:any) => e.title)}
               freeSolo
-              onChange={(event, value) => setHash(value)}
+              onChange={formik.handleChange}
+              // error={formik.touched.hashtag && Boolean(formik.errors.hashtag)}
+              // helperText={formik.touched.hashtag && formik.errors.hashtag}
               sx={{ display: 'block', margin: '20px 0' }}
               renderTags={
                 (value: readonly string[], getTagProps) => (
@@ -274,7 +319,7 @@ const AddEvent: FC = () => {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  value={hash}
+                  value={formik.values.hashtag}
                   name="hashtag"
                   variant="filled"
                   label="Hashtag"
