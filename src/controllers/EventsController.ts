@@ -99,9 +99,7 @@ export default class EventsController {
     })
   }
 
-  // for storing new data
   public static async store (req: Request, res: Response) {
-    await querySchema.validateAsync(req.body)
     const {
       name,
       description,
@@ -111,8 +109,23 @@ export default class EventsController {
       endTime,
       longitude,
       latitude,
-      placeName
+      placeName,
+      hashtag = []
     } = req.body
+
+    await querySchema.validateAsync(req.body)
+    const hashtagIds = []
+
+    for (const has of hashtag) {
+      const [row] = await Hashtag.findOrCreate({
+        where: { title: has },
+        defaults: {
+          color: `#${Math.floor(Math.random() * 16777215).toString(16)}`
+        }
+      })
+      hashtagIds.push(row.id)
+    }
+
     const event = await Event.create({
       name,
       description,
@@ -125,6 +138,9 @@ export default class EventsController {
       placeName
 
     })
+
+    event.setHashtags(hashtagIds)
+
     res.json({
       message: Message.ADDED,
       data: event
