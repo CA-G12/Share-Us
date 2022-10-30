@@ -13,6 +13,9 @@ export default class SearchResultController {
         },
         include: [{
           model: Hashtag
+        }, {
+          model: User,
+          attributes: { exclude: ['password'] }
         }]
       })
       res.json({ data: allEvents })

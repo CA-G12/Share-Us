@@ -5,7 +5,8 @@ import {
   Stack, CircularProgress, Box,
 } from '@mui/material'
 import ApiService from '../../services/ApiService'
-import EventCard from './EventCard'
+import EventCard from '../EventCard/EventCard'
+// import EventCardHashtag from './EventCard'
 import FriendCard from './FriendCard'
 
 const SearchResult: FC = () => {
@@ -16,7 +17,7 @@ const SearchResult: FC = () => {
 
   useEffect(() => {
     setLoading(true)
-    ApiService.get('/api/v1/search', {
+    ApiService.get('/search', {
       params: {
         input: searchParams.get('q'),
         category: searchParams.get('category'),
@@ -53,34 +54,33 @@ const SearchResult: FC = () => {
           image={e.profileImg}
           username={e.username}
           bio={e.bio}
+          id={e.id}
           button="Follow"
         />
       ))}
 
-      {category && (category === 'event' || category === 'hashtags') && data?.data?.map((e:any) => (
-        <EventCard
-          key={e.id}
-          image={e.img}
-          eventname={e.name}
-          startTime={e.startTime}
-          description={e.description}
-          status={e.status}
-          Hashtags={e.Hashtags}
-          button="Join"
-        />
-      ))}
+      {category && (category === 'event')
+        && (
+          <>
+            <h3 className="search-title">Searched Results</h3>
+            <div className="card-container">
+              {
+            data?.data?.map((e:any) => (
+              <EventCard event={e} key={e.id} />
+            ))
+          }
+            </div>
+          </>
+        )}
+      {/* {
+        category && category === 'hashtags' && data?.data.ma(e:any) => (
+          <EventCardHashtag/>
+        )
+      } */}
 
       {!category && data?.data?.map((e:any) => (
-        <EventCard
-          key={e.id}
-          image={e.img}
-          eventname={e.name}
-          startTime={e.startTime}
-          description={e.description}
-          status={e.status}
-          Hashtags={e.Hashtags}
-          button="Join"
-        />
+        <EventCard event={e} />
+
       ))}
     </Box>
   )
