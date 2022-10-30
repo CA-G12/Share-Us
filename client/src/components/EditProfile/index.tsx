@@ -10,9 +10,11 @@ import IUserProfile from '../../interfaces/IUserProfile'
 import { sx } from './style'
 import './style.css'
 import Uploader from '../Uploader'
+import { useAuth } from '../../hooks/useAuth'
 
 const EditProfile:FC<IEditProfile> = ({ editUserData, userData }) => {
   const [open, setOpen] = useState(false)
+  const auth = useAuth()
 
   const handleOpen = ():void => setOpen(true)
   const handleClose = ():void => setOpen(false)
@@ -37,11 +39,11 @@ const EditProfile:FC<IEditProfile> = ({ editUserData, userData }) => {
   })
 
   const initialValues = {
-    username: userData?.username || '',
-    bio: userData?.bio || '',
-    profileImg: userData?.profileImg || '',
-    headerImg: userData?.headerImg || '',
-    location: userData?.location || '',
+    username: auth?.user?.username || '',
+    bio: auth.user?.bio || '',
+    profileImg: auth.user?.profileImg || '',
+    headerImg: auth.user?.headerImg || '',
+    location: auth.user?.location || '',
   }
 
   const handleSubmit = (values:Partial<IUserProfile>):void => {

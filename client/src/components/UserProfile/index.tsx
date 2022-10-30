@@ -49,6 +49,8 @@ const ProfileBio:FC<UserProfileProp> = ({
       const block = await ApiService.patch(`/users/blocked/${followerId}`, {})
       setUserData(block.data.data)
       const [userInfos] = block.data.authUser
+      console.log(block.data.data, userInfos)
+
       auth.setUser(userInfos)
     } else {
       navigate('/login')

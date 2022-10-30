@@ -94,6 +94,7 @@ const SearchResult: FC = () => {
           status={e.status}
           Hashtags={e.Hashtags}
           button="Show details"
+          id={e.id}
         />
 
       ))}
