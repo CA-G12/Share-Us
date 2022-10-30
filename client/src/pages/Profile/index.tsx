@@ -83,7 +83,7 @@ const Profile:FC = () => {
           setEndTime={setEndTime}
         />
 
-        <EventCardContainer allEvents={allData} />
+        <EventCardContainer allEvents={allData} followerId={Number(followerId)} />
       </>
       )}
 
