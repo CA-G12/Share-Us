@@ -25,6 +25,8 @@ const SearchResult: FC = () => {
     })
       .then((res) => {
         setData(res.data)
+        console.log(res.data)
+
         setLoading(false)
       }).catch(() => setLoading(false))
   }, [searchParams])
@@ -59,7 +61,7 @@ const SearchResult: FC = () => {
         />
       ))}
 
-      {category && (category === 'event')
+      {category && (category === 'event' || category === 'hashtags')
         && (
           <>
             <h3 className="search-title">Searched Results</h3>
@@ -72,11 +74,6 @@ const SearchResult: FC = () => {
             </div>
           </>
         )}
-      {/* {
-        category && category === 'hashtags' && data?.data.ma(e:any) => (
-          <EventCardHashtag/>
-        )
-      } */}
 
       {!category && data?.data?.map((e:any) => (
         <EventCard event={e} />

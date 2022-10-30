@@ -12,7 +12,8 @@ export default class SearchResultController {
           }
         },
         include: [{
-          model: Hashtag
+          model: Hashtag,
+          as: 'Hashtags'
         }, {
           model: User,
           attributes: { exclude: ['password'] }
@@ -23,6 +24,7 @@ export default class SearchResultController {
       const allHashtags = await Event.findAll({
         include: [{
           model: Hashtag,
+          as: 'Hashtags',
           attributes: ['title'],
           where: {
             title: {

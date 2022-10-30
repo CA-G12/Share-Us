@@ -6,6 +6,7 @@ import { Event, User } from '../db'
 import { Op } from 'sequelize'
 import CustomError from '../helpers/CustomError'
 import IBetweenFromAndTo from 'interfaces/IFilterEvents'
+import { IUserRequest } from 'interfaces/IUserRequest'
 
 export default class EventsController {
   // for getting all data
@@ -89,7 +90,7 @@ export default class EventsController {
   }
 
   // for storing new data
-  public static async store (req: Request, res: Response) {
+  public static async store (req: IUserRequest, res: Response) {
     await querySchema.validateAsync(req.body)
     const {
       name,
@@ -102,6 +103,8 @@ export default class EventsController {
       latitude,
       placeName
     } = req.body
+    console.log(req.body)
+
     const event = await Event.create({
       name,
       description,
@@ -111,8 +114,8 @@ export default class EventsController {
       endTime,
       longitude,
       latitude,
-      placeName
-
+      placeName,
+      UserId: req.user?.id
     })
     res.json({
       message: Message.ADDED,

@@ -17,6 +17,7 @@ import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import ApiService from '../../services/ApiService'
 import schema from '../../validation/addEventValidate'
 import AddEventMap from '../AddEventMap'
+import { useAuth } from '../../hooks/useAuth'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -57,9 +58,10 @@ const AddEvent: FC = () => {
   const [lon, setLon] = useState<string>()
   const [lat, setLat] = useState<string>()
   const [placeName, setPlaceName] = useState<string>()
+  const auth = useAuth()
 
   useEffect(() => {
-    ApiService.get('/api/v1/hashtags')
+    ApiService.get('/hashtags')
       .then((res) => {
         setShowHash(res.data.data)
       })
@@ -91,7 +93,7 @@ const AddEvent: FC = () => {
     e.preventDefault()
     schema.validate(data)
       .then(() => {
-        ApiService.post('/api/v1/events', { ...data })
+        ApiService.post('/events', { ...data })
           .then((res) => {
             toast.success(res.data.message)
             setOpen(false)
@@ -115,27 +117,32 @@ const AddEvent: FC = () => {
 
   return (
     <div className="container">
-      <Button
-        sx={{
-          '&:hover': {
-            backgroundColor: '#2A2A2A',
-          },
-          fontSize: '0.7rem',
-          backgroundColor: '#2A2A2A',
-          boxShadow: ' 0px 1px 4px #2a2a2a',
-          borderRadius: '8px',
-          color: '#ececec',
-          border: '0',
-          textTransform: 'capitalize',
-          padding: '0.4rem 0.8rem',
-          cursor: 'pointer',
-          height: '30px',
-        }}
-        variant="outlined"
-        onClick={() => setOpen(true)}
-      >
-        Add Event
-      </Button>
+      {
+        auth.user && (
+          <Button
+            sx={{
+              '&:hover': {
+                backgroundColor: '#2A2A2A',
+              },
+              fontSize: '0.7rem',
+              backgroundColor: '#2A2A2A',
+              boxShadow: ' 0px 1px 4px #2a2a2a',
+              borderRadius: '8px',
+              color: '#ececec',
+              border: '0',
+              textTransform: 'capitalize',
+              padding: '0.4rem 0.8rem',
+              cursor: 'pointer',
+              height: '30px',
+            }}
+            variant="outlined"
+            onClick={() => setOpen(true)}
+          >
+            Add Event
+          </Button>
+        )
+      }
+
       <Modal
         className="box"
         open={open}
