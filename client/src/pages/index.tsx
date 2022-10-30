@@ -6,7 +6,8 @@ import EventDetails from './EventDetails'
 import Home from './Home'
 import Profile from './Profile'
 import SearchResult from './Search Result'
+import ErrorPage from './ErrorPage'
 
 export {
-  Login, SignUp, Home, Profile, SearchResult, EventDetails, Calender, Chat,
+  Login, SignUp, Home, Profile, SearchResult, EventDetails, Calender, Chat, ErrorPage,
 }
