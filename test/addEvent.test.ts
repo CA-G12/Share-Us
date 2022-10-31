@@ -1,14 +1,19 @@
 import { describe, expect, test } from '@jest/globals'
 
 import supertest from 'supertest'
-import app from '../src/app'
+import app, { cronJobs } from '../src/app'
 import { Message } from '../src/config/messages'
 import build from '../src/db/build'
 import { sequelize } from '../src/db'
 import config from '../src/config/environment'
 
 beforeAll(() => build())
-afterAll(() => sequelize.close())
+afterAll(async () => {
+  cronJobs.forEach((job) => {
+    job.stop()
+  })
+  return await sequelize.close()
+})
 
 const token = config.token
 

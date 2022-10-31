@@ -4,15 +4,20 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import router from './routes'
 import config from './config/environment'
+import reminderEmail from './cornJobs/ReminderEmail'
+import { ScheduledTask } from 'node-cron'
 
 class App {
   public app: Application
   public nodeEnv: string
+  public cronJobs: Array<ScheduledTask>
 
   constructor () {
     this.app = express()
+    this.cronJobs = []
     this.nodeEnv = config.nodeEnv
     this.initializeMiddlwares()
+    this.initializeCronJobs()
   }
 
   private initializeMiddlwares () {
@@ -26,8 +31,16 @@ class App {
       res.status(err.status).json({ message: err.message })
     })
   }
+
+  private initializeCronJobs () {
+    this.cronJobs = [
+      reminderEmail()
+    ]
+  }
 }
 
-const { app } = new App()
+const { app, cronJobs } = new App()
+
+export { cronJobs }
 
 export default app

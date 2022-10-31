@@ -10,6 +10,10 @@ JoinedPeople.init({
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true
+  },
+  isEmailSent: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
   }
 }, {
   sequelize
