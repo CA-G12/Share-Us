@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals'
-import app from '../src/app'
+import app, { cronJobs } from '../src/app'
 import supertest from 'supertest'
 import build from '../src/db/build'
 import sequelize from '../src/db/connection'
@@ -33,16 +33,21 @@ describe('Filter events tests', () => {
 
   test('get an event filtered by date', (done) => {
     supertest(app)
-      .get('/api/v1/events/?from=2022-1-20&to=2022-1-28')
+      .get('/api/v1/events/?from=2022-10-30&to=2022-11-1')
       .expect('Content-Type', /json/)
       .end((err, res) => {
         if (err) return done(err)
-        expect(res.body.data[0].name).toEqual(
-          'Hiking'
+        expect(res.body.message).toEqual(
+          'Data received successfully'
         )
         return done()
       })
   })
 })
 
-afterAll(() => sequelize.close())
+afterAll(async () => {
+  cronJobs.forEach((job) => {
+    job.stop()
+  })
+  return await sequelize.close()
+})

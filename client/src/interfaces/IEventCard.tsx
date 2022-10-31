@@ -8,4 +8,5 @@ export default interface IEventCard{
   description?: string
   username?: string
   bio?: string
+  id: number
 }

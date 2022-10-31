@@ -5,9 +5,10 @@ import isBetween from 'dayjs/plugin/isBetween'
 import { Op } from 'sequelize'
 dayjs.extend(isBetween)
 
-const changeStatus = ():void => {
-  cron.schedule('*/5 * * * *', async () => {
+const changeStatus = () => {
+  return cron.schedule('*/5 * * * *', async () => {
     // running a task every 5 minutes
+
     const events = await Event.findAll({ where: { status: { [Op.not]: 'closed' } } })
     events.forEach((evt) => {
       const startTime = evt?.startTime

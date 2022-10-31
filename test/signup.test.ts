@@ -2,10 +2,15 @@ import { describe, expect, test } from '@jest/globals'
 import supertest from 'supertest'
 import { sequelize } from '../src/db'
 import { build } from '../src/db/build'
-import app from '../src/app'
+import app, { cronJobs } from '../src/app'
 
 beforeAll(() => build())
-afterAll(() => sequelize.close())
+afterAll(async () => {
+  cronJobs.forEach((job) => {
+    job.stop()
+  })
+  return await sequelize.close()
+})
 
 describe('sign up router', () => {
   test('check if the user added successfully', (done) => {

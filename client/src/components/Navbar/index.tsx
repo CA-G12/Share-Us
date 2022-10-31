@@ -12,7 +12,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import ChatIcon from '@mui/icons-material/Chat'
 import { useAuth } from '../../hooks/useAuth'
-import logo from './logo.jpg'
+import logo from './logo.png'
 import DropDown from './DropDown'
 import { sx } from './styledMenu'
 
@@ -44,7 +44,7 @@ const Navbar:FC = () => {
   return (
     <header>
       <Link
-        to="/"
+        to="/home"
         className="logo"
       >
         <img src={logo} alt="logo" />
@@ -89,6 +89,7 @@ const Navbar:FC = () => {
             type="button"
             aria-label="search"
             className="search-btn"
+            sx={{ borderRadius: '5px' }}
             onClick={handleSearch}
           >
             search
@@ -97,12 +98,17 @@ const Navbar:FC = () => {
       </div>
       <div className="register">
         <div className="icons">
-          <ChatIcon onClick={() => { navigate('/chat') }} sx={{ cursor: 'pointer' }} />
+          <ChatIcon
+            onClick={() => { navigate('/chat') }}
+            sx={{ cursor: 'pointer', fill: '#eee' }}
+          />
           <CalendarMonthIcon
             onClick={() => { navigate('/calendar') }}
-            sx={{ cursor: 'pointer' }}
+            sx={{ cursor: 'pointer', fill: '#eee' }}
           />
-          <NotificationsIcon sx={{ cursor: 'pointer' }} />
+          <NotificationsIcon
+            sx={{ cursor: 'pointer', fill: '#eee' }}
+          />
         </div>
         {auth.user && <DropDown />}
         {!auth.user && (
