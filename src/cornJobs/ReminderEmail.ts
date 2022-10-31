@@ -6,7 +6,7 @@ import { Event, JoinedPeople, User } from '../models'
 import { Op } from 'sequelize'
 
 const reminderEmail = () => {
-  corn.schedule('* * * * *', async () => {
+  return corn.schedule('* * * * *', async () => {
     const now = dayjs().toISOString()
     const afterOneHour = dayjs().add(1, 'hour').toISOString()
     const eventToStart = await Event.findAll({
