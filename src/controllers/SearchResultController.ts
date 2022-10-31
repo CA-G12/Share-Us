@@ -12,7 +12,8 @@ export default class SearchResultController {
           }
         },
         include: [{
-          model: Hashtag
+          model: Hashtag,
+          as: 'Hashtags'
         }]
       })
       res.json({ data: allEvents })
@@ -20,6 +21,7 @@ export default class SearchResultController {
       const allHashtags = await Event.findAll({
         include: [{
           model: Hashtag,
+          as: 'Hashtags',
           attributes: ['title'],
           where: {
             title: {
@@ -41,7 +43,9 @@ export default class SearchResultController {
     } else {
       const allEventsWithoutCategory = await Event.findAll({
         include: [{
-          model: Hashtag
+          model: Hashtag,
+          as: 'Hashtags'
+
         }]
       })
       res.json({ data: allEventsWithoutCategory })

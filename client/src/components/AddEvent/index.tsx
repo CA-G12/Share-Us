@@ -59,7 +59,7 @@ const AddEvent: FC = () => {
   const [placeName, setPlaceName] = useState<string>()
 
   useEffect(() => {
-    ApiService.get('/api/v1/hashtags')
+    ApiService.get('/hashtags')
       .then((res) => {
         setShowHash(res.data.data)
       })
@@ -91,7 +91,7 @@ const AddEvent: FC = () => {
     e.preventDefault()
     schema.validate(data)
       .then(() => {
-        ApiService.post('/api/v1/events', { ...data })
+        ApiService.post('/events', { ...data })
           .then((res) => {
             toast.success(res.data.message)
             setOpen(false)

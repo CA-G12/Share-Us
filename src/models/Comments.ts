@@ -15,7 +15,7 @@ Comments.init({
   },
   content: {
     type: DataTypes.TEXT,
-    allowNull: false
+    allowNull: true
   },
   image: {
     type: DataTypes.TEXT,

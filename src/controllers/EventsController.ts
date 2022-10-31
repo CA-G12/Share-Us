@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import querySchema from '../validation/addEventValidate'
 import filterQuerySchema from '../validation/filterEventValidate'
 import { Message } from '../config/messages'
-import { Event, User } from '../db'
+import { Event, User, JoinedPeople, Hashtag, InterestedPeople } from '../db'
 import { Op } from 'sequelize'
 import CustomError from '../helpers/CustomError'
 import IBetweenFromAndTo from 'interfaces/IFilterEvents'
@@ -76,7 +76,18 @@ export default class EventsController {
       include: [{
         model: User,
         attributes: ['username', 'id']
-      }],
+      }, {
+        model: Hashtag, as: 'Hashtags'
+      },
+      {
+        model: JoinedPeople,
+        include: [{ model: User, attributes: ['username', 'id', 'profileImg'] }]
+      },
+      {
+        model: InterestedPeople,
+        include: [{ model: User, attributes: ['username', 'id', 'profileImg'] }]
+      }
+      ],
       where: {
         id
       }
@@ -88,9 +99,7 @@ export default class EventsController {
     })
   }
 
-  // for storing new data
   public static async store (req: Request, res: Response) {
-    await querySchema.validateAsync(req.body)
     const {
       name,
       description,
@@ -100,8 +109,23 @@ export default class EventsController {
       endTime,
       longitude,
       latitude,
-      placeName
+      placeName,
+      hashtag = []
     } = req.body
+
+    await querySchema.validateAsync(req.body)
+    const hashtagIds = []
+
+    for (const has of hashtag) {
+      const [row] = await Hashtag.findOrCreate({
+        where: { title: has },
+        defaults: {
+          color: `#${Math.floor(Math.random() * 16777215).toString(16)}`
+        }
+      })
+      hashtagIds.push(row.id)
+    }
+
     const event = await Event.create({
       name,
       description,
@@ -114,6 +138,9 @@ export default class EventsController {
       placeName
 
     })
+
+    event.setHashtags(hashtagIds)
+
     res.json({
       message: Message.ADDED,
       data: event

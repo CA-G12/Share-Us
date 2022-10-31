@@ -54,7 +54,7 @@ const EventCard:FC<EventCardProps> = ({ event }) => {
       }}
       >
         <Box
-          onClick={() => navigate(`/users/${event.User.id}`)}
+          onClick={() => navigate(`/users/${event?.User?.id}`)}
           sx={{
             display: 'flex',
             alignItems: 'center',
@@ -65,7 +65,7 @@ const EventCard:FC<EventCardProps> = ({ event }) => {
         >
           <Avatar
             aria-label="recipe"
-            src={event.User.profileImg}
+            src={event.User?.profileImg}
             alt="user-image"
             sx={{ width: '30px', height: '30px' }}
           />
@@ -73,7 +73,7 @@ const EventCard:FC<EventCardProps> = ({ event }) => {
             variant="body1"
             sx={{ fontSize: 13, fontWeight: 500, cursor: 'pointer' }}
           >
-            {event.User.username}
+            {event.User?.username}
 
           </Typography>
         </Box>
@@ -87,7 +87,7 @@ const EventCard:FC<EventCardProps> = ({ event }) => {
               backgroundColor: 'transparent',
             },
           }}
-          onClick={() => navigate(`/event/${event.id}`)}
+          onClick={() => navigate(`/events/${event.id}`)}
         >
           Read more
         </Button>
