@@ -1,4 +1,4 @@
-import { Alert } from '@mui/material'
+import { Alert, Grid } from '@mui/material'
 import { FC } from 'react'
 import { useAuth } from '../../hooks/useAuth'
 import { IEventDetails } from '../../interfaces'
@@ -18,20 +18,38 @@ const EventCardContainer:FC<CardContainerProps> = ({ allEvents, followerId }) =>
 
   return (
     <div className="card-container">
-      {
+      <Grid container spacing={2}>
+        {
         auth.user
         && (!filteredEvents(allEvents).length
-          ? (<Alert severity="error" variant="filled">No Events Found</Alert>)
+          ? (
+            <Grid item xs={12}>
+              <Alert severity="info" variant="outlined">No Events Found</Alert>
+            </Grid>
+          )
           : filteredEvents(allEvents)
-            .map((evt:any) => <EventCard event={evt} key={evt.id} />))
+            .map((evt:any) => (
+              <Grid item xs={3}>
+                <EventCard event={evt} key={evt.id} />
+              </Grid>
+            )))
       }
-      {
+        {
         !auth.user
         && (!allEvents.length
-          ? (<Alert severity="error" variant="filled">No Events Found</Alert>)
+          ? (
+            <Grid item xs={12}>
+              <Alert severity="info" variant="outlined">No Events Found</Alert>
+            </Grid>
+          )
           : allEvents
-            .map((evt:any) => <EventCard event={evt} key={evt.id} />))
+            .map((evt:any) => (
+              <Grid item xs={3}>
+                <EventCard event={evt} key={evt.id} />
+              </Grid>
+            )))
       }
+      </Grid>
     </div>
 
   )
