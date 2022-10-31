@@ -9,7 +9,6 @@ const reminderEmail = () => {
   corn.schedule('*/5 * * * *', async () => {
     const now = dayjs().toISOString()
     const afterOneHour = dayjs().add(1, 'hour').toISOString()
-
     const eventToStart = await Event.findAll({
       include: {
         model: JoinedPeople,

@@ -4,7 +4,7 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import router from './routes'
 import config from './config/environment'
-import { initializeCronJobs } from './cornJobs'
+import reminderEmail from './cornJobs/ReminderEmail'
 
 class App {
   public app: Application
@@ -14,7 +14,7 @@ class App {
     this.app = express()
     this.nodeEnv = config.nodeEnv
     this.initializeMiddlwares()
-    initializeCronJobs()
+    this.initializeCronJobs()
   }
 
   private initializeMiddlwares () {
@@ -27,6 +27,10 @@ class App {
     this.app.use((err: any, req: Request, res: Response, next: NextFunction) => {
       res.status(err.status).json({ message: err.message })
     })
+  }
+
+  private initializeCronJobs () {
+    reminderEmail()
   }
 }
 
