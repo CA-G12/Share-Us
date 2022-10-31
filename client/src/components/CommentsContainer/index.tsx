@@ -17,26 +17,6 @@ import {
 import AddCommentModal from '../AddCommentsModal'
 
 const CommentsContainer:FC = () => {
-  const initCommentsValue: IComments = {
-    message: '',
-    data: [
-      {
-        id: 2,
-        content: '',
-        image: '',
-        createdAt: '',
-        updatedAt: '',
-        UserId: 1,
-        EventId: 1,
-        User: {
-          id: 1,
-          username: '',
-          profileImg: '',
-        },
-      },
-    ],
-  }
-
   const initOneCommentValue: IOneComment = {
     message: '',
     data:
@@ -57,7 +37,6 @@ const CommentsContainer:FC = () => {
 
   }
 
-  const [comments, setComments] = useState<IComments>(initCommentsValue)
   const [newComment, setNewComments] = useState<any>(initOneCommentValue)
   const [nextPage, setNextPage] = useState<number>(1)
   const [allComments, setAllComments] = useState<IComments[]>([])
@@ -76,7 +55,6 @@ const CommentsContainer:FC = () => {
     (async (): Promise<void> => {
       try {
         const result = await ApiService.get(`/events/${idParams}/comments?offset=${nextPage}`)
-        setComments(result.data)
         setAllComments([...allComments, ...result.data.data])
         if (!result.data.data.length) setHasMore(false)
         setLoader(false)

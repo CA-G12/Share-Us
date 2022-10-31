@@ -54,7 +54,7 @@ const EventCard:FC<EventCardProps> = ({ event }) => {
       }}
       >
         <Box
-          onClick={() => navigate(`/users/${event?.User?.id}`)}
+          onClick={() => navigate(`/users/${event.User?.id}`)}
           sx={{
             display: 'flex',
             alignItems: 'center',
