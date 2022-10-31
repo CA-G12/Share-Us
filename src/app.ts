@@ -4,6 +4,7 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import router from './routes'
 import config from './config/environment'
+import { initializeCronJobs } from './cornJobs'
 
 class App {
   public app: Application
@@ -13,6 +14,7 @@ class App {
     this.app = express()
     this.nodeEnv = config.nodeEnv
     this.initializeMiddlwares()
+    initializeCronJobs()
   }
 
   private initializeMiddlwares () {
