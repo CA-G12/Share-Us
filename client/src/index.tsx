@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { ToastContainer } from 'react-toastify'
 import App from './App'
 import { AuthProvider } from './hooks/useAuth'
-import { ContextProvider } from './hooks/useFollowing'
+import { FollowingProvider } from './hooks/useFollowing'
 import './index.css'
 import ApiService from './services/ApiService'
 
@@ -17,7 +17,7 @@ ApiService.setHeader()
 root.render(
   <React.StrictMode>
     <AuthProvider>
-      <ContextProvider>
+      <FollowingProvider>
         <ToastContainer
           position="top-right"
           autoClose={5000}
@@ -31,7 +31,7 @@ root.render(
           theme="light"
         />
         <App />
-      </ContextProvider>
+      </FollowingProvider>
     </AuthProvider>
   </React.StrictMode>,
 )

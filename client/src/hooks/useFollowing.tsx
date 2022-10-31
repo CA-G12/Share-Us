@@ -48,7 +48,7 @@ export const useProviderFollowing = ():any => {
   }
   return { followUser, blockUser, getBtnContent }
 }
-export const ContextProvider = ({ children }:any):React.ReactElement => {
+export const FollowingProvider = ({ children }:any):React.ReactElement => {
   const followingUtil = useProviderFollowing()
   return (
     <FollowingContext.Provider
