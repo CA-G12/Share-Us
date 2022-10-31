@@ -1,4 +1,4 @@
-import { Alert } from '@mui/material'
+import { Alert, Grid } from '@mui/material'
 import { FC } from 'react'
 import { CardContainerProps } from '../../interfaces/props/EventCardProps'
 import EventCard from './EventCard'
