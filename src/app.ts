@@ -33,7 +33,9 @@ class App {
   }
 
   private initializeCronJobs () {
-    this.cronJobs.push(reminderEmail())
+    this.cronJobs = [
+      reminderEmail()
+    ]
   }
 }
 
