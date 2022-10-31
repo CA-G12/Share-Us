@@ -9,9 +9,12 @@ import IEditProfile from '../../interfaces/props/IEditProfile'
 import IUserProfile from '../../interfaces/IUserProfile'
 import { sx } from './style'
 import './style.css'
+import Uploader from '../Uploader'
+import { useAuth } from '../../hooks/useAuth'
 
-const EditProfile:FC<IEditProfile> = ({ editUserData, userData }) => {
+const EditProfile:FC<IEditProfile> = ({ editUserData }) => {
   const [open, setOpen] = useState(false)
+  const auth = useAuth()
 
   const handleOpen = ():void => setOpen(true)
   const handleClose = ():void => setOpen(false)
@@ -36,11 +39,11 @@ const EditProfile:FC<IEditProfile> = ({ editUserData, userData }) => {
   })
 
   const initialValues = {
-    username: userData?.username || '',
-    bio: userData?.bio || '',
-    profileImg: userData?.profileImg || '',
-    headerImg: userData?.headerImg || '',
-    location: userData?.location || '',
+    username: auth?.user?.username || '',
+    bio: auth.user?.bio || '',
+    profileImg: auth.user?.profileImg || '',
+    headerImg: auth.user?.headerImg || '',
+    location: auth.user?.location || '',
   }
 
   const handleSubmit = (values:Partial<IUserProfile>):void => {
@@ -125,28 +128,6 @@ const EditProfile:FC<IEditProfile> = ({ editUserData, userData }) => {
                 helperText={formik.touched.bio && formik.errors.bio}
               />
               <TextField
-                label="Profile picture"
-                id="outlined-size-small"
-                size="small"
-                name="profileImg"
-                sx={{ width: '100%' }}
-                value={formik.values.profileImg}
-                error={formik.touched.profileImg && Boolean(formik.errors.profileImg)}
-                onChange={formik.handleChange}
-                helperText={formik.touched.profileImg && formik.errors.profileImg}
-              />
-              <TextField
-                label="Header picture"
-                id="outlined-size-small"
-                size="small"
-                name="headerImg"
-                sx={{ width: '100%' }}
-                value={formik.values.headerImg}
-                error={formik.touched.headerImg && Boolean(formik.errors.headerImg)}
-                onChange={formik.handleChange}
-                helperText={formik.touched.headerImg && formik.errors.headerImg}
-              />
-              <TextField
                 label="Location"
                 id="outlined-size-small"
                 size="small"
@@ -157,6 +138,8 @@ const EditProfile:FC<IEditProfile> = ({ editUserData, userData }) => {
                 onChange={formik.handleChange}
                 helperText={formik.touched.location && formik.errors.location}
               />
+              <Uploader name="profileImg" formik={formik} btnName="profile Image" />
+              <Uploader name="headerImg" formik={formik} btnName="header Image" />
               <Button
                 variant="contained"
                 size="small"

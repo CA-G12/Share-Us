@@ -2,10 +2,11 @@ import { Request, Response } from 'express'
 import querySchema from '../validation/addEventValidate'
 import filterQuerySchema from '../validation/filterEventValidate'
 import { Message } from '../config/messages'
-import { Event, User } from '../db'
+import { Event, User, JoinedPeople, Hashtag, InterestedPeople } from '../db'
 import { Op } from 'sequelize'
 import CustomError from '../helpers/CustomError'
 import IBetweenFromAndTo from 'interfaces/IFilterEvents'
+import { IUserRequest } from 'interfaces/IUserRequest'
 
 export default class EventsController {
   // for getting all data
@@ -55,7 +56,7 @@ export default class EventsController {
     }
 
     const allEvents = await Event.findAll({
-      attributes: ['name', 'img', 'description', 'status', 'startTime', 'id'],
+      attributes: ['name', 'img', 'description', 'status', 'startTime', 'placeName', 'id'],
       include: [{
         model: User,
         attributes: ['username', 'profileImg', 'id']
@@ -76,7 +77,18 @@ export default class EventsController {
       include: [{
         model: User,
         attributes: ['username', 'id']
-      }],
+      }, {
+        model: Hashtag, as: 'Hashtags'
+      },
+      {
+        model: JoinedPeople,
+        include: [{ model: User, attributes: ['username', 'id', 'profileImg'] }]
+      },
+      {
+        model: InterestedPeople,
+        include: [{ model: User, attributes: ['username', 'id', 'profileImg'] }]
+      }
+      ],
       where: {
         id
       }
@@ -89,7 +101,7 @@ export default class EventsController {
   }
 
   // for storing new data
-  public static async store (req: Request, res: Response) {
+  public static async store (req: IUserRequest, res: Response) {
     await querySchema.validateAsync(req.body)
     const {
       name,
@@ -99,8 +111,24 @@ export default class EventsController {
       startTime,
       endTime,
       longitude,
-      latitude
+      latitude,
+      placeName,
+      hashtag = []
     } = req.body
+
+    await querySchema.validateAsync(req.body)
+    const hashtagIds = []
+
+    for (const has of hashtag) {
+      const [row] = await Hashtag.findOrCreate({
+        where: { title: has },
+        defaults: {
+          color: `#${Math.floor(Math.random() * 16777215).toString(16)}`
+        }
+      })
+      hashtagIds.push(row.id)
+    }
+
     const event = await Event.create({
       name,
       description,
@@ -109,9 +137,13 @@ export default class EventsController {
       startTime,
       endTime,
       longitude,
-      latitude
-
+      latitude,
+      placeName,
+      UserId: req.user?.id
     })
+
+    event.setHashtags(hashtagIds)
+
     res.json({
       message: Message.ADDED,
       data: event

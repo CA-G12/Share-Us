@@ -1,26 +1,41 @@
+/* eslint-disable max-len */
 import React from 'react'
 import {
   createBrowserRouter,
   RouterProvider,
   Navigate,
 } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import {
-  Login, SignUp, Home, Profile, SearchResult, EventDetails, Calender, Chat,
+  LandingPage,
+  Login,
+  SignUp,
+  Home,
+  Profile,
+  SearchResult,
+  EventDetails,
+  Calender,
+  Chat,
+  ErrorPage,
 } from './pages'
 import { useAuth } from './hooks/useAuth'
 
-const App : React.FC = () => {
+const App: React.FC = () => {
   const auth = useAuth()
   const router = createBrowserRouter([
     {
       path: '/',
+      element: <LandingPage />,
+    },
+    {
+      path: '/home',
       element: <Home />,
     },
     {
       path: 'login',
       element: auth.user ? <Navigate to="/" replace /> : <Login />,
-
     },
     {
       path: 'sign-up',
@@ -31,11 +46,11 @@ const App : React.FC = () => {
       element: <Profile />,
     },
     {
-      path: 'search-result',
+      path: 'search',
       element: <SearchResult />,
     },
     {
-      path: 'event/:id',
+      path: 'events/:id',
       element: <EventDetails />,
     },
     {
@@ -46,13 +61,28 @@ const App : React.FC = () => {
       path: 'calendar',
       element: <Calender />,
     },
+    {
+      path: '*',
+      element: <ErrorPage />,
+    },
   ])
 
   return (
     <div className="App">
       <RouterProvider router={router} />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
-
   )
 }
 

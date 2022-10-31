@@ -50,12 +50,12 @@ const UserAudience: FC<IModalProps> = ({
   const removeFollowing = async (userId: number): Promise<void> => {
     try {
       const removed = await ApiService.delete(
-        `/users/following/${userId}`,
+        `/users/follower/${userId}`,
         {},
       )
       auth.setUser(removed.data.authUser[0])
     } catch (err) {
-      toast('something went wrong')
+      toast.error('something went wrong')
     }
   }
 

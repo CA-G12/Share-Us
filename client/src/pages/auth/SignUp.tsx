@@ -2,7 +2,7 @@
 import { FC } from 'react'
 import { TextField, Button } from '@mui/material'
 import { useFormik } from 'formik'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import * as yup from 'yup'
@@ -40,7 +40,7 @@ const SignUp: FC = () => {
     if (isLogged) {
       navigate('/')
     } else {
-      toast(error.response.data.message)
+      toast.error(error.response.data.message)
     }
   }
   const initialValues = {
@@ -135,7 +135,7 @@ const SignUp: FC = () => {
 
         <p className="center-pra">
           have an account ?
-          <a href="#"> Sign in!</a>
+          <Link to="/login"> Sign in!</Link>
         </p>
       </form>
       <img src={cover} alt="test" style={{ margin: '0', padding: '0' }} />

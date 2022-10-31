@@ -2,27 +2,31 @@
 div.comment {
   padding: 20px 30px ;
   margin: 40px auto;
-  background-color: #f2f2f2;
-  border-radius: 10px;
+  background-color: #f2f2f2cd;
+  border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  max-width:60% ;
+  
 }
 
 div.comment div.user-info{
   width: max-content ;
   display: flex;
   justify-content: space-between;
+  cursor: pointer;
 }
 div.comment div.user-info img{
 border-radius: 50%;
 width: 45px;
 overflow: hidden;
+height: 45px;
 }
 div.comment div.user-info .username{
   width: max-content ;
   color: #2a2a2a;
   font-weight: 500;
-  font-size: 19px;
-  padding: 4px 0 4px 13px;
+  font-size: 17px;
+  padding: 4px 0 0px 13px;
 }
 
 div.comment div.user-info .date{
@@ -36,10 +40,15 @@ div.comment div.user-info .date{
 div.comment .comment-content{
   width: 100%;
   margin: 20px 0 15px;
+  overflow-wrap: break-word;
+
 }
 
 div.comment .comment-img{
-  width: 100%;
+  max-width: 100%;
+  min-width: 100%;
   display: block;
-  height: 336px;
+  height: 330px;
+  margin: 10px auto;
+  object-fit: cover;
 }
