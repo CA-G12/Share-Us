@@ -1,6 +1,7 @@
 import { FC, useState } from 'react'
 import { Typography } from '@mui/material'
 import { useParams, useNavigate } from 'react-router-dom'
+import io from 'socket.io-client'
 import UserProfileProp from '../../interfaces/props/UserProfileProp'
 import { useAuth } from '../../hooks/useAuth'
 import ApiService from '../../services/ApiService'
@@ -18,6 +19,12 @@ const ProfileBio:FC<UserProfileProp> = ({
   const auth = useAuth()
   const user = auth.user?.id === Number(followerId) ? auth.user : userData
 
+  const socket = io('http://localhost:8080/notifications')
+
+  const sendNotification = (message:any):void => {
+    socket.emit('followNotification', message)
+  }
+
   const handleOpen = ():void => { setOpen(true) }
   const handleClose = ():void => { setOpen(false) }
 
@@ -29,6 +36,16 @@ const ProfileBio:FC<UserProfileProp> = ({
       const follow = await ApiService.patch(`/users/following/${id}`, {})
       setUserData(follow.data.data[0])
       auth.setUser(follow.data.authUser[0])
+      sendNotification({
+        senderInfo: {
+          id: auth.user.id,
+          username: auth.user.username,
+          profileImg: auth.user.profileImg,
+        },
+        receiverId: id,
+        receiverName: follow.data.data[0].username,
+        message: `${auth.user.username} started following you`,
+      })
     } else {
       navigate('/login')
     }

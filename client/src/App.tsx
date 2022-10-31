@@ -12,6 +12,7 @@ import {
   Login, SignUp, Home, Profile, SearchResult, EventDetails, Calender, Chat,
 } from './pages'
 import { useAuth } from './hooks/useAuth'
+// import TestSocket from './components/TestSocket'
 
 const App : React.FC = () => {
   const auth = useAuth()
@@ -49,6 +50,10 @@ const App : React.FC = () => {
       path: 'calendar',
       element: <Calender />,
     },
+    // {
+    //   path: 'test',
+    //   element: <TestSocket />,
+    // },
   ])
 
   return (

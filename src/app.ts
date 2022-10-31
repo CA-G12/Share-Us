@@ -4,6 +4,9 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import router from './routes'
 import config from './config/environment'
+import Websocket from './notificationSystem/serverSocket'
+import OrdersSocket from './notificationSystem/orders.socket'
+import { createServer } from 'http'
 
 class App {
   public app: Application
@@ -30,4 +33,11 @@ class App {
 
 const { app } = new App()
 
-export default app
+const httpServer = createServer(app)
+const io = Websocket.getInstance(httpServer)
+
+io.initializeHandlers([
+  { path: '/notifications', handler: new OrdersSocket() }
+])
+
+export default httpServer
