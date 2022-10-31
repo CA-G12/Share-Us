@@ -2,12 +2,14 @@ import cron from 'node-cron'
 import { Event } from '../db'
 import dayjs from 'dayjs'
 import isBetween from 'dayjs/plugin/isBetween'
+import { Op } from 'sequelize'
 dayjs.extend(isBetween)
 
 const changeStatus = ():void => {
-  cron.schedule('*/5 * * * *', async () => {
+  cron.schedule('* * * * *', async () => {
+    // */5 * * * *
     // running a task every 5 minutes
-    const events = await Event.findAll()
+    const events = await Event.findAll({ where: { status: { [Op.not]: 'closed' } } })
     events.forEach((evt) => {
       const startTime = evt?.startTime
       const endTime = evt?.endTime
