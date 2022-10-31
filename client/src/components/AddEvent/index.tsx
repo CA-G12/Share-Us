@@ -2,11 +2,9 @@
 import {
   useEffect,
   useState,
-  FormEvent,
   FC,
 } from 'react'
 import './style.css'
-import dayjs, { Dayjs } from 'dayjs'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { toast } from 'react-toastify'
 import {
@@ -33,19 +31,6 @@ const style = {
   p: 4,
 }
 
-interface IData{
-  name?: string,
-  description?: string,
-  img?: string,
-  status?: string,
-  startTime?: string,
-  endTime?: string,
-  longitude?: string,
-  latitude?: string,
-  placeName?: string,
-  hashtag?: Array<string>
-}
-
 const AddEvent: FC = () => {
   const initialValues = {
     name: '',
@@ -61,14 +46,6 @@ const AddEvent: FC = () => {
   }
 
   const [open, setOpen] = useState(false)
-  const [data, setData] = useState<IData>({})
-  const [startTime, setStartTime] = useState<Dayjs | null>(
-    dayjs(),
-  )
-  const [endTime, setEndTime] = useState<Dayjs | null>(
-    dayjs(),
-  )
-  const [hash, setHash] = useState<Array<string>>([])
   const [showHash, setShowHash] = useState<Array<object>>([])
   const [lon, setLon] = useState<string>()
   const [lat, setLat] = useState<string>()
@@ -81,56 +58,25 @@ const AddEvent: FC = () => {
       })
   }, [open])
 
-  // useEffect(() => {
-  //   setData({ ...data, hashtag: hash })
-  // }, [hash])
-
-  // useEffect(() => {
-  //   setData({ ...data, startTime: startTime?.toISOString() })
-  // }, [startTime])
-
-  // useEffect(() => {
-  //   setData({ ...data, latitude: lat })
-  // }, [lat])
-  // useEffect(() => {
-  //   setData({ ...data, longitude: lon })
-  // }, [lon])
-  // useEffect(() => {
-  //   setData({ ...data, placeName })
-  // }, [placeName])
-
-  // useEffect(() => {
-  //   setData({ ...data, endTime: endTime?.toISOString() })
-  // }, [endTime])
-
-  // const handleSubmit = (values:any): void => {
-  //   console.log(values)
-  //   ApiService.post('/events', { ...values })
-  //     .then((res) => {
-  //       toast.success(res.data.message)
-  //       setOpen(false)
-  //       setData({})
-  //     })
-  //     .catch((err) => {
-  //       toast.error(err.response.data.message)
-  //     })
-  // }
+  const handleSubmit = (values:any): void => {
+    console.log(values)
+    ApiService.post('/events', { ...values })
+      .then((res) => {
+        toast.success(res.data.message)
+        setOpen(false)
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message)
+      })
+  }
   const formik = useFormik({
     initialValues,
     validationSchema: schema,
-    onSubmit: (values) => console.log(values),
+    onSubmit: (values) => handleSubmit(values),
   })
 
   console.log(formik.errors)
   console.log(formik.values)
-
-  // const handelChange = (e:any) : void => {
-  //   const { target } = e
-  //   const { value } = target
-  //   const { name } = target
-  //   setData({ ...data, [name]: value })
-  // }
-
   return (
     <div className="container">
       <Button
@@ -183,12 +129,9 @@ const AddEvent: FC = () => {
                 <DateTimePicker
                   label="Start Time"
                   value={formik.values.startTime}
-                  // name="startTime"
                   onChange={
                     (e:any) => formik.setFieldValue('startTime', e.toISOString())
                   }
-                  // error={formik.touched.startTime && Boolean(formik.errors.startTime)}
-                  // helperText={formik.touched.startTime && formik.errors.startTime}
                   renderInput={(params) => (
                     <TextField
                       // eslint-disable-next-line react/jsx-props-no-spreading
@@ -198,14 +141,10 @@ const AddEvent: FC = () => {
                 />
                 <DateTimePicker
                   label="End Time"
-                  // name="endTime"
                   value={formik.values.endTime}
                   onChange={
                     (e:any) => formik.setFieldValue('endTime', e.toISOString())
                   }
-                  // error={formik.touched.endTime && Boolean(formik.errors.endTime)}
-                  // helperText={formik.touched.endTime && formik.errors.endTime}
-                // eslint-disable-next-line react/jsx-props-no-spreading
                   renderInput={(params) => <TextField {...params} />}
                 />
               </LocalizationProvider>
@@ -221,7 +160,6 @@ const AddEvent: FC = () => {
                 value={formik.values.status}
                 onChange={formik.handleChange}
                 error={formik.touched.status && Boolean(formik.errors.status)}
-                // helperText={formik.touched.status && formik.errors.status}
               >
                 <MenuItem value="in-progress">In-Progress</MenuItem>
                 <MenuItem value="upcoming">Upcoming</MenuItem>
@@ -239,7 +177,7 @@ const AddEvent: FC = () => {
               <TextField
                 sx={{ marginRight: '5px' }}
                 name="longitude"
-                value={formik.values.longitude}
+                value={lon}
                 onChange={formik.handleChange}
                 error={formik.touched.longitude && Boolean(formik.errors.longitude)}
                 helperText={formik.touched.longitude && formik.errors.longitude}
@@ -251,7 +189,7 @@ const AddEvent: FC = () => {
               />
               <TextField
                 name="latitude"
-                value={formik.values.latitude}
+                value={lat}
                 onChange={formik.handleChange}
                 error={formik.touched.latitude && Boolean(formik.errors.latitude)}
                 helperText={formik.touched.latitude && formik.errors.latitude}
@@ -266,7 +204,7 @@ const AddEvent: FC = () => {
 
             <TextField
               name="placeName"
-              value={formik.values.placeName}
+              value={placeName}
               onChange={formik.handleChange}
               error={formik.touched.placeName && Boolean(formik.errors.placeName)}
               helperText={formik.touched.placeName && formik.errors.placeName}
@@ -344,7 +282,6 @@ const AddEvent: FC = () => {
           </form>
         </Box>
       </Modal>
-
     </div>
   )
 }
