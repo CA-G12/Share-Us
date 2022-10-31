@@ -6,8 +6,7 @@ import { Op } from 'sequelize'
 dayjs.extend(isBetween)
 
 const changeStatus = ():void => {
-  cron.schedule('* * * * *', async () => {
-    // */5 * * * *
+  cron.schedule('*/5 * * * *', async () => {
     // running a task every 5 minutes
     const events = await Event.findAll({ where: { status: { [Op.not]: 'closed' } } })
     events.forEach((evt) => {
