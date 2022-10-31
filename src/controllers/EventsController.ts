@@ -93,6 +93,7 @@ export default class EventsController {
         id
       }
     })
+
     if (!eventDetails) throw new CustomError(Message.NOT_FOUND, 404)
     res.status(200).json({
       message: Message.SUCCESS,

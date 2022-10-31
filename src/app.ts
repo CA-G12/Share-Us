@@ -4,7 +4,8 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import router from './routes'
 import config from './config/environment'
-import reminderEmail from './cornJobs/ReminderEmail'
+import reminderEmail from './cronJobs/ReminderEmail'
+import changeStatus from './cronJobs/changeStatus'
 import { ScheduledTask } from 'node-cron'
 
 class App {
@@ -34,7 +35,8 @@ class App {
 
   private initializeCronJobs () {
     this.cronJobs = [
-      reminderEmail()
+      reminderEmail(),
+      changeStatus()
     ]
   }
 }
