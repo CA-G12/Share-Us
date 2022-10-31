@@ -3,7 +3,6 @@
 import {
   useRef,
   useEffect,
-  useState,
   FC,
 } from 'react'
 
@@ -22,7 +21,6 @@ interface mapProps{
 }
 const MapContainer: FC <mapProps> = ({ setLon, setLat, setPlaceName }):JSX.Element => {
   const mapContainerRef = useRef<any>(null!)
-  const [marker, setMarker] = useState<any>([])
   const myMap:any = useRef()
   useEffect(() => {
     myMap.current = new mapboxgl.Map({

@@ -49,14 +49,16 @@ export const sx = {
   paperForm: {
     display: 'flex',
     alignItems: 'center',
-    width: 500,
     height: 30,
-    background: 'transparent',
+    background: 'white',
     border: 0,
     outline: 0,
     boxShadow: 0,
   },
   select: {
-    height: 31, fontSize: 12, borderRadius: '5px 0 0 5px',
+    height: 31,
+    fontSize: 12,
+    borderRadius: '5px 0 0 5px',
+    backgroundColor: 'white',
   },
 }

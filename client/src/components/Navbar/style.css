@@ -8,12 +8,14 @@
 
 header {
   width: 100%;
-  padding: 1rem 3rem;
+  padding: 1rem 2rem;
+  height: 8vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #EEF3FF;
-  box-shadow: 0px 1px 4px #afafaf;
+  background: #2A2A2A;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  color: #fff;
 }
 
 .logo {
@@ -24,14 +26,20 @@ header {
 }
 
 .logo img{
-  width: 30px;
+  width: 50px;
+  height:80px;
+  object-fit: cover;
 }
 
 .logo a{
   text-decoration: none;
-  color: #2a2a2a;
+  color: #fff;
   font-weight: 700;
   font-size: 0.8rem;
+}
+
+.logo h5 {
+  color: #fff;
 }
 
 header .register {
@@ -44,24 +52,22 @@ header .register .icons {
   display: flex;
   align-items: center;
   gap: 1rem;
-  color: #2a2a2a;
+  color: #fff;
 }
 
 header .register .login{
-  font-size: 0.8rem;
-  color: #2a2a2a;
+  font-size: 0.9rem;
   outline: 0;
   border: 0;
+  color: #ececec;
   background: transparent;
   margin-right: 1rem;
   cursor: pointer;
 }
 
 header .register .signup-btn {
-  font-size: 0.7rem;
+  font-size: 0.9rem;
   background: #2A2A2A;
-  box-shadow: 0px 1px 4px #2a2a2a;
-  border-radius: 8px;
   color: #ececec;
   border: 0;
   text-transform: capitalize;
@@ -74,26 +80,26 @@ header .search {
   width: 30%;
   display: flex;
   justify-content: center;
+  background-color: #2A2A2A;
 }
 
 header .search Button {
   padding: 0.3rem 0.7rem;
   font-size: 0.7rem;
   text-transform: capitalize;
-  background: #2A2A2A;
-  color: #ececec;
+  background: #fff;
+  color: #2A2A2A;
   box-shadow: 0px 1px 4px #2a2a2a4a;
-  border-radius: 8px;
   height: 30px;
 }
 
 header .search input {
-  width: 80%;
+  width: 100%;
   outline: 0;
-  padding: 0.2rem 1rem;
+  padding: 0.2rem 1.5rem;
   border: 1px solid #9f9f9f;
   filter: drop-shadow(0px 1px 2px #0000000d);
-  background-color: rgba(251, 249, 249, 0.568);
+  background-color: white;
   border-radius: 0 5px 5px 0;
 }
 
@@ -102,5 +108,9 @@ header .search input::placeholder {
 }
 
 header .search .search-btn:hover {
-  background-color: rgba(0, 0, 0, 0.826);
+  background-color: rgba(255, 255, 255, 0.826);
+}
+
+.css-1le28he-MuiInputBase-root {
+  background-color: #2A2A2A;
 }

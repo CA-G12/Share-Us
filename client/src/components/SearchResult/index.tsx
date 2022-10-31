@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import './style.css'
 import {
-  Stack, CircularProgress, Box,
+  Stack, CircularProgress, Box, Alert,
 } from '@mui/material'
 import ApiService from '../../services/ApiService'
 import EventCard from './EventCard'
@@ -24,6 +24,8 @@ const SearchResult: FC = () => {
     })
       .then((res) => {
         setData(res.data)
+        console.log(res.data)
+
         setLoading(false)
       }).catch(() => setLoading(false))
   }, [searchParams])
@@ -53,23 +55,43 @@ const SearchResult: FC = () => {
           image={e.profileImg}
           username={e.username}
           bio={e.bio}
+          id={e.id}
           button="Follow"
         />
       ))}
 
-      {category && (category === 'event' || category === 'hashtags') && data?.data?.map((e:any) => (
-        <EventCard
-          key={e.id}
-          image={e.img}
-          eventname={e.name}
-          startTime={e.startTime}
-          description={e.description}
-          status={e.status}
-          Hashtags={e.Hashtags}
-          button="Join"
-        />
-      ))}
+      {category && (category === 'event' || category === 'hashtags')
+        && (
+          <div className="card-container">
+              {
+            data?.data?.map((e:any) => (
+              <EventCard
+                key={e.id}
+                image={e.img}
+                eventname={e.name}
+                startTime={e.startTime}
+                description={e.description}
+                status={e.status}
+                Hashtags={e.Hashtags}
+                button="Show details"
+                id={e.id}
+              />
+            ))
+          }
+          </div>
+        )}
 
+      {
+        !data?.data?.length && (
+          <Alert
+            severity="error"
+            variant="filled"
+            sx={{ width: '40%', margin: ' 2rem auto' }}
+          >
+            No result found
+          </Alert>
+        )
+      }
       {!category && data?.data?.map((e:any) => (
         <EventCard
           key={e.id}
@@ -79,8 +101,10 @@ const SearchResult: FC = () => {
           description={e.description}
           status={e.status}
           Hashtags={e.Hashtags}
-          button="Join"
+          button="Show details"
+          id={e.id}
         />
+
       ))}
     </Box>
   )
