@@ -57,7 +57,7 @@ const AddEvent: FC = () => {
     longitude: '',
     latitude: '',
     placeName: '',
-    hashtag: [''],
+    hashtag: [],
   }
 
   const [open, setOpen] = useState(false)
@@ -120,6 +120,9 @@ const AddEvent: FC = () => {
     validationSchema: schema,
     onSubmit: (values) => console.log(values),
   })
+
+  console.log(formik.errors)
+  console.log(formik.values)
 
   // const handelChange = (e:any) : void => {
   //   const { target } = e
@@ -306,9 +309,9 @@ const AddEvent: FC = () => {
               id="tags-outlined"
               options={showHash.map((e:any) => e.title)}
               freeSolo
-              onChange={formik.handleChange}
-              // error={formik.touched.hashtag && Boolean(formik.errors.hashtag)}
-              // helperText={formik.touched.hashtag && formik.errors.hashtag}
+              onChange={(e: any) => {
+                formik.setFieldValue('hashtag', [...formik.values.hashtag, e.target.value])
+              }}
               sx={{ display: 'block', margin: '20px 0' }}
               renderTags={
                 (value: readonly string[], getTagProps) => (
@@ -327,6 +330,7 @@ const AddEvent: FC = () => {
                 />
               )}
             />
+            <span>{formik.touched.hashtag && formik.errors.hashtag}</span>
 
             <Button
               className="submit-btn"
