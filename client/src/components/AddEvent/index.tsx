@@ -2,22 +2,24 @@
 import {
   useEffect,
   useState,
-  FormEvent,
   FC,
 } from 'react'
 import './style.css'
-import dayjs, { Dayjs } from 'dayjs'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { toast } from 'react-toastify'
 import {
   Box, Modal, TextField, Button, MenuItem, InputLabel, Select, FormControl,
   Autocomplete, Chip,
 } from '@mui/material'
+import {
+  useFormik,
+} from 'formik'
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers'
-import ApiService from '../../services/ApiService'
 import schema from '../../validation/addEventValidate'
+import ApiService from '../../services/ApiService'
 import AddEventMap from '../AddEventMap'
 import { useAuth } from '../../hooks/useAuth'
+import IAddEventInitialValues from '../../interfaces/IAddEventInitialValues'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -31,33 +33,9 @@ const style = {
   p: 4,
 }
 
-interface IData{
-  name?: string,
-  description?: string,
-  img?: string,
-  status?: string,
-  startTime?: string,
-  endTime?: string,
-  longitude?: string,
-  latitude?: string,
-  placeName?: string,
-  hashtag?: Array<string>
-}
-
 const AddEvent: FC = () => {
   const [open, setOpen] = useState(false)
-  const [data, setData] = useState<IData>({})
-  const [startTime, setStartTime] = useState<Dayjs | null>(
-    dayjs(),
-  )
-  const [endTime, setEndTime] = useState<Dayjs | null>(
-    dayjs(),
-  )
-  const [hash, setHash] = useState<Array<string>>([])
   const [showHash, setShowHash] = useState<Array<object>>([])
-  const [lon, setLon] = useState<string>()
-  const [lat, setLat] = useState<string>()
-  const [placeName, setPlaceName] = useState<string>()
   const auth = useAuth()
 
   useEffect(() => {
@@ -67,53 +45,25 @@ const AddEvent: FC = () => {
       })
   }, [open])
 
-  useEffect(() => {
-    setData({ ...data, hashtag: hash })
-  }, [hash])
+  const formik = useFormik({
+    initialValues: IAddEventInitialValues,
+    validationSchema: schema,
+    onSubmit: (values) => {
+      ApiService.post('/events', { ...values })
+        .then((res) => {
+          toast.success(res.data.message)
+          formik.resetForm()
+          setOpen(false)
+        })
+        .catch((err) => {
+          toast.error(err.response.data.message)
+        })
+    },
+  })
 
-  useEffect(() => {
-    setData({ ...data, startTime: startTime?.toISOString() })
-  }, [startTime])
-
-  useEffect(() => {
-    setData({ ...data, latitude: lat })
-  }, [lat])
-  useEffect(() => {
-    setData({ ...data, longitude: lon })
-  }, [lon])
-  useEffect(() => {
-    setData({ ...data, placeName })
-  }, [placeName])
-
-  useEffect(() => {
-    setData({ ...data, endTime: endTime?.toISOString() })
-  }, [endTime])
-
-  const addEvent = (e:FormEvent<HTMLFormElement>): void => {
-    e.preventDefault()
-    schema.validate(data)
-      .then(() => {
-        ApiService.post('/events', { ...data })
-          .then((res) => {
-            toast.success(res.data.message)
-            setOpen(false)
-            setData({})
-          })
-          .catch((err) => {
-            toast.error(err.response.data.message)
-          })
-      })
-      .catch((err) => {
-        toast.warning(err.message)
-      })
-  }
-
-  const handelChange = (e:any) : void => {
-    const { target } = e
-    const value = target.type === 'checkbox' ? target.checked : target.value
-    const { name } = target
-    setData({ ...data, [name]: value })
-  }
+  const handleLon = (e:any) => formik.setFieldValue('longitude', e)
+  const handleLat = (e:any) => formik.setFieldValue('latitude', e)
+  const handlePlaceName = (e:any) => formik.setFieldValue('placeName', e)
 
   return (
     <div className="container">
@@ -153,23 +103,28 @@ const AddEvent: FC = () => {
         <Box sx={style}>
           <p>Create an Event</p>
           <h1>Event Details</h1>
-          <form onSubmit={addEvent}>
+          <form onSubmit={formik.handleSubmit}>
             <TextField
-              onChange={handelChange}
               id="outlined-required"
               label="Event Name"
               variant="outlined"
               size="small"
               fullWidth
               name="name"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              error={formik.touched.name && Boolean(formik.errors.name)}
+              helperText={formik.touched.name && formik.errors.name}
               sx={{ display: 'block', margin: '20px 0' }}
             />
             <div style={{ display: 'flex', margin: '20px 0' }}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
                   label="Start Time"
-                  value={startTime}
-                  onChange={setStartTime}
+                  value={formik.values.startTime}
+                  onChange={
+                    (e:any) => formik.setFieldValue('startTime', e.toISOString())
+                  }
                   renderInput={(params) => (
                     <TextField
                       // eslint-disable-next-line react/jsx-props-no-spreading
@@ -179,9 +134,10 @@ const AddEvent: FC = () => {
                 />
                 <DateTimePicker
                   label="End Time"
-                  value={endTime}
-                  onChange={setEndTime}
-                // eslint-disable-next-line react/jsx-props-no-spreading
+                  value={formik.values.endTime}
+                  onChange={
+                    (e:any) => formik.setFieldValue('endTime', e.toISOString())
+                  }
                   renderInput={(params) => <TextField {...params} />}
                 />
               </LocalizationProvider>
@@ -194,7 +150,9 @@ const AddEvent: FC = () => {
                 label="Status"
                 name="status"
                 size="small"
-                onChange={handelChange}
+                value={formik.values.status}
+                onChange={formik.handleChange}
+                error={formik.touched.status && Boolean(formik.errors.status)}
               >
                 <MenuItem value="in-progress">In-Progress</MenuItem>
                 <MenuItem value="upcoming">Upcoming</MenuItem>
@@ -210,10 +168,12 @@ const AddEvent: FC = () => {
             }}
             >
               <TextField
+                disabled
                 sx={{ marginRight: '5px' }}
                 name="longitude"
-                onChange={handelChange}
-                value={lon}
+                value={formik.values.longitude}
+                error={formik.touched.longitude && Boolean(formik.errors.longitude)}
+                helperText={formik.touched.longitude && formik.errors.longitude}
                 id="outlined-required"
                 label="Longitude"
                 variant="outlined"
@@ -221,22 +181,25 @@ const AddEvent: FC = () => {
                 fullWidth
               />
               <TextField
+                disabled
                 name="latitude"
-                onChange={handelChange}
-                value={lat}
+                value={formik.values.latitude}
+                error={formik.touched.latitude && Boolean(formik.errors.latitude)}
+                helperText={formik.touched.latitude && formik.errors.latitude}
                 id="outlined-required"
                 label="Latitude"
                 variant="outlined"
                 size="small"
                 fullWidth
               />
-              <AddEventMap setLon={setLon} setLat={setLat} setPlaceName={setPlaceName} />
+              <AddEventMap setLon={handleLon} setLat={handleLat} setPlaceName={handlePlaceName} />
             </div>
 
             <TextField
               name="placeName"
-              onChange={handelChange}
-              value={placeName}
+              value={formik.values.placeName}
+              error={formik.touched.placeName && Boolean(formik.errors.placeName)}
+              helperText={formik.touched.placeName && formik.errors.placeName}
               id="outlined-required"
               label="Place Name"
               variant="outlined"
@@ -244,7 +207,10 @@ const AddEvent: FC = () => {
               fullWidth
             />
             <TextField
-              onChange={handelChange}
+              value={formik.values.img}
+              onChange={formik.handleChange}
+              error={formik.touched.img && Boolean(formik.errors.img)}
+              helperText={formik.touched.img && formik.errors.img}
               name="img"
               id="outlined-required"
               label="Event Picture"
@@ -254,7 +220,10 @@ const AddEvent: FC = () => {
               sx={{ display: 'block', margin: '20px 0' }}
             />
             <TextField
-              onChange={handelChange}
+              value={formik.values.description}
+              onChange={formik.handleChange}
+              error={formik.touched.description && Boolean(formik.errors.description)}
+              helperText={formik.touched.description && formik.errors.description}
               name="description"
               id="outlined-required"
               label="Description"
@@ -270,7 +239,9 @@ const AddEvent: FC = () => {
               id="tags-outlined"
               options={showHash.map((e:any) => e.title)}
               freeSolo
-              onChange={(event, value) => setHash(value)}
+              onChange={(e: any, value) => {
+                formik.setFieldValue('hashtag', [...value])
+              }}
               sx={{ display: 'block', margin: '20px 0' }}
               renderTags={
                 (value: readonly string[], getTagProps) => (
@@ -281,7 +252,7 @@ const AddEvent: FC = () => {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  value={hash}
+                  value={formik.values.hashtag}
                   name="hashtag"
                   variant="filled"
                   label="Hashtag"
@@ -289,6 +260,7 @@ const AddEvent: FC = () => {
                 />
               )}
             />
+            <span>{formik.touched.hashtag && formik.errors.hashtag}</span>
 
             <Button
               className="submit-btn"
@@ -302,7 +274,6 @@ const AddEvent: FC = () => {
           </form>
         </Box>
       </Modal>
-
     </div>
   )
 }
