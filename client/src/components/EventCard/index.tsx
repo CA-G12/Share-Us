@@ -1,8 +1,9 @@
-import { Alert, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import { FC } from 'react'
 import { useAuth } from '../../hooks/useAuth'
 import { IEventDetails } from '../../interfaces'
 import { CardContainerProps } from '../../interfaces/props/EventCardProps'
+import NoData from '../NoData'
 import EventCard from './EventCard'
 import './style.css'
 
@@ -24,13 +25,13 @@ const EventCardContainer:FC<CardContainerProps> = ({ allEvents, followerId }) =>
         && (!filteredEvents(allEvents).length
           ? (
             <Grid item xs={12}>
-              <Alert severity="info" variant="outlined">No Events Found</Alert>
+              <NoData />
             </Grid>
           )
           : filteredEvents(allEvents)
             .map((evt:any) => (
-              <Grid item xs={3}>
-                <EventCard event={evt} key={evt.id} />
+              <Grid item xs={3} key={evt.id}>
+                <EventCard event={evt} />
               </Grid>
             )))
       }
@@ -38,9 +39,7 @@ const EventCardContainer:FC<CardContainerProps> = ({ allEvents, followerId }) =>
         !auth.user
         && (!allEvents.length
           ? (
-            <Grid item xs={12}>
-              <Alert severity="info" variant="outlined">No Events Found</Alert>
-            </Grid>
+            <NoData />
           )
           : allEvents
             .map((evt:any) => (

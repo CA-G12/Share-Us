@@ -86,7 +86,7 @@ const EventDetailsHeader:FC = () => {
   const [join, setJoin] = useState<boolean>(false)
   const [interestedList, setInterestedList] = useState<any>(0)
   const [joinedList, setJoinedList] = useState<any>(0)
-  const [interest, setInterest] = useState<boolean>(false)
+  const [interested, setInterest] = useState<boolean>(false)
 
   const useAuthorization = useAuth()
   const userId = useAuthorization.user?.id
@@ -217,7 +217,7 @@ const EventDetailsHeader:FC = () => {
         <p className="event-organizer">
           by: {eventInfo.User.username}
         </p>
-        <p className="event-status">{eventInfo.status}</p>
+        <p className={`event-status ${eventInfo.status}`}>{eventInfo.status}</p>
         <h2 className="event-name">{eventInfo.name}</h2>
       </div>
       <div className="event-btns-container">
@@ -239,14 +239,14 @@ const EventDetailsHeader:FC = () => {
           </Button>
 
           <Button
-            startIcon={interest ? <CancelOutlinedIcon /> : <StarOutlineIcon />}
+            startIcon={interested ? <CancelOutlinedIcon /> : <StarOutlineIcon />}
             onClick={() => handleInterest(userId)}
             variant="contained"
             className="join-interest-btn"
-            sx={interest ? { backgroundColor: '#EEEEEE' }
+            sx={interested ? { backgroundColor: '#EEEEEE' }
               : { backgroundColor: 'rgba(111, 186, 255, 0.370)' }}
           >
-            {interest ? <>not interested</> : <>interest</>}
+            {interested ? <>not interested</> : <>interested</>}
           </Button>
 
         </div>

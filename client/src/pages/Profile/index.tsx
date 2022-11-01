@@ -11,6 +11,7 @@ import EventCardContainer from '../../components/EventCard'
 import Navbar from '../../components/Navbar'
 import { useAuth } from '../../hooks/useAuth'
 import './style.css'
+import AddEvent from '../../components/AddEvent'
 
 const Profile:FC = () => {
   const auth = useAuth()
@@ -21,6 +22,7 @@ const Profile:FC = () => {
   const [endTime, setEndTime] = useState<Dayjs|null>(null)
   const { followerId } = useParams()
   const isBlocked = auth.user?.blocked?.includes(Number(followerId))
+  const isUser = auth.user?.id === Number(followerId)
 
   useEffect(() => {
     const userInfo = async ():Promise<void> => {
@@ -55,7 +57,6 @@ const Profile:FC = () => {
     userData
     && (
     <>
-
       <Navbar />
       <ProfileBio
         userData={userData}
@@ -66,8 +67,8 @@ const Profile:FC = () => {
       {isBlocked && (
       <Alert
         severity="error"
-        variant="filled"
-        sx={{ width: '40%', margin: ' 2rem auto' }}
+        variant="outlined"
+        sx={{ width: '40%', margin: ' 2rem auto', color: 'white' }}
       >
         User is blocked!
       </Alert>
@@ -82,7 +83,9 @@ const Profile:FC = () => {
           endTime={endTime}
           setEndTime={setEndTime}
         />
-
+        {
+          isUser && <AddEvent />
+        }
         <EventCardContainer allEvents={allData} followerId={Number(followerId)} />
       </>
       )}

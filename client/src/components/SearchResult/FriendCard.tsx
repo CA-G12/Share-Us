@@ -73,15 +73,17 @@ const FriendCard:FC<IFriendCard> = ({
           {bio}
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions sx={{ padding: ' 0 35px' }}>
         <Button
           sx={{
+            textTransform: 'capitalize',
             color: 'white',
             margin: '10px',
             padding: '10px',
-            backgroundColor: '#256D85',
+            fontSize: '1rem',
+            backgroundColor: '#2A2A2A',
             '&:hover': {
-              backgroundColor: '#256D85',
+              backgroundColor: '#333',
               opacity: [0.9, 0.8, 0.7],
             },
           }}

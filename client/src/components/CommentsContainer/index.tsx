@@ -90,9 +90,12 @@ const CommentsContainer:FC = () => {
         startIcon={<AddOutlinedIcon sx={{ fill: 'white' }} />}
         onClick={handleOpen}
         variant="contained"
-        sx={{ backgroundColor: '#2A2A2A' }}
+        sx={{
+          backgroundColor: '#2A2A2A',
+          textTransform: 'capitalize',
+        }}
       >
-        Add Comments
+        Add Comment
       </Button>
 
       <InfiniteScroll
@@ -100,9 +103,8 @@ const CommentsContainer:FC = () => {
         next={handleShowMore}
         hasMore={hasMore}
         loader={<CircularProgress sx={{ margin: '10px auto', display: 'block' }} />}
-        endMessage={<p className="end-message">There are no more Comments</p>}
       >
-        {allComments.map((ele:any) => (
+        {!allComments.length ? 'No comments found' : allComments.map((ele:any) => (
           <Comment
             key={ele.id * Math.random()}
             id={ele.id}

@@ -54,9 +54,10 @@ const Navbar:FC = () => {
           component="h5"
           sx={{ color: '#2A2A2A' }}
         >
-          SHARE US
+          Share Us
         </Typography>
       </Link>
+      {auth.user && (
       <div className="search">
         <Paper
           component="form"
@@ -96,7 +97,9 @@ const Navbar:FC = () => {
           </IconButton>
         </Paper>
       </div>
+      )}
       <div className="register">
+        {auth.user && (
         <div className="icons">
           <ChatIcon
             onClick={() => { navigate('/chat') }}
@@ -110,6 +113,7 @@ const Navbar:FC = () => {
             sx={{ cursor: 'pointer', fill: '#eee' }}
           />
         </div>
+        )}
         {auth.user && <DropDown />}
         {!auth.user && (
         <>
@@ -125,7 +129,7 @@ const Navbar:FC = () => {
             className="signup-btn"
             onClick={() => navigate('/sign-up')}
           >
-            Sign Up
+            SignUp
 
           </Button>
         </>
