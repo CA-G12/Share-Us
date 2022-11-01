@@ -54,9 +54,13 @@ const Navbar:FC = () => {
 }
   const socket = io('http://localhost:8080/notifications')
   const [realTimeNotifications, setRealTimeNotifications] = useState<INotifications[]>([])
+  const [notificationCount, setNotificationCount] = useState<number>(0)
   const [isConnect, setIsConnect] = useState<boolean>(false)
+  const oldNotifications = useAuth().user?.notifications
+
   useEffect(() => {
     socket.on('connect', () => {
+      console.log(socket.connected)
       setIsConnect(socket.connected) // true
     })
     if (auth?.user?.username) socket.emit('newUser', auth.user.username)
@@ -74,6 +78,12 @@ const Navbar:FC = () => {
       socket.off('disconnect')
     }
   }, [])
+
+  useEffect(() => {
+    const count:any = oldNotifications?.filter((ele:any) => ele?.status === 'unread')
+    setNotificationCount(count?.length)
+  }, [oldNotifications])
+
   return (
     <>
       <header>
@@ -138,7 +148,11 @@ const Navbar:FC = () => {
             />
 
             <IconButton onClick={handleOpenNotification}>
-              <Badge badgeContent={realTimeNotifications.length} color="primary">
+              <Badge
+                badgeContent={realTimeNotifications.length
+                  ? realTimeNotifications.length + notificationCount : notificationCount}
+                color="error"
+              >
                 <NotificationsIcon sx={{ cursor: 'pointer' }} />
               </Badge>
             </IconButton>
@@ -175,6 +189,7 @@ const Navbar:FC = () => {
         openNotifications={openNotifications}
         handleClose={handleCloseNotification}
         realTimeNotifications={realTimeNotifications}
+        setNotificationCount={setNotificationCount}
       />
       )}
     </>

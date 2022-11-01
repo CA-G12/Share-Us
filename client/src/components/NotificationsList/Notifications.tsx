@@ -1,14 +1,20 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
+import dayjs from 'dayjs'
 import {
   ListItemText, Box, Modal, Avatar, Typography, ListItemAvatar, Divider,
-  ListItem, List,
+  ListItem, List, Badge,
 } from '@mui/material'
+import { formatDistance, parseISO } from 'date-fns'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
+import ApiService from '../../services/ApiService'
 import './style.css'
 
-const NotificationsList:FC<any> = ({ realTimeNotifications, openNotifications, handleClose }) => {
-  const oldNotifications = useAuth().user.notifications
+const NotificationsList:FC<any> = ({
+  realTimeNotifications, openNotifications, handleClose, setNotificationCount,
+}) => {
+  const oldNotifications = useAuth().user?.notifications
+  const auth = useAuth()
   const navigate = useNavigate()
   const style = {
     position: 'absolute' as 'absolute',
@@ -19,6 +25,22 @@ const NotificationsList:FC<any> = ({ realTimeNotifications, openNotifications, h
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
+  }
+  const [test, setTest] = useState('')
+  const readNotification = async (id:number):Promise<void> => {
+    if (auth.user) {
+      const updateState = await ApiService.patch(`/users/${auth.id}`, { id })
+      const newOne = oldNotifications.map((ele:any) => {
+        if (ele.id === +id) {
+          return { ...ele, status: updateState.data.status }
+        }
+        return ele
+      })
+      auth.setUser({ ...auth.user, notifications: newOne })
+      setTest(updateState.data.status)
+    } else {
+      navigate('/login')
+    }
   }
 
   return (
@@ -51,16 +73,30 @@ const NotificationsList:FC<any> = ({ realTimeNotifications, openNotifications, h
               <>
                 <ListItem
                   alignItems="flex-start"
-                  style={{ margin: '5px auto', padding: '0 1rem', cursor: 'pointer' }}
+                  style={{
+                    margin: '5px auto',
+                    padding: '0 1rem',
+                    cursor: 'pointer',
+                  }}
                   onClick={() => {
-                    navigate(`/users/${ele?.senderId}`)
+                    navigate(`/users/${ele?.senderInfo.id}`)
                     handleClose()
                   }}
                 >
+                  <p
+                    className="notification-state"
+                  >
+                    <Badge
+                      color="secondary"
+                      badgeContent=" "
+                      variant="dot"
+                    />
+                  </p>
+
                   <ListItemAvatar>
                     <Avatar
-                      alt={ele?.senderName}
-                      src={ele?.profileImg}
+                      alt={ele?.senderInfo.username}
+                      src={ele?.senderInfo.profileImg}
                     />
                   </ListItemAvatar>
                   <ListItemText
@@ -73,7 +109,7 @@ const NotificationsList:FC<any> = ({ realTimeNotifications, openNotifications, h
                           variant="body2"
                           color="text.primary"
                         >
-                          {ele?.senderName}
+                          {ele?.createdAt}
                         </Typography>
                         {' — View Profile…'}
                       </>
@@ -84,43 +120,69 @@ const NotificationsList:FC<any> = ({ realTimeNotifications, openNotifications, h
 
               </>
             ))}
-            {oldNotifications.reverse().map((ele:any) => (
-              <>
-                <ListItem
-                  alignItems="flex-start"
-                  style={{ margin: '5px auto', cursor: 'pointer' }}
-                  onClick={() => {
-                    navigate(`/users/${ele?.senderInfo.id}`)
-                    handleClose()
-                  }}
-                >
-                  <ListItemAvatar>
-                    <Avatar
-                      alt={ele?.senderInfo.username}
-                      src={ele?.senderInfo.profileImg}
+            {
+            oldNotifications?.length
+            && oldNotifications
+              .sort((b:any, a:any) => dayjs(a.createdAt).diff(b.createdAt))
+              .map((ele:any) => (
+                <>
+                  <ListItem
+                    alignItems="flex-start"
+                    style={{
+                      margin: '5px auto',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => {
+                      readNotification(ele?.id)
+                      navigate(`/users/${ele?.senderInfo?.id}`)
+                      handleClose()
+                      setTest('read')
+                      if (ele.status === 'unread') { setNotificationCount((prev:any) => prev - 1) }
+                    }}
+                  >
+                    {ele.status === 'unread'
+                    && (
+                      <p className="notification-state">
+                        <Badge
+                          color="secondary"
+                          badgeContent=" "
+                          variant="dot"
+                        />
+                      </p>
+                    )}
+
+                    <ListItemAvatar>
+                      <Avatar
+                        alt={ele?.senderInfo?.username}
+                        src={ele?.senderInfo?.profileImg}
+                      />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={ele?.message}
+                      secondary={(
+                        <>
+                          <Typography
+                            sx={{ display: 'inline' }}
+                            component="span"
+                            variant="body2"
+                            color="text.secondary"
+                          >
+                            { formatDistance(
+                              parseISO(ele?.createdAt),
+                              new Date(),
+                              { addSuffix: true },
+                            )}
+                          </Typography>
+                          {' — View Profile…'}
+                        </>
+          )}
                     />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={ele.message}
-                    secondary={(
-                      <>
-                        <Typography
-                          sx={{ display: 'inline' }}
-                          component="span"
-                          variant="body2"
-                          color="text.secondary"
-                        >
-                          {ele.senderInfo.username}
-                        </Typography>
-                        {' — View Profile…'}
-                      </>
-          )}
-                  />
-                </ListItem>
-                <Divider variant="inset" component="li" />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
 
-              </>
-            ))}
+                </>
+              ))
+}
           </List>
         </Box>
       </Modal>

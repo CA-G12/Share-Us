@@ -2,6 +2,7 @@ import { FC, useState } from 'react'
 import { Typography } from '@mui/material'
 import { useParams, useNavigate } from 'react-router-dom'
 import io from 'socket.io-client'
+import { formatRelative } from 'date-fns'
 import UserProfileProp from '../../interfaces/props/UserProfileProp'
 import { useAuth } from '../../hooks/useAuth'
 import ApiService from '../../services/ApiService'
@@ -45,6 +46,8 @@ const ProfileBio:FC<UserProfileProp> = ({
         receiverId: id,
         receiverName: follow.data.data[0].username,
         message: `${auth.user.username} started following you`,
+        createdAt: new Date(),
+        status: 'unread',
       })
     } else {
       navigate('/login')

@@ -26,3 +26,9 @@
 .notifications-modal::-webkit-scrollbar-thumb:hover {
   background: #2a2a2a; 
 }
+
+.notification-state{
+  position: absolute !important;
+  right:  20px !important;
+  top: 23px !important;
+}
