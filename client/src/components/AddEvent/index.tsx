@@ -19,6 +19,7 @@ import schema from '../../validation/addEventValidate'
 import ApiService from '../../services/ApiService'
 import AddEventMap from '../AddEventMap'
 import { useAuth } from '../../hooks/useAuth'
+import IAddEventInitialValues from '../../interfaces/IAddEventInitialValues'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -33,24 +34,8 @@ const style = {
 }
 
 const AddEvent: FC = () => {
-  const initialValues = {
-    name: '',
-    description: '',
-    img: '',
-    status: '',
-    startTime: '',
-    endTime: '',
-    longitude: '',
-    latitude: '',
-    placeName: '',
-    hashtag: [],
-  }
-
   const [open, setOpen] = useState(false)
   const [showHash, setShowHash] = useState<Array<object>>([])
-  const [lon, setLon] = useState<string>()
-  const [lat, setLat] = useState<string>()
-  const [placeName, setPlaceName] = useState<string>()
   const auth = useAuth()
 
   useEffect(() => {
@@ -60,25 +45,26 @@ const AddEvent: FC = () => {
       })
   }, [open])
 
-  const handleSubmit = (values:any): void => {
-    console.log(values)
-    ApiService.post('/events', { ...values })
-      .then((res) => {
-        toast.success(res.data.message)
-        setOpen(false)
-      })
-      .catch((err) => {
-        toast.error(err.response.data.message)
-      })
-  }
   const formik = useFormik({
-    initialValues,
+    initialValues: IAddEventInitialValues,
     validationSchema: schema,
-    onSubmit: (values) => handleSubmit(values),
+    onSubmit: (values) => {
+      ApiService.post('/events', { ...values })
+        .then((res) => {
+          toast.success(res.data.message)
+          formik.resetForm()
+          setOpen(false)
+        })
+        .catch((err) => {
+          toast.error(err.response.data.message)
+        })
+    },
   })
 
-  console.log(formik.errors)
-  console.log(formik.values)
+  const handleLon = (e:any) => formik.setFieldValue('longitude', e)
+  const handleLat = (e:any) => formik.setFieldValue('latitude', e)
+  const handlePlaceName = (e:any) => formik.setFieldValue('placeName', e)
+
   return (
     <div className="container">
       {
@@ -182,10 +168,10 @@ const AddEvent: FC = () => {
             }}
             >
               <TextField
+                disabled
                 sx={{ marginRight: '5px' }}
                 name="longitude"
-                value={lon}
-                onChange={formik.handleChange}
+                value={formik.values.longitude}
                 error={formik.touched.longitude && Boolean(formik.errors.longitude)}
                 helperText={formik.touched.longitude && formik.errors.longitude}
                 id="outlined-required"
@@ -195,9 +181,9 @@ const AddEvent: FC = () => {
                 fullWidth
               />
               <TextField
+                disabled
                 name="latitude"
-                value={lat}
-                onChange={formik.handleChange}
+                value={formik.values.latitude}
                 error={formik.touched.latitude && Boolean(formik.errors.latitude)}
                 helperText={formik.touched.latitude && formik.errors.latitude}
                 id="outlined-required"
@@ -206,13 +192,12 @@ const AddEvent: FC = () => {
                 size="small"
                 fullWidth
               />
-              <AddEventMap setLon={setLon} setLat={setLat} setPlaceName={setPlaceName} />
+              <AddEventMap setLon={handleLon} setLat={handleLat} setPlaceName={handlePlaceName} />
             </div>
 
             <TextField
               name="placeName"
-              value={placeName}
-              onChange={formik.handleChange}
+              value={formik.values.placeName}
               error={formik.touched.placeName && Boolean(formik.errors.placeName)}
               helperText={formik.touched.placeName && formik.errors.placeName}
               id="outlined-required"
@@ -254,8 +239,8 @@ const AddEvent: FC = () => {
               id="tags-outlined"
               options={showHash.map((e:any) => e.title)}
               freeSolo
-              onChange={(e: any) => {
-                formik.setFieldValue('hashtag', [...formik.values.hashtag, e.target.value])
+              onChange={(e: any, value) => {
+                formik.setFieldValue('hashtag', [...value])
               }}
               sx={{ display: 'block', margin: '20px 0' }}
               renderTags={
