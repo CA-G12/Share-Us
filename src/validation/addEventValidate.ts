@@ -5,14 +5,13 @@ const querySchema = Joi.object({
   description: Joi.string()
     .min(3)
     .required(),
-  startTime: Joi.date()
+  startTime: Joi.date().greater(Date.now())
     .required(),
   endTime: Joi.date().min(Joi.ref('startTime'))
     .required(),
   img: Joi.string()
     .pattern(imagePattern)
     .required(),
-  status: Joi.any().valid('in-progress', 'closed', 'upcoming'),
   longitude: Joi.number()
     .required(),
   latitude: Joi.number()

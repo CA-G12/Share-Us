@@ -2,7 +2,6 @@ const initialValues = {
   name: '',
   description: '',
   img: '',
-  status: '',
   startTime: '',
   endTime: '',
   longitude: '',
