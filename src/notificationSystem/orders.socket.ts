@@ -1,6 +1,7 @@
 import { Socket } from 'socket.io'
 import MySocketInterface from './mySocketInterface'
 import { User } from '../models'
+import { formatDistance, parseISO } from 'date-fns'
 
 class OrdersSocket implements MySocketInterface {
   onlineUsers:any = []
@@ -24,24 +25,33 @@ class OrdersSocket implements MySocketInterface {
     socket.on('newUser', (username) => {
       this.addNewUser(username, socket.id)
     })
-
+    console.log(this.onlineUsers)
     socket.on('followNotification', async (data:any) => {
       const receiverUser:any = await User.findOne({ where: { id: data.receiverId } })
       if (receiverUser.followers.includes(data.senderInfo.id)) {
         const updateNotifications =
-        await receiverUser.update({ notifications: [...receiverUser.notifications, data] })
-
+        await receiverUser.update({
+          notifications:
+          [...receiverUser.notifications, { ...data, id: Math.floor(100000 + Math.random() * 900000) }]
+        })
         const receiver = this.getUser(data.receiverName)
         if (receiver?.socketId) {
           socket.to(receiver.socketId).emit('getNotification', {
-            senderId: data.senderInfo.id,
-            senderName: data.senderInfo.username,
-            profileImg: data.senderInfo.profileImg,
-            message: data.message
+            senderInfo: {
+              id: data.senderInfo.id,
+              senderName: data.senderInfo.username,
+              profileImg: data.senderInfo.profileImg
+            },
+            message: data.message,
+            createdAt: formatDistance(parseISO(data.createdAt), new Date(), { addSuffix: true }),
+            status: 'unread'
           })
         }
       }
     })
+    // senderId: data.senderInfo.id,
+    // senderName: data.senderInfo.username,
+    // profileImg: data.senderInfo.profileImg,
 
     socket.on('disconnect', () => {
       this.removeUser(socket.id)
