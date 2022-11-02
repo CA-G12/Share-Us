@@ -8,6 +8,7 @@ import ApiService from '../../services/ApiService'
 import UserAudience from '../UserAudience'
 import './style.css'
 import ProfileActions from './ProfileActions'
+import { useFollowing } from '../../hooks/useFollowing'
 
 const ProfileBio:FC<UserProfileProp> = ({
   userData, editUserData, allData, setUserData,
@@ -16,6 +17,8 @@ const ProfileBio:FC<UserProfileProp> = ({
   const [open, setOpen] = useState<boolean>(false)
   const [followOpen, setFollowOpen] = useState<boolean>(false)
   const { followerId } = useParams()
+  const followingHook = useFollowing()
+
   const auth = useAuth()
   const user = auth.user?.id === Number(followerId) ? auth.user : userData
 
@@ -54,10 +57,8 @@ const ProfileBio:FC<UserProfileProp> = ({
   }
 
   const modalFollow = async (id:number):Promise<void> => {
-    if (auth.user) {
-      const follow = await ApiService.patch(`/users/following/${id}`, {})
-      auth.setUser(follow?.data?.authUser[0])
-    } else {
+    const isDone = await followingHook.followUser(id)
+    if (!isDone) {
       navigate('/login')
     }
   }

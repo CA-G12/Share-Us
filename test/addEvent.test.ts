@@ -1,14 +1,19 @@
 import { describe, expect, test } from '@jest/globals'
 
 import supertest from 'supertest'
-import app from '../src/app'
+import app, { cronJobs } from '../src/app'
 import { Message } from '../src/config/messages'
 import build from '../src/db/build'
 import { sequelize } from '../src/db'
 import config from '../src/config/environment'
 
 beforeAll(() => build())
-afterAll(() => sequelize.close())
+afterAll(async () => {
+  cronJobs.forEach((job) => {
+    job.stop()
+  })
+  return await sequelize.close()
+})
 
 const token = config.token
 
@@ -22,7 +27,6 @@ describe('Adding event', () => {
         description: 'you should wear a custom',
         img:
           'https://www.history.com/.image/c_fill%2Ccs_srgb%2Cfl_progressive%2Ch_400%2Cq_auto:good%2Cw_620/MTU4MDgyMjQyMTM5MTM3ODE3/halloween.jpg',
-        status: 'upcoming',
         startTime: '2022-12-24 08:59:37.398 +00:00',
         endTime: '2022-12-30 08:59:37.398 +00:00',
         longitude: '35.233154',
@@ -43,7 +47,6 @@ describe('Adding event', () => {
       .send({
         name: 'Halloween party',
         description: 'you should wear a custom',
-        status: 'upcoming',
         startTime: '2022-12-24 08:59:37.398 +00:00',
         endTime: '2022-12-30 08:59:37.398 +00:00',
         longitude: '35.233154',

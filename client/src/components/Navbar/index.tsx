@@ -13,7 +13,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications'
 import ChatIcon from '@mui/icons-material/Chat'
 import io from 'socket.io-client'
 import { useAuth } from '../../hooks/useAuth'
-import logo from './logo.jpg'
+import logo from './logo.png'
 import DropDown from './DropDown'
 import { sx } from './styledMenu'
 import NotificationsList from '../NotificationsList/Notifications'
@@ -89,12 +89,12 @@ const Navbar:FC = () => {
   const handleClose = ():void => {
     setAnchorEl(null)
   }
-
   return (
     <>
+      {' '}
       <header>
         <Link
-          to="/"
+          to="/home"
           className="logo"
         >
           <img src={logo} alt="logo" />
@@ -107,6 +107,7 @@ const Navbar:FC = () => {
             SHARE US
           </Typography>
         </Link>
+
         <div className="search">
           <Paper
             component="form"
@@ -139,18 +140,23 @@ const Navbar:FC = () => {
               type="button"
               aria-label="search"
               className="search-btn"
+              sx={{ borderRadius: '5px' }}
               onClick={handleSearch}
             >
               search
             </IconButton>
           </Paper>
         </div>
+
         <div className="register">
           <div className="icons">
-            <ChatIcon onClick={() => { navigate('/chat') }} sx={{ cursor: 'pointer' }} />
+            <ChatIcon
+              onClick={() => { navigate('/chat') }}
+              sx={{ cursor: 'pointer', fill: '#eee' }}
+            />
             <CalendarMonthIcon
               onClick={() => { navigate('/calendar') }}
-              sx={{ cursor: 'pointer' }}
+              sx={{ cursor: 'pointer', fill: '#eee' }}
             />
 
             <IconButton
@@ -165,7 +171,7 @@ const Navbar:FC = () => {
                   ? realTimeNotifications.length + notificationCount : notificationCount}
                 color="error"
               >
-                <NotificationsIcon sx={{ cursor: 'pointer' }} />
+                <NotificationsIcon sx={{ cursor: 'pointer', fill: '#eee' }} />
               </Badge>
             </IconButton>
 

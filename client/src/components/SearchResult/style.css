@@ -28,3 +28,9 @@
   border-radius: 5px;
   background-color: rgb(193, 125, 0)
 }
+.search-title{
+  font-size: 2rem;
+  text-align: center;
+  color: #2a2a2a;
+  margin-bottom: 0.8rem;
+}

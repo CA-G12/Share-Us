@@ -10,13 +10,14 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import { useNavigate } from 'react-router-dom'
 import UserAudience from '../UserAudience'
 import { useAuth } from '../../hooks/useAuth'
-import ApiService from '../../services/ApiService'
 import { StyledMenu } from './styledMenu'
+import { useFollowing } from '../../hooks/useFollowing'
 
 const CustomizedMenus: FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const [blockOpen, setBlockOpen] = useState<boolean>(false)
   const auth = useAuth()
+  const followingHook = useFollowing()
   const navigate = useNavigate()
   const open = Boolean(anchorEl)
   const handleClick: any = (event: React.MouseEvent<HTMLElement>) => {
@@ -30,10 +31,8 @@ const CustomizedMenus: FC = () => {
   const handleCloseBlock = (): void => setBlockOpen(false)
 
   const modalBlock = async (id: number): Promise<void> => {
-    if (auth.user) {
-      const block = await ApiService.patch(`/users/blocked/${id}`, {})
-      auth.setUser(block.data.authUser[0])
-    } else {
+    const isDone = await followingHook.blockUser(id)
+    if (!isDone) {
       navigate('/login')
     }
   }
@@ -61,8 +60,8 @@ const CustomizedMenus: FC = () => {
           <Avatar
             src={auth.user?.profileImg}
             sx={{
-              width: '50px',
-              height: '50px',
+              width: '40px',
+              height: '40px',
               borderRadius: '50%',
               position: 'absolute',
             }}

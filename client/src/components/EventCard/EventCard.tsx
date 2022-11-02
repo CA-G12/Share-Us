@@ -10,7 +10,7 @@ const EventCard:FC<EventCardProps> = ({ event }) => {
   const navigate = useNavigate()
 
   return (
-    <Card sx={{ width: 250, maxHeight: 350, margin: '0.5rem 0' }} key={event.id}>
+    <Card sx={{ width: 290, maxHeight: 350, margin: '0.5rem 0' }} key={event.id}>
       <CardMedia
         component="img"
         height="150"
@@ -54,7 +54,7 @@ const EventCard:FC<EventCardProps> = ({ event }) => {
       }}
       >
         <Box
-          onClick={() => navigate(`/users/${event?.User?.id}`)}
+          onClick={() => navigate(`/users/${event.User?.id}`)}
           sx={{
             display: 'flex',
             alignItems: 'center',

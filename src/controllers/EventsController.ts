@@ -6,6 +6,7 @@ import { Event, User, JoinedPeople, Hashtag, InterestedPeople } from '../db'
 import { Op } from 'sequelize'
 import CustomError from '../helpers/CustomError'
 import IBetweenFromAndTo from 'interfaces/IFilterEvents'
+import { IUserRequest } from 'interfaces/IUserRequest'
 
 export default class EventsController {
   // for getting all data
@@ -55,7 +56,7 @@ export default class EventsController {
     }
 
     const allEvents = await Event.findAll({
-      attributes: ['name', 'img', 'description', 'status', 'startTime', 'placeName', 'id'],
+      attributes: ['name', 'img', 'description', 'startTime', 'status', 'placeName', 'id'],
       include: [{
         model: User,
         attributes: ['username', 'profileImg', 'id']
@@ -92,6 +93,7 @@ export default class EventsController {
         id
       }
     })
+
     if (!eventDetails) throw new CustomError(Message.NOT_FOUND, 404)
     res.status(200).json({
       message: Message.SUCCESS,
@@ -99,7 +101,9 @@ export default class EventsController {
     })
   }
 
-  public static async store (req: Request, res: Response) {
+  // for storing new data
+  public static async store (req: IUserRequest, res: Response) {
+    await querySchema.validateAsync(req.body)
     const {
       name,
       description,
@@ -135,8 +139,8 @@ export default class EventsController {
       endTime,
       longitude,
       latitude,
-      placeName
-
+      placeName,
+      UserId: req.user?.id
     })
 
     event.setHashtags(hashtagIds)

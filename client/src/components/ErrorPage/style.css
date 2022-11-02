@@ -1,0 +1,6 @@
+.footerContent{
+  margin-bottom: 10px;
+}
+.footerContent:first-child{
+ font-size: 24px;
+}
