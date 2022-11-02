@@ -7,7 +7,9 @@ import './style.css'
 import { toast } from 'react-toastify'
 import { IUploaderProps } from '../../interfaces/props/IUploaderProps'
 
-const Uploader:FC<IUploaderProps> = ({ name, formik, btnName }) => {
+const Uploader:FC<IUploaderProps> = ({
+  name, formik, btnName,
+}) => {
   const [url, setUrl] = useState('')
   const [loading, setLoading] = useState(false)
 

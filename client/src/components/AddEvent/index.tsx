@@ -8,7 +8,7 @@ import './style.css'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { toast } from 'react-toastify'
 import {
-  Box, Modal, TextField, Button, MenuItem, InputLabel, Select, FormControl,
+  Box, Modal, TextField, Button,
   Autocomplete, Chip,
 } from '@mui/material'
 import {
@@ -20,6 +20,7 @@ import ApiService from '../../services/ApiService'
 import AddEventMap from '../AddEventMap'
 import { useAuth } from '../../hooks/useAuth'
 import IAddEventInitialValues from '../../interfaces/IAddEventInitialValues'
+import Uploader from '../Uploader'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -33,9 +34,13 @@ const style = {
   p: 4,
 }
 
-const AddEvent: FC = () => {
+interface addEventProps {
+  setIsAdded:Function
+}
+const AddEvent: FC<addEventProps> = ({ setIsAdded }) => {
   const [open, setOpen] = useState(false)
   const [showHash, setShowHash] = useState<Array<object>>([])
+  const [placeName, setPlaceName] = useState<string>('')
   const auth = useAuth()
 
   useEffect(() => {
@@ -54,16 +59,16 @@ const AddEvent: FC = () => {
           toast.success(res.data.message)
           formik.resetForm()
           setOpen(false)
+          setIsAdded((prev:boolean) => !prev)
         })
         .catch((err) => {
           toast.error(err.response.data.message)
         })
     },
   })
-
-  const handleLon = (e:any) => formik.setFieldValue('longitude', e)
-  const handleLat = (e:any) => formik.setFieldValue('latitude', e)
-  const handlePlaceName = (e:any) => formik.setFieldValue('placeName', e)
+  const handleLon = (e:any):any => formik.setFieldValue('longitude', e)
+  const handleLat = (e:any):any => formik.setFieldValue('latitude', e)
+  const handlePlaceName = (e:any):any => formik.setFieldValue('placeName', e)
 
   return (
     <div className="container">
@@ -142,23 +147,6 @@ const AddEvent: FC = () => {
                 />
               </LocalizationProvider>
             </div>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Status</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="outlined-required"
-                label="Status"
-                name="status"
-                size="small"
-                value={formik.values.status}
-                onChange={formik.handleChange}
-                error={formik.touched.status && Boolean(formik.errors.status)}
-              >
-                <MenuItem value="in-progress">In-Progress</MenuItem>
-                <MenuItem value="upcoming">Upcoming</MenuItem>
-                <MenuItem value="closed">Closed</MenuItem>
-              </Select>
-            </FormControl>
 
             <div style={{
               display: 'flex',
@@ -197,7 +185,8 @@ const AddEvent: FC = () => {
 
             <TextField
               name="placeName"
-              value={formik.values.placeName}
+              onChange={(e:any) => setPlaceName(e.value)}
+              value={placeName}
               error={formik.touched.placeName && Boolean(formik.errors.placeName)}
               helperText={formik.touched.placeName && formik.errors.placeName}
               id="outlined-required"
@@ -206,19 +195,28 @@ const AddEvent: FC = () => {
               size="small"
               fullWidth
             />
-            <TextField
-              value={formik.values.img}
-              onChange={formik.handleChange}
-              error={formik.touched.img && Boolean(formik.errors.img)}
-              helperText={formik.touched.img && formik.errors.img}
-              name="img"
-              id="outlined-required"
-              label="Event Picture"
-              variant="outlined"
-              size="small"
-              fullWidth
-              sx={{ display: 'block', margin: '20px 0' }}
-            />
+            <div style={{
+              display: 'flex',
+              margin: '20px 0',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            >
+              <TextField
+                disabled
+                value={formik.values.img}
+                error={formik.touched.img && Boolean(formik.errors.img)}
+                helperText={formik.touched.img && formik.errors.img}
+                id="outlined-required"
+                label="Event Picture"
+                variant="outlined"
+                size="small"
+                onChange={formik.handleChange}
+                fullWidth
+                sx={{ display: 'block', margin: '20px 0' }}
+              />
+              <Uploader formik={formik} btnName="image" name="img" />
+            </div>
             <TextField
               value={formik.values.description}
               onChange={formik.handleChange}
