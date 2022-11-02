@@ -18,14 +18,14 @@ describe('Filter events tests', () => {
       })
   })
 
-  test('test an event filtered by status:closed', (done) => {
+  test('test an event filtered by status:upcoming', (done) => {
     supertest(app)
-      .get('/api/v1/events/?status=closed')
+      .get('/api/v1/events/?status=upcoming')
       .expect('Content-Type', /json/)
       .end((err, res) => {
         if (err) return done(err)
         expect(res.body.data[0].status).toEqual(
-          'closed'
+          'upcoming'
         )
         return done()
       })

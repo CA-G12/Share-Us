@@ -56,7 +56,7 @@ export default class EventsController {
     }
 
     const allEvents = await Event.findAll({
-      attributes: ['name', 'img', 'description', 'status', 'startTime', 'placeName', 'id'],
+      attributes: ['name', 'img', 'description', 'startTime', 'status', 'placeName', 'id'],
       include: [{
         model: User,
         attributes: ['username', 'profileImg', 'id']
