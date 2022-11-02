@@ -21,6 +21,7 @@ const UserAudience: FC<IModalProps> = ({
 }) => {
   const [users, setUsers] = useState<IUserProfile[] | []>([])
   const auth = useAuth()
+
   const navigate = useNavigate()
   useEffect(() => {
     try {

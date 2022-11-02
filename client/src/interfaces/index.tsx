@@ -7,11 +7,13 @@ import EventFilterProp from './props/EventFilterProp'
 import { IComments, IOneComment } from './IComments'
 import IEventCard from './IEventCard'
 import IFriendCard from './IFriendCard'
+import IFriendChatProps from './props/IFriendChat'
+import IMessagesProps from './props/IMessagesProps'
 
 export type {
   EventCardProps, IUser, IAuthContext, IAuthContextProps, IEventDetails,
   EventFilterProp,
   IComments,
   IOneComment,
-  IEventCard, IFriendCard,
+  IEventCard, IFriendCard, IFriendChatProps, IMessagesProps,
 }
