@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 import {
   useNavigate, Link, useSearchParams, useLocation, createSearchParams,
 } from 'react-router-dom'
@@ -26,9 +26,6 @@ const Navbar:FC = () => {
   const [search, setSearch] = useState<string>('')
   // eslint-disable-next-line no-unused-vars
   const [_, setSearchParams] = useSearchParams()
-  const [openNotifications, setOpenNotifications] = useState(false)
-  const handleCloseNotification = ():void => setOpenNotifications(false)
-  const handleOpenNotification = ():void => setOpenNotifications(true)
 
   const handleSearch = ():void => {
     if (location.pathname !== '/search') {
@@ -60,7 +57,6 @@ const Navbar:FC = () => {
 
   useEffect(() => {
     socket.on('connect', () => {
-      console.log(socket.connected)
       setIsConnect(socket.connected) // true
     })
     if (auth?.user?.username) socket.emit('newUser', auth.user.username)
@@ -83,6 +79,16 @@ const Navbar:FC = () => {
     const count:any = oldNotifications?.filter((ele:any) => ele?.status === 'unread')
     setNotificationCount(count?.length)
   }, [oldNotifications])
+
+  // open notifications menu
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const open = Boolean(anchorEl)
+  const handleClick = (event: React.MouseEvent<HTMLElement>):any => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleClose = ():void => {
+    setAnchorEl(null)
+  }
 
   return (
     <>
@@ -147,7 +153,13 @@ const Navbar:FC = () => {
               sx={{ cursor: 'pointer' }}
             />
 
-            <IconButton onClick={handleOpenNotification}>
+            <IconButton
+              onClick={handleClick}
+              aria-controls={open ? 'demo-customized-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}
+            >
+
               <Badge
                 badgeContent={realTimeNotifications.length
                   ? realTimeNotifications.length + notificationCount : notificationCount}
@@ -184,16 +196,14 @@ const Navbar:FC = () => {
 
       </header>
 
-      {openNotifications && (
       <NotificationsList
-        openNotifications={openNotifications}
-        handleClose={handleCloseNotification}
+        anchorEl={anchorEl}
+        handleClose={handleClose}
+        open={open}
         realTimeNotifications={realTimeNotifications}
         setNotificationCount={setNotificationCount}
       />
-      )}
     </>
-
   )
 }
 

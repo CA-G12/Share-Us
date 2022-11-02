@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser'
 import router from './routes'
 import config from './config/environment'
 import Websocket from './notificationSystem/serverSocket'
-import OrdersSocket from './notificationSystem/orders.socket'
+import NotificationSocket from './notificationSystem/notification.socket'
 import { createServer } from 'http'
 
 class App {
@@ -37,7 +37,7 @@ const httpServer = createServer(app)
 const io = Websocket.getInstance(httpServer)
 
 io.initializeHandlers([
-  { path: '/notifications', handler: new OrdersSocket() }
+  { path: '/notifications', handler: new NotificationSocket() }
 ])
 
 export default httpServer

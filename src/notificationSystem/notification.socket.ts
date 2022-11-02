@@ -16,20 +16,18 @@ class OrdersSocket implements MySocketInterface {
   }
 
   getUser = (username:any) => {
-    const user = this.onlineUsers.filter((user:any) => user.username === username)
     return this.onlineUsers.find((user:any) => user.username === username)
   }
 
   handleConnection (socket: Socket) {
-    socket.emit('ping', 'Hi! I am a live socket connection')
     socket.on('newUser', (username) => {
       this.addNewUser(username, socket.id)
     })
     console.log(this.onlineUsers)
+
     socket.on('followNotification', async (data:any) => {
       const receiverUser:any = await User.findOne({ where: { id: data.receiverId } })
       if (receiverUser.followers.includes(data.senderInfo.id)) {
-        const updateNotifications =
         await receiverUser.update({
           notifications:
           [...receiverUser.notifications, { ...data, id: Math.floor(100000 + Math.random() * 900000) }]
@@ -49,9 +47,6 @@ class OrdersSocket implements MySocketInterface {
         }
       }
     })
-    // senderId: data.senderInfo.id,
-    // senderName: data.senderInfo.username,
-    // profileImg: data.senderInfo.profileImg,
 
     socket.on('disconnect', () => {
       this.removeUser(socket.id)

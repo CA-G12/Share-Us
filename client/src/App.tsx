@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import React from 'react'
 import {
   createBrowserRouter,
@@ -12,7 +11,6 @@ import {
   Login, SignUp, Home, Profile, SearchResult, EventDetails, Calender, Chat,
 } from './pages'
 import { useAuth } from './hooks/useAuth'
-// import TestSocket from './components/TestSocket'
 
 const App : React.FC = () => {
   const auth = useAuth()
@@ -50,16 +48,11 @@ const App : React.FC = () => {
       path: 'calendar',
       element: <Calender />,
     },
-    // {
-    //   path: 'test',
-    //   element: <TestSocket />,
-    // },
   ])
 
   return (
     <div className="App">
       <RouterProvider router={router} />
-      {/* <EventCard event={event} /> */}
       <ToastContainer
         position="top-right"
         autoClose={5000}

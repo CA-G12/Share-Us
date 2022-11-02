@@ -6,8 +6,6 @@ import CustomError from '../helpers/CustomError'
 import EditProfileSchema from '../validation/EditProfileUpdate'
 import { Message } from '../config/messages'
 import { IUserRequest } from '../interfaces/IUserRequest'
-import { read } from 'fs'
-import e from 'cors'
 
 export default class UserProfileController {
   public static async index (req: Request, res:Response):Promise<void> {
@@ -55,19 +53,16 @@ export default class UserProfileController {
     const notificationId = req.body.id
     await validateParams({ id })
 
-    console.log(notificationId)
     const user:any = await User.findOne({ where: { id } })
-    const noti = user.notifications.map((element:any, i:number) => {
+    const notifications = user.notifications.map((element:any, i:number) => {
       if (element.id === +notificationId) {
-        console.log(element.status)
         return { ...element, status: 'read' }
       }
       return element
     })
-    console.log(noti)
-    const updateNotifications =
+
     await user.update({
-      notifications: noti
+      notifications
     })
     res.json({ massage: 'updated successfully', status: 'read' })
   }
