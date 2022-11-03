@@ -7,4 +7,5 @@ export interface CardContainerProps {
 
 export interface EventCardProps {
   event: IEventDetails
+  handleDelete:Function
 }

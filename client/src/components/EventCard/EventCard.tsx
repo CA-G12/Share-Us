@@ -1,16 +1,29 @@
 import {
   Box, Card, CardContent, CardMedia, Typography, Avatar, Button, CardActions,
+  DialogActions, Dialog, DialogTitle, IconButton,
 } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete'
 import dayjs from 'dayjs'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { EventCardProps } from '../../interfaces'
+import { useAuth } from '../../hooks/useAuth'
 
-const EventCard:FC<EventCardProps> = ({ event }) => {
+const EventCard:FC<EventCardProps> = ({ event, handleDelete }) => {
   const navigate = useNavigate()
+  const userId = useAuth().user.id
+
+  const [open, setOpen] = useState(false)
+  const handleClickOpen = ():void => setOpen(true)
+  const handleClose = ():void => setOpen(false)
 
   return (
-    <Card sx={{ width: 290, maxHeight: 350, margin: '0.5rem 0' }} key={event.id}>
+    <Card
+      sx={{
+        width: 290, maxHeight: 350, margin: '0.5rem 0', position: 'relative',
+      }}
+      key={event.id}
+    >
       <CardMedia
         component="img"
         height="150"
@@ -35,6 +48,37 @@ const EventCard:FC<EventCardProps> = ({ event }) => {
           {dayjs(event.startTime).format('MMM D, YYYY h:mm A')}
 
         </Typography>
+        { userId === event.User.id && (
+        <IconButton
+          className="delete-event-btn"
+          aria-label="delete"
+          onClick={handleClickOpen}
+        >
+          <DeleteIcon />
+        </IconButton>
+        )}
+
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            Are you sure to delete the event?
+          </DialogTitle>
+          <DialogActions>
+            <Button color="primary" onClick={handleClose}>cancel</Button>
+            <Button
+              color="error"
+              onClick={() => { handleClose(); handleDelete(event.id) }}
+              autoFocus
+            >
+              delete
+            </Button>
+          </DialogActions>
+        </Dialog>
+
       </Box>
       <CardContent>
         <Typography
