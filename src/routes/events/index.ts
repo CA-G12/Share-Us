@@ -27,4 +27,5 @@ router.post('/events', expressWrapper(isAuth), expressWrapper(EventsController.s
 router.post('/events/:eventId/joined', expressWrapper(isAuth), expressWrapper(JoinedController.store))
 router.post('/events/:eventId/interested', expressWrapper(isAuth), expressWrapper(InterestedController.store))
 
+router.delete('/events/:id', expressWrapper(isAuth), expressWrapper(EventsController.destroy))
 export default router
