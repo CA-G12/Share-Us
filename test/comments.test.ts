@@ -3,7 +3,6 @@ import app from '../src/app'
 import supertest from 'supertest'
 import build from '../src/db/build'
 import sequelize from '../src/db/connection'
-import { Message } from '../src/config/messages'
 
 beforeAll(() => build())
 
