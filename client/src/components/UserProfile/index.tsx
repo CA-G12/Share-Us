@@ -36,7 +36,7 @@ const ProfileBio:FC<UserProfileProp> = ({
 
   const followUser = async (id:number):Promise<void> => {
     if (auth.user) {
-      const follow = await ApiService.patch(`/users/following/${id}`, {})
+      const follow = await ApiService.patch(`/api/v1/users/following/${id}`, {})
       setUserData(follow.data.data[0])
       auth.setUser(follow.data.authUser[0])
       sendNotification({
@@ -65,7 +65,7 @@ const ProfileBio:FC<UserProfileProp> = ({
 
   const blockUser = async (): Promise<void> => {
     if (auth.user) {
-      const block = await ApiService.patch(`/users/blocked/${followerId}`, {})
+      const block = await ApiService.patch(`/api/v1/users/blocked/${followerId}`, {})
       setUserData(block.data.data)
       const [userInfos] = block.data.authUser
       auth.setUser(userInfos)

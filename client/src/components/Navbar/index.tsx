@@ -18,14 +18,15 @@ import DropDown from './DropDown'
 import { sx } from './styledMenu'
 import NotificationsList from '../NotificationsList/Notifications'
 
+const socket = io(`${process.env.REACT_APP_BASE_URL}/notifications`)
+
 const Navbar:FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
   const [category, setCategory] = useState<string>('event')
   const [search, setSearch] = useState<string>('')
-  // eslint-disable-next-line no-unused-vars
-  const [_, setSearchParams] = useSearchParams()
+  const [, setSearchParams] = useSearchParams()
 
   const handleSearch = ():void => {
     if (location.pathname !== '/search') {
@@ -49,7 +50,6 @@ const Navbar:FC = () => {
   senderName:string;
   senderId:number;
 }
-  const socket = io('http://localhost:8080/notifications')
   const [realTimeNotifications, setRealTimeNotifications] = useState<INotifications[]>([])
   const [notificationCount, setNotificationCount] = useState<number>(0)
   const [isConnect, setIsConnect] = useState<boolean>(false)
@@ -73,11 +73,11 @@ const Navbar:FC = () => {
       socket.off('connect')
       socket.off('disconnect')
     }
-  }, [])
+  }, [auth.user?.username])
 
   useEffect(() => {
-    const count:any = oldNotifications?.filter((ele:any) => ele?.status === 'unread')
-    setNotificationCount(count?.length)
+    const unreadNotifications = oldNotifications?.filter((ele:any) => ele?.status === 'unread')
+    setNotificationCount(unreadNotifications?.length)
   }, [oldNotifications])
 
   // open notifications menu

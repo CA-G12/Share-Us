@@ -6,6 +6,6 @@ const router = express.Router()
 
 router.get('/users/:id', expressWrapper(UserProfileController.index))
 router.put('/users/:id', expressWrapper(isAuth), expressWrapper(UserProfileController.update))
-router.patch('/users/:id', expressWrapper(isAuth), expressWrapper(UserProfileController.updateNotification))
+router.patch('/users/:id/notifications', expressWrapper(isAuth), expressWrapper(UserProfileController.updateNotification))
 
 export default router

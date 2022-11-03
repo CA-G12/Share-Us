@@ -44,7 +44,7 @@ const AddEvent: FC<addEventProps> = ({ setIsAdded }) => {
   const auth = useAuth()
 
   useEffect(() => {
-    ApiService.get('/hashtags')
+    ApiService.get('/api/v1/hashtags')
       .then((res) => {
         setShowHash(res.data.data)
       })
@@ -54,7 +54,7 @@ const AddEvent: FC<addEventProps> = ({ setIsAdded }) => {
     initialValues: IAddEventInitialValues,
     validationSchema: schema,
     onSubmit: (values) => {
-      ApiService.post('/events', { ...values })
+      ApiService.post('/api/v1/events', { ...values })
         .then((res) => {
           toast.success(res.data.message)
           formik.resetForm()

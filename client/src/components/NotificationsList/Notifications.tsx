@@ -10,6 +10,7 @@ import {
 import { formatDistance, parseISO } from 'date-fns'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
+import INotificationsList from '../../interfaces/props/INotificationsList'
 import ApiService from '../../services/ApiService'
 import './style.css'
 
@@ -56,14 +57,6 @@ const StyledMenu:any = styled((props: MenuProps):any => (
   },
 }))
 
-interface INotificationsList {
-  anchorEl: null | HTMLElement;
-  handleClose: any;
-  open: boolean;
-  realTimeNotifications:any[];
-  setNotificationCount:Function;
-}
-
 const NotificationsList:FC<INotificationsList> = ({
   anchorEl, handleClose, open, realTimeNotifications, setNotificationCount,
 }) => {
@@ -72,7 +65,8 @@ const NotificationsList:FC<INotificationsList> = ({
   const navigate = useNavigate()
   const readNotification = async (id:number):Promise<void> => {
     if (auth.user) {
-      const updateState = await ApiService.patch(`/users/${auth.id}`, { id })
+      const updateState = await
+      ApiService.patch(`/api/v1/users/${auth.id}/notifications`, { id })
       const newOne = oldNotifications.map((ele:any) => {
         if (ele.id === +id) {
           return { ...ele, status: updateState.data.status }
@@ -85,88 +79,89 @@ const NotificationsList:FC<INotificationsList> = ({
     }
   }
   return (
-    <div>
-      <StyledMenu
-        id="demo-customized-menu"
-        MenuListProps={{
-          'aria-labelledby': 'demo-customized-button',
-        }}
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        className="menu-container"
-      >
-        {realTimeNotifications.map((ele:any) => (
-          <>
-            <ListItem
-              alignItems="flex-start"
-              style={{
-                margin: '5px auto',
-                padding: '0 1rem',
-                cursor: 'pointer',
-              }}
-              onClick={() => {
-                navigate(`/users/${ele?.senderInfo.id}`)
-                handleClose()
-              }}
+    <StyledMenu
+      id="demo-customized-menu"
+      MenuListProps={{
+        'aria-labelledby': 'demo-customized-button',
+      }}
+      anchorEl={anchorEl}
+      open={open}
+      onClose={handleClose}
+      className="menu-container"
+    >
+      {realTimeNotifications.map((ele:any) => (
+        <div key={ele.id}>
+          <ListItem
+            alignItems="flex-start"
+            style={{
+              margin: '5px auto',
+              padding: '0 1rem',
+              cursor: 'pointer',
+            }}
+            onClick={() => {
+              navigate(`/users/${ele?.senderInfo.id}`)
+              handleClose()
+            }}
+          >
+            <p
+              className="notification-state"
             >
-              <p
-                className="notification-state"
-              >
-                <Badge
-                  color="primary"
-                  badgeContent=" "
-                  variant="dot"
-                />
-              </p>
-
-              <ListItemAvatar>
-                <Avatar
-                  alt={ele?.senderInfo.username}
-                  src={ele?.senderInfo.profileImg}
-                />
-              </ListItemAvatar>
-              <ListItemText
-                primary={ele?.message}
-                secondary={(
-                  <>
-                    <Typography
-                      sx={{ display: 'inline' }}
-                      component="span"
-                      variant="body2"
-                      color="text.primary"
-                    >
-                      {ele?.createdAt}
-                    </Typography>
-                    {' — View Profile…'}
-                  </>
-          )}
+              <Badge
+                color="primary"
+                badgeContent=" "
+                variant="dot"
               />
-            </ListItem>
-            <Divider variant="inset" component="li" />
-          </>
-        ))}
+            </p>
 
-        {
-            oldNotifications?.length
-            && oldNotifications
-              .sort((b:any, a:any) => dayjs(a.createdAt).diff(b.createdAt))
-              .map((ele:any) => (
+            <ListItemAvatar>
+              <Avatar
+                alt={ele?.senderInfo.username}
+                src={ele?.senderInfo.profileImg}
+              />
+            </ListItemAvatar>
+            <ListItemText
+              primary={ele?.message}
+              secondary={(
                 <>
-                  <ListItem
-                    alignItems="flex-start"
-                    style={{
-                      margin: '5px auto',
-                      cursor: 'pointer',
-                    }}
-                    onClick={() => {
-                      readNotification(ele?.id)
-                      navigate(`/users/${ele?.senderInfo?.id}`)
-                      handleClose()
-                      if (ele.status === 'unread') { setNotificationCount((prev:any) => prev - 1) }
-                    }}
+                  <Typography
+                    sx={{ display: 'inline' }}
+                    component="span"
+                    variant="body2"
+                    color="text.primary"
                   >
-                    {ele.status === 'unread'
+                    {ele?.createdAt}
+                  </Typography>
+                  {' — View Profile…'}
+                </>
+          )}
+            />
+          </ListItem>
+          <Divider variant="inset" component="li" />
+        </div>
+      ))}
+
+      {
+            oldNotifications?.length
+              && oldNotifications
+                .sort((b:any, a:any) => dayjs(a.createdAt).diff(b.createdAt))
+                .map((ele:any) => (
+                  <div key={ele.id}>
+                    <ListItem
+                      alignItems="flex-start"
+                      style={{
+                        margin: '5px auto',
+                        cursor: 'pointer',
+                      }}
+                      onClick={() => {
+                        readNotification(ele?.id)
+                        navigate(`/users/${ele?.senderInfo?.id}`)
+                        handleClose()
+                        if (ele.status === 'unread') {
+                          setNotificationCount((prev:any) => prev - 1)
+                        }
+                      }}
+                    >
+                      {ele.status === 'unread'
                     && (
                       <p className="notification-state">
                         <Badge
@@ -177,40 +172,41 @@ const NotificationsList:FC<INotificationsList> = ({
                       </p>
                     )}
 
-                    <ListItemAvatar>
-                      <Avatar
-                        alt={ele?.senderInfo?.username}
-                        src={ele?.senderInfo?.profileImg}
-                      />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={ele?.message}
-                      secondary={(
-                        <>
-                          <Typography
-                            sx={{ display: 'inline' }}
-                            component="span"
-                            variant="body2"
-                            color="text.secondary"
-                          >
-                            { formatDistance(
-                              parseISO(ele?.createdAt),
-                              new Date(),
-                              { addSuffix: true },
-                            )}
-                          </Typography>
-                          {' — View Profile…'}
-                        </>
+                      <ListItemAvatar>
+                        <Avatar
+                          alt={ele?.senderInfo?.username}
+                          src={ele?.senderInfo?.profileImg}
+                        />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={ele?.message}
+                        secondary={(
+                          <div>
+                            <Typography
+                              sx={{ display: 'inline' }}
+                              component="span"
+                              variant="body2"
+                              color="text.secondary"
+                            >
+                              { formatDistance(
+                                parseISO(ele?.createdAt),
+                                new Date(),
+                                { addSuffix: true },
+                              )}
+                            </Typography>
+                            {' — View Profile…'}
+                          </div>
           )}
-                    />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                </>
-              ))
+                      />
+                    </ListItem>
+                    <Divider variant="inset" component="li" />
+                  </div>
+                ))
 }
+      { (!oldNotifications?.length && !realTimeNotifications?.length)
+       && <p className="no-notification">No notification</p>}
 
-      </StyledMenu>
-    </div>
+    </StyledMenu>
   )
 }
 

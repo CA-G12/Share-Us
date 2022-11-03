@@ -8,3 +8,8 @@
 .menu-container {
   max-height: 520px;
 }
+
+.no-notification{
+  text-align: center;
+  padding: 0.5rem;
+}
