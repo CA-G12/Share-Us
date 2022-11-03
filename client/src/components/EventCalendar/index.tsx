@@ -23,7 +23,7 @@ const EventCalendar:FC = () => {
 
   useEffect(() => {
     const allJoined = async ():Promise<void> => {
-      const joined = await ApiService.get('/events/joined')
+      const joined = await ApiService.get('/api/v1/events/joined')
       const init = joined.data.data.map((ele:any) => ({
         id: ele.id,
         title: ele.Event.name,
@@ -37,7 +37,7 @@ const EventCalendar:FC = () => {
     allJoined()
 
     const allInterested = async ():Promise<void> => {
-      const interested = await ApiService.get('/events/interested')
+      const interested = await ApiService.get('/api/v1/events/interested')
       const init = interested.data.data.map((ele:any) => ({
         id: ele.id,
         title: ele.Event.name,

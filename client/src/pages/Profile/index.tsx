@@ -24,21 +24,21 @@ const Profile:FC = () => {
 
   useEffect(() => {
     const userInfo = async ():Promise<void> => {
-      const user = await ApiService.get(`/users/${followerId}`)
+      const user = await ApiService.get(`/api/v1/users/${followerId}`)
       setUserData(user.data.data)
     }
     userInfo()
   }, [followerId])
 
   const editUserData = async (data:any):Promise<void> => {
-    const userInfo = await ApiService.put(`/users/${followerId}`, { data })
+    const userInfo = await ApiService.put(`/api/v1/users/${followerId}`, { data })
     setUserData(userInfo.data.data[0])
     auth.setUser(userInfo.data.data[0])
   }
 
   useEffect(() => {
     const getEvents = async ():Promise<void> => {
-      const allEvents = await ApiService.get('/events', {
+      const allEvents = await ApiService.get('/api/v1/events', {
         params: {
           status: currentStatus === 'all' ? '' : currentStatus,
           from: startTime,

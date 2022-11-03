@@ -26,7 +26,7 @@ export const useProvideAuth = ():IAuthContext => {
   const [user, setUser] = useState<IUser | null>(null)
   const signIn = async (payload:object): Promise<object> => {
     try {
-      const userInfo = await ApiService.post('/login', payload)
+      const userInfo = await ApiService.post('/api/v1/login', payload)
       if (userInfo.status === 200) {
         setUser(userInfo.data.user)
         JwtService.setToken(userInfo.data.token)
@@ -40,7 +40,7 @@ export const useProvideAuth = ():IAuthContext => {
   }
   const signUp = async (payload:object):Promise<object> => {
     try {
-      const userInfo = await ApiService.post('/signup', payload)
+      const userInfo = await ApiService.post('/api/v1/signup', payload)
       if (userInfo.status === 200) {
         setUser(userInfo.data.data)
         JwtService.setToken(userInfo.data.token)
@@ -61,7 +61,7 @@ export const useProvideAuth = ():IAuthContext => {
   useEffect(() => {
     const getUser = async ():Promise<void> => {
       try {
-        const userInfo = await ApiService.get('/users/me')
+        const userInfo = await ApiService.get('/api/v1/users/me')
         if (userInfo.status === 200) {
           setUser(userInfo.data.data)
         }
