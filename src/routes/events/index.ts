@@ -12,7 +12,7 @@ import CalendarJoinedController from '../../controllers/CalendarJoinedController
 const router = express.Router()
 router.get('/search', expressWrapper(expressWrapper(SearchResultController.index)))
 
-router.post('/events', expressWrapper(EventsController.store))
+router.post('/events', expressWrapper(isAuth), expressWrapper(EventsController.store))
 router.get('/hashtags', expressWrapper(HashtagController.show))
 
 router.get('/events', expressWrapper(EventsController.index))

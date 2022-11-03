@@ -14,6 +14,7 @@ const Home:FC = () => {
   const [currentStatus, setCurrentStatus] = useState('all')
   const [startTime, setStartTime] = useState<Dayjs|null>(null)
   const [endTime, setEndTime] = useState<Dayjs|null>(null)
+  const [isAdded, setIsAdded] = useState<boolean>(false)
 
   useEffect(() => {
     const getEvents = async ():Promise<void> => {
@@ -27,7 +28,7 @@ const Home:FC = () => {
       setData(allEvents.data.data)
     }
     getEvents()
-  }, [currentStatus, startTime, endTime])
+  }, [currentStatus, startTime, endTime, isAdded])
 
   return (
     <>
@@ -40,7 +41,7 @@ const Home:FC = () => {
         endTime={endTime}
         setEndTime={setEndTime}
       />
-      <AddEvent />
+      <AddEvent setIsAdded={setIsAdded} />
       <EventCardContainer allEvents={data} />
     </>
 

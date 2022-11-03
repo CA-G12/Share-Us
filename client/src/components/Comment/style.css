@@ -13,6 +13,7 @@ div.comment div.user-info{
   width: max-content ;
   display: flex;
   justify-content: space-between;
+  cursor: pointer;
 }
 div.comment div.user-info img{
 border-radius: 50%;

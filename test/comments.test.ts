@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals'
-import app from '../src/app'
+import app, { cronJobs } from '../src/app'
 import supertest from 'supertest'
 import build from '../src/db/build'
 import sequelize from '../src/db/connection'
@@ -77,4 +77,9 @@ describe('Get all comments', () => {
   })
 })
 
-afterAll(() => sequelize.close())
+afterAll(async () => {
+  cronJobs.forEach((job) => {
+    job.stop()
+  })
+  return await sequelize.close()
+})

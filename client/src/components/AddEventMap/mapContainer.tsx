@@ -3,7 +3,6 @@
 import {
   useRef,
   useEffect,
-  useState,
   FC,
 } from 'react'
 
@@ -16,13 +15,12 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 mapboxgl.accessToken = `pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.
 -g_vE53SD2WrJ6tFX7QHmA`
 interface mapProps{
-  setLat: React.Dispatch<React.SetStateAction<string | undefined>>;
-  setLon: React.Dispatch<React.SetStateAction<string | undefined>>;
-  setPlaceName: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setLat: Function;
+  setLon: Function;
+  setPlaceName: Function;
 }
 const MapContainer: FC <mapProps> = ({ setLon, setLat, setPlaceName }):JSX.Element => {
   const mapContainerRef = useRef<any>(null!)
-  const [marker, setMarker] = useState<any>([])
   const myMap:any = useRef()
   useEffect(() => {
     myMap.current = new mapboxgl.Map({

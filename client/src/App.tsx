@@ -9,21 +9,33 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import {
-  Login, SignUp, Home, Profile, SearchResult, EventDetails, Calender, Chat,
+  LandingPage,
+  Login,
+  SignUp,
+  Home,
+  Profile,
+  SearchResult,
+  EventDetails,
+  Calender,
+  Chat,
+  ErrorPage,
 } from './pages'
 import { useAuth } from './hooks/useAuth'
 
-const App : React.FC = () => {
+const App: React.FC = () => {
   const auth = useAuth()
   const router = createBrowserRouter([
     {
       path: '/',
+      element: <LandingPage />,
+    },
+    {
+      path: '/home',
       element: <Home />,
     },
     {
       path: 'login',
       element: auth.user ? <Navigate to="/" replace /> : <Login />,
-
     },
     {
       path: 'sign-up',
@@ -49,12 +61,15 @@ const App : React.FC = () => {
       path: 'calendar',
       element: <Calender />,
     },
+    {
+      path: '*',
+      element: <ErrorPage />,
+    },
   ])
 
   return (
     <div className="App">
       <RouterProvider router={router} />
-      {/* <EventCard event={event} /> */}
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -68,7 +83,6 @@ const App : React.FC = () => {
         theme="light"
       />
     </div>
-
   )
 }
 
