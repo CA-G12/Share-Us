@@ -1,11 +1,11 @@
 import './style.css'
 
-import React, { FC, useState } from 'react'
+import { FC, useState, useEffect } from 'react'
 import {
   Button, Alert, AlertTitle, CircularProgress,
 } from '@mui/material'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
-
+import { toast } from 'react-toastify'
 import { useParams } from 'react-router-dom'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import Comment from '../Comment'
@@ -17,26 +17,6 @@ import {
 import AddCommentModal from '../AddCommentsModal'
 
 const CommentsContainer:FC = () => {
-  const initCommentsValue: IComments = {
-    message: '',
-    data: [
-      {
-        id: 2,
-        content: '',
-        image: '',
-        createdAt: '',
-        updatedAt: '',
-        UserId: 1,
-        EventId: 1,
-        User: {
-          id: 1,
-          username: '',
-          profileImg: '',
-        },
-      },
-    ],
-  }
-
   const initOneCommentValue: IOneComment = {
     message: '',
     data:
@@ -57,7 +37,6 @@ const CommentsContainer:FC = () => {
 
   }
 
-  const [comments, setComments] = useState<IComments>(initCommentsValue)
   const [newComment, setNewComments] = useState<any>(initOneCommentValue)
   const [nextPage, setNextPage] = useState<number>(1)
   const [allComments, setAllComments] = useState<IComments[]>([])
@@ -65,6 +44,7 @@ const CommentsContainer:FC = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [error, setError] = useState<boolean | string>(false)
   const [loader, setLoader] = useState<boolean>(true)
+  const [deletedId, setDeletedId] = useState<number | null>()
 
   const handleOpen = ():void => setOpen(true)
   const handleClose = ():void => setOpen(false)
@@ -72,11 +52,10 @@ const CommentsContainer:FC = () => {
 
   const idParams = useParams().id
 
-  React.useEffect(() => {
+  useEffect(() => {
     (async (): Promise<void> => {
       try {
         const result = await ApiService.get(`/events/${idParams}/comments?offset=${nextPage}`)
-        setComments(result.data)
         setAllComments([...allComments, ...result.data.data])
         if (!result.data.data.length) setHasMore(false)
         setLoader(false)
@@ -87,9 +66,17 @@ const CommentsContainer:FC = () => {
     })()
   }, [idParams, nextPage])
 
-  React.useEffect(() => {
+  useEffect(() => {
     setAllComments([newComment.data, ...allComments])
   }, [newComment])
+
+  const handleDelete = async (id:number):Promise<void> => {
+    const deletedEvent = await ApiService.delete(`/events/${idParams}/comments/${id}`)
+    if (deletedEvent.data.status === 'deleted') {
+      setDeletedId(id)
+      toast(deletedEvent.data.message)
+    }
+  }
 
   if (loader) {
     return (
@@ -124,7 +111,7 @@ const CommentsContainer:FC = () => {
         loader={<CircularProgress sx={{ margin: '10px auto', display: 'block' }} />}
         endMessage={<p className="end-message">There are no more Comments</p>}
       >
-        {allComments.map((ele:any) => (
+        {allComments.filter((evt:any) => evt.id !== deletedId).map((ele:any) => (
           <Comment
             key={ele.id * Math.random()}
             id={ele.id}
@@ -132,7 +119,7 @@ const CommentsContainer:FC = () => {
             image={ele.image}
             content={ele.content}
             createdAt={ele.createdAt}
-            EventId={ele.EventId}
+            handleDelete={handleDelete}
           />
         ))}
 
