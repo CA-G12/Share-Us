@@ -10,6 +10,7 @@ import { createServer } from 'http'
 import reminderEmail from './cronJobs/ReminderEmail'
 import changeStatus from './cronJobs/changeStatus'
 import { ScheduledTask } from 'node-cron'
+import ChatSocket from './notificationSystem/chat.socket'
 
 class App {
   public app: Application
@@ -52,7 +53,8 @@ const httpServer = createServer(app)
 const io = Websocket.getInstance(httpServer)
 
 io.initializeHandlers([
-  { path: '/notifications', handler: new NotificationSocket() }
+  { path: '/notifications', handler: new NotificationSocket() },
+  { path: '/chat', handler: new ChatSocket() }
 ])
 
 export default httpServer

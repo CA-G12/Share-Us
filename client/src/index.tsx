@@ -15,6 +15,7 @@ ApiService.init()
 ApiService.setHeader()
 
 root.render(
+
   <AuthProvider>
     <FollowingProvider>
       <ToastContainer
@@ -32,4 +33,5 @@ root.render(
       <App />
     </FollowingProvider>
   </AuthProvider>,
+
 )

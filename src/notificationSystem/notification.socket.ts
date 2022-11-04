@@ -23,7 +23,7 @@ class OrdersSocket implements MySocketInterface {
     socket.on('newUser', (username) => {
       this.addNewUser(username, socket.id)
     })
-    console.log(this.onlineUsers)
+    console.log('noti', this.onlineUsers)
 
     socket.on('followNotification', async (data:any) => {
       const receiverUser:any = await User.findOne({ where: { id: data.receiverId } })

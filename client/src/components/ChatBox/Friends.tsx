@@ -20,12 +20,12 @@ const Friends:FC<IFriendChatProps> = ({ friends, setCurrentUser }) => (
     </Box>
     {
         friends?.map((ele) => (
-          <>
-            <Box key={ele.id} onClick={() => setCurrentUser(ele)}>
+          <Box key={ele.id}>
+            <Box onClick={() => setCurrentUser(ele)}>
               <SingleFriend profileImg={ele.profileImg} username={ele.username} />
             </Box>
             <Divider />
-          </>
+          </Box>
 
         ))
       }
