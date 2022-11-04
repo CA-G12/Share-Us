@@ -31,7 +31,7 @@ const ChatBox:FC = () => {
   useEffect(() => {
     const getFriends = async ():Promise<void> => {
       if (auth.user) {
-        const friends = await ApiService.get(`/users/${auth.user?.id}/following`)
+        const friends = await ApiService.get(`/api/v1/users/${auth.user?.id}/following`)
         setAllFriends(friends.data.data)
       }
     }

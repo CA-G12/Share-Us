@@ -3,7 +3,12 @@
   "compilerOptions": {
       "skipLibCheck": true,
       "strict": true,
+      "module": "commonjs",
+      "esModuleInterop": true,
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
       "noFallthroughCasesInSwitch": true,
+      "moduleResolution": "node",
       "isolatedModules": true,
       "target": "es2021",
       "lib": [

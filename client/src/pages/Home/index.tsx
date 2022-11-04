@@ -18,7 +18,7 @@ const Home:FC = () => {
 
   useEffect(() => {
     const getEvents = async ():Promise<void> => {
-      const allEvents = await ApiService.get('/events', {
+      const allEvents = await ApiService.get('/api/v1/events', {
         params: {
           status: currentStatus === 'all' ? '' : currentStatus,
           from: startTime,

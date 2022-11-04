@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import { User } from '../db'
 import { Request, Response } from 'express'
 import validateParams from '../validation/paramsId'
@@ -13,7 +14,7 @@ export default class UserProfileController {
 
     const profile = await User.findOne({
       attributes: ['id', 'username', 'bio', 'location', 'profileImg',
-        'headerImg', 'following', 'followers'],
+        'headerImg', 'following', 'followers', 'notifications'],
       where: {
         id
       }
@@ -45,5 +46,24 @@ export default class UserProfileController {
 
     if (!updated) throw new CustomError('Not Found', 404)
     res.json({ data: user, message: 'Data updated successfully' })
+  }
+
+  public static async updateNotification (req: IUserRequest, res:Response):Promise<void> {
+    const id = req.user?.id
+    const notificationId = req.body.id
+    await validateParams({ id })
+
+    const user:any = await User.findOne({ where: { id } })
+    const notifications = user.notifications.map((element:any, i:number) => {
+      if (element.id === +notificationId) {
+        return { ...element, status: 'read' }
+      }
+      return element
+    })
+
+    await user.update({
+      notifications
+    })
+    res.json({ massage: 'updated successfully', status: 'read' })
   }
 }

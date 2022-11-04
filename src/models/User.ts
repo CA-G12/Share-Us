@@ -13,7 +13,7 @@ class User extends Model {
   declare followers: number[]
   declare following: number[]
   declare blocked: number[]
-  declare notifications: string[]
+  declare notifications: any[]
 }
 
 User.init(
@@ -69,7 +69,7 @@ depositphotos_199564354-stock-illustration-creative-vector-illustration-default-
       allowNull: false
     },
     notifications: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      type: DataTypes.ARRAY(DataTypes.JSON),
       defaultValue: []
     }
   },
