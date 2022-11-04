@@ -7,6 +7,7 @@ import config from './config/environment'
 import reminderEmail from './cronJobs/ReminderEmail'
 import changeStatus from './cronJobs/changeStatus'
 import { ScheduledTask } from 'node-cron'
+import { join } from 'path'
 
 class App {
   public app: Application
@@ -42,6 +43,13 @@ class App {
 }
 
 const { app, cronJobs } = new App()
+
+if (config.nodeEnv === 'production') {
+  app.use(express.static(join(__dirname, '..', 'client')))
+  app.get('*', (req, res) => {
+    res.sendFile(join(__dirname, '..', 'client', 'build', 'index.html'))
+  })
+}
 
 export { cronJobs }
 
