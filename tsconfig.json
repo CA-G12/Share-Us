@@ -27,6 +27,7 @@
       "sourceMap": true,
       "declaration": true,
       "outDir": "dist",
+      "rootDir": "./src",
       "allowJs": true,
       "noEmit": false,
       "esModuleInterop": true,

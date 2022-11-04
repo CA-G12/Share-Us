@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./dist",
-    "build": "tsc",
+    "build": "rimraf dist && tsc",
     "build:db": "cross-env NODE_ENV=development ts-node ./src/db/build",
     "test": "cross-env NODE_ENV=test jest --runInBand",
     "dev": "cross-env NODE_ENV=development nodemon ./src/index.ts",
