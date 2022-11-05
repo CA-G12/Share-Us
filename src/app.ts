@@ -48,9 +48,10 @@ class App {
 const { app, cronJobs } = new App()
 
 if (config.nodeEnv === 'production') {
-  app.use(express.static(join(__dirname, '..', 'client', 'build')))
-  app.get('*', (req, res) => {
-    res.sendFile(join(__dirname, '..', 'client', 'build', 'index.html'))
+  app.use(express.static(join(__dirname, '..', 'client', 'public')))
+
+  app.get('/*', (req, res) => {
+    res.sendFile(join(__dirname, '..', 'client', 'public', 'index.html'))
   })
 }
 
