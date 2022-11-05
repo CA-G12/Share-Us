@@ -24,6 +24,21 @@ class ChatSocket implements MySocketInterface {
       this.addNewUser(username, socket.id)
     })
     console.log(this.onlineUsers)
+
+    socket.on('typing', (message) => {
+      const receiver = this.getUser(message.receiverName)
+      if (receiver?.socketId) {
+        socket.to(receiver.socketId).emit('typingResponse', message)
+      }
+    })
+
+    socket.on('endTyping', (message) => {
+      const receiver = this.getUser(message.receiverName)
+      if (receiver?.socketId) {
+        socket.to(receiver.socketId).emit('endTypingResponse', '')
+      }
+    })
+
     socket.on('sendMessage', async (message) => {
       try {
         const newMessage = await Chat.create(message)

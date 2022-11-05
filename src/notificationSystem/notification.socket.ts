@@ -3,7 +3,7 @@ import MySocketInterface from './mySocketInterface'
 import { User } from '../models'
 import { formatDistance, parseISO } from 'date-fns'
 
-class OrdersSocket implements MySocketInterface {
+class NotificationSocket implements MySocketInterface {
   onlineUsers:any = []
 
   addNewUser:any = (username:any, socketId:any):any => {
@@ -59,4 +59,4 @@ class OrdersSocket implements MySocketInterface {
   }
 }
 
-export default OrdersSocket
+export default NotificationSocket

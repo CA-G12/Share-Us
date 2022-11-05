@@ -2,7 +2,7 @@ import { Grid } from '@mui/material'
 import { FC, useEffect, useState } from 'react'
 import { io } from 'socket.io-client'
 import { useAuth } from '../../hooks/useAuth'
-import { IUser } from '../../interfaces'
+import { IMyMessages, IUser, IRealTimeMessages } from '../../interfaces'
 import ApiService from '../../services/ApiService'
 import Friends from './Friends'
 import Messages from './Messages'
@@ -29,8 +29,8 @@ const ChatBox:FC = () => {
     updatedAt: '',
   }
   const [allFriends, setAllFriends] = useState<IUser[]>([friendsInit])
-  const [realTimeMessages, setRealTimeMessages] = useState<any[]>([])
-  const [myMessages, setMyMessages] = useState<any[]>([])
+  const [realTimeMessages, setRealTimeMessages] = useState<IRealTimeMessages[]>([])
+  const [myMessages, setMyMessages] = useState<IMyMessages[]>([])
 
   const [currentUser, setCurrentUser] = useState<IUser>(friendsInit)
   const [, setIsConnect] = useState<boolean>(false)
@@ -49,7 +49,6 @@ const ChatBox:FC = () => {
   useEffect(() => {
     socket.on('connect', () => {
       setIsConnect(socket.connected) // true
-      console.log(socket.connected)
     })
     if (auth?.user?.username) {
       socket.emit('newUser', auth.user.username)

@@ -1,6 +1,7 @@
 .single-message{
   padding: 0.5rem 1rem;
   width: max-content;
+  max-width: 60%;
   border-radius: 15px;
   margin-top: 5px;
 }
@@ -13,9 +14,17 @@
   margin-left: auto;
   border: 0.5px solid #efefef;
 }
+.messages-textField-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 70vh;
+}
+
 .messages-container{
   padding: 0.5rem 0.7rem;
-  max-height: 450px;
+  height: 60vh;
+  max-height: 470;
   overflow-y: auto;
 }
 .messages-container::-webkit-scrollbar {
@@ -34,8 +43,24 @@
 }
 
 
+.typing-status{
+  font-size: 14px;
+  color:#c1c1c1;
+  width: max-content;
+  padding: 5px 10px;
+}
+
+.Emoji-Btn-chat{
+  margin-left: auto !important;
+}
 
 
+.chat-emoji{
+  height: 300px;
+  overflow: hidden;
+}
 
-
-
+.css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper{
+  top: 280px !important;
+  height: max-content;
+}

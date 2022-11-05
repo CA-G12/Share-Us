@@ -9,11 +9,13 @@ import IEventCard from './IEventCard'
 import IFriendCard from './IFriendCard'
 import IFriendChatProps from './props/IFriendChat'
 import IMessagesProps from './props/IMessagesProps'
+import IMyMessages from './IMyMessages'
+import IRealTimeMessages from './IRealTimeMessages'
 
 export type {
   EventCardProps, IUser, IAuthContext, IAuthContextProps, IEventDetails,
   EventFilterProp,
   IComments,
   IOneComment,
-  IEventCard, IFriendCard, IFriendChatProps, IMessagesProps,
+  IEventCard, IFriendCard, IFriendChatProps, IMessagesProps, IMyMessages, IRealTimeMessages,
 }
