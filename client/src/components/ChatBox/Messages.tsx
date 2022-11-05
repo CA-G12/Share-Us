@@ -17,7 +17,7 @@ import { useAuth } from '../../hooks/useAuth'
 
 const Messages:FC<IMessagesProps> = (
   {
-    currentUser, socket, realTimeMessages, setMyMessages, myMessages,
+    currentUser, socket, realTimeMessages, setMyMessages, myMessages, onlineUsers,
   },
 ) => {
   const [message, setMessage] = useState('')
@@ -90,7 +90,11 @@ const Messages:FC<IMessagesProps> = (
     return (
       <>
         <Box sx={sx.messagesTitle} onClick={() => navigate(`/users/${currentUser.id}`)}>
-          <SingleFriend username={currentUser.username} profileImg={currentUser.profileImg} />
+          <SingleFriend
+            username={currentUser.username}
+            profileImg={currentUser.profileImg}
+            onlineUsers={onlineUsers}
+          />
         </Box>
         <Box className="messages-textField-container">
 

@@ -4,13 +4,13 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import router from './routes'
 import config from './config/environment'
-import Websocket from './notificationSystem/serverSocket'
-import NotificationSocket from './notificationSystem/notification.socket'
+import Websocket from './webSocket/serverSocket'
+import NotificationSocket from './webSocket/notification.socket'
 import { createServer } from 'http'
 import reminderEmail from './cronJobs/ReminderEmail'
 import changeStatus from './cronJobs/changeStatus'
 import { ScheduledTask } from 'node-cron'
-import ChatSocket from './notificationSystem/chat.socket'
+import ChatSocket from './webSocket/chat.socket'
 
 class App {
   public app: Application

@@ -7,4 +7,5 @@ export default interface IMessagesProps {
   realTimeMessages : Object[],
   setMyMessages: Function
   myMessages: Object[]
+  onlineUsers?:any[]
 }

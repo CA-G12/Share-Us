@@ -1,6 +1,9 @@
 import { Grid } from '@mui/material'
-import { FC, useEffect, useState } from 'react'
+import {
+  FC, useContext, useEffect, useState,
+} from 'react'
 import { io } from 'socket.io-client'
+import { StartChat } from '../../context/startChat'
 import { useAuth } from '../../hooks/useAuth'
 import { IMyMessages, IUser, IRealTimeMessages } from '../../interfaces'
 import ApiService from '../../services/ApiService'
@@ -31,20 +34,31 @@ const ChatBox:FC = () => {
   const [allFriends, setAllFriends] = useState<IUser[]>([friendsInit])
   const [realTimeMessages, setRealTimeMessages] = useState<IRealTimeMessages[]>([])
   const [myMessages, setMyMessages] = useState<IMyMessages[]>([])
+  const [onlineUsers, setOnlineUsers] = useState<any[]>([])
 
   const [currentUser, setCurrentUser] = useState<IUser>(friendsInit)
   const [, setIsConnect] = useState<boolean>(false)
+  const { startChat } = useContext(StartChat)
+
   const auth = useAuth()
 
   useEffect(() => {
     const getFriends = async ():Promise<void> => {
       if (auth.user) {
-        const friends = await ApiService.get(`/api/v1/users/${auth.user?.id}/following`)
-        setAllFriends(friends.data.data)
+        const friends = await ApiService.get(`/api/v1/users/${auth.user?.id}/chatted`)
+
+        const isExist = friends.data.data.find((ele:any) => ele.id === startChat.id)
+
+        if (startChat.username && !isExist) {
+          setAllFriends([startChat, ...friends.data.data])
+        } else {
+          setAllFriends(friends.data.data)
+        }
+        setCurrentUser(startChat)
       }
     }
     getFriends()
-  }, [auth.user])
+  }, [auth.user, startChat])
 
   useEffect(() => {
     socket.on('connect', () => {
@@ -68,6 +82,10 @@ const ChatBox:FC = () => {
     socket.on('getMessages', (message) => {
       setRealTimeMessages((prev) => [...prev, message])
     })
+
+    socket.on('onlineUsers', (message) => {
+      setOnlineUsers(message)
+    })
   }, [])
 
   useEffect(() => {
@@ -82,7 +100,7 @@ const ChatBox:FC = () => {
   return (
     <Grid container sx={sx.ChatBox} justifyContent="center">
       <Grid xs={3} item>
-        <Friends friends={allFriends} setCurrentUser={setCurrentUser} />
+        <Friends friends={allFriends} setCurrentUser={setCurrentUser} onlineUsers={onlineUsers} />
       </Grid>
       <Grid xs={9} item sx={{ position: 'relative' }}>
         <Messages
@@ -91,6 +109,7 @@ const ChatBox:FC = () => {
           realTimeMessages={realTimeMessages}
           setMyMessages={setMyMessages}
           myMessages={myMessages}
+          onlineUsers={onlineUsers}
         />
       </Grid>
     </Grid>

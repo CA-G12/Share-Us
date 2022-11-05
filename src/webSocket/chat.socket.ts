@@ -53,6 +53,8 @@ class ChatSocket implements MySocketInterface {
       }
     })
 
+    socket.emit('onlineUsers', this.onlineUsers)
+
     socket.on('disconnect', () => {
       this.removeUser(socket.id)
     })

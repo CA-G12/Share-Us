@@ -62,6 +62,7 @@ const Profile:FC = () => {
         editUserData={editUserData}
         allData={allData}
         setUserData={setUserData}
+
       />
       {isBlocked && (
       <Alert

@@ -23,6 +23,7 @@ import { useAuth } from './hooks/useAuth'
 
 const App: React.FC = () => {
   const auth = useAuth()
+
   const router = createBrowserRouter([
     {
       path: '/',

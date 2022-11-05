@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-expressions */
-import { User } from '../db'
+import { User, Chat } from '../db'
+import { Op } from 'sequelize'
+
 import { Request, Response } from 'express'
 import validateParams from '../validation/paramsId'
 import CustomError from '../helpers/CustomError'
@@ -21,6 +23,40 @@ export default class UserProfileController {
     })
     if (!profile) throw new CustomError('Not Found', 404)
     res.json({ data: profile, message: Message.SUCCESS })
+  }
+
+  public static async getChattedUsers (req: Request, res:Response):Promise<void> {
+    const { id } = req.params
+
+    // get all users who I chatted with them as senders or receivers
+    const chattedUsers = await Chat.findAll({
+      where: {
+        [Op.or]: [{ senderId: id }, { receiverId: id }]
+      },
+      attributes: ['receiverId', 'senderId'],
+      group: ['receiverId', 'senderId']
+    })
+
+    // filter the common ids between sender and receivers without me
+    const ids:any = []
+    chattedUsers.forEach((ele:any) => {
+      if (!ids.includes(ele?.receiverId) && ele.receiverId !== +id) {
+        ids.push(ele.receiverId)
+      }
+      if (!ids.includes(ele?.senderId) && ele.senderId !== +id) {
+        ids.push(ele.senderId)
+      }
+    })
+
+    // get all the filtered users
+    const filteredChattedUsers = await User.findAll({
+      where: { id: ids },
+      attributes: ['id', 'username', 'profileImg']
+    })
+
+    res.json({
+      data: filteredChattedUsers, message: Message.SUCCESS
+    })
   }
 
   public static async update (req: IUserRequest, res:Response):Promise<void> {
