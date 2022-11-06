@@ -8,8 +8,7 @@ class Chat extends Model {
 
 Chat.init({
   id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
+    type: DataTypes.DOUBLE,
     primaryKey: true
   },
   message: {

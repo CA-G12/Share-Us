@@ -6,4 +6,6 @@ const router = express.Router()
 
 router.get('/chat/:receiverId', expressWrapper(isAuth), expressWrapper(ChatMessages.index))
 
+router.delete('/chat/messages/:id', expressWrapper(isAuth), expressWrapper(ChatMessages.destroy))
+
 export default router

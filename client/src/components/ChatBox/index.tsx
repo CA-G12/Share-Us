@@ -90,9 +90,11 @@ const ChatBox:FC = () => {
 
   useEffect(() => {
     const getChatMessages = async ():Promise<void> => {
-      const oldMessages = await ApiService.get(`/api/v1/chat/${currentUser.id}`)
-      setMyMessages([])
-      setRealTimeMessages(() => oldMessages.data.data)
+      if (currentUser.id) {
+        const oldMessages = await ApiService.get(`/api/v1/chat/${currentUser.id}`)
+        setMyMessages([])
+        setRealTimeMessages(() => oldMessages.data.data)
+      }
     }
     getChatMessages()
   }, [currentUser])

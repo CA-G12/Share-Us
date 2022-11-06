@@ -14,6 +14,7 @@ import { IMessagesProps, IMyMessages, IRealTimeMessages } from '../../interfaces
 import { sx } from './style'
 import SingleFriend from './SingleFriend'
 import { useAuth } from '../../hooks/useAuth'
+import ApiService from '../../services/ApiService'
 
 const Messages:FC<IMessagesProps> = (
   {
@@ -42,7 +43,9 @@ const Messages:FC<IMessagesProps> = (
 
   const handleSendMessage = ():void => {
     const messageObj = {
+      id: Math.random() * 999999,
       message,
+      senderName: auth.user?.username,
       senderId: auth.user?.id,
       receiverId: currentUser.id,
       receiverName: currentUser.username,
@@ -75,6 +78,7 @@ const Messages:FC<IMessagesProps> = (
       receiverName: currentUser.username,
     })
   }
+  const [deletedMsg, setDeletedMsg] = useState<any>([])
 
   useEffect(() => {
     socket.on('typingResponse', (typingResponse) => {
@@ -84,7 +88,23 @@ const Messages:FC<IMessagesProps> = (
     socket.on('endTypingResponse', (endTypingResponse) => {
       setTyping(endTypingResponse)
     })
+
+    socket.on('getUnSendMessage', (unSendMessageResponse) => {
+      setDeletedMsg((prev:any) => [...unSendMessageResponse, ...prev])
+    })
   }, [socket])
+
+  const handleUnSendMessage = async (id:number):Promise<void> => {
+    const deleted = await ApiService.delete(`/api/v1/chat/messages/${id}`)
+    if (deleted.data.msg) {
+      setDeletedMsg((prev:any) => [...prev, id])
+
+      socket.emit('unSendMessage', {
+        ids: [...deletedMsg, id],
+        receiverName: currentUser.username,
+      })
+    }
+  }
 
   if (currentUser.id) {
     return (
@@ -102,23 +122,38 @@ const Messages:FC<IMessagesProps> = (
             {
             realTimeMessages.concat(myMessages)
               .filter((ele:Partial<IRealTimeMessages>) => (
-                ele.senderId === currentUser.id
-                && ele.receiverId === auth.user?.id)
+                (ele.senderId === currentUser.id
+                && ele.receiverId === auth.user?.id))
                 || (ele.senderId === auth.user?.id && ele.receiverId === currentUser.id))
+              .filter((ele:any) => !deletedMsg.includes(ele.id))
               .sort((
                 a:Partial<IRealTimeMessages>,
                 b:Partial<IRealTimeMessages>,
               ) => dayjs(a.createdAt).diff(b.createdAt))
               .map((ele:Partial<IRealTimeMessages>) => (
-                <p
-                  key={ele.id || Math.random()}
-                  className={
+                <div className="message-un-send" key={ele.id || Math.random()}>
+                  <p
+                    className={
                     auth.user?.id === ele.senderId
                       ? 'me single-message' : 'others single-message'
                   }
-                >
-                  {ele.message}
-                </p>
+                  >
+                    {ele.message}
+                  </p>
+                  { auth.user?.id === ele.senderId
+                  && (
+                  <button
+                    className="unSend un-send-btn"
+                    type="button"
+                    onClick={() => {
+                      handleUnSendMessage(ele?.id || 0)
+                    }}
+                  >
+                    unSend
+                  </button>
+                  )}
+                </div>
+
               ))
           }
             {typing && typing.userTyping === currentUser.username

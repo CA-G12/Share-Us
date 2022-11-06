@@ -8,7 +8,8 @@
 .me{
   background-color: #efefef;
   margin-right: auto;
-  
+  display: inline;
+  margin-top: 10px; 
 }
 .others{
   margin-left: auto;
@@ -63,4 +64,21 @@
 .css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper{
   top: 280px !important;
   height: max-content;
+}
+
+
+.message-un-send:hover .me + .un-send-btn{
+  display: inline;
+}
+.message-un-send {
+
+  display: block;
+  margin: 1.3rem;
+
+}
+
+.un-send-btn{
+  padding: 4px 8px;
+  margin-left: 15px;
+  display: none;
 }

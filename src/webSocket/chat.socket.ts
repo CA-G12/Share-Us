@@ -44,8 +44,6 @@ class ChatSocket implements MySocketInterface {
         const newMessage = await Chat.create(message)
         const receiver = this.getUser(message.receiverName)
         if (receiver?.socketId) {
-          console.log(receiver)
-
           socket.to(receiver.socketId).emit('getMessages', newMessage)
         }
       } catch (err) {
@@ -53,8 +51,14 @@ class ChatSocket implements MySocketInterface {
       }
     })
 
-    socket.emit('onlineUsers', this.onlineUsers)
+    socket.on('unSendMessage', (message) => {
+      const receiver = this.getUser(message.receiverName)
+      if (receiver?.socketId) {
+        socket.to(receiver.socketId).emit('getUnSendMessage', message.ids)
+      }
+    })
 
+    socket.emit('onlineUsers', this.onlineUsers)
     socket.on('disconnect', () => {
       this.removeUser(socket.id)
     })
