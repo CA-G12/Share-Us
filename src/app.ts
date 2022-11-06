@@ -32,6 +32,13 @@ class App {
     this.app.use(express.urlencoded({ extended: false }))
     this.app.use(cors())
     this.app.use('/api/v1', router)
+    if (config.nodeEnv === 'production') {
+      this.app.use(express.static(join(__dirname, '..', 'client', 'build')))
+
+      this.app.get('*', (req, res) => {
+        res.sendFile(join(__dirname, '..', 'client', 'build', 'index.html'))
+      })
+    }
     this.app.use((err: any, req: Request, res: Response, next: NextFunction) => {
       res.status(err.status).json({ message: err.message })
     })
@@ -46,14 +53,6 @@ class App {
 }
 
 const { app, cronJobs } = new App()
-
-if (config.nodeEnv === 'production') {
-  app.use(express.static(join(__dirname, '..', 'client', 'public')))
-
-  app.get('*', (req, res) => {
-    res.sendFile(join(__dirname, '..', 'client', 'public', 'index.html'))
-  })
-}
 
 export { cronJobs }
 
