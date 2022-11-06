@@ -39,6 +39,11 @@ class App {
         res.sendFile(join(__dirname, '..', 'client', 'build', 'index.html'))
       })
     }
+
+    this.app.use((req: Request, res: Response, next: NextFunction) => {
+      res.status(404).json({ message: 'Not Found' })
+    })
+
     this.app.use((err: any, req: Request, res: Response, next: NextFunction) => {
       res.status(err.status).json({ message: err.message })
     })

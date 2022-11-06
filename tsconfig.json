@@ -39,7 +39,7 @@
         "@db/*": ["db/*"],
       }
   },
-  "include": ["src","__tests__/**.ts"],
+  "include": ["src"],
   "exclude": ["__tests__/**.ts"] 
 
 }
