@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { FC } from 'react'
 import { TextField, Button } from '@mui/material'
 import { useFormik } from 'formik'
@@ -6,15 +5,49 @@ import { useNavigate, Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import * as yup from 'yup'
+import './auth.css'
+import {
+  getAuth, signInWithPopup, GoogleAuthProvider,
+} from 'firebase/auth'
+import { initializeApp } from 'firebase/app'
 import { ReactComponent as GoogleLogo } from
   '../../assets/icons/logo-google.svg'
-import './auth.css'
 import cover from '../../assets/images/cover.jpg'
 import { useAuth } from '../../hooks/useAuth'
 
 const SignUp: FC = () => {
   const navigate = useNavigate()
   const auth = useAuth()
+  const firebaseConfig = {
+    apiKey: process.env.REACT_APP_API_KEY,
+    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_APP_ID,
+    measurementId: process.env.REACT_APP_MEAUREMENT_ID,
+  }
+  const app = initializeApp(firebaseConfig)
+  const signUpGoogle = async ():Promise<void> => {
+    const googleAuth = getAuth(app)
+    try {
+      const result = await signInWithPopup(googleAuth, new GoogleAuthProvider())
+      const {
+        displayName, email, uid,
+      } = result.user
+      if (email && displayName && uid) {
+        await auth.signUp({
+          email, password: uid, username: displayName,
+        })
+        navigate('/')
+      } else {
+        throw new Error('invalid')
+      }
+    } catch (error) {
+      toast.error('Failed to sign in with Google')
+    }
+  }
+
   const validationSchema = yup.object({
     email: yup
       .string()
@@ -57,7 +90,6 @@ const SignUp: FC = () => {
   })
   return (
     <div className="auth">
-
       <form className="form" onSubmit={formik.handleSubmit}>
         <h2>Get Started with Share Us!</h2>
         <p className="center-pra">Getting started is easy</p>
@@ -125,6 +157,7 @@ const SignUp: FC = () => {
           Sign Up
         </Button>
         <Button
+          onClick={signUpGoogle}
           className="google-btn"
           variant="outlined"
           fullWidth
@@ -139,7 +172,6 @@ const SignUp: FC = () => {
         </p>
       </form>
       <img src={cover} alt="test" style={{ margin: '0', padding: '0' }} />
-
     </div>
   )
 }
