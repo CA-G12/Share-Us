@@ -21,11 +21,12 @@ const UserAudience: FC<IModalProps> = ({
 }) => {
   const [users, setUsers] = useState<IUserProfile[] | []>([])
   const auth = useAuth()
+
   const navigate = useNavigate()
   useEffect(() => {
     try {
       const followingUser = async (): Promise<void> => {
-        const allFollowing = await ApiService.get(url)
+        const allFollowing = await ApiService.get(`/api/v1${url}`)
         setUsers(allFollowing.data.data)
       }
       followingUser()
@@ -50,7 +51,7 @@ const UserAudience: FC<IModalProps> = ({
   const removeFollowing = async (userId: number): Promise<void> => {
     try {
       const removed = await ApiService.delete(
-        `/users/follower/${userId}`,
+        `/api/v1/users/follower/${userId}`,
         {},
       )
       auth.setUser(removed.data.authUser[0])

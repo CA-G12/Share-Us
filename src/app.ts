@@ -4,6 +4,9 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import router from './routes'
 import config from './config/environment'
+import Websocket from './notificationSystem/serverSocket'
+import NotificationSocket from './notificationSystem/notification.socket'
+import { createServer } from 'http'
 import reminderEmail from './cronJobs/ReminderEmail'
 import changeStatus from './cronJobs/changeStatus'
 import { ScheduledTask } from 'node-cron'
@@ -45,4 +48,11 @@ const { app, cronJobs } = new App()
 
 export { cronJobs }
 
-export default app
+const httpServer = createServer(app)
+const io = Websocket.getInstance(httpServer)
+
+io.initializeHandlers([
+  { path: '/notifications', handler: new NotificationSocket() }
+])
+
+export default httpServer

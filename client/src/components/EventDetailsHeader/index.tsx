@@ -98,7 +98,7 @@ const EventDetailsHeader:FC = () => {
   React.useEffect(() => {
     (async ():Promise<void> => {
       try {
-        const eventDetails = await ApiService.get(`/events/${idParams}`)
+        const eventDetails = await ApiService.get(`/api/v1/events/${idParams}`)
         const { data } = eventDetails.data
         setEventInfo(data)
         setLoader(false)
@@ -117,7 +117,7 @@ const EventDetailsHeader:FC = () => {
   const handleJoin = async (UserId:number):Promise<void> => {
     try {
       if (userId) {
-        const addJoin = await ApiService.post(`/events/${idParams}/joined`, { UserId })
+        const addJoin = await ApiService.post(`/api/v1/events/${idParams}/joined`, { UserId })
         if (addJoin.data.status === 'joined') {
           setEventInfo({
             ...eventInfo,
@@ -144,7 +144,8 @@ const EventDetailsHeader:FC = () => {
   const handleInterest = async (UserId:number):Promise<void> => {
     try {
       if (userId) {
-        const addInterest = await ApiService.post(`/events/${idParams}/interested`, { UserId })
+        const addInterest = await
+        ApiService.post(`/api/v1/events/${idParams}/interested`, { UserId })
         if (addInterest.data.status === 'interested') {
           setEventInfo({
             ...eventInfo,
@@ -170,14 +171,14 @@ const EventDetailsHeader:FC = () => {
 
   React.useEffect(() => {
     (async ():Promise<void> => {
-      const result = await ApiService.get(`/events/${idParams}/Joined`)
+      const result = await ApiService.get(`/api/v1/events/${idParams}/Joined`)
       setJoinedList(result.data.data)
     })()
   }, [eventInfo.JoinedPeople])
 
   React.useEffect(() => {
     (async ():Promise<void> => {
-      const result = await ApiService.get(`/events/${idParams}/interested`)
+      const result = await ApiService.get(`/api/v1/events/${idParams}/interested`)
       setInterestedList(result.data.data)
     })()
   }, [eventInfo.InterestedPeople])

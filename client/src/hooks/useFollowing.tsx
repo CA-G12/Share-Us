@@ -15,7 +15,7 @@ export const useProviderFollowing = ():any => {
   const auth = useAuth()
   const followUser = async (id:number):Promise<boolean> => {
     if (auth.user) {
-      const follow = await ApiService.patch(`/users/following/${id}`, {})
+      const follow = await ApiService.patch(`/api/v1/users/following/${id}`, {})
       await auth.setUser(follow?.data?.authUser[0])
       return true
     }
@@ -23,7 +23,7 @@ export const useProviderFollowing = ():any => {
   }
   const blockUser = async (id: number): Promise<boolean> => {
     if (auth.user) {
-      const block = await ApiService.patch(`/users/blocked/${id}`, {})
+      const block = await ApiService.patch(`/api/v1/users/blocked/${id}`, {})
       await auth.setUser(block.data.authUser[0])
       return true
     }

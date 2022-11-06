@@ -68,7 +68,7 @@ const AddCommentModal:FC<modalProps> = ({
     }
     try {
       if (userId) {
-        const newComment = await ApiService.post(`/events/${idParams}/comments`, body)
+        const newComment = await ApiService.post(`/api/v1/events/${idParams}/comments`, body)
         handleClose()
         setNewComments(newComment.data)
         toast(newComment.data.message)
