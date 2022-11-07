@@ -51,9 +51,9 @@ hr {
 
 .follow-btn{
   text-transform: capitalize !important;
-  border: 1px solid rgba(42, 42, 42, 0.5) !important;
-  box-shadow:inset 0px -1px 0px rgba(14, 14, 44, 0.4) !important;
-  color: #2a2a2a !important;
+  border: 1px solid rgba(42, 42, 42, 0.5);
+  box-shadow:inset 0px -1px 0px rgba(14, 14, 44, 0.4);
+  color: #2a2a2a;
 }
 .no-users-msg{
   width: max-content;

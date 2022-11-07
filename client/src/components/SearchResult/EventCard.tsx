@@ -40,6 +40,7 @@ const EventCard:FC<IEventCard> = ({
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
+      height: '27vh',
       marginBottom: '20px',
     }}
     >
@@ -62,7 +63,11 @@ const EventCard:FC<IEventCard> = ({
           { `Date: ${dayjs(startTime).format('DD/MM/YYYY')}`}
           { ` | Time: ${dayjs(startTime).format('HH:mm:ss a')}`}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{ padding: '0.5rem 0' }}
+        >
           {description}
         </Typography>
         <Typography
@@ -94,12 +99,14 @@ const EventCard:FC<IEventCard> = ({
       <CardActions>
         <Button
           sx={{
+            textTransform: 'capitalize',
             color: 'white',
             margin: '10px',
             padding: '10px',
-            backgroundColor: '#256D85',
+            fontSize: '1rem',
+            backgroundColor: '#2A2A2A',
             '&:hover': {
-              backgroundColor: '#256D85',
+              backgroundColor: '#333',
               opacity: [0.9, 0.8, 0.7],
             },
           }}
