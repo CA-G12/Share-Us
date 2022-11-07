@@ -5,50 +5,15 @@ import * as yup from 'yup'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useNavigate, Link } from 'react-router-dom'
-import {
-  getAuth, signInWithPopup, GoogleAuthProvider,
-} from 'firebase/auth'
-import { initializeApp } from 'firebase/app'
-import { ReactComponent as GoogleLogo } from
-  '../../assets/icons/logo-google.svg'
+
 import './auth.css'
 import cover from '../../assets/images/cover.jpg'
 import { useAuth } from '../../hooks/useAuth'
+import GoogleAuth from './GoogleAuth'
 
 const Login: FC = () => {
   const navigate = useNavigate()
   const auth = useAuth()
-
-  const firebaseConfig = {
-    apiKey: process.env.REACT_APP_API_KEY,
-    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-    projectId: process.env.REACT_APP_PROJECT_ID,
-    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-    appId: process.env.REACT_APP_APP_ID,
-    measurementId: process.env.REACT_APP_MEAUREMENT_ID,
-  }
-
-  const app = initializeApp(firebaseConfig)
-  const signInGoogle = async ():Promise<void> => {
-    const googleAuth = getAuth(app)
-    try {
-      const result = await signInWithPopup(googleAuth, new GoogleAuthProvider())
-      const {
-        displayName, email, uid,
-      } = result.user
-      if (email && displayName && uid) {
-        await auth.signIn({
-          email, password: uid,
-        })
-        navigate('/')
-      } else {
-        throw new Error('invalid')
-      }
-    } catch (error) {
-      toast.error('Failed to sign in with Google')
-    }
-  }
 
   const validationSchema = yup.object({
     email: yup
@@ -122,17 +87,7 @@ const Login: FC = () => {
         >
           Login
         </Button>
-
-        <Button
-          onClick={signInGoogle}
-          className="google-btn"
-          variant="outlined"
-          fullWidth
-        >
-          <GoogleLogo width={20} />
-          <p>Sign in with Google</p>
-        </Button>
-
+        <GoogleAuth label="Sign in" />
         <p className="center-pra">
           Don’t have an account ?
           <Link to="/sign-up"> Sign Up!</Link>

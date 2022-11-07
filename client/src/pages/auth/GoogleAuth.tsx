@@ -1,0 +1,64 @@
+import { FC } from 'react'
+import { initializeApp } from 'firebase/app'
+import {
+  getAuth, signInWithPopup, GoogleAuthProvider,
+} from 'firebase/auth'
+import { Button } from '@mui/material'
+
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
+import { ReactComponent as GoogleLogo } from
+  '../../assets/icons/logo-google.svg'
+import { useAuth } from '../../hooks/useAuth'
+
+interface prop{
+  label: string
+}
+const GoogleAuth: FC<prop> = ({ label }) => {
+  const navigate = useNavigate()
+  const auth = useAuth()
+
+  const firebaseConfig = {
+    apiKey: process.env.REACT_APP_API_KEY,
+    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_APP_ID,
+    measurementId: process.env.REACT_APP_MEAUREMENT_ID,
+  }
+  const app = initializeApp(firebaseConfig)
+  const signInGoogle = async ():Promise<void> => {
+    const googleAuth = getAuth(app)
+    try {
+      const result = await signInWithPopup(googleAuth, new GoogleAuthProvider())
+      const {
+        displayName, email, uid,
+      } = result.user
+      if (email && displayName && uid) {
+        await auth.googleAuth({ email, password: uid })
+        navigate('/')
+      } else {
+        throw new Error('invalid')
+      }
+    } catch (error) {
+      toast.error('Failed to sign in with Google')
+    }
+  }
+  return (
+    <Button
+      onClick={signInGoogle}
+      className="google-btn"
+      variant="outlined"
+      fullWidth
+    >
+      <GoogleLogo width={20} />
+      <p>
+        {label}
+        {' '}
+        with Google
+      </p>
+    </Button>
+  )
+}
+export default GoogleAuth

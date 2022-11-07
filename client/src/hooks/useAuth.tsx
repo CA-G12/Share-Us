@@ -18,6 +18,7 @@ const initContext = {
   signIn: () => {},
   signUp: () => {},
   signOut: () => {},
+  googleAuth: () => {},
 }
 
 export const AuthContext = createContext<IAuthContext>(initContext)
@@ -36,6 +37,14 @@ export const useProvideAuth = ():IAuthContext => {
     } catch (err:any) {
       setUser(null)
       return { isLogged: false, error: err }
+    }
+  }
+  const googleAuth = async (payload:object):Promise<void> => {
+    try {
+      const googleUser = await ApiService.post('/api/v1/googleRegister', payload)
+      console.log(googleUser)
+    } catch (err) {
+      console.log(err)
     }
   }
   const signUp = async (payload:object):Promise<object> => {
@@ -72,7 +81,7 @@ export const useProvideAuth = ():IAuthContext => {
     getUser()
   }, [])
   return {
-    user, signIn, signUp, signOut, setUser,
+    user, signIn, signUp, signOut, setUser, googleAuth,
   }
 }
 export const AuthProvider = ({ children }: IAuthContextProps):React.ReactElement => {

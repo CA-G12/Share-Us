@@ -11,4 +11,6 @@ Router.post('/login', expressWrapper(Auth.signIn))
 
 Router.get('/users/me', expressWrapper(isAuth), expressWrapper(Auth.verifyMe))
 
+Router.post('/googleRegister', expressWrapper(Auth.googleSignup))
+
 export default Router

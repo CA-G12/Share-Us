@@ -6,47 +6,13 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import * as yup from 'yup'
 import './auth.css'
-import {
-  getAuth, signInWithPopup, GoogleAuthProvider,
-} from 'firebase/auth'
-import { initializeApp } from 'firebase/app'
-import { ReactComponent as GoogleLogo } from
-  '../../assets/icons/logo-google.svg'
 import cover from '../../assets/images/cover.jpg'
 import { useAuth } from '../../hooks/useAuth'
+import GoogleAuth from './GoogleAuth'
 
 const SignUp: FC = () => {
   const navigate = useNavigate()
   const auth = useAuth()
-  const firebaseConfig = {
-    apiKey: process.env.REACT_APP_API_KEY,
-    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-    projectId: process.env.REACT_APP_PROJECT_ID,
-    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-    appId: process.env.REACT_APP_APP_ID,
-    measurementId: process.env.REACT_APP_MEAUREMENT_ID,
-  }
-  const app = initializeApp(firebaseConfig)
-  const signUpGoogle = async ():Promise<void> => {
-    const googleAuth = getAuth(app)
-    try {
-      const result = await signInWithPopup(googleAuth, new GoogleAuthProvider())
-      const {
-        displayName, email, uid,
-      } = result.user
-      if (email && displayName && uid) {
-        await auth.signUp({
-          email, password: uid, username: displayName,
-        })
-        navigate('/')
-      } else {
-        throw new Error('invalid')
-      }
-    } catch (error) {
-      toast.error('Failed to sign in with Google')
-    }
-  }
 
   const validationSchema = yup.object({
     email: yup
@@ -156,15 +122,7 @@ const SignUp: FC = () => {
         >
           Sign Up
         </Button>
-        <Button
-          onClick={signUpGoogle}
-          className="google-btn"
-          variant="outlined"
-          fullWidth
-        >
-          <GoogleLogo width={20} />
-          <p>Sign up with Google</p>
-        </Button>
+        <GoogleAuth label="Sign up" />
 
         <p className="center-pra">
           have an account ?

@@ -14,6 +14,9 @@ class User extends Model {
   declare following: number[]
   declare blocked: number[]
   declare notifications: any[]
+  declare refreshToken?: string
+  declare oauthExpireIn?: string
+  declare oauthAccessToken?: string
 }
 
 User.init(
@@ -71,6 +74,18 @@ depositphotos_199564354-stock-illustration-creative-vector-illustration-default-
     notifications: {
       type: DataTypes.ARRAY(DataTypes.JSON),
       defaultValue: []
+    },
+    refreshToken: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    oauthExpireIn: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    oauthAccessToken: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   },
   {
