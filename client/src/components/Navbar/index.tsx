@@ -52,7 +52,7 @@ const Navbar:FC = () => {
 }
   const [realTimeNotifications, setRealTimeNotifications] = useState<INotifications[]>([])
   const [notificationCount, setNotificationCount] = useState<number>(0)
-  const [isConnect, setIsConnect] = useState<boolean>(false)
+  const [, setIsConnect] = useState<boolean>(false)
   const oldNotifications = useAuth().user?.notifications
 
   useEffect(() => {

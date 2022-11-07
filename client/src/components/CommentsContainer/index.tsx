@@ -55,7 +55,7 @@ const CommentsContainer:FC = () => {
   useEffect(() => {
     (async (): Promise<void> => {
       try {
-        const result = await 
+        const result = await
         ApiService.get(`/api/v1/events/${idParams}/comments?offset=${nextPage}`)
         setAllComments([...allComments, ...result.data.data])
         if (!result.data.data.length) setHasMore(false)
