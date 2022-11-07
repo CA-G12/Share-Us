@@ -39,7 +39,7 @@ const EventCardContainer:FC<CardContainerProps> = ({ allEvents, followerId }) =>
         !auth.user
         && (!allEvents.length
           ? (
-            <NoData />
+            <NoData error="No events found" />
           )
           : allEvents
             .map((evt:any) => (
