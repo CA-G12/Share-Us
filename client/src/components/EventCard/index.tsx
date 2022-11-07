@@ -17,7 +17,7 @@ const EventCardContainer:FC<CardContainerProps> = ({ allEvents, followerId }) =>
     || isUserProfile(evt?.User?.id))
 
   return (
-    <div className="card-container">
+    <div className="card-container" key={Math.random() * 99999}>
       <Grid container spacing={2}>
         {
         auth.user
@@ -29,7 +29,7 @@ const EventCardContainer:FC<CardContainerProps> = ({ allEvents, followerId }) =>
           )
           : filteredEvents(allEvents)
             .map((evt:any) => (
-              <Grid item xs={3}>
+              <Grid item xs={3} key={Math.random() * 99999}>
                 <EventCard event={evt} key={evt.id} />
               </Grid>
             )))

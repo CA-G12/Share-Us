@@ -73,6 +73,7 @@ const EventDetailsHeader:FC = () => {
     description: '',
     name: '',
     img: '',
+    placeName: '',
     latitude: '',
     longitude: '',
     Hashtags: [],
@@ -140,7 +141,7 @@ const EventDetailsHeader:FC = () => {
       toast(err.response.data.message)
     }
   }
-
+  console.log(eventInfo)
   const handleInterest = async (UserId:number):Promise<void> => {
     try {
       if (userId) {
@@ -260,6 +261,7 @@ const EventDetailsHeader:FC = () => {
           interestedPeople={interestedList}
           longitude={eventInfo.longitude}
           latitude={eventInfo.latitude}
+          placeName={eventInfo.placeName}
         />
       </TabPanel>
       <TabPanel value={countForTap} index={1}>

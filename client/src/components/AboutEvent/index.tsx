@@ -10,7 +10,7 @@ import IPropsAboutEvent from '../../interfaces/props/AboutEvent'
 
 const AboutEvent:FC < IPropsAboutEvent > = ({
   description, Hashtags, joinedPeople, interestedPeople, longitude,
-  latitude,
+  latitude, placeName,
 }) => {
   const [open, setOpen] = useState<boolean>(false)
   const [listPeople, setListPeople] = useState<any>([])
@@ -72,8 +72,7 @@ const AboutEvent:FC < IPropsAboutEvent > = ({
           </div>
         </div>
         <div className="map-container">
-          <Map longitude={longitude} latitude={latitude} />
-          <p>Event Location</p>
+          <Map longitude={longitude} latitude={latitude} placeName={placeName} />
         </div>
       </div>
       {/* listPeople */}

@@ -40,7 +40,8 @@ interface addEventProps {
 const AddEvent: FC<addEventProps> = ({ setIsAdded }) => {
   const [open, setOpen] = useState(false)
   const [showHash, setShowHash] = useState<Array<object>>([])
-  const [placeName, setPlaceName] = useState<string>('')
+  const [, setPlaceName] = useState<string>('')
+
   const auth = useAuth()
 
   useEffect(() => {
@@ -182,11 +183,11 @@ const AddEvent: FC<addEventProps> = ({ setIsAdded }) => {
               />
               <AddEventMap setLon={handleLon} setLat={handleLat} setPlaceName={handlePlaceName} />
             </div>
-
             <TextField
+              disabled
+              onChange={(e) => setPlaceName(e.target.value)}
               name="placeName"
-              onChange={(e:any) => setPlaceName(e.value)}
-              value={placeName}
+              value={formik.values.placeName}
               error={formik.touched.placeName && Boolean(formik.errors.placeName)}
               helperText={formik.touched.placeName && formik.errors.placeName}
               id="outlined-required"
