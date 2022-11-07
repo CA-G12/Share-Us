@@ -1,11 +1,13 @@
 import { Grid } from '@mui/material'
-import { FC } from 'react'
+import { FC, useState } from 'react'
+import { toast } from 'react-toastify'
 import { useAuth } from '../../hooks/useAuth'
 import { IEventDetails } from '../../interfaces'
 import { CardContainerProps } from '../../interfaces/props/EventCardProps'
 import NoData from '../NoData'
 import EventCard from './EventCard'
 import './style.css'
+import ApiService from '../../services/ApiService'
 
 const EventCardContainer:FC<CardContainerProps> = ({ allEvents, followerId }) => {
   const auth = useAuth()
@@ -16,6 +18,15 @@ const EventCardContainer:FC<CardContainerProps> = ({ allEvents, followerId }) =>
     .filter((evt) => isInFollowing(evt?.User?.id)
     || isMe(evt?.User?.id)
     || isUserProfile(evt?.User?.id))
+
+  const [deletedId, setDeletedId] = useState<number | null>()
+  const handleDelete = async (id:number):Promise<void> => {
+    const deletedEvent = await ApiService.delete(`/api/v1/events/${id}`)
+    if (deletedEvent.data.status === 'deleted') {
+      setDeletedId(id)
+      toast(deletedEvent.data.message)
+    }
+  }
 
   return (
     <div className="card-container">
@@ -28,10 +39,10 @@ const EventCardContainer:FC<CardContainerProps> = ({ allEvents, followerId }) =>
               <NoData error="No events found" />
             </Grid>
           )
-          : filteredEvents(allEvents)
+          : filteredEvents(allEvents).filter((evt:any) => evt.id !== deletedId)
             .map((evt:any) => (
               <Grid item xs={3} key={evt.id}>
-                <EventCard event={evt} />
+                <EventCard event={evt} handleDelete={handleDelete} />
               </Grid>
             )))
       }
@@ -41,10 +52,10 @@ const EventCardContainer:FC<CardContainerProps> = ({ allEvents, followerId }) =>
           ? (
             <NoData error="No events found" />
           )
-          : allEvents
+          : allEvents.filter((evt:any) => evt.id !== deletedId)
             .map((evt:any) => (
               <Grid item xs={3}>
-                <EventCard event={evt} key={evt.id} />
+                <EventCard event={evt} key={evt.id} handleDelete={handleDelete} />
               </Grid>
             )))
       }

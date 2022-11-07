@@ -13,6 +13,7 @@ export enum Message {
   REMOVE_FOLLOWER='Remove follower done successfully',
   BLOCK_USER='Block done successfully',
   UNBLOCK_USER='Unblock done successfully',
+  DELETE_EVENT='The event deleted successfully',
   DELETE_COMMENT='The comment deleted successfully',
   DELETE_FAILED='Delete failed'
 }
