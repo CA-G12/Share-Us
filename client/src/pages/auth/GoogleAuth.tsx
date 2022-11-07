@@ -14,32 +14,36 @@ import { useAuth } from '../../hooks/useAuth'
 interface prop{
   label: string
 }
+
 const GoogleAuth: FC<prop> = ({ label }) => {
   const navigate = useNavigate()
   const auth = useAuth()
 
-  const firebaseConfig = {
-    apiKey: process.env.REACT_APP_API_KEY,
-    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-    projectId: process.env.REACT_APP_PROJECT_ID,
-    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-    appId: process.env.REACT_APP_APP_ID,
-    measurementId: process.env.REACT_APP_MEAUREMENT_ID,
-  }
-  const app = initializeApp(firebaseConfig)
   const signInGoogle = async ():Promise<void> => {
+    const firebaseConfig = {
+      apiKey: process.env.REACT_APP_API_KEY,
+      authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+      projectId: process.env.REACT_APP_PROJECT_ID,
+      storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+      messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+      appId: process.env.REACT_APP_APP_ID,
+      measurementId: process.env.REACT_APP_MEAUREMENT_ID,
+    }
+    const app = initializeApp(firebaseConfig)
     const googleAuth = getAuth(app)
+
     try {
-      const result = await signInWithPopup(googleAuth, new GoogleAuthProvider())
+      const result:any = await signInWithPopup(googleAuth, new GoogleAuthProvider())
       const {
         displayName, email, uid,
       } = result.user
+      const { refreshToken } = result.user.stsTokenManager
+
       if (email && displayName && uid) {
-        await auth.googleAuth({ email, password: uid })
-        navigate('/')
-      } else {
-        throw new Error('invalid')
+        await auth.googleAuthenticate({
+          email, password: uid, username: displayName, refreshToken,
+        })
+        navigate('/home')
       }
     } catch (error) {
       toast.error('Failed to sign in with Google')

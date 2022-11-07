@@ -1,4 +1,5 @@
 export interface payloadType {
   id?: number,
-  username: string
+  username: string,
+  refreshToken?: string
 }

@@ -13,12 +13,13 @@ const initContext = {
     email: '',
     profileImg: '',
     headerImg: '',
+    refreshToken: '',
   },
   setUser: () => {},
   signIn: () => {},
   signUp: () => {},
   signOut: () => {},
-  googleAuth: () => {},
+  googleAuthenticate: () => {},
 }
 
 export const AuthContext = createContext<IAuthContext>(initContext)
@@ -39,14 +40,25 @@ export const useProvideAuth = ():IAuthContext => {
       return { isLogged: false, error: err }
     }
   }
-  const googleAuth = async (payload:object):Promise<void> => {
+
+  const googleAuthenticate = async (payload:object):Promise<object> => {
     try {
+      console.log(payload, 'paaaaaaaaaaaaaaaaaaaaaaaay')
+
       const googleUser = await ApiService.post('/api/v1/googleRegister', payload)
-      console.log(googleUser)
+      if (googleUser.status === 200) {
+        setUser(googleUser.data.data)
+        JwtService.setToken(googleUser.data.token)
+        ApiService.setHeader()
+        console.log(googleUser.data.data.refreshToken)
+      }
+      return { isLogged: true }
     } catch (err) {
-      console.log(err)
+      setUser(null)
+      return { isLogged: false, error: err }
     }
   }
+
   const signUp = async (payload:object):Promise<object> => {
     try {
       const userInfo = await ApiService.post('/api/v1/signup', payload)
@@ -81,7 +93,7 @@ export const useProvideAuth = ():IAuthContext => {
     getUser()
   }, [])
   return {
-    user, signIn, signUp, signOut, setUser, googleAuth,
+    user, signIn, signUp, signOut, setUser, googleAuthenticate,
   }
 }
 export const AuthProvider = ({ children }: IAuthContextProps):React.ReactElement => {

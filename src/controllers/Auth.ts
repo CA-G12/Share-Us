@@ -68,19 +68,12 @@ export default class Auth {
     res.json({ data: userData })
   }
 
-  public static async googleSignup (req: Request, res: Response) {
-    const { id, email, username } = req.body
+  public static async googleRegister (req: Request, res: Response) {
+    const { email, username } = req.body
     const [row] = await User.findOrCreate({
-      attributes: ['id', 'email', 'username', 'password',
-        'refreshToken',
-        'oauthExpireIn',
-        'oauthAccessToken'],
-      where: {
-        email,
-        username
-      }
+      where: { email, username }
     })
-    const token = await generateToken({ id, username })
+    const token = await generateToken({ id: row.id, username: row.username })
     res.json({ data: row, token })
   }
 }

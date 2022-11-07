@@ -6,5 +6,5 @@ export default interface IAuthContext {
   signIn: Function
   signUp: Function
   signOut: Function
-  googleAuth: ()=> void
+  googleAuthenticate: Function
 }
