@@ -1,11 +1,11 @@
 import './style.css'
 
-import React, { FC, useState } from 'react'
+import { FC, useState, useEffect } from 'react'
 import {
   Button, Alert, AlertTitle, CircularProgress,
 } from '@mui/material'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
-
+import { toast } from 'react-toastify'
 import { useParams } from 'react-router-dom'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import Comment from '../Comment'
@@ -44,6 +44,7 @@ const CommentsContainer:FC = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [error, setError] = useState<boolean | string>(false)
   const [loader, setLoader] = useState<boolean>(true)
+  const [deletedId, setDeletedId] = useState<number | null>()
 
   const handleOpen = ():void => setOpen(true)
   const handleClose = ():void => setOpen(false)
@@ -51,10 +52,10 @@ const CommentsContainer:FC = () => {
 
   const idParams = useParams().id
 
-  React.useEffect(() => {
+  useEffect(() => {
     (async (): Promise<void> => {
       try {
-        const result = await 
+        const result = await
         ApiService.get(`/api/v1/events/${idParams}/comments?offset=${nextPage}`)
         setAllComments([...allComments, ...result.data.data])
         if (!result.data.data.length) setHasMore(false)
@@ -66,9 +67,17 @@ const CommentsContainer:FC = () => {
     })()
   }, [idParams, nextPage])
 
-  React.useEffect(() => {
+  useEffect(() => {
     setAllComments([newComment.data, ...allComments])
   }, [newComment])
+
+  const handleDelete = async (id:number):Promise<void> => {
+    const deletedEvent = await ApiService.delete(`api/v1/events/${idParams}/comments/${id}`)
+    if (deletedEvent.data.status === 'deleted') {
+      setDeletedId(id)
+      toast(deletedEvent.data.message)
+    }
+  }
 
   if (loader) {
     return (
@@ -105,17 +114,18 @@ const CommentsContainer:FC = () => {
         hasMore={hasMore}
         loader={<CircularProgress sx={{ margin: '10px auto', display: 'block' }} />}
       >
-        {!allComments.length ? 'No comments found' : allComments.map((ele:any) => (
-          <Comment
-            key={ele.id * Math.random()}
-            id={ele.id}
-            User={ele.User}
-            image={ele.image}
-            content={ele.content}
-            createdAt={ele.createdAt}
-            EventId={ele.EventId}
-          />
-        ))}
+        {!allComments.length ? 'No comments found'
+          : allComments.filter((evt:any) => evt.id !== deletedId).map((ele:any) => (
+            <Comment
+              key={ele.id * Math.random()}
+              id={ele.id}
+              User={ele.User}
+              image={ele.image}
+              content={ele.content}
+              createdAt={ele.createdAt}
+              handleDelete={handleDelete}
+            />
+          ))}
 
       </InfiniteScroll>
 
