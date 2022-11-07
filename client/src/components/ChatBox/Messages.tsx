@@ -61,6 +61,8 @@ const Messages:FC<IMessagesProps> = (
     }
   }
 
+  const isBlocked = (userId:number, userBlocked:number[]):boolean => userBlocked?.includes(userId)
+
   useEffect(() => {
     lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [realTimeMessages, myMessages, typing])
@@ -117,111 +119,125 @@ const Messages:FC<IMessagesProps> = (
           />
         </Box>
         <Box className="messages-textField-container">
-
           <Box className="messages-container">
             {
-            realTimeMessages.concat(myMessages)
-              .filter((ele:Partial<IRealTimeMessages>) => (
-                (ele.senderId === currentUser.id
-                && ele.receiverId === auth.user?.id))
-                || (ele.senderId === auth.user?.id && ele.receiverId === currentUser.id))
-              .filter((ele:any) => !deletedMsg.includes(ele.id))
-              .sort((
-                a:Partial<IRealTimeMessages>,
-                b:Partial<IRealTimeMessages>,
-              ) => dayjs(a.createdAt).diff(b.createdAt))
-              .map((ele:Partial<IRealTimeMessages>) => (
-                <div className="message-un-send" key={ele.id || Math.random()}>
-                  <p
-                    className={
-                    auth.user?.id === ele.senderId
-                      ? 'me single-message' : 'others single-message'
-                  }
-                  >
-                    {ele.message}
-                  </p>
-                  { auth.user?.id === ele.senderId
-                  && (
-                  <button
-                    className="unSend un-send-btn"
-                    type="button"
-                    onClick={() => {
-                      handleUnSendMessage(ele?.id || 0)
-                    }}
-                  >
-                    unSend
-                  </button>
-                  )}
-                </div>
+              realTimeMessages.concat(myMessages)
+                .filter((ele:Partial<IRealTimeMessages>) => (
+                  (ele.senderId === currentUser.id
+                  && ele.receiverId === auth.user?.id))
+                  || (ele.senderId === auth.user?.id && ele.receiverId === currentUser.id))
+                .filter((ele:any) => !deletedMsg.includes(ele.id))
+                .sort((
+                  a:Partial<IRealTimeMessages>,
+                  b:Partial<IRealTimeMessages>,
+                ) => dayjs(a.createdAt).diff(b.createdAt))
+                .map((ele:Partial<IRealTimeMessages>) => (
+                  <div className="message-un-send" key={ele.id || Math.random()}>
+                    <p
+                      className={
+                      auth.user?.id === ele.senderId
+                        ? 'me single-message' : 'others single-message'
+                    }
+                    >
+                      {ele.message}
+                    </p>
+                    { auth.user?.id === ele.senderId
+                    && (
+                    <button
+                      className="unSend un-send-btn"
+                      type="button"
+                      onClick={() => {
+                        handleUnSendMessage(ele?.id || 0)
+                      }}
+                    >
+                      unSend
+                    </button>
+                    )}
+                  </div>
 
-              ))
-          }
+                ))
+            }
             {typing && typing.userTyping === currentUser.username
               ? <p className="typing-status">{typing.message}</p> : null}
             <div ref={lastMessageRef} />
           </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'space-around', padding: '0 15px' }}>
+          {
+            (isBlocked(auth.user.id, currentUser.blocked || [0])
+            || isBlocked(currentUser?.id, auth.user?.blocked))
+              ? (
+                <Alert
+                  variant="outlined"
+                  severity="error"
+                  sx={{ width: '80%', margin: 'auto' }}
+                >
+                  User is blocked
+                </Alert>
+              ) : (
+                <>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-around', padding: '0 15px' }}>
 
-            <IconButton
-              className="Emoji-Btn-chat"
-              color="default"
-              aria-label="add to shopping cart"
-              sx={{ width: 'max-content', padding: '0 10px ' }}
-              aria-controls={open ? 'basic-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}
-              onClick={handleOpenEmoji}
-            >
-              <EmojiEmotionsOutlinedIcon
-                style={{ width: '32px', height: '32px' }}
-              />
-            </IconButton>
+                    <IconButton
+                      className="Emoji-Btn-chat"
+                      color="default"
+                      aria-label="add to shopping cart"
+                      sx={{ width: 'max-content', padding: '0 10px ' }}
+                      aria-controls={open ? 'basic-menu' : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open ? 'true' : undefined}
+                      onClick={handleOpenEmoji}
+                    >
+                      <EmojiEmotionsOutlinedIcon
+                        style={{ width: '32px', height: '32px' }}
+                      />
+                    </IconButton>
 
-            <TextField
-              id="outlined-basic"
-              label="Message"
-              variant="outlined"
-              size="small"
-              fullWidth
-              onChange={(e) => {
-                setMessage(e.target.value)
-              }}
-              onKeyDown={handleEnter}
-              onFocus={handleTyping}
-              onBlur={handleEndTyping}
-              value={message}
-            />
-            <Button
-              variant="text"
-              onClick={handleSendMessage}
-            >
-              send
-            </Button>
-          </Box>
-
+                    <TextField
+                      id="outlined-basic"
+                      label="Message"
+                      variant="outlined"
+                      size="small"
+                      fullWidth
+                      onChange={(e) => {
+                        setMessage(e.target.value)
+                      }}
+                      onKeyDown={handleEnter}
+                      onFocus={handleTyping}
+                      onBlur={handleEndTyping}
+                      value={message}
+                    />
+                    <Button
+                      variant="text"
+                      onClick={handleSendMessage}
+                    >
+                      send
+                    </Button>
+                  </Box>
+                  <Menu
+                    className="chat-emoji-container"
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleCloseEmoji}
+                    MenuListProps={{
+                      'aria-labelledby': 'basic-button',
+                    }}
+                  >
+                    <Box className="chat-emoji">
+                      <Picker
+                        style={{ width: '350px' }}
+                        data={data}
+                        onEmojiSelect={onEmojiClick}
+                        perLine={6}
+                        theme="light"
+                        previewPosition="none"
+                      />
+                    </Box>
+                  </Menu>
+                </>
+              )
+          }
         </Box>
 
-        <Menu
-          className="chat-emoji-container"
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleCloseEmoji}
-          MenuListProps={{
-            'aria-labelledby': 'basic-button',
-          }}
-        >
-          <Box className="chat-emoji">
-            <Picker
-              style={{ width: '350px' }}
-              data={data}
-              onEmojiSelect={onEmojiClick}
-              perLine={6}
-              theme="light"
-              previewPosition="none"
-            />
-          </Box>
-        </Menu>
       </>
     )
   }

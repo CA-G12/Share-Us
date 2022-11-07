@@ -80,6 +80,14 @@ const ChatBox:FC = () => {
 
   useEffect(() => {
     socket.on('getMessages', (message) => {
+      setAllFriends((prev) => {
+        const isExist = prev.find((ele) => ele.id === message?.sender.id)
+        if (!isExist) {
+          return [message?.sender, ...prev]
+        }
+        return prev
+      })
+
       setRealTimeMessages((prev) => [...prev, message])
     })
 

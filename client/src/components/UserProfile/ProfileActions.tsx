@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { FC, useContext } from 'react'
 import { Button } from '@mui/material'
 import { Box } from '@mui/system'
+import { toast } from 'react-toastify'
 import EditProfile from '../EditProfile'
 import { useAuth } from '../../hooks/useAuth'
 import IProfileActionsProp from '../../interfaces/props/IProfileActionsProps'
@@ -23,12 +24,18 @@ const ProfileActions: FC<IProfileActionsProp> = ({
   const { setStartChat } = useContext(StartChat)
 
   const handleMessage = ():void => {
-    setStartChat({
-      id: userData?.id,
-      profileImg: userData?.profileImg,
-      username: userData?.username,
-    })
-    navigate('/chat')
+    console.log(userData)
+
+    if (userData?.blocked?.includes(auth.user?.id)) {
+      toast.error('User is blocked')
+    } else {
+      setStartChat({
+        id: userData?.id,
+        profileImg: userData?.profileImg,
+        username: userData?.username,
+      })
+      navigate('/chat')
+    }
   }
 
   return (

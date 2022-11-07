@@ -9,6 +9,7 @@
   background-color: #efefef;
   margin-right: auto;
   display: inline;
+  /* display: flex; */
   margin-top: 10px; 
 }
 .others{
@@ -69,6 +70,7 @@
 
 .message-un-send:hover .me + .un-send-btn{
   display: inline;
+  cursor: pointer;
 }
 .message-un-send {
 

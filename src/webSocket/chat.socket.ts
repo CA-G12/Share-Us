@@ -1,6 +1,6 @@
 import { Socket } from 'socket.io'
 import MySocketInterface from './mySocketInterface'
-import { Chat } from '../models'
+import { Chat, User } from '../models'
 // import { formatDistance, parseISO } from 'date-fns'
 
 class ChatSocket implements MySocketInterface {
@@ -42,9 +42,18 @@ class ChatSocket implements MySocketInterface {
     socket.on('sendMessage', async (message) => {
       try {
         const newMessage = await Chat.create(message)
+        const newMessageWithSender = await Chat.findOne({
+          where: { id: newMessage.id },
+          include: {
+            model: User,
+            attributes: ['id', 'username', 'profileImg', 'blocked'],
+            as: 'sender'
+          }
+        })
+
         const receiver = this.getUser(message.receiverName)
         if (receiver?.socketId) {
-          socket.to(receiver.socketId).emit('getMessages', newMessage)
+          socket.to(receiver.socketId).emit('getMessages', newMessageWithSender)
         }
       } catch (err) {
         console.log(err)

@@ -16,7 +16,7 @@ export default class UserProfileController {
 
     const profile = await User.findOne({
       attributes: ['id', 'username', 'bio', 'location', 'profileImg',
-        'headerImg', 'following', 'followers', 'notifications'],
+        'headerImg', 'following', 'followers', 'blocked', 'notifications'],
       where: {
         id
       }
@@ -51,7 +51,7 @@ export default class UserProfileController {
     // get all the filtered users
     const filteredChattedUsers = await User.findAll({
       where: { id: ids },
-      attributes: ['id', 'username', 'profileImg']
+      attributes: ['id', 'username', 'profileImg', 'blocked']
     })
 
     res.json({

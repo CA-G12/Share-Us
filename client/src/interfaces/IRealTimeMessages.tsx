@@ -1,3 +1,5 @@
+import IUser from './IUser'
+
 export default interface IRealTimeMessages {
   id: number
   message:string
@@ -6,4 +8,5 @@ export default interface IRealTimeMessages {
   receiverName: string
   createdAt: string
   updatedAt: string
+  sender?:Partial<IUser>
 }
