@@ -35,7 +35,18 @@ const Uploader:FC<IUploaderProps> = ({
   return (
     <div className="upload-container">
       <Stack direction="row" alignItems="center" spacing={2}>
-        <Button variant="contained" component="label" sx={{ margin: 'auto' }}>
+        <Button
+          variant="contained"
+          component="label"
+          sx={{
+            margin: 'auto',
+            background: '#2A2A2A',
+            textTransform: 'none',
+            '&:hover': {
+              background: '#2A2A2A',
+            },
+          }}
+        >
           <input
             type="file"
             hidden

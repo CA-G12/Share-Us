@@ -134,7 +134,7 @@ const SignUp: FC = () => {
         </Button>
 
         <p className="center-pra">
-          have an account ?
+          Already have an account ?
           <Link to="/login"> Sign in!</Link>
         </p>
       </form>

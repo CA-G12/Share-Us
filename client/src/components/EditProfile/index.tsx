@@ -138,8 +138,8 @@ const EditProfile:FC<IEditProfile> = ({ editUserData }) => {
                 onChange={formik.handleChange}
                 helperText={formik.touched.location && formik.errors.location}
               />
-              <Uploader name="profileImg" formik={formik} btnName="profile Image" />
-              <Uploader name="headerImg" formik={formik} btnName="header Image" />
+              <Uploader name="profileImg" formik={formik} btnName="Profile Image" />
+              <Uploader name="headerImg" formik={formik} btnName="Header Image" />
               <Button
                 variant="contained"
                 size="small"

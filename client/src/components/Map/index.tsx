@@ -5,8 +5,8 @@ import mapboxgl from 'mapbox-gl'
 import './style.css'
 import IMapProps from '../../interfaces/props/IMapProps'
 
-mapboxgl.accessToken = `pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29ia
-zA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA`
+const accessToken = process.env.REACT_APP_MAP_ACCESS_TOKEN
+mapboxgl.accessToken = `${accessToken}`
 
 const Map:FC<IMapProps> = ({ longitude, latitude }) => {
   const mapContainerRef = useRef(null!)

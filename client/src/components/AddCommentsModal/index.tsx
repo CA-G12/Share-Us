@@ -167,9 +167,9 @@ const AddCommentModal:FC<modalProps> = ({
             variant="contained"
             fullWidth
             className="add-btn"
-            sx={{ backgroundColor: '#2A2A2A', color: 'white' }}
+            sx={{ backgroundColor: '#2A2A2A', color: 'white', textTransform: 'capitalize' }}
           >
-            Add Comments
+            Add Comment
           </Button>
 
         </form>
