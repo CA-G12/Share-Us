@@ -3,6 +3,8 @@ import validateComment from '../validation/addComment'
 import { Comments, User } from '../db'
 import { IUserRequest } from 'interfaces/IUserRequest'
 import validateParams from '../validation/paramsId'
+import { Message } from '../config/messages'
+import CustomError from '../helpers/CustomError'
 
 export default class CommentsController {
   // for getting all data
@@ -56,5 +58,14 @@ export default class CommentsController {
   // for deleteing an event
   public static async destroy (req: Request, res: Response) {
     // code here
+    const { id, eventId } = req.params
+    await Promise.all([validateParams({ id }), validateParams({ id: eventId })])
+
+    const deleteComment = await Comments.destroy({
+      where: { id, EventId: eventId }
+    })
+    if (!deleteComment) throw new CustomError(Message.DELETE_FAILED, 400)
+
+    res.json({ message: Message.DELETE_COMMENT, status: 'deleted' })
   }
 }
