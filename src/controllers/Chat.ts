@@ -22,7 +22,6 @@ export default class ChatMessages {
 
   public static async destroy (req:IUserRequest, res:Response) {
     const { id } = req.params
-    await validateParams({ id })
     const deleted = await Chat.destroy({ where: { id } })
     res.json({ msg: deleted })
   }

@@ -10,6 +10,7 @@ import dayjs from 'dayjs'
 import EmojiEmotionsOutlinedIcon from '@mui/icons-material/EmojiEmotionsOutlined'
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
+import { v4 as uuidv4 } from 'uuid'
 import { IMessagesProps, IMyMessages, IRealTimeMessages } from '../../interfaces'
 import { sx } from './style'
 import SingleFriend from './SingleFriend'
@@ -43,7 +44,7 @@ const Messages:FC<IMessagesProps> = (
 
   const handleSendMessage = ():void => {
     const messageObj = {
-      id: Math.random() * 999999,
+      id: uuidv4(),
       message,
       senderName: auth.user?.username,
       senderId: auth.user?.id,
@@ -94,6 +95,10 @@ const Messages:FC<IMessagesProps> = (
     socket.on('getUnSendMessage', (unSendMessageResponse) => {
       setDeletedMsg((prev:any) => [...unSendMessageResponse, ...prev])
     })
+    return () => {
+      socket.off('connect')
+      socket.off('disconnect')
+    }
   }, [socket])
 
   const handleUnSendMessage = async (id:number):Promise<void> => {
@@ -108,6 +113,15 @@ const Messages:FC<IMessagesProps> = (
     }
   }
 
+  const filterMessages = (arr:any):any => arr.filter((ele:Partial<IRealTimeMessages>) => (
+    (ele.senderId === currentUser.id
+      && ele.receiverId === auth.user?.id))
+      || (ele.senderId === auth.user?.id && ele.receiverId === currentUser.id))
+    .filter((ele:any) => !deletedMsg.includes(ele.id)).sort((
+      a:Partial<IRealTimeMessages>,
+      b:Partial<IRealTimeMessages>,
+    ) => dayjs(a.createdAt).diff(b.createdAt))
+
   if (currentUser.id) {
     return (
       <>
@@ -121,18 +135,9 @@ const Messages:FC<IMessagesProps> = (
         <Box className="messages-textField-container">
           <Box className="messages-container">
             {
-              realTimeMessages.concat(myMessages)
-                .filter((ele:Partial<IRealTimeMessages>) => (
-                  (ele.senderId === currentUser.id
-                  && ele.receiverId === auth.user?.id))
-                  || (ele.senderId === auth.user?.id && ele.receiverId === currentUser.id))
-                .filter((ele:any) => !deletedMsg.includes(ele.id))
-                .sort((
-                  a:Partial<IRealTimeMessages>,
-                  b:Partial<IRealTimeMessages>,
-                ) => dayjs(a.createdAt).diff(b.createdAt))
+              filterMessages(realTimeMessages.concat(myMessages))
                 .map((ele:Partial<IRealTimeMessages>) => (
-                  <div className="message-un-send" key={ele.id || Math.random()}>
+                  <div className="message-un-send" key={ele.id}>
                     <p
                       className={
                       auth.user?.id === ele.senderId
@@ -158,11 +163,11 @@ const Messages:FC<IMessagesProps> = (
                 ))
             }
             {typing && typing.userTyping === currentUser.username
-              ? <p className="typing-status">{typing.message}</p> : null}
+              && <p className="typing-status">{typing.message}</p> }
             <div ref={lastMessageRef} />
           </Box>
           {
-            (isBlocked(auth.user.id, currentUser.blocked || [0])
+            (isBlocked(auth.user.id, currentUser.blocked)
             || isBlocked(currentUser?.id, auth.user?.blocked))
               ? (
                 <Alert

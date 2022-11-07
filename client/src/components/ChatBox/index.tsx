@@ -5,7 +5,9 @@ import {
 import { io } from 'socket.io-client'
 import { StartChat } from '../../context/startChat'
 import { useAuth } from '../../hooks/useAuth'
-import { IMyMessages, IUser, IRealTimeMessages } from '../../interfaces'
+import {
+  IMyMessages, IUser, IRealTimeMessages, ICurrentUser,
+} from '../../interfaces'
 import ApiService from '../../services/ApiService'
 import Friends from './Friends'
 import Messages from './Messages'
@@ -36,7 +38,7 @@ const ChatBox:FC = () => {
   const [myMessages, setMyMessages] = useState<IMyMessages[]>([])
   const [onlineUsers, setOnlineUsers] = useState<any[]>([])
 
-  const [currentUser, setCurrentUser] = useState<IUser>(friendsInit)
+  const [currentUser, setCurrentUser] = useState<ICurrentUser>(friendsInit)
   const [, setIsConnect] = useState<boolean>(false)
   const { startChat } = useContext(StartChat)
 
@@ -45,7 +47,7 @@ const ChatBox:FC = () => {
   useEffect(() => {
     const getFriends = async ():Promise<void> => {
       if (auth.user) {
-        const friends = await ApiService.get(`/api/v1/users/${auth.user?.id}/chatted`)
+        const friends = await ApiService.get('/api/v1/users/chatted')
 
         const isExist = friends.data.data.find((ele:any) => ele.id === startChat.id)
 
@@ -94,12 +96,16 @@ const ChatBox:FC = () => {
     socket.on('onlineUsers', (message) => {
       setOnlineUsers(message)
     })
+    return () => {
+      socket.off('connect')
+      socket.off('disconnect')
+    }
   }, [])
 
   useEffect(() => {
     const getChatMessages = async ():Promise<void> => {
       if (currentUser.id) {
-        const oldMessages = await ApiService.get(`/api/v1/chat/${currentUser.id}`)
+        const oldMessages = await ApiService.get(`/api/v1/chat/messages/${currentUser.id}`)
         setMyMessages([])
         setRealTimeMessages(() => oldMessages.data.data)
       }

@@ -25,37 +25,29 @@ export default class UserProfileController {
     res.json({ data: profile, message: Message.SUCCESS })
   }
 
-  public static async getChattedUsers (req: Request, res:Response):Promise<void> {
-    const { id } = req.params
+  public static async getChattedUsers (req: IUserRequest, res:Response):Promise<void> {
+    const id = req.user?.id
 
-    // get all users who I chatted with them as senders or receivers
-    const chattedUsers = await Chat.findAll({
+    const users = await User.findAll({
       where: {
-        [Op.or]: [{ senderId: id }, { receiverId: id }]
+        [Op.or]: [
+          { '$received.senderId$': id },
+          { '$sent.receiverId$': id }
+        ]
       },
-      attributes: ['receiverId', 'senderId'],
-      group: ['receiverId', 'senderId']
+      attributes: ['id', 'username', 'profileImg', 'blocked'],
+      include: [{
+        model: Chat,
+        as: 'received',
+        attributes: []
+      }, {
+        model: Chat,
+        as: 'sent',
+        attributes: []
+      }]
     })
-
-    // filter the common ids between sender and receivers without me
-    const ids:any = []
-    chattedUsers.forEach((ele:any) => {
-      if (!ids.includes(ele?.receiverId) && ele.receiverId !== +id) {
-        ids.push(ele.receiverId)
-      }
-      if (!ids.includes(ele?.senderId) && ele.senderId !== +id) {
-        ids.push(ele.senderId)
-      }
-    })
-
-    // get all the filtered users
-    const filteredChattedUsers = await User.findAll({
-      where: { id: ids },
-      attributes: ['id', 'username', 'profileImg', 'blocked']
-    })
-
     res.json({
-      data: filteredChattedUsers, message: Message.SUCCESS
+      data: users, message: Message.SUCCESS
     })
   }
 

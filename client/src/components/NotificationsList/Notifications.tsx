@@ -9,9 +9,11 @@ import {
 } from '@mui/material'
 import { formatDistance, parseISO } from 'date-fns'
 import { useNavigate } from 'react-router-dom'
+import { v4 as uuidv4 } from 'uuid'
 import { useAuth } from '../../hooks/useAuth'
 import INotificationsList from '../../interfaces/props/INotificationsList'
 import ApiService from '../../services/ApiService'
+
 import './style.css'
 
 const StyledMenu:any = styled((props: MenuProps):any => (
@@ -90,7 +92,7 @@ const NotificationsList:FC<INotificationsList> = ({
       className="menu-container"
     >
       {realTimeNotifications.map((ele:any) => (
-        <div key={ele.id}>
+        <div key={uuidv4()}>
           <ListItem
             alignItems="flex-start"
             style={{

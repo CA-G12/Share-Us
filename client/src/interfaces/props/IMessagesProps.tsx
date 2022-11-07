@@ -1,8 +1,8 @@
 import { Socket } from 'socket.io-client'
-import IUser from '../IUser'
+import { ICurrentUser } from '..'
 
 export default interface IMessagesProps {
-  currentUser: IUser
+  currentUser: ICurrentUser
   socket:Socket,
   realTimeMessages : Object[],
   setMyMessages: Function

@@ -8,7 +8,8 @@ class Chat extends Model {
 
 Chat.init({
   id: {
-    type: DataTypes.DOUBLE,
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
     primaryKey: true
   },
   message: {

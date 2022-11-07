@@ -24,8 +24,6 @@ const ProfileActions: FC<IProfileActionsProp> = ({
   const { setStartChat } = useContext(StartChat)
 
   const handleMessage = ():void => {
-    console.log(userData)
-
     if (userData?.blocked?.includes(auth.user?.id)) {
       toast.error('User is blocked')
     } else {

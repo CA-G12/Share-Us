@@ -59,6 +59,10 @@ const Navbar:FC = () => {
     socket.on('getNotification', (msg) => {
       setRealTimeNotifications((prev) => [...prev, msg])
     })
+    return () => {
+      socket.off('connect')
+      socket.off('disconnect')
+    }
   }, [])
 
   useEffect(() => {
