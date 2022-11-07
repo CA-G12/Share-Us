@@ -55,7 +55,6 @@ const Profile:FC = () => {
     userData
     && (
     <>
-
       <Navbar />
       <ProfileBio
         userData={userData}
@@ -66,8 +65,8 @@ const Profile:FC = () => {
       {isBlocked && (
       <Alert
         severity="error"
-        variant="filled"
-        sx={{ width: '40%', margin: ' 2rem auto' }}
+        variant="outlined"
+        sx={{ width: '40%', margin: ' 2rem auto', color: 'white' }}
       >
         User is blocked!
       </Alert>

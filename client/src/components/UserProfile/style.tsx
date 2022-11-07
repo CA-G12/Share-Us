@@ -27,7 +27,7 @@ export const sx = {
       background: 'rgba(1, 113, 59, 1)',
     },
   },
-  myFont: {
-    color: 'blue',
-  },
+  // myFont: {
+  //   color: 'blue',
+  // },
 }

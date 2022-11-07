@@ -12,6 +12,7 @@ if (NODE_ENV === 'development') {
 } else if (NODE_ENV === 'production') {
   connectionString = DATABASE_URL
   ssl = {
+    require: true,
     rejectUnauthorized: false
   }
 } else if (NODE_ENV === 'test') {

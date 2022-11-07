@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap%27');
-*{
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500&display=swap');
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
 }
 
 header {
@@ -13,7 +13,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #2A2A2A;
+  background: #28282A;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   color: #fff;
 }
@@ -22,24 +22,26 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem
+  gap: 0.5rem;
 }
 
-.logo img{
+.logo img {
   width: 50px;
-  height:80px;
+  height: 80px;
   object-fit: cover;
 }
 
-.logo a{
+.logo a {
   text-decoration: none;
   color: #fff;
   font-weight: 700;
-  font-size: 0.8rem;
 }
 
 .logo h5 {
+  font-size: 1.5rem;
   color: #fff;
+  font-family: 'Ubuntu', sans-serif;
+  text-transform: capitalize;
 }
 
 header .register {
@@ -55,10 +57,11 @@ header .register .icons {
   color: #fff;
 }
 
-header .register .login{
-  font-size: 0.9rem;
-  outline: 0;
+header .register .login {
+  font-size: 1rem;
+  font-family: 'Ubuntu', sans-serif;
   border: 0;
+  text-transform: uppercase;
   color: #ececec;
   background: transparent;
   margin-right: 1rem;
@@ -66,20 +69,20 @@ header .register .login{
 }
 
 header .register .signup-btn {
-  font-size: 0.9rem;
-  background: #2A2A2A;
+  font-size: 1rem;
+  background: none;
+  text-transform: uppercase;
+  font-family: 'Ubuntu', sans-serif;
   color: #ececec;
   border: 0;
-  text-transform: capitalize;
-  padding: 0.4rem 0.8rem;
   cursor: pointer;
-  height: 30px;
-
 }
+
 header .search {
   width: 30%;
   display: flex;
   justify-content: center;
+  border-radius: 5px;
   background-color: #2A2A2A;
 }
 
@@ -91,6 +94,7 @@ header .search Button {
   color: #2A2A2A;
   box-shadow: 0px 1px 4px #2a2a2a4a;
   height: 30px;
+  border: 0;
 }
 
 header .search input {
@@ -100,7 +104,7 @@ header .search input {
   border: 1px solid #9f9f9f;
   filter: drop-shadow(0px 1px 2px #0000000d);
   background-color: white;
-  border-radius: 0 5px 5px 0;
+  border-radius: 0;
 }
 
 header .search input::placeholder {

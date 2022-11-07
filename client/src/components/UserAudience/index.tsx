@@ -68,11 +68,11 @@ const UserAudience: FC<IModalProps> = ({
   const getNoDataText = (titles: string): string => {
     let text = ''
     if (titles === 'Followings') {
-      text = 'No Followings Found'
+      text = 'No followings found'
     } else if (titles === 'Followers') {
-      text = 'No Followers Found'
+      text = 'No followers found'
     } else {
-      text = 'No Blocked Users Found'
+      text = 'No blocked users found'
     }
     return text
   }
@@ -119,7 +119,7 @@ const UserAudience: FC<IModalProps> = ({
                   }}
                 >
                   <img src={e.profileImg} alt="" />
-                  <Typography sx={{ fontWeight: 600, cursor: 'pointer' }}>
+                  <Typography sx={{ fontWeight: 600, cursor: 'pointer', color: '#2A2A2A' }}>
                     {e.username}
                   </Typography>
                 </Box>

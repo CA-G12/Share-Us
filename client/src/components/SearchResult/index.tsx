@@ -2,11 +2,12 @@ import { FC, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import './style.css'
 import {
-  Stack, CircularProgress, Box, Alert,
+  Stack, CircularProgress, Box,
 } from '@mui/material'
 import ApiService from '../../services/ApiService'
 import EventCard from './EventCard'
 import FriendCard from './FriendCard'
+import NoData from '../NoData'
 
 const SearchResult: FC = () => {
   const [data, setData] = useState<any>([])
@@ -24,6 +25,7 @@ const SearchResult: FC = () => {
     })
       .then((res) => {
         setData(res.data)
+
         setLoading(false)
       }).catch(() => setLoading(false))
   }, [searchParams])
@@ -81,13 +83,7 @@ const SearchResult: FC = () => {
 
       {
         !data?.data?.length && (
-          <Alert
-            severity="error"
-            variant="filled"
-            sx={{ width: '40%', margin: ' 2rem auto' }}
-          >
-            No result found
-          </Alert>
+          <NoData error="No results found" />
         )
       }
       {!category && data?.data?.map((e:any) => (

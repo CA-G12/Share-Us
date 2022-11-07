@@ -27,6 +27,7 @@
       "sourceMap": true,
       "declaration": true,
       "outDir": "dist",
+      "rootDir": "./src",
       "allowJs": true,
       "noEmit": false,
       "esModuleInterop": true,
@@ -38,5 +39,7 @@
         "@db/*": ["db/*"],
       }
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["__tests__/**.ts"] 
+
 }

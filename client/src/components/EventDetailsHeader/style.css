@@ -59,6 +59,7 @@ div.event-btns-container div.btn-container  {
   justify-content: space-between;
   text-align: center;
   flex-wrap: wrap;
+  
 }
 div.btn-container button{
   text-align: center;
@@ -83,6 +84,7 @@ text-align: center;
 }
 
 div.event-btns-container Button {
+  text-transform: capitalize;
   color: #2a2a2a;
 }
 

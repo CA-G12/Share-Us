@@ -1,47 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500&display=swap');
+
 .landing-container {
-  position: relative;
   width: 100%;
-  height: 92vh;
+  height: 85vh;
   color: rgb(255, 255, 255);
-  background-image: url('https://images.pexels.com/photos/12756933/pexels-photo-12756933.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  flex-direction: column;
+  padding: 2rem;
 }
 
 
-.landing-container::after {
-  content: "";
-  position: absolute;
-  width: 100%;
+.landing-container img {
+  width: 60%;
   height: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0,0,0,.399);
+  border-radius: 0 8px 8px 0;
 }
 
 .landing-container .content {
-  width: 40%;
-  z-index: 10000;
+  width: 50%;
+  padding: 4rem 3rem;
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-  height: 80%;
+  background-color: #fff;
+  height: 100%;
+  border-radius: 8px 0 0 8px;
 }
 
-.landing-container h1 {
-  font-size: 3.5rem;
-  color: #eee;
+.landing-container .content h1 {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 2.5rem;
 }
 
-.landing-container p {
-  padding: 1.5rem 0;
-  text-align: center;
-  color: #eee;
+.landing-container .content p {
+  padding: 2rem 0;
+  color: #333;
 }
