@@ -1,74 +1,63 @@
-/* eslint-disable no-plusplus */
-/* eslint-disable no-undef */
+/* eslint-disable max-len */
 import {
   useRef,
   useEffect,
   FC,
 } from 'react'
+import {
+  MapContainer, TileLayer, useMap,
+} from 'react-leaflet'
+import { OpenStreetMapProvider, SearchControl } from 'leaflet-geosearch'
+import 'leaflet-geosearch/dist/geosearch.css'
+import './style.css'
 
-import mapboxgl from 'mapbox-gl'
-import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
-import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const SearchField:FC<any> = ({ setLon, setLat, setPlaceName }) => {
+  const searchControl = SearchControl({
+    notFoundMessage: 'Sorry, that address could not be found.',
+    provider: new OpenStreetMapProvider(),
+    style: 'bar',
+  })
+  const map = useMap()
+  useEffect(():any => {
+    map.addControl(searchControl)
+    return () => map.removeControl(searchControl)
+  }, [])
 
-const accessToken = process.env.REACT_APP_MAP_ACCESS_TOKEN
+  const handleSearch = (result:any):void => {
+    setLon(result.location.y)
+    setLat(result.location.x)
+    setPlaceName(result.location.label)
+  }
 
-mapboxgl.accessToken = `${accessToken}`
+  map.on('geosearch/showlocation', handleSearch)
+
+  return null
+}
+
 interface mapProps{
   setLat: Function;
   setLon: Function;
   setPlaceName: Function;
 }
-const MapContainer: FC <mapProps> = ({ setLon, setLat, setPlaceName }):JSX.Element => {
-  const mapContainerRef = useRef<any>(null!)
-  const myMap:any = useRef()
-  useEffect(() => {
-    myMap.current = new mapboxgl.Map({
-      container: mapContainerRef.current,
-      style: 'mapbox://styles/mapbox/streets-v11',
-      center: [35.2, 31.88333],
-      zoom: 12,
-    })
-
-    const geocoder = new MapboxGeocoder({
-      accessToken: `${accessToken}`,
-      mapboxgl,
-      mode: 'mapbox.places',
-      placeholder: 'Search for places in Berkeley',
-
-    })
-
-    myMap.current.addControl(geocoder)
-
-    myMap.current.on('load', () => {
-      myMap.current.addSource('single-point', {
-        type: 'geojson',
-        data: {
-          type: 'FeatureCollection',
-          features: [],
-        },
-      })
-
-      myMap.current.on('click', (e:any) => {
-        setLon(e.lngLat.lng)
-        setLat(e.lngLat.lat)
-        myMap.current.addControl(new mapboxgl.Marker()
-          .setLngLat([e.lngLat.lng, e.lngLat.lat]).addTo(myMap.current))
-      })
-      geocoder.on('result', (event) => {
-        myMap.current.getSource('single-point').setData(event.result.geometry)
-        setLon(event.result.center[0])
-        setLat(event.result.center[1])
-        setPlaceName(event.result.place_name)
-      })
-    })
-
-    myMap.current.addControl(new mapboxgl.NavigationControl(), 'top-right')
-    myMap.current.addControl(new mapboxgl.FullscreenControl(), 'top-right')
-
-    return () => myMap.current.remove()
-  }, [])
+const MapCont: FC <mapProps> = ({ setLon, setLat, setPlaceName }) => {
+  const mapRef = useRef<any>()
 
   return (
-    <div ref={mapContainerRef} className="map-container"> </div>)
+    <MapContainer
+      ref={mapRef}
+      className="add-event-map"
+      center={[31.5476266, 34.4584717]}
+      zoom={10}
+      scrollWheelZoom
+    >
+      <SearchField setLon={setLon} setLat={setLat} setPlaceName={setPlaceName} />
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+    </MapContainer>
+
+  )
 }
-export default MapContainer
+export default MapCont
