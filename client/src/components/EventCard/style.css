@@ -30,3 +30,8 @@
   background-color: #181818;
 }
 
+.delete-event-btn{
+  position: absolute !important;
+  right: 0;
+  top: 60%;
+}

@@ -3,7 +3,7 @@ import {
   useState, FC,
 } from 'react'
 
-import { Paper } from '@mui/material'
+import { Paper, Typography } from '@mui/material'
 import Map from '../Map'
 import JoinedPeopleModel from '../JoinedInterestedPeopleModel.tsx'
 import IPropsAboutEvent from '../../interfaces/props/AboutEvent'
@@ -21,10 +21,17 @@ const AboutEvent:FC < IPropsAboutEvent > = ({
   return (
     <div className="about-event">
       <div className="description-container">
-        <h3>description</h3>
-        <p>
+        <Typography
+          component="span"
+          variant="h3"
+          sx={{ fontSize: '1.4rem', fontWeight: 600, padding: '1rem 0' }}
+        >
+          Description
+
+        </Typography>
+        <Typography component="span" variant="body1">
           {description}
-        </p>
+        </Typography>
         <div className="hashtag-container">
           {
         Hashtags
@@ -45,7 +52,14 @@ const AboutEvent:FC < IPropsAboutEvent > = ({
 
       <div className="participants-map">
         <div className="participants-container">
-          <h3>Participants</h3>
+          <Typography
+            component="span"
+            variant="h3"
+            sx={{ fontSize: '1.4rem', fontWeight: 600, padding: '1rem 0' }}
+          >
+            Participants
+
+          </Typography>
           <div>
             <button
               type="button"
@@ -56,7 +70,7 @@ const AboutEvent:FC < IPropsAboutEvent > = ({
               }}
             >
               <span>{interestedPeople.length}</span>
-              interested
+              Interested
             </button>
             <button
               type="button"
@@ -75,7 +89,6 @@ const AboutEvent:FC < IPropsAboutEvent > = ({
           <Map longitude={longitude} latitude={latitude} placeName={placeName} />
         </div>
       </div>
-      {/* listPeople */}
       <JoinedPeopleModel
         title={modalTitle}
         listPeople={listPeople}

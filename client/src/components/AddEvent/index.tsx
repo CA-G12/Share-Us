@@ -79,8 +79,9 @@ const AddEvent: FC<addEventProps> = ({ setIsAdded }) => {
             sx={{
               '&:hover': {
                 backgroundColor: '#2A2A2A',
+                border: 0,
               },
-              fontSize: '0.7rem',
+              fontSize: '0.8rem',
               backgroundColor: '#2A2A2A',
               boxShadow: ' 0px 1px 4px #2a2a2a',
               borderRadius: '8px',
@@ -89,7 +90,7 @@ const AddEvent: FC<addEventProps> = ({ setIsAdded }) => {
               textTransform: 'capitalize',
               padding: '0.4rem 0.8rem',
               cursor: 'pointer',
-              height: '30px',
+              height: '35px',
             }}
             variant="outlined"
             onClick={() => setOpen(true)}

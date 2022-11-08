@@ -11,6 +11,6 @@ export default interface ICommentsData {
   createdAt: string;
   updatedAt?:string;
   UserId?:number;
-  EventId:number;
+  handleDelete:Function;
   User: IEventUser;
 }
