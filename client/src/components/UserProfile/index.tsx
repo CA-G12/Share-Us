@@ -92,7 +92,7 @@ const ProfileBio:FC<UserProfileProp> = ({
             />
           </div>
 
-          <Typography variant="h5" gutterBottom>
+          <Typography variant="h5" gutterBottom sx={{ fontSize: '1.5rem' }}>
             {user?.username}
 
           </Typography>
@@ -101,7 +101,7 @@ const ProfileBio:FC<UserProfileProp> = ({
               variant="subtitle2"
               gutterBottom
               onClick={handleOpen}
-              sx={{ fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
+              sx={{ fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
             >
               Followings:
               {' '}
@@ -112,7 +112,7 @@ const ProfileBio:FC<UserProfileProp> = ({
               variant="subtitle2"
               gutterBottom
               onClick={handleOpenFollow}
-              sx={{ fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
+              sx={{ fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
             >
               Followers:
               {' '}
@@ -122,7 +122,7 @@ const ProfileBio:FC<UserProfileProp> = ({
             <Typography
               variant="subtitle2"
               gutterBottom
-              sx={{ fontSize: 12, fontWeight: 600 }}
+              sx={{ fontSize: 13, fontWeight: 600 }}
             >
               Events:
               {' '}
@@ -133,14 +133,14 @@ const ProfileBio:FC<UserProfileProp> = ({
           <div className="bio">
             <Typography
               variant="subtitle1"
-              sx={{ fontSize: 15, fontWeight: 600, marginTop: '10px' }}
+              sx={{ fontSize: 16, fontWeight: 600, marginTop: '10px' }}
             >
               Bio:
             </Typography>
             <Typography
               variant="body2"
               gutterBottom
-              sx={{ fontSize: '12px' }}
+              sx={{ fontSize: '15px', color: '#000' }}
             >
               {user?.bio}
             </Typography>

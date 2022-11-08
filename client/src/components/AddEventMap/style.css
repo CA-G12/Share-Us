@@ -5,3 +5,13 @@
 .map-container{
   height: 500px;
 }
+
+.add-event-map{
+  height: 400px;
+}
+
+
+.add-event-map .glass{
+ z-index: 500;
+}
+ 

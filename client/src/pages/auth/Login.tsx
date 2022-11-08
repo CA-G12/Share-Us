@@ -28,7 +28,7 @@ const Login: FC = () => {
   const handleSubmit = async (values:object):Promise<void> => {
     const { isLogged, error } = await auth.signIn(values)
     if (isLogged) {
-      navigate('/')
+      navigate('/home')
     } else {
       toast.error(error.response.data.message)
     }

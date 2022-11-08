@@ -7,6 +7,7 @@ import { Op } from 'sequelize'
 import CustomError from '../helpers/CustomError'
 import IBetweenFromAndTo from 'interfaces/IFilterEvents'
 import { IUserRequest } from 'interfaces/IUserRequest'
+import validateParams from '../validation/paramsId'
 
 export default class EventsController {
   // for getting all data
@@ -159,5 +160,12 @@ export default class EventsController {
   // for deleteing an event
   public static async destroy (req: Request, res: Response) {
     // code here
+    const { id } = req.params
+    await validateParams({ id })
+    const deleteEvent = await Event.destroy({
+      where: { id }
+    })
+    if (!deleteEvent) throw new CustomError(Message.DELETE_FAILED, 400)
+    res.json({ message: Message.DELETE_EVENT, status: 'deleted' })
   }
 }

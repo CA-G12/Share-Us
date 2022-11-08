@@ -14,6 +14,7 @@ export default interface IEventDetails {
   endTime: string;
   longitude:string;
   latitude: string;
+  placeName:string;
   createdAt: string;
   updatedAt:string;
   User: IEventUser;

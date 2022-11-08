@@ -52,7 +52,7 @@ const Navbar:FC = () => {
 }
   const [realTimeNotifications, setRealTimeNotifications] = useState<INotifications[]>([])
   const [notificationCount, setNotificationCount] = useState<number>(0)
-  const [isConnect, setIsConnect] = useState<boolean>(false)
+  const [, setIsConnect] = useState<boolean>(false)
   const oldNotifications = useAuth().user?.notifications
 
   useEffect(() => {
@@ -104,10 +104,10 @@ const Navbar:FC = () => {
             component="h5"
             sx={{ color: '#2A2A2A' }}
           >
-            SHARE US
+            Share Us
           </Typography>
         </Link>
-
+        {auth.user && (
         <div className="search">
           <Paper
             component="form"
@@ -147,8 +147,10 @@ const Navbar:FC = () => {
             </IconButton>
           </Paper>
         </div>
+        )}
 
         <div className="register">
+          {auth.user && (
           <div className="icons">
             <ChatIcon
               onClick={() => { navigate('/chat') }}
@@ -174,9 +176,8 @@ const Navbar:FC = () => {
                 <NotificationsIcon sx={{ cursor: 'pointer', fill: '#eee' }} />
               </Badge>
             </IconButton>
-
           </div>
-
+          )}
           {auth.user && <DropDown />}
           {!auth.user && (
           <>
@@ -186,20 +187,17 @@ const Navbar:FC = () => {
               onClick={() => navigate('/login')}
             >
               Login
-
             </button>
             <Button
               className="signup-btn"
               onClick={() => navigate('/sign-up')}
             >
-              Sign Up
+              SignUp
 
             </Button>
           </>
-          )}
-
+          ) }
         </div>
-
       </header>
 
       <NotificationsList

@@ -125,7 +125,7 @@ const SignUp: FC = () => {
         <GoogleAuth label="Sign up" />
 
         <p className="center-pra">
-          have an account ?
+          Already have an account ?
           <Link to="/login"> Sign in!</Link>
         </p>
       </form>

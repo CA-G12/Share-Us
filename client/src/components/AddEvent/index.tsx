@@ -40,7 +40,8 @@ interface addEventProps {
 const AddEvent: FC<addEventProps> = ({ setIsAdded }) => {
   const [open, setOpen] = useState(false)
   const [showHash, setShowHash] = useState<Array<object>>([])
-  const [placeName, setPlaceName] = useState<string>('')
+  const [, setPlaceName] = useState<string>('')
+
   const auth = useAuth()
 
   useEffect(() => {
@@ -78,8 +79,9 @@ const AddEvent: FC<addEventProps> = ({ setIsAdded }) => {
             sx={{
               '&:hover': {
                 backgroundColor: '#2A2A2A',
+                border: 0,
               },
-              fontSize: '0.7rem',
+              fontSize: '0.8rem',
               backgroundColor: '#2A2A2A',
               boxShadow: ' 0px 1px 4px #2a2a2a',
               borderRadius: '8px',
@@ -88,7 +90,7 @@ const AddEvent: FC<addEventProps> = ({ setIsAdded }) => {
               textTransform: 'capitalize',
               padding: '0.4rem 0.8rem',
               cursor: 'pointer',
-              height: '30px',
+              height: '35px',
             }}
             variant="outlined"
             onClick={() => setOpen(true)}
@@ -182,11 +184,11 @@ const AddEvent: FC<addEventProps> = ({ setIsAdded }) => {
               />
               <AddEventMap setLon={handleLon} setLat={handleLat} setPlaceName={handlePlaceName} />
             </div>
-
             <TextField
+              disabled
+              onChange={(e) => setPlaceName(e.target.value)}
               name="placeName"
-              onChange={(e:any) => setPlaceName(e.value)}
-              value={placeName}
+              value={formik.values.placeName}
               error={formik.touched.placeName && Boolean(formik.errors.placeName)}
               helperText={formik.touched.placeName && formik.errors.placeName}
               id="outlined-required"

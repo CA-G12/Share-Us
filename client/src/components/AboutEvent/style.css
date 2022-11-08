@@ -14,32 +14,35 @@
 .about-event .description-container{
   background-color: #f1f1f1b9;
   width: 48%;
-  padding: 8px 20px 50px;
+  padding: 1rem 2rem;
   border-radius: 8px;
   color: #2A2A2A;
   height: max-content;
+  display: flex;
+  justify-content: center;
+
+  flex-direction: column;
 }
 .about-event .participants-map{
   width: 48%;
 }
 .about-event  .participants-map .participants-container{
   background-color: #f1f1f1b9;
-  padding: 20px 30px;
   border-radius: 8px;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
 }
-.about-event  .participants-map  .map-container{
-  margin-top: 30px;
-  background-color: #f1f1f1b9;
-  border-radius: 8px;
-}
+
 .participants-container div {
 display:flex;
 justify-content: space-around;
 width: 80%;
 margin: 0 auto;
-flex-wrap: wrap;
 }
+
 .participants-container div button{
   font-size: 15px;
   padding: 0.2rem 1rem ;
@@ -69,20 +72,19 @@ flex-wrap: wrap;
   width: max-content;
   padding: 0 1.5rem;
   text-align: center;
-  color: #2A2A2A;
+  color: #e5e5e5;
   height: 37;
-  line-height: 33px;
-  margin-left:10px;
   border-radius: 20px;
-  margin-top: 6px;
 }
 
-.map-container{
+
+
+.about-event  .participants-map  .map-container{
   margin-top: 30px;
   background-color: #f1f1f1b9;
   border-radius: 8px;
-  /* overflow: hidden; */
-  height: 400px;
+  overflow: hidden;
+  height: 360px;
   position: relative;
 }
 
