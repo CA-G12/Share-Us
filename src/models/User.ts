@@ -15,8 +15,8 @@ class User extends Model {
   declare blocked: number[]
   declare notifications: any[]
   declare refreshToken?: string
-  declare oauthExpireIn?: string
-  declare oauthAccessToken?: string
+  declare accessToken?: string
+  declare expirationTime?: string
 }
 
 User.init(

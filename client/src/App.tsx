@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import {
   createBrowserRouter,
   RouterProvider,
@@ -23,10 +23,7 @@ import { useAuth } from './hooks/useAuth'
 
 const App: React.FC = () => {
   const auth = useAuth()
-
-  useEffect(() => {
-    console.log(auth.user)
-  }, [auth.user])
+  const [isAdded, setIsAdded] = useState<boolean>(false)
   const router = createBrowserRouter([
     {
       path: '/',
@@ -34,7 +31,7 @@ const App: React.FC = () => {
     },
     {
       path: '/home',
-      element: <Home />,
+      element: <Home isAdded={isAdded} setIsAdded={setIsAdded} />,
     },
     {
       path: 'login',
@@ -46,7 +43,7 @@ const App: React.FC = () => {
     },
     {
       path: 'users/:followerId',
-      element: <Profile />,
+      element: <Profile isAdded={isAdded} setIsAdded={setIsAdded} />,
     },
     {
       path: 'search',

@@ -1,6 +1,7 @@
 import IUser from '../IUser'
 
 export default interface IFriendChatProps{
-  friends:IUser[],
+  friends:IUser[]
+  onlineUsers:any[]
   setCurrentUser:Function
 }

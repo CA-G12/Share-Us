@@ -8,13 +8,13 @@ import IEventDetails from '../../interfaces/IEventDetails'
 import Navbar from '../../components/Navbar'
 import EventCardContainer from '../../components/EventCard'
 import AddEvent from '../../components/AddEvent'
+import { IAddedEventProps } from '../../interfaces'
 
-const Home:FC = () => {
+const Home:FC<IAddedEventProps> = ({ setIsAdded, isAdded }) => {
   const [data, setData] = useState<IEventDetails[]>([])
   const [currentStatus, setCurrentStatus] = useState('all')
   const [startTime, setStartTime] = useState<Dayjs|null>(null)
   const [endTime, setEndTime] = useState<Dayjs|null>(null)
-  const [isAdded, setIsAdded] = useState<boolean>(false)
 
   useEffect(() => {
     const getEvents = async ():Promise<void> => {

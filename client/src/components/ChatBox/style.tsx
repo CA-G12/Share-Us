@@ -38,11 +38,5 @@ export const sx = {
     display: 'grid', height: '100%', placeItems: 'center',
   },
   alertItem: { width: '70%', margin: 'auto' },
-  messageTextField: {
-    width: '90%',
-    margin: 'auto',
-    position: 'absolute',
-    bottom: '1rem',
-  },
 
 }

@@ -11,7 +11,7 @@ import { useAuth } from '../../hooks/useAuth'
 
 const EventCard:FC<EventCardProps> = ({ event, handleDelete }) => {
   const navigate = useNavigate()
-  const userId = useAuth().user.id
+  const userId = useAuth().user?.id
 
   const [open, setOpen] = useState(false)
   const handleClickOpen = ():void => setOpen(true)

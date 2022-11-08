@@ -12,8 +12,9 @@ import Navbar from '../../components/Navbar'
 import { useAuth } from '../../hooks/useAuth'
 import './style.css'
 import AddEvent from '../../components/AddEvent'
+import { IAddedEventProps } from '../../interfaces'
 
-const Profile:FC = () => {
+const Profile:FC<IAddedEventProps> = ({ setIsAdded, isAdded }) => {
   const auth = useAuth()
   const [userData, setUserData] = useState<IUserProfile | null>(null)
   const [allData, setAllData] = useState<IEventDetails[]>([])
@@ -51,7 +52,7 @@ const Profile:FC = () => {
       setAllData(allEvents.data.data)
     }
     getEvents()
-  }, [currentStatus, startTime, endTime, followerId])
+  }, [currentStatus, startTime, endTime, followerId, isAdded])
 
   return (
     userData
@@ -63,6 +64,7 @@ const Profile:FC = () => {
         editUserData={editUserData}
         allData={allData}
         setUserData={setUserData}
+
       />
       {isBlocked && (
       <Alert
@@ -84,7 +86,7 @@ const Profile:FC = () => {
           setEndTime={setEndTime}
         />
         {
-          isUser && <AddEvent />
+          isUser && <AddEvent setIsAdded={setIsAdded} />
         }
         <EventCardContainer allEvents={allData} followerId={Number(followerId)} />
       </>

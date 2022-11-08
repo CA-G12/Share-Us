@@ -14,4 +14,7 @@ export default interface IUser {
   createdAt?: string
   updatedAt?: string
   refreshToken?: string
+  expirationTime?:string
+  accessToken?:string
+  onlineUsers?: any[]
 }
