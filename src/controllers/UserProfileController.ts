@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-expressions */
-import { User } from '../db'
+import { User, Chat } from '../db'
+import { Op } from 'sequelize'
+
 import { Request, Response } from 'express'
 import validateParams from '../validation/paramsId'
 import CustomError from '../helpers/CustomError'
@@ -14,13 +16,39 @@ export default class UserProfileController {
 
     const profile = await User.findOne({
       attributes: ['id', 'username', 'bio', 'location', 'profileImg',
-        'headerImg', 'following', 'followers', 'notifications'],
+        'headerImg', 'following', 'followers', 'blocked', 'notifications'],
       where: {
         id
       }
     })
     if (!profile) throw new CustomError('Not Found', 404)
     res.json({ data: profile, message: Message.SUCCESS })
+  }
+
+  public static async getChattedUsers (req: IUserRequest, res:Response):Promise<void> {
+    const id = req.user?.id
+
+    const users = await User.findAll({
+      where: {
+        [Op.or]: [
+          { '$received.senderId$': id },
+          { '$sent.receiverId$': id }
+        ]
+      },
+      attributes: ['id', 'username', 'profileImg', 'blocked'],
+      include: [{
+        model: Chat,
+        as: 'received',
+        attributes: []
+      }, {
+        model: Chat,
+        as: 'sent',
+        attributes: []
+      }]
+    })
+    res.json({
+      data: users, message: Message.SUCCESS
+    })
   }
 
   public static async update (req: IUserRequest, res:Response):Promise<void> {

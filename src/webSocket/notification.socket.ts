@@ -3,7 +3,7 @@ import MySocketInterface from './mySocketInterface'
 import { User } from '../models'
 import { formatDistance, parseISO } from 'date-fns'
 
-class OrdersSocket implements MySocketInterface {
+class NotificationSocket implements MySocketInterface {
   onlineUsers:any = []
 
   addNewUser:any = (username:any, socketId:any):any => {
@@ -23,7 +23,7 @@ class OrdersSocket implements MySocketInterface {
     socket.on('newUser', (username) => {
       this.addNewUser(username, socket.id)
     })
-    console.log(this.onlineUsers)
+    console.log('noti', this.onlineUsers)
 
     socket.on('followNotification', async (data:any) => {
       const receiverUser:any = await User.findOne({ where: { id: data.receiverId } })
@@ -59,4 +59,4 @@ class OrdersSocket implements MySocketInterface {
   }
 }
 
-export default OrdersSocket
+export default NotificationSocket

@@ -4,12 +4,13 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import router from './routes'
 import config from './config/environment'
-import Websocket from './notificationSystem/serverSocket'
-import NotificationSocket from './notificationSystem/notification.socket'
+import Websocket from './webSocket/serverSocket'
+import NotificationSocket from './webSocket/notification.socket'
 import { createServer } from 'http'
 import reminderEmail from './cronJobs/ReminderEmail'
 import changeStatus from './cronJobs/changeStatus'
 import { ScheduledTask } from 'node-cron'
+import ChatSocket from './webSocket/chat.socket'
 import { join } from 'path'
 
 class App {
@@ -65,7 +66,8 @@ const httpServer = createServer(app)
 const io = Websocket.getInstance(httpServer)
 
 io.initializeHandlers([
-  { path: '/notifications', handler: new NotificationSocket() }
+  { path: '/notifications', handler: new NotificationSocket() },
+  { path: '/chat', handler: new ChatSocket() }
 ])
 
 export default httpServer

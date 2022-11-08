@@ -1,0 +1,86 @@
+.single-message{
+  padding: 0.5rem 1rem;
+  width: max-content;
+  max-width: 60%;
+  border-radius: 15px;
+  margin-top: 5px;
+}
+.me{
+  background-color: #efefef;
+  margin-right: auto;
+  display: inline;
+  /* display: flex; */
+  margin-top: 10px; 
+}
+.others{
+  margin-left: auto;
+  border: 0.5px solid #efefef;
+}
+.messages-textField-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 70vh;
+}
+
+.messages-container{
+  padding: 0.5rem 0.7rem;
+  height: 60vh;
+  max-height: 470;
+  overflow-y: auto;
+}
+.messages-container::-webkit-scrollbar {
+  width: 15px;
+  height: 80%;
+}
+
+/* Track */
+.messages-container::-webkit-scrollbar-track {
+  background-color: white;
+}
+ 
+/* Handle */
+.messages-container::-webkit-scrollbar-thumb {
+  background: #c1c1c1; 
+}
+
+
+.typing-status{
+  font-size: 14px;
+  color:#c1c1c1;
+  width: max-content;
+  padding: 5px 10px;
+}
+
+.Emoji-Btn-chat{
+  margin-left: auto !important;
+}
+
+
+.chat-emoji{
+  height: 300px;
+  overflow: hidden;
+}
+
+.css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper{
+  top: 280px !important;
+  height: max-content;
+}
+
+
+.message-un-send:hover .me + .un-send-btn{
+  display: inline;
+  cursor: pointer;
+}
+.message-un-send {
+
+  display: block;
+  margin: 1.3rem;
+
+}
+
+.un-send-btn{
+  padding: 4px 8px;
+  margin-left: 15px;
+  display: none;
+}

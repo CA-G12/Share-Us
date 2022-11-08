@@ -10,7 +10,7 @@
 }
 
 /* Track */
-::-webkit-scrollbar-track {
+.joined-container::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px rgb(26, 18, 18); 
 }
  

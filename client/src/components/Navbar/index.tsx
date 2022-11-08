@@ -56,14 +56,19 @@ const Navbar:FC = () => {
   const oldNotifications = useAuth().user?.notifications
 
   useEffect(() => {
+    socket.on('getNotification', (msg) => {
+      setRealTimeNotifications((prev) => [...prev, msg])
+    })
+    return () => {
+      socket.off('getNotification')
+    }
+  }, [])
+
+  useEffect(() => {
     socket.on('connect', () => {
       setIsConnect(socket.connected) // true
     })
     if (auth?.user?.username) socket.emit('newUser', auth.user.username)
-
-    socket.on('getNotification', (msg) => {
-      setRealTimeNotifications((prev) => [...prev, msg])
-    })
 
     socket.on('disconnect', () => {
       setIsConnect(socket.connected)

@@ -1,17 +1,11 @@
 import { Request, Response } from 'express'
 import validateParams from '../validation/paramsId'
-import { User } from '../db'
 import { Message } from '../config/messages'
 import CustomError from '../helpers/CustomError'
 import { IUserRequest } from '../interfaces/IUserRequest'
 import { unBlockUser, blockUser, addToUsers, deleteFromUsers, getFromUsers, getAllUsers } from '../queries'
 
 export default class FollowingSystem {
-  public static async allUsers (req:Request, res:Response) {
-    const users = await User.findAll()
-    res.json(users)
-  }
-
   public static async toggleFollowing (req:IUserRequest, res:Response) {
     const followingId = Number(req.params.followingId)
     const userId = Number(req.user?.id)

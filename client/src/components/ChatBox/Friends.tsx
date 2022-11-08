@@ -7,7 +7,7 @@ import { IFriendChatProps } from '../../interfaces'
 import SingleFriend from './SingleFriend'
 import { sx } from './style'
 
-const Friends:FC<IFriendChatProps> = ({ friends, setCurrentUser }) => (
+const Friends:FC<IFriendChatProps> = ({ friends, setCurrentUser, onlineUsers }) => (
   <Box sx={sx.allFriends}>
     <Box sx={sx.inputSearchBox}>
       <TextField
@@ -20,12 +20,16 @@ const Friends:FC<IFriendChatProps> = ({ friends, setCurrentUser }) => (
     </Box>
     {
         friends?.map((ele) => (
-          <>
-            <Box key={ele.id} onClick={() => setCurrentUser(ele)}>
-              <SingleFriend profileImg={ele.profileImg} username={ele.username} />
+          <Box key={ele.id}>
+            <Box onClick={() => setCurrentUser(ele)}>
+              <SingleFriend
+                profileImg={ele.profileImg}
+                username={ele.username}
+                onlineUsers={onlineUsers}
+              />
             </Box>
             <Divider />
-          </>
+          </Box>
 
         ))
       }

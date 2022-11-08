@@ -37,6 +37,9 @@ Event.belongsToMany(Hashtag, { as: 'Hashtags', through: HashtagEvent })
 Chat.belongsTo(User, { as: 'receiver' })
 Chat.belongsTo(User, { as: 'sender' })
 
+User.hasMany(Chat, { as: 'received', foreignKey: 'receiverId' })
+User.hasMany(Chat, { as: 'sent', foreignKey: 'senderId' })
+
 Event.hasMany(Comments)
 Comments.belongsTo(Event)
 

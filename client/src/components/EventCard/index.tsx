@@ -36,7 +36,7 @@ const EventCardContainer:FC<CardContainerProps> = ({ allEvents, followerId }) =>
         && (!filteredEvents(allEvents).length
           ? (
             <Grid item xs={12}>
-              <NoData />
+              <NoData error="No events found" />
             </Grid>
           )
           : filteredEvents(allEvents).filter((evt:any) => evt.id !== deletedId)

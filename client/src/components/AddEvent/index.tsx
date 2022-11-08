@@ -108,7 +108,7 @@ const AddEvent: FC<addEventProps> = ({ setIsAdded }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <p>Create an Event</p>
+          <p className="secondary"> Create an Event</p>
           <h1>Event Details</h1>
           <form onSubmit={formik.handleSubmit}>
             <TextField
