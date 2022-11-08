@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import { Typography } from '@mui/material'
+import { Avatar, Typography } from '@mui/material'
 import { useParams, useNavigate } from 'react-router-dom'
 import io from 'socket.io-client'
 import UserProfileProp from '../../interfaces/props/UserProfileProp'
@@ -85,9 +85,10 @@ const ProfileBio:FC<UserProfileProp> = ({
       <div className="container-info">
         <div className="bio-infos">
           <div className="profile-img">
-            <img
+            <Avatar
+              alt="Google Photo/Initial"
               src={user?.profileImg}
-              alt=""
+              sx={{ borderRadius: 0, width: '100%', height: '100%' }}
             />
           </div>
 

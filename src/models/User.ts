@@ -76,15 +76,15 @@ depositphotos_199564354-stock-illustration-creative-vector-illustration-default-
       defaultValue: []
     },
     refreshToken: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true
     },
-    oauthExpireIn: {
-      type: DataTypes.STRING,
+    expirationTime: {
+      type: DataTypes.TEXT,
       allowNull: true
     },
-    oauthAccessToken: {
-      type: DataTypes.STRING,
+    accessToken: {
+      type: DataTypes.TEXT,
       allowNull: true
     }
   },

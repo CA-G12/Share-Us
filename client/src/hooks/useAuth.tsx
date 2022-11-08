@@ -43,14 +43,11 @@ export const useProvideAuth = ():IAuthContext => {
 
   const googleAuthenticate = async (payload:object):Promise<object> => {
     try {
-      console.log(payload, 'paaaaaaaaaaaaaaaaaaaaaaaay')
-
       const googleUser = await ApiService.post('/api/v1/googleRegister', payload)
       if (googleUser.status === 200) {
         setUser(googleUser.data.data)
         JwtService.setToken(googleUser.data.token)
         ApiService.setHeader()
-        console.log(googleUser.data.data.refreshToken)
       }
       return { isLogged: true }
     } catch (err) {

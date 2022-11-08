@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   createBrowserRouter,
   RouterProvider,
@@ -23,6 +23,10 @@ import { useAuth } from './hooks/useAuth'
 
 const App: React.FC = () => {
   const auth = useAuth()
+
+  useEffect(() => {
+    console.log(auth.user)
+  }, [auth.user])
   const router = createBrowserRouter([
     {
       path: '/',

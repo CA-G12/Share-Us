@@ -35,13 +35,19 @@ const GoogleAuth: FC<prop> = ({ label }) => {
     try {
       const result:any = await signInWithPopup(googleAuth, new GoogleAuthProvider())
       const {
-        displayName, email, uid,
+        displayName, email, uid, photoURL,
       } = result.user
-      const { refreshToken } = result.user.stsTokenManager
 
+      const { refreshToken, expirationTime, accessToken } = result.user.stsTokenManager
       if (email && displayName && uid) {
         await auth.googleAuthenticate({
-          email, password: uid, username: displayName, refreshToken,
+          email,
+          password: uid,
+          username: displayName,
+          refreshToken,
+          accessToken,
+          expirationTime,
+          profileImg: photoURL,
         })
         navigate('/home')
       }
