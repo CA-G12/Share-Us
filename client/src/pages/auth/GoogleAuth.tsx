@@ -15,23 +15,23 @@ interface prop{
   label: string
 }
 
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEAUREMENT_ID,
+}
+const app = initializeApp(firebaseConfig)
+const googleAuth = getAuth(app)
+
 const GoogleAuth: FC<prop> = ({ label }) => {
   const navigate = useNavigate()
   const auth = useAuth()
 
   const signInGoogle = async ():Promise<void> => {
-    const firebaseConfig = {
-      apiKey: process.env.REACT_APP_API_KEY,
-      authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-      projectId: process.env.REACT_APP_PROJECT_ID,
-      storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-      messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-      appId: process.env.REACT_APP_APP_ID,
-      measurementId: process.env.REACT_APP_MEAUREMENT_ID,
-    }
-    const app = initializeApp(firebaseConfig)
-    const googleAuth = getAuth(app)
-
     try {
       const result:any = await signInWithPopup(googleAuth, new GoogleAuthProvider())
       const {

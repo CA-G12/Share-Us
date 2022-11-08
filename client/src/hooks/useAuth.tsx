@@ -14,6 +14,8 @@ const initContext = {
     profileImg: '',
     headerImg: '',
     refreshToken: '',
+    expirationTime: '',
+    accessToken: '',
   },
   setUser: () => {},
   signIn: () => {},

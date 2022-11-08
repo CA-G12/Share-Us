@@ -74,7 +74,6 @@ const ProfileBio:FC<UserProfileProp> = ({
     }
   }
 
-  console.log(user.profileImg)
   return (
     <div className="profile">
       <div className="header-img">
