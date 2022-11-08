@@ -29,7 +29,7 @@ const EventCardContainer:FC<CardContainerProps> = ({ allEvents, followerId }) =>
   }
 
   return (
-    <div className="card-container" key={Math.random() * 99999}>
+    <div className="card-container">
       <Grid container spacing={2}>
         {
         auth.user

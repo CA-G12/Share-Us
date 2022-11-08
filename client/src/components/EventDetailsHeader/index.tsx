@@ -141,7 +141,6 @@ const EventDetailsHeader:FC = () => {
       toast(err.response.data.message)
     }
   }
-  console.log(eventInfo)
   const handleInterest = async (UserId:number):Promise<void> => {
     try {
       if (userId) {
