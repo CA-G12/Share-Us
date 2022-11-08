@@ -143,27 +143,26 @@ const NotificationsList:FC<INotificationsList> = ({
       ))}
 
       {
-            oldNotifications?.length
-              && oldNotifications
-                .sort((b:any, a:any) => dayjs(a.createdAt).diff(b.createdAt))
-                .map((ele:any) => (
-                  <div key={ele.id}>
-                    <ListItem
-                      alignItems="flex-start"
-                      style={{
-                        margin: '5px auto',
-                        cursor: 'pointer',
-                      }}
-                      onClick={() => {
-                        readNotification(ele?.id)
-                        navigate(`/users/${ele?.senderInfo?.id}`)
-                        handleClose()
-                        if (ele.status === 'unread') {
-                          setNotificationCount((prev:any) => prev - 1)
-                        }
-                      }}
-                    >
-                      {ele.status === 'unread'
+            oldNotifications
+              .sort((b:any, a:any) => dayjs(a.createdAt).diff(b.createdAt))
+              .map((ele:any) => (
+                <div key={ele.id}>
+                  <ListItem
+                    alignItems="flex-start"
+                    style={{
+                      margin: '5px auto',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => {
+                      readNotification(ele?.id)
+                      navigate(`/users/${ele?.senderInfo?.id}`)
+                      handleClose()
+                      if (ele.status === 'unread') {
+                        setNotificationCount((prev:any) => prev - 1)
+                      }
+                    }}
+                  >
+                    {ele.status === 'unread'
                     && (
                       <p className="notification-state">
                         <Badge
@@ -174,36 +173,36 @@ const NotificationsList:FC<INotificationsList> = ({
                       </p>
                     )}
 
-                      <ListItemAvatar>
-                        <Avatar
-                          alt={ele?.senderInfo?.username}
-                          src={ele?.senderInfo?.profileImg}
-                        />
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={ele?.message}
-                        secondary={(
-                          <div>
-                            <Typography
-                              sx={{ display: 'inline' }}
-                              component="span"
-                              variant="body2"
-                              color="text.secondary"
-                            >
-                              { formatDistance(
-                                parseISO(ele?.createdAt),
-                                new Date(),
-                                { addSuffix: true },
-                              )}
-                            </Typography>
-                            {' — View Profile…'}
-                          </div>
-          )}
+                    <ListItemAvatar>
+                      <Avatar
+                        alt={ele?.senderInfo?.username}
+                        src={ele?.senderInfo?.profileImg}
                       />
-                    </ListItem>
-                    <Divider variant="inset" component="li" />
-                  </div>
-                ))
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={ele?.message}
+                      secondary={(
+                        <div>
+                          <Typography
+                            sx={{ display: 'inline' }}
+                            component="span"
+                            variant="body2"
+                            color="text.secondary"
+                          >
+                            { formatDistance(
+                              parseISO(ele?.createdAt),
+                              new Date(),
+                              { addSuffix: true },
+                            )}
+                          </Typography>
+                          {' — View Profile…'}
+                        </div>
+          )}
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                </div>
+              ))
 }
       { (!oldNotifications?.length && !realTimeNotifications?.length)
        && <p className="no-notification">No notification</p>}
