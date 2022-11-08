@@ -97,8 +97,8 @@ const ChatBox:FC = () => {
       setOnlineUsers(message)
     })
     return () => {
-      socket.off('connect')
-      socket.off('disconnect')
+      socket.off('getMessages')
+      socket.off('onlineUsers')
     }
   }, [])
 

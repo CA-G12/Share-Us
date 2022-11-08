@@ -96,8 +96,9 @@ const Messages:FC<IMessagesProps> = (
       setDeletedMsg((prev:any) => [...unSendMessageResponse, ...prev])
     })
     return () => {
-      socket.off('connect')
-      socket.off('disconnect')
+      socket.off('typingResponse')
+      socket.off('endTypingResponse')
+      socket.off('getUnSendMessage')
     }
   }, [socket])
 
