@@ -5,4 +5,5 @@ export default interface IPropsAboutEvent {
   interestedPeople :any[];
   longitude:string;
   latitude:string;
+  placeName:string;
 }

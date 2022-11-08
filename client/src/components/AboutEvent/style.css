@@ -35,11 +35,6 @@
   justify-content: center;
 
 }
-.about-event  .participants-map  .map-container{
-  margin-top: 30px;
-  background-color: #f1f1f1b9;
-  border-radius: 8px;
-}
 
 .participants-container div {
 display:flex;
@@ -82,12 +77,14 @@ margin: 0 auto;
   border-radius: 20px;
 }
 
-.map-container{
+
+
+.about-event  .participants-map  .map-container{
   margin-top: 30px;
   background-color: #f1f1f1b9;
   border-radius: 8px;
-  /* overflow: hidden; */
-  height: 400px;
+  overflow: hidden;
+  height: 360px;
   position: relative;
 }
 

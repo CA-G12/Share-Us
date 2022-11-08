@@ -14,7 +14,7 @@ import './style.css'
 import AddEvent from '../../components/AddEvent'
 import { IAddedEventProps } from '../../interfaces'
 
-const Profile:FC<IAddedEventProps> = ({ setIsAdded }) => {
+const Profile:FC<IAddedEventProps> = ({ setIsAdded, isAdded }) => {
   const auth = useAuth()
   const [userData, setUserData] = useState<IUserProfile | null>(null)
   const [allData, setAllData] = useState<IEventDetails[]>([])
@@ -52,7 +52,7 @@ const Profile:FC<IAddedEventProps> = ({ setIsAdded }) => {
       setAllData(allEvents.data.data)
     }
     getEvents()
-  }, [currentStatus, startTime, endTime, followerId])
+  }, [currentStatus, startTime, endTime, followerId, isAdded])
 
   return (
     userData
