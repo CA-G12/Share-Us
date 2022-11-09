@@ -32,21 +32,27 @@ const GoogleAuth: FC<prop> = ({ label }) => {
   const auth = useAuth()
 
   const signInGoogle = async ():Promise<void> => {
+    const provider = new GoogleAuthProvider()
+    provider.addScope('https://www.googleapis.com/auth/calendar')
     try {
-      const result:any = await signInWithPopup(googleAuth, new GoogleAuthProvider())
+      const result:any = await signInWithPopup(googleAuth, provider)
+      console.log(result)
       const {
         displayName, email, uid, photoURL,
       } = result.user
 
-      const { refreshToken, expirationTime, accessToken } = result.user.stsTokenManager
+      // eslint-disable-next-line no-underscore-dangle
+      const { oauthExpireIn, refreshToken, oauthAccessToken } = result._tokenResponse
+      // eslint-disable-next-line no-underscore-dangle
+      console.log(result._tokenResponse)
       if (email && displayName && uid) {
         await auth.googleAuthenticate({
           email,
           password: uid,
           username: displayName,
           refreshToken,
-          accessToken,
-          expirationTime,
+          oauthAccessToken,
+          oauthExpireIn,
           profileImg: photoURL,
         })
         navigate('/home')
