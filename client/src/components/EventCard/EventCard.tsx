@@ -20,8 +20,13 @@ const EventCard:FC<EventCardProps> = ({ event, handleDelete }) => {
   return (
     <Card
       sx={{
-        width: 290, maxHeight: 350, margin: '0.5rem 0', position: 'relative',
+        width: 290,
+        maxHeight: 350,
+        margin: '0.5rem 0',
+        position: 'relative',
+        borderRadius: 3,
       }}
+      className="card-sx"
       key={event.id}
     >
       <CardMedia
@@ -81,62 +86,66 @@ const EventCard:FC<EventCardProps> = ({ event, handleDelete }) => {
         </Dialog>
 
       </Box>
-      <CardContent>
-        <Typography
-          gutterBottom
-          variant="h2"
-          component="div"
-          sx={{ fontSize: 15, fontWeight: 700 }}
-        >
-          {event.name}
-        </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ fontSize: 12 }}>
-          {event.description}
-        </Typography>
-      </CardContent>
-      <CardActions sx={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      }}
-      >
-        <Box
-          onClick={() => navigate(`/users/${event.User?.id}`)}
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '5px',
-            cursor: 'pointer',
-          }}
-        >
-          <Avatar
-            aria-label="recipe"
-            src={event.User?.profileImg}
-            alt="user-image"
-            sx={{ width: '30px', height: '30px' }}
-          />
+      <div className="test">
+        <CardContent className="card-content">
           <Typography
-            variant="body1"
-            sx={{ fontSize: 13, fontWeight: 500, cursor: 'pointer' }}
+            gutterBottom
+            variant="h2"
+            component="div"
+            sx={{ fontSize: 15, fontWeight: 700 }}
           >
-            {event.User?.username}
-
+            {event.name}
           </Typography>
-        </Box>
-        <Button
+          <Typography variant="body2" color="text.secondary" sx={{ fontSize: 12 }}>
+            {event.description}
+          </Typography>
+        </CardContent>
+        <CardActions
           sx={{
-            fontSize: 10,
-            color: '#181818',
-            fontWeight: 600,
-            textTransform: 'capitalize',
-            '&:hover': {
-              backgroundColor: 'transparent',
-            },
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           }}
-          onClick={() => navigate(`/events/${event.id}`)}
+          className="user-card"
         >
-          Read more
-        </Button>
-      </CardActions>
+          <Box
+            onClick={() => navigate(`/users/${event.User?.id}`)}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '5px',
+              cursor: 'pointer',
+            }}
+          >
+            <Avatar
+              aria-label="recipe"
+              src={event.User?.profileImg}
+              alt="user-image"
+              sx={{ width: '30px', height: '30px' }}
+            />
+            <Typography
+              variant="body1"
+              sx={{ fontSize: 13, fontWeight: 500, cursor: 'pointer' }}
+            >
+              {event.User?.username}
+
+            </Typography>
+          </Box>
+          <Button
+            sx={{
+              fontSize: 10,
+              color: '#181818',
+              fontWeight: 600,
+              textTransform: 'capitalize',
+              '&:hover': {
+                backgroundColor: 'transparent',
+              },
+            }}
+            onClick={() => navigate(`/events/${event.id}`)}
+          >
+            Read more
+          </Button>
+        </CardActions>
+      </div>
 
     </Card>
   )

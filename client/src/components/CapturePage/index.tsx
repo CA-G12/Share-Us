@@ -25,9 +25,8 @@ const CapturePage:FC = () => {
           sx={{
             zIndex: '10000',
             color: '#eee',
-            border: '1px solid #eee',
-            width: '100%',
             textTransform: 'none',
+            width: 'max-content',
             fontSize: '1rem',
             padding: '0.3rem 1rem',
             background: '#2A2A2A',
@@ -41,12 +40,6 @@ const CapturePage:FC = () => {
 
         </Button>
       </div>
-      <img
-        // eslint-disable-next-line max-len
-        src="https://images.pexels.com/photos/35969/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        alt=""
-      />
-
     </div>
   )
 }

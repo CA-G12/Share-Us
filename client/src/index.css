@@ -8,3 +8,89 @@
 body{
   background-color: #F0F0F0;
 }
+
+@media (max-width: 767.98px) { 
+  .card-container div {
+    display: grid;
+    grid-template-columns: 1fr auto;
+   }
+
+   .card-container .card-sx {
+    display: flex;
+    flex-direction: column;
+   }
+
+   .card-container .card-sx .test {
+    display: flex;
+    flex-direction: column;
+   }
+
+   .card-container div .status-date{
+    display: flex;
+    height: 15px;
+   }
+
+   .card-container div .card-content {
+    height: 60%;
+    display: flex;
+    flex-direction: inherit;
+   }
+   
+   .card-container .user-card {
+    display: flex;
+   }
+   header {
+    padding: 1rem 1rem;
+   }
+  
+   header .logo h5 {
+    font-size: 1rem; 
+   }
+   header .logo img {
+    width: 25px;
+    height: 60px;
+   }
+
+   .event-list ul  button {
+    font-size: 0.7rem !important;
+   }
+
+   header .register {
+    gap: 0
+   }
+
+   header .register .icons {
+    margin: 0;
+   }
+
+   .filter-container {
+    display: block;
+   }
+
+   .date {
+    width: 100%;
+    justify-content: space-between;
+   }
+
+   .big-container {
+    height: 30vh;
+   }
+
+   .event-lists {
+    width: 100%;
+   }
+
+   .event-lists ul {
+    margin-top: 1.5rem;
+   }
+
+   .css-1u3bzj6-MuiFormControl-root-MuiTextField-root label {
+    font-size: 0.8rem;
+    top: -4px;
+   }
+
+   .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
+    height: 35px;
+    font-size: 1.2rem;
+   }
+} 
