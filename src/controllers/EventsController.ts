@@ -64,7 +64,7 @@ export default class EventsController {
       }],
       where: whereObj,
       order: [
-        ['startTime', 'ASC']
+        ['startTime', 'DESC']
       ]
     })
     res.json({ message: Message.SUCCESS, data: allEvents })

@@ -142,8 +142,8 @@ const NotificationsList:FC<INotificationsList> = ({
         </div>
       ))}
 
-      {
-            oldNotifications
+      {oldNotifications
+            && oldNotifications
               .sort((b:any, a:any) => dayjs(a.createdAt).diff(b.createdAt))
               .map((ele:any) => (
                 <div key={ele.id}>
@@ -202,8 +202,7 @@ const NotificationsList:FC<INotificationsList> = ({
                   </ListItem>
                   <Divider variant="inset" component="li" />
                 </div>
-              ))
-}
+              ))}
       { (!oldNotifications?.length && !realTimeNotifications?.length)
        && <p className="no-notification">No notification</p>}
 
