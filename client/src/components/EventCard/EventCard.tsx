@@ -86,7 +86,12 @@ const EventCard:FC<EventCardProps> = ({ event, handleDelete }) => {
           >
             {event.name}
           </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ fontSize: 12 }}>
+          <Typography
+            variant="body2"
+            className="card-description"
+            color="text.secondary"
+            sx={{ fontSize: 12 }}
+          >
             {event.description}
             { userId === event.User.id && (
             <IconButton

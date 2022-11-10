@@ -129,7 +129,12 @@ const SignUp: FC = () => {
           <Link to="/login"> Sign in!</Link>
         </p>
       </form>
-      <img src={cover} alt="test" style={{ margin: '0', padding: '0' }} />
+      <img
+        src={cover}
+        alt="sign-up-page"
+        className="auth-image"
+        style={{ margin: '0', padding: '0' }}
+      />
     </div>
   )
 }
