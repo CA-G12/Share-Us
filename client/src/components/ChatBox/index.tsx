@@ -16,7 +16,7 @@ import './style.css'
 
 const socket = io(`${process.env.REACT_APP_BASE_URL}/chat`)
 
-const ChatBox:FC = () => {
+const ChatBox:FC<{setAsRead: Function }> = ({ setAsRead }) => {
   const friendsInit = {
     id: 0,
     username: '',
@@ -108,6 +108,12 @@ const ChatBox:FC = () => {
         const oldMessages = await ApiService.get(`/api/v1/chat/messages/${currentUser.id}`)
         setMyMessages([])
         setRealTimeMessages(() => oldMessages.data.data)
+
+        const updateStatus = await ApiService.put(
+          '/api/v1/chat/messages/status',
+          { senderId: currentUser.id },
+        )
+        if (setAsRead) setAsRead(updateStatus.data.data[0])
       }
     }
     getChatMessages()
