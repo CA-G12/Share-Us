@@ -144,7 +144,7 @@ const ChatBox:FC = () => {
         sx={{ width: '10px', height: 'max-content' }}
         onClick={toggleDrawer(anchor, true)}
       >
-        <MenuIcon />
+        <MenuIcon sx={{ color: '#2a2a2a' }} />
 
       </Button>
 

@@ -1,7 +1,7 @@
 export const sx = {
   ChatBox: {
     width: {
-      xs: '90%', sm: '90%', md: '80%', L: '70%',
+      xs: '90%', sm: '90%', md: '80%', lg: '70%', xl: '60%',
     },
     height: '80vh',
     margin: '2rem auto',
