@@ -190,8 +190,9 @@ const Navbar:FC<any> = ({ asRead }) => {
             <Badge
               color="error"
               badgeContent={
-                unreadMessageCount
-              + chatNotificationCount
+
+                unreadMessageCount ? unreadMessageCount + chatNotificationCount
+                  : chatNotificationCount
 }
             >
               <MailIcon
