@@ -61,7 +61,6 @@ div.comment .comment-img{
 /*  Medium devices (tablets, less than 992px)*/
 @media (max-width: 992px) {	
 	.comments-container div.comment {
-    border: 2px red solid;
     max-width: 70%;
   }
 }
@@ -73,7 +72,6 @@ div.comment .comment-img{
 /* X-Small devices (portrait phones, less than 576px)*/
 @media (max-width: 575.98px) { 
   .comments-container div.comment {
-    border: 2px red solid;
     max-width: 100%;
     padding: 20px 8px;
   }

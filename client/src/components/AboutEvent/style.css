@@ -110,12 +110,10 @@ margin: 0 auto;
 @media (max-width: 992px) {	
 
   .about-event {
-    border: #E90808 2px solid !important;
     justify-content: center;
     flex-wrap: wrap;
   }
   .about-event .description-container{
-    border: #E90808 2px solid !important;
     margin-bottom: 25px;
   }
 
@@ -144,7 +142,6 @@ margin: 0 auto;
   }
 
   .about-event .participants-map{
-    border: black 2px solid;
     width: 100%;
   }
   .about-event .description-container{
