@@ -1,7 +1,6 @@
 import { Response } from 'express'
 import { google } from 'googleapis'
 import { User } from '../db'
-import { toast } from 'react-toastify'
 import { IUserRequest } from '../interfaces/IUserRequest'
 import config from '../config/environment'
 const Credentials = async (req:IUserRequest, res:Response):Promise<void> => {
@@ -16,6 +15,7 @@ const Credentials = async (req:IUserRequest, res:Response):Promise<void> => {
     },
     attributes: ['oauthAccessToken']
   })
+  // access_token , refresh_token , expiry_date
   oauth2Client.setCredentials({
     access_token: accessToken?.oauthAccessToken
   })
@@ -38,9 +38,9 @@ const Credentials = async (req:IUserRequest, res:Response):Promise<void> => {
     }
   }, function (err:any, event:any) {
     if (err) {
-      toast.error('Something went wrong')
+      console.error('Something went wrong' + err)
     }
-    toast.success('Event Added')
+    console.log('Event Added')
     res.json({ msg: 'add successflly!' })
   })
 }

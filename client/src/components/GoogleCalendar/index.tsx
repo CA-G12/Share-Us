@@ -40,6 +40,7 @@ const GCalendar: FC<{getEventDataForCalendar:Function}> = ({ getEventDataForCale
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button
+            sx={{ backgroundColor: '#EEEEEE' }}
             onClick={() => {
               handleClose()
               getEventDataForCalendar() // handle event data from the details page
