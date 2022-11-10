@@ -17,10 +17,10 @@ const Uploader:FC<IUploaderProps> = ({
     const data = new FormData()
 
     data.append('file', e.target.files[0])
-    data.append('upload_preset', 'shamskhodary')
-    data.append('cloud_name', 'dobsqpncd')
+    data.append('upload_preset', `${process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET}`)
+    data.append('cloud_name', `${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}`)
 
-    fetch('https://api.cloudinary.com/v1_1/dobsqpncd/image/upload', {
+    fetch(`${process.env.REACT_APP_CLOUDINARY_UPLOAD_LINK}`, {
       method: 'post',
       body: data,
     })
