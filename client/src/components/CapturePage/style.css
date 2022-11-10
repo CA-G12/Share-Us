@@ -1,20 +1,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500&display=swap');
 
 .landing-container {
+  position: relative;
   width: 100%;
-  height: 85vh;
+  height: 92vh;
   color: rgb(255, 255, 255);
+  background-image: url('https://images.pexels.com/photos/12756933/pexels-photo-12756933.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 2rem;
+  flex-direction: column;
 }
 
 
-.landing-container img {
-  width: 60%;
+.landing-container::after {
+  content: "";
+  position: absolute;
+  width: 100%;
   height: 100%;
-  border-radius: 0 8px 8px 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,.399);
 }
 
 .landing-container .content {
@@ -22,9 +32,7 @@
   padding: 4rem 3rem;
   display: flex;
   flex-direction: column;
-  background-color: #fff;
-  height: 100%;
-  border-radius: 8px 0 0 8px;
+  margin: 5rem auto;
 }
 
 .landing-container .content h1 {
@@ -32,9 +40,12 @@
   font-size: 2rem;
   font-weight: 500;
   line-height: 2.5rem;
+  color: #eee;
+  z-index: 10000;
 }
 
 .landing-container .content p {
   padding: 2rem 0;
-  color: #333;
+  color: #eee;
+  z-index: 10000;
 }

@@ -1,7 +1,6 @@
 .card-container {
   width: 90%;
   margin: 0.5rem auto;
-  
 }
 
 .status-date{
@@ -34,4 +33,12 @@
   position: absolute !important;
   right: 0;
   top: 60%;
+}
+
+.card-description{
+text-overflow: ellipsis !important;
+overflow: hidden !important;
+white-space: nowrap !important;
+padding-top: 15px;
+height: 50px;
 }

@@ -23,7 +23,6 @@ class NotificationSocket implements MySocketInterface {
     socket.on('newUser', (username) => {
       this.addNewUser(username, socket.id)
     })
-    console.log('noti', this.onlineUsers)
 
     socket.on('followNotification', async (data:any) => {
       const receiverUser:any = await User.findOne({ where: { id: data.receiverId } })
@@ -45,6 +44,19 @@ class NotificationSocket implements MySocketInterface {
             status: 'unread'
           })
         }
+      }
+    })
+
+    socket.on('messageNotification', (data:any) => {
+      const receiver = this.getUser(data.receiverName)
+      console.log(data)
+      if (receiver?.socketId) {
+        console.log(receiver)
+        socket.to(receiver.socketId).emit('getMessageNotification', {
+          counter: 1,
+          receiver: data.receiverName,
+          senderName: data.senderName
+        })
       }
     })
 

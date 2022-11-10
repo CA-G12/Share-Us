@@ -19,11 +19,11 @@ const EventCardContainer:FC<CardContainerProps> = ({ allEvents, followerId }) =>
     || isMe(evt?.User?.id)
     || isUserProfile(evt?.User?.id))
 
-  const [deletedId, setDeletedId] = useState<number | null>()
+  const [deletedId, setDeletedId] = useState<number[]>([])
   const handleDelete = async (id:number):Promise<void> => {
     const deletedEvent = await ApiService.delete(`/api/v1/events/${id}`)
     if (deletedEvent.data.status === 'deleted') {
-      setDeletedId(id)
+      setDeletedId([...deletedId, id])
       toast(deletedEvent.data.message)
     }
   }
@@ -39,7 +39,7 @@ const EventCardContainer:FC<CardContainerProps> = ({ allEvents, followerId }) =>
               <NoData error="No events found" />
             </Grid>
           )
-          : filteredEvents(allEvents).filter((evt:any) => evt.id !== deletedId)
+          : filteredEvents(allEvents).filter((evt:any) => !deletedId.includes(evt.id))
             .map((evt:any) => (
               <Grid item xs={3} key={evt.id}>
                 <EventCard event={evt} handleDelete={handleDelete} />
@@ -52,7 +52,7 @@ const EventCardContainer:FC<CardContainerProps> = ({ allEvents, followerId }) =>
           ? (
             <NoData error="No events found" />
           )
-          : allEvents.filter((evt:any) => evt.id !== deletedId)
+          : allEvents.filter((evt:any) => !deletedId.includes(evt.id))
             .map((evt:any) => (
               <Grid item xs={3}>
                 <EventCard event={evt} key={evt.id} handleDelete={handleDelete} />

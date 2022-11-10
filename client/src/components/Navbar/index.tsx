@@ -10,23 +10,25 @@ import {
 } from '@mui/material'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import NotificationsIcon from '@mui/icons-material/Notifications'
-import ChatIcon from '@mui/icons-material/Chat'
+import MailIcon from '@mui/icons-material/Mail'
 import io from 'socket.io-client'
 import { useAuth } from '../../hooks/useAuth'
 import logo from './logo.png'
 import DropDown from './DropDown'
 import { sx } from './styledMenu'
 import NotificationsList from '../NotificationsList/Notifications'
+import ApiService from '../../services/ApiService'
 
 const socket = io(`${process.env.REACT_APP_BASE_URL}/notifications`)
 
-const Navbar:FC = () => {
+const Navbar:FC<any> = ({ asRead }) => {
   const navigate = useNavigate()
   const location = useLocation()
 
   const [category, setCategory] = useState<string>('event')
   const [search, setSearch] = useState<string>('')
   const [, setSearchParams] = useSearchParams()
+  const [unreadMessageCount, setUnreadMessageCount] = useState<number>(0)
 
   const handleSearch = ():void => {
     if (location.pathname !== '/search') {
@@ -52,6 +54,8 @@ const Navbar:FC = () => {
 }
   const [realTimeNotifications, setRealTimeNotifications] = useState<INotifications[]>([])
   const [notificationCount, setNotificationCount] = useState<number>(0)
+  const [chatNotificationCount, setChatNotificationCount] = useState<number>(0)
+
   const [, setIsConnect] = useState<boolean>(false)
   const oldNotifications = useAuth().user?.notifications
 
@@ -59,16 +63,39 @@ const Navbar:FC = () => {
     socket.on('getNotification', (msg) => {
       setRealTimeNotifications((prev) => [...prev, msg])
     })
+
     return () => {
       socket.off('getNotification')
+      socket.off('getMessageNotification')
     }
   }, [])
+
+  useEffect(() => {
+    const getAllMessages = async ():Promise<void> => {
+      const unreadMessagesCount = await ApiService.get('/api/v1/chat/messages/status/unread')
+      setUnreadMessageCount(+unreadMessagesCount.data.data)
+    }
+    getAllMessages()
+  }, [])
+
+  useEffect(() => {
+    setUnreadMessageCount((prev) => {
+      if (prev - asRead < 0) {
+        return prev
+      }
+      return prev - asRead
+    })
+  }, [asRead])
 
   useEffect(() => {
     socket.on('connect', () => {
       setIsConnect(socket.connected) // true
     })
     if (auth?.user?.username) socket.emit('newUser', auth.user.username)
+
+    socket.on('getMessageNotification', (msg) => {
+      if (location.pathname !== '/chat') { setChatNotificationCount((prev) => prev + msg.counter) }
+    })
 
     socket.on('disconnect', () => {
       setIsConnect(socket.connected)
@@ -77,6 +104,7 @@ const Navbar:FC = () => {
     return () => {
       socket.off('connect')
       socket.off('disconnect')
+      socket.off('getMessageNotification')
     }
   }, [auth.user?.username])
 
@@ -94,6 +122,7 @@ const Navbar:FC = () => {
   const handleClose = ():void => {
     setAnchorEl(null)
   }
+
   return (
     <>
       {' '}
@@ -157,10 +186,20 @@ const Navbar:FC = () => {
         <div className="register">
           {auth.user && (
           <div className="icons">
-            <ChatIcon
-              onClick={() => { navigate('/chat') }}
-              sx={{ cursor: 'pointer', fill: '#eee' }}
-            />
+
+            <Badge
+              color="error"
+              badgeContent={
+                unreadMessageCount
+              + chatNotificationCount
+}
+            >
+              <MailIcon
+                onClick={() => { navigate('/chat') }}
+                sx={{ cursor: 'pointer', fill: '#eee' }}
+              />
+            </Badge>
+
             <CalendarMonthIcon
               onClick={() => { navigate('/calendar') }}
               sx={{ cursor: 'pointer', fill: '#eee' }}

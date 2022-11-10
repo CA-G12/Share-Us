@@ -56,11 +56,11 @@ const App: React.FC = () => {
     },
     {
       path: 'chat',
-      element: <Chat />,
+      element: !auth.user ? <Navigate to="/" replace /> : <Chat />,
     },
     {
       path: 'calendar',
-      element: <Calender />,
+      element: !auth.user ? <Navigate to="/" replace /> : <Calender />,
     },
     // {
     //   path: 'GoogleCalendar',

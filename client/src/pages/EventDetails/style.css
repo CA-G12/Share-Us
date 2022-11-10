@@ -6,3 +6,15 @@
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   min-height: 100vh;
 }
+
+/* Small devices (landscape phones, less than 768px)*/
+@media (max-width: 768px) {
+}
+
+/* X-Small devices (portrait phones, less than 576px)*/
+@media (max-width: 575.98px) { 
+
+  .event-details-page{
+    width: 100%;
+  }
+}

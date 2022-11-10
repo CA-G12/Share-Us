@@ -72,6 +72,7 @@ const AddCommentModal:FC<modalProps> = ({
         handleClose()
         setNewComments(newComment.data)
         toast(newComment.data.message)
+        values.content = ''
       } else {
         navigate('/login')
       }

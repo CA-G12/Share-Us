@@ -85,8 +85,8 @@
     "uuid": "^9.0.0"
   },
   "optionalDependencies": {
-    "fsevents": "^2.0.7"
-  },
+    "fsevents": "^2.3.2"
+},
   "pre-commit": [
     "lint",
     "lint:client"
