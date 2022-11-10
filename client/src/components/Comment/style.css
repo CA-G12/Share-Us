@@ -52,3 +52,30 @@ div.comment .comment-img{
   margin: 10px auto;
   object-fit: cover;
 }
+
+
+/* Large devices (desktops, less than 1200px)*/
+@media (max-width: 1200px) {
+}
+
+/*  Medium devices (tablets, less than 992px)*/
+@media (max-width: 992px) {	
+	.comments-container div.comment {
+    border: 2px red solid;
+    max-width: 70%;
+  }
+}
+
+/* Small devices (landscape phones, less than 768px)*/
+@media (max-width: 768px) {
+}
+
+/* X-Small devices (portrait phones, less than 576px)*/
+@media (max-width: 575.98px) { 
+  .comments-container div.comment {
+    border: 2px red solid;
+    max-width: 100%;
+    padding: 20px 8px;
+  }
+
+}

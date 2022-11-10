@@ -206,25 +206,32 @@ const EventDetailsHeader:FC = () => {
         <img className="event-cover-img" src={eventInfo.img} alt="headerImage" />
       </div>
       <div className="event-info-container">
-        <p className="event-date">
-          Date: {dateFormat}
-        </p>
+        <div>
+          <p className="event-date">
+            Date: {dateFormat}
+          </p>
+          <p className="event-duration">
+            Duration: {resultDuration.days !== 0 && (<>{resultDuration.days} days</>)}
+            {resultDuration.hours !== 0 && (<>, {resultDuration.hours} hours</>) }
+            {resultDuration.minutes !== 0 && (<>, {resultDuration.minutes} minutes</>)}
+          </p>
+          <p className="event-organizer">
+            by: {eventInfo.User.username}
+          </p>
+          <p className={`event-status ${eventInfo.status}`}>{eventInfo.status}</p>
+          <h2 className="event-name">{eventInfo.name}</h2>
+        </div>
         <Timer startTime={eventInfo.startTime} />
-        <p className="event-duration">
-          Duration: {resultDuration.days !== 0 && (<>{resultDuration.days} days</>)}
-          {resultDuration.hours !== 0 && (<>, {resultDuration.hours} hours</>) }
-          {resultDuration.minutes !== 0 && (<>, {resultDuration.minutes} minutes</>)}
-        </p>
-        <p className="event-organizer">
-          by: {eventInfo.User.username}
-        </p>
-        <p className={`event-status ${eventInfo.status}`}>{eventInfo.status}</p>
-        <h2 className="event-name">{eventInfo.name}</h2>
       </div>
       <div className="event-btns-container">
-        <Tabs value={countForTap} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="About" {...a11yProps(0)} />
-          <Tab label="Comments" {...a11yProps(1)} />
+        <Tabs
+          value={countForTap}
+          onChange={handleChange}
+          aria-label="basic tabs example"
+          className="taps"
+        >
+          <Tab className="tab-about" label="About" {...a11yProps(0)} />
+          <Tab className="tab-comments" label="Comments" {...a11yProps(1)} />
         </Tabs>
         <div className="btn-container">
 

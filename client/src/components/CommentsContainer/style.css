@@ -20,3 +20,29 @@ background-color: #2a2a2ad0;
   color: #2a2a2a9c;
   font-size: 14px;
 }
+
+
+
+/* Large devices (desktops, less than 1200px)*/
+@media (max-width: 1200px) {
+}
+
+/*  Medium devices (tablets, less than 992px)*/
+@media (max-width: 992px) {	
+	.comments-container{
+    border: 2px red solid;
+  }
+}
+
+/* Small devices (landscape phones, less than 768px)*/
+@media (max-width: 768px) {
+}
+
+/* X-Small devices (portrait phones, less than 576px)*/
+@media (max-width: 575.98px) { 
+  .comments-container{
+    width: 100%;
+    padding: 20px 10px;
+  }
+  
+}

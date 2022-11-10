@@ -38,7 +38,7 @@ const AboutEvent:FC < IPropsAboutEvent > = ({
         && Hashtags.map((ele: any) => (
           <Paper
             key={ele.id}
-            elevation={1}
+            elevation={0}
             variant="outlined"
             className="hashtag-label"
             sx={{ backgroundColor: ele.color }}
