@@ -28,7 +28,8 @@ const CapturePage:FC = () => {
             textTransform: 'none',
             width: 'max-content',
             fontSize: '1rem',
-            padding: '0.3rem 1rem',
+            padding: '0.5rem 1.5rem',
+            alignSelf: 'center',
             background: '#2A2A2A',
             boxShadow: '0px 2px 1px -1px rgb(0 0 0 / 20%),',
             ' &:hover': {

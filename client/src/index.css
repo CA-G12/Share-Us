@@ -1,96 +1,154 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-*{
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Inter', sans-serif;
 }
-body{
+
+body {
   background-color: #F0F0F0;
 }
 
-@media (max-width: 767.98px) { 
+@media (max-width: 768px) {
   .card-container div {
     display: grid;
     grid-template-columns: 1fr auto;
-   }
+  }
 
-   .card-container .card-sx {
+  .card-container .card-sx {
     display: flex;
     flex-direction: column;
-   }
+  }
 
-   .card-container .card-sx .test {
+  .card-container .card-sx .test {
     display: flex;
     flex-direction: column;
-   }
+  }
 
-   .card-container div .status-date{
+  .card-container div .status-date {
     display: flex;
     height: 15px;
-   }
+  }
 
-   .card-container div .card-content {
+  .card-container div .card-content {
     height: 60%;
     display: flex;
     flex-direction: inherit;
-   }
-   
-   .card-container .user-card {
+  }
+
+  .card-container .user-card {
     display: flex;
-   }
-   header {
+  }
+
+  header {
     padding: 1rem 1rem;
-   }
-  
-   header .logo h5 {
-    font-size: 1rem; 
-   }
-   header .logo img {
+  }
+
+  header .logo h5 {
+    font-size: 1rem;
+  }
+
+  header .logo img {
     width: 25px;
     height: 60px;
-   }
+  }
 
-   .event-list ul  button {
+  .event-list ul button {
     font-size: 0.7rem !important;
-   }
+  }
 
-   header .register {
+  header .register {
     gap: 0
-   }
+  }
 
-   header .register .icons {
+  header .register .icons {
     margin: 0;
-   }
+  }
 
-   .filter-container {
+  .filter-container {
     display: block;
-   }
+  }
 
-   .date {
+  .date {
     width: 100%;
     justify-content: space-between;
-   }
+  }
 
-   .big-container {
+  .big-container {
     height: 30vh;
-   }
+  }
 
-   .event-lists {
+  .event-lists {
     width: 100%;
-   }
+  }
 
-   .event-lists ul {
+  .event-lists ul {
     margin-top: 1.5rem;
-   }
+  }
 
-   .css-1u3bzj6-MuiFormControl-root-MuiTextField-root label {
+  .css-1u3bzj6-MuiFormControl-root-MuiTextField-root label {
     font-size: 0.8rem;
     top: -4px;
-   }
+  }
 
-   .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
+  .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
     height: 35px;
     font-size: 1.2rem;
-   }
-} 
+  }
+}
+
+@media (max-width: 575.98px) {
+  .card-container div {
+    grid-template-columns: auto;
+  }
+
+  .container {
+    justify-content: center;
+  }
+
+  .card-container {
+    width: 75%;
+    margin: 0 auto;
+  }
+
+  .logo {
+    display: none;
+  }
+
+  header .register .icons {
+    margin: 0;
+    gap: 0.2rem;
+  }
+
+  header .search {
+    width: auto;
+  }
+
+  .landing-container .content {
+    width: 100%;
+  }
+
+  .landing-container {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .event-lists {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .event-lists ul button {
+    margin: 0 0.5rem;
+    width: max-content;
+  }
+
+  .card-container .user-card .event-user{
+    display: flex;
+  }
+
+}

@@ -53,16 +53,6 @@ const EventCard:FC<EventCardProps> = ({ event, handleDelete }) => {
           {dayjs(event.startTime).format('MMM D, YYYY h:mm A')}
 
         </Typography>
-        {' '}
-        { userId === event.User.id && (
-        <IconButton
-          className="delete-event-btn"
-          aria-label="delete"
-          onClick={handleClickOpen}
-        >
-          <DeleteIcon />
-        </IconButton>
-        )}
 
         <Dialog
           open={open}
@@ -98,6 +88,16 @@ const EventCard:FC<EventCardProps> = ({ event, handleDelete }) => {
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ fontSize: 12 }}>
             {event.description}
+            { userId === event.User.id && (
+            <IconButton
+              className="delete-event-btn"
+              aria-label="delete"
+              sx={{ top: '13rem' }}
+              onClick={handleClickOpen}
+            >
+              <DeleteIcon />
+            </IconButton>
+            )}
           </Typography>
         </CardContent>
         <CardActions
@@ -115,6 +115,7 @@ const EventCard:FC<EventCardProps> = ({ event, handleDelete }) => {
               gap: '5px',
               cursor: 'pointer',
             }}
+            className="event-user"
           >
             <Avatar
               aria-label="recipe"
