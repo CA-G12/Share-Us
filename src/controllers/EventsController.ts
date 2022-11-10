@@ -120,12 +120,13 @@ export default class EventsController {
 
     await querySchema.validateAsync(req.body)
     const hashtagIds = []
+    const hashtagsColor = ['FFD6EC', 'F8EDE3', 'AEBDCA', 'C689C6', 'ADDDD0', 'FFF6BF', 'ECC5FB', 'FFC4C4']
 
     for (const has of hashtag) {
       const [row] = await Hashtag.findOrCreate({
         where: { title: has },
         defaults: {
-          color: `#${Math.floor(Math.random() * 16777215).toString(16)}`
+          color: `#${hashtagsColor[Math.floor(Math.random() * hashtagsColor.length)]}`
         }
       })
       hashtagIds.push(row.id)
