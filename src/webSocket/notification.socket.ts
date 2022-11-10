@@ -26,7 +26,7 @@ class NotificationSocket implements MySocketInterface {
 
     socket.on('followNotification', async (data:any) => {
       const receiverUser:any = await User.findOne({ where: { id: data.receiverId } })
-      if (receiverUser.followers.includes(data.senderInfo.id)) {
+      if (receiverUser?.followers?.includes(data.senderInfo.id)) {
         await receiverUser.update({
           notifications:
           [...receiverUser.notifications, { ...data, id: Math.floor(100000 + Math.random() * 900000) }]

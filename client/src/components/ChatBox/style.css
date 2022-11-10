@@ -72,6 +72,7 @@
 
 .css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper{
   height: max-content;
+  border: 1px solid red;
 }
 
 
@@ -87,9 +88,15 @@
 }
 
 .un-send-btn{
-  padding: 4px 8px;
+  padding: 4px 12px;
   margin-left: 15px;
   display: none;
+  background-color: #2a2a2a;
+  color: white;
+  cursor: pointer;
+  border: none;
+  border-radius: 11px;
+
 }
 .MuiDrawer-paper{
   height: 92vh !important;

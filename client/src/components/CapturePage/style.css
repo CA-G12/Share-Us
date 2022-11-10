@@ -36,6 +36,12 @@
   margin: 6rem auto;
 }
 
+.landing-container .content{
+  width: 70%;
+  margin: auto;
+  text-align: center;
+
+}
 .landing-container .content h1 {
   font-family: 'Ubuntu', sans-serif;
   font-size: 2rem;
@@ -43,6 +49,7 @@
   line-height: 2.5rem;
   color: #eee;
   z-index: 10000;
+  
 }
 
 .landing-container .content p {

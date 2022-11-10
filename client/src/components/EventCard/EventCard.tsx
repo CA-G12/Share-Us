@@ -22,7 +22,7 @@ const EventCard:FC<EventCardProps> = ({ event, handleDelete }) => {
       sx={{
         width: 290,
         maxHeight: 350,
-        margin: '0.5rem 0',
+        margin: '0.5rem auto',
         position: 'relative',
         borderRadius: 3,
       }}
