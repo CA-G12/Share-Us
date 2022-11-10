@@ -36,7 +36,7 @@ const JoinedPeopleModel:FC<IModalProps> = ({
         aria-describedby="modal-modal-description"
       >
         <Box
-          className="joined-container"
+          className="joined-container all-modal"
           sx={{
             position: 'absolute' as 'absolute',
             top: '50%',

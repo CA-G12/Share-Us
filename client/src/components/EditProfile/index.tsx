@@ -89,7 +89,7 @@ const EditProfile:FC<IEditProfile> = ({ editUserData }) => {
         aria-describedby="modal-modal-description"
       >
         <form onSubmit={formik.handleSubmit}>
-          <Box sx={sx.container}>
+          <Box sx={sx.container} className="all-modal">
             <Typography
               id="modal-modal-title"
               variant="h6"

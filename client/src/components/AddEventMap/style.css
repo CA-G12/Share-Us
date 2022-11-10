@@ -14,4 +14,12 @@
 .add-event-map .glass{
  z-index: 500;
 }
- 
+ .select-location{
+  border-bottom: 1px #2a2a2a solid;
+  font-size: 22px !important;
+  font-weight: 600 !important;
+  width: 95%;
+  margin: 8px auto 15px !important;
+  text-align: center !important;
+  padding-bottom: 10px !important;
+ }

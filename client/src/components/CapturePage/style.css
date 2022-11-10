@@ -12,6 +12,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  overflow: hidden;
 }
 
 
@@ -32,7 +33,7 @@
   padding: 4rem 3rem;
   display: flex;
   flex-direction: column;
-  margin: 5rem auto;
+  margin: 6rem auto;
 }
 
 .landing-container .content h1 {
@@ -48,4 +49,29 @@
   padding: 2rem 0;
   color: #eee;
   z-index: 10000;
+}
+
+
+@media (max-width: 992px) {
+  .landing-container .content {
+    width: 90%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 575.98px) { 
+  .landing-container .content {
+    width: 95%;
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+
+  .landing-container .content h1 {
+    font-size: 22px;
+  }
+  .landing-container .content p {
+    font-size: 15px;
+    width:85%;
+    margin: 0 auto;
+  }
 }

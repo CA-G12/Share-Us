@@ -4,7 +4,7 @@ import {
   FC,
 } from 'react'
 import {
-  Box, Modal, Button,
+  Box, Modal, Button, Typography,
 } from '@mui/material'
 import MapContainer from './mapContainer'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
@@ -19,7 +19,7 @@ const style = {
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
-  p: 4,
+  p: 2,
 }
 
 interface mapProps{
@@ -43,7 +43,8 @@ const AddEventMap: FC<mapProps> = ({ setLon, setLat, setPlaceName }):JSX.Element
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+        <Box sx={style} className="all-modal">
+          <Typography className="select-location">Select Location</Typography>
           <MapContainer setLon={setLon} setLat={setLat} setPlaceName={setPlaceName} />
         </Box>
 

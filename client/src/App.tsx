@@ -27,7 +27,7 @@ const App: React.FC = () => {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <LandingPage />,
+      element: auth.user ? <Navigate to="/home" replace /> : <LandingPage />,
     },
     {
       path: '/home',
@@ -35,11 +35,11 @@ const App: React.FC = () => {
     },
     {
       path: 'login',
-      element: auth.user ? <Navigate to="/" replace /> : <Login />,
+      element: auth.user ? <Navigate to="/home" replace /> : <Login />,
     },
     {
       path: 'sign-up',
-      element: auth.user ? <Navigate to="/" replace /> : <SignUp />,
+      element: auth.user ? <Navigate to="/home" replace /> : <SignUp />,
     },
     {
       path: 'users/:followerId',
