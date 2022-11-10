@@ -90,59 +90,60 @@ const ProfileBio:FC<UserProfileProp> = ({
               alt=""
             />
           </div>
-
-          <Typography variant="h5" gutterBottom sx={{ fontSize: '1.5rem' }}>
-            {user?.username}
-
-          </Typography>
-          <div className="friends">
-            <Typography
-              variant="subtitle2"
-              gutterBottom
-              onClick={handleOpen}
-              sx={{ fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
-            >
-              Followings:
-              {' '}
-              {user?.following?.length}
+          <div>
+            <Typography variant="h5" gutterBottom sx={{ fontSize: '1.5rem' }}>
+              {user?.username}
 
             </Typography>
-            <Typography
-              variant="subtitle2"
-              gutterBottom
-              onClick={handleOpenFollow}
-              sx={{ fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
-            >
-              Followers:
-              {' '}
-              {user?.followers?.length}
+            <div className="friends">
+              <Typography
+                variant="subtitle2"
+                gutterBottom
+                onClick={handleOpen}
+                sx={{ fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
+              >
+                Followings:
+                {' '}
+                {user?.following?.length}
 
-            </Typography>
-            <Typography
-              variant="subtitle2"
-              gutterBottom
-              sx={{ fontSize: 13, fontWeight: 600 }}
-            >
-              Events:
-              {' '}
-              {allData?.length}
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                gutterBottom
+                onClick={handleOpenFollow}
+                sx={{ fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
+              >
+                Followers:
+                {' '}
+                {user?.followers?.length}
 
-            </Typography>
-          </div>
-          <div className="bio">
-            <Typography
-              variant="subtitle1"
-              sx={{ fontSize: 16, fontWeight: 600, marginTop: '10px' }}
-            >
-              Bio:
-            </Typography>
-            <Typography
-              variant="body2"
-              gutterBottom
-              sx={{ fontSize: '15px', color: '#000' }}
-            >
-              {user?.bio}
-            </Typography>
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                gutterBottom
+                sx={{ fontSize: 13, fontWeight: 600 }}
+              >
+                Events:
+                {' '}
+                {allData?.length}
+
+              </Typography>
+            </div>
+            <div className="bio">
+              <Typography
+                variant="subtitle1"
+                sx={{ fontSize: 16, fontWeight: 600, marginTop: '10px' }}
+              >
+                Bio:
+              </Typography>
+              <Typography
+                variant="body2"
+                gutterBottom
+                sx={{ fontSize: '15px', color: '#000' }}
+              >
+                {user?.bio}
+              </Typography>
+            </div>
           </div>
         </div>
 
