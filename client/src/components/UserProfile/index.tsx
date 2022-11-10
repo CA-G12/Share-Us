@@ -22,7 +22,7 @@ const ProfileBio:FC<UserProfileProp> = ({
   const auth = useAuth()
   const user = auth.user?.id === Number(followerId) ? auth.user : userData
 
-  const socket = io('http://localhost:8080/notifications')
+  const socket = io(`${process.env.REACT_APP_BASE_URL}/notifications`)
 
   const sendNotification = (message:any):void => {
     socket.emit('followNotification', message)
