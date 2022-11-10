@@ -3,11 +3,13 @@ import React, {
   FC, useState, useEffect, useRef,
 } from 'react'
 import {
-  Alert, TextField, IconButton, Button, Menu,
+  Alert, TextField, IconButton, Button, Menu, Typography,
 } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import dayjs from 'dayjs'
 import EmojiEmotionsOutlinedIcon from '@mui/icons-material/EmojiEmotionsOutlined'
+import ChatIcon from '@mui/icons-material/Chat'
+
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 import { v4 as uuidv4 } from 'uuid'
@@ -277,13 +279,40 @@ const Messages:FC<IMessagesProps> = (
   }
   return (
     <Box sx={sx.alertBox}>
-      <Alert
-        severity="info"
-        variant="outlined"
-        sx={sx.alertItem}
+
+      <Box sx={{
+        border: '1px solid #ddd',
+        padding: '1.3rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: '0.8rem',
+
+      }}
       >
-        No Messages Opened
-      </Alert>
+        <Box sx={{
+          border: '1px solid #ddd',
+          borderRadius: '50%',
+          width: '4.5rem',
+          height: '4.5rem',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+        >
+          <ChatIcon sx={{
+            fontSize: '2.2rem',
+          }}
+          />
+        </Box>
+        <Typography variant="h5" component="h3">
+          Your Messages
+        </Typography>
+        <Typography>
+          Chat with your friends and join events
+        </Typography>
+      </Box>
     </Box>
 
   )

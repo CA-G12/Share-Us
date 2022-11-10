@@ -44,7 +44,7 @@ const CommentsContainer:FC = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [error, setError] = useState<boolean | string>(false)
   const [loader, setLoader] = useState<boolean>(true)
-  const [deletedId, setDeletedId] = useState<number | null>()
+  const [deletedId, setDeletedId] = useState<number[]>([])
 
   const handleOpen = ():void => setOpen(true)
   const handleClose = ():void => setOpen(false)
@@ -74,7 +74,7 @@ const CommentsContainer:FC = () => {
   const handleDelete = async (id:number):Promise<void> => {
     const deletedEvent = await ApiService.delete(`api/v1/events/${idParams}/comments/${id}`)
     if (deletedEvent.data.status === 'deleted') {
-      setDeletedId(id)
+      setDeletedId([...deletedId, id])
       toast(deletedEvent.data.message)
     }
   }
@@ -115,7 +115,7 @@ const CommentsContainer:FC = () => {
         loader={<CircularProgress sx={{ margin: '10px auto', display: 'block' }} />}
       >
         {!allComments.length ? 'No comments found'
-          : allComments.filter((evt:any) => evt.id !== deletedId).map((ele:any) => (
+          : allComments.filter((comment:any) => !deletedId.includes(comment.id)).map((ele:any) => (
             <Comment
               key={ele.id * Math.random()}
               id={ele.id}

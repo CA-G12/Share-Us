@@ -1,10 +1,183 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-*{
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Inter', sans-serif;
 }
-body{
+
+body {
   background-color: #F0F0F0;
+}
+
+
+
+@media (max-width: 928px) {
+  header .search{
+    width: 45%;
+  }
+}
+
+@media (max-width: 768px) {
+  .card-container div {
+    display: grid;
+    grid-template-columns: 1fr auto;
+  }
+
+  .card-container .card-sx {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-container .card-sx .test {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-container div .status-date {
+    display: flex;
+    height: 15px;
+
+  }
+
+  .card-container div .card-content {
+    height: 60%;
+    display: flex;
+    flex-direction: inherit;
+  }
+
+  .card-container .user-card {
+    display: flex;
+  }
+
+  header {
+    padding: 1rem 1rem;
+  }
+
+  header .logo h5 {
+    font-size: 1rem;
+  }
+
+  header .logo img {
+    width: 25px;
+    height: 60px;
+  }
+
+  .event-list ul button {
+    font-size: 0.7rem !important;
+  }
+
+  header .register {
+    gap: 0
+  }
+
+  header .register .icons {
+    margin: 0;
+  }
+
+  .filter-container {
+    display: block;
+
+  }
+
+  .date {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .big-container {
+    height: 30vh;
+
+  }
+
+  .event-lists {
+    width: 100%;
+
+  }
+
+  .event-lists ul {
+    margin-top: 1rem;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  .event-lists ul button{
+    margin-top: 10px !important;
+    width: 105px !important;
+  }
+
+  .css-1u3bzj6-MuiFormControl-root-MuiTextField-root label {
+    font-size: 0.8rem;
+    top: -4px;
+  }
+
+  .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
+    height: 35px;
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  a.logo{
+    margin-bottom: 0;
+    padding-bottom: 0 !important;
+    height: 40px;
+  }
+  .card-container div {
+    grid-template-columns: auto;
+  }
+
+  .container {
+    justify-content: flex-end;
+  }
+
+  .card-container {
+    width: 75%;
+    margin: 0 auto;
+  }
+
+
+  header .register .icons {
+    margin: 0;
+    gap: 0.2rem;
+  }
+
+  header .search {
+    width: auto;
+    order: 3;
+    margin: 0;
+    margin: 0 auto 10px;
+  }
+
+  .landing-container .content {
+    width: 100%;
+
+  }
+  header {
+   flex-wrap: wrap;
+   align-items: center;
+   padding: 0 10px;
+   height: 100px;
+  }
+  .landing-container {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .event-lists {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .event-lists ul button {
+    margin: 0 0.5rem;
+    width: max-content;
+  }
+
+  .card-container .user-card .event-user{
+    display: flex;
+  }
+
 }

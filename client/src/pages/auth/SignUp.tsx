@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { FC } from 'react'
 import { TextField, Button } from '@mui/material'
 import { useFormik } from 'formik'
@@ -6,15 +5,15 @@ import { useNavigate, Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import * as yup from 'yup'
-import { ReactComponent as GoogleLogo } from
-  '../../assets/icons/logo-google.svg'
 import './auth.css'
 import cover from '../../assets/images/cover.jpg'
 import { useAuth } from '../../hooks/useAuth'
+import GoogleAuth from './GoogleAuth'
 
 const SignUp: FC = () => {
   const navigate = useNavigate()
   const auth = useAuth()
+
   const validationSchema = yup.object({
     email: yup
       .string()
@@ -57,7 +56,6 @@ const SignUp: FC = () => {
   })
   return (
     <div className="auth">
-
       <form className="form" onSubmit={formik.handleSubmit}>
         <h2>Get Started with Share Us!</h2>
         <p className="center-pra">Getting started is easy</p>
@@ -124,22 +122,19 @@ const SignUp: FC = () => {
         >
           Sign Up
         </Button>
-        <Button
-          className="google-btn"
-          variant="outlined"
-          fullWidth
-        >
-          <GoogleLogo width={20} />
-          <p>Sign up with Google</p>
-        </Button>
+        <GoogleAuth label="Sign up" />
 
         <p className="center-pra">
           Already have an account ?
           <Link to="/login"> Sign in!</Link>
         </p>
       </form>
-      <img src={cover} alt="test" style={{ margin: '0', padding: '0' }} />
-
+      <img
+        src={cover}
+        alt="sign-up-page"
+        className="auth-image"
+        style={{ margin: '0', padding: '0' }}
+      />
     </div>
   )
 }

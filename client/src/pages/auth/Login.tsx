@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { FC } from 'react'
 import { TextField, Button } from '@mui/material'
 import { useFormik } from 'formik'
@@ -6,11 +5,11 @@ import * as yup from 'yup'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useNavigate, Link } from 'react-router-dom'
-import { ReactComponent as GoogleLogo } from
-  '../../assets/icons/logo-google.svg'
+
 import './auth.css'
 import cover from '../../assets/images/cover.jpg'
 import { useAuth } from '../../hooks/useAuth'
+import GoogleAuth from './GoogleAuth'
 
 const Login: FC = () => {
   const navigate = useNavigate()
@@ -88,18 +87,18 @@ const Login: FC = () => {
         >
           Login
         </Button>
-
-        <Button className="google-btn" variant="outlined" fullWidth>
-          <GoogleLogo width={20} />
-          <p>Sign in with Google</p>
-        </Button>
-
+        <GoogleAuth label="Sign in" />
         <p className="center-pra">
           Don’t have an account ?
           <Link to="/sign-up"> Sign Up!</Link>
         </p>
       </form>
-      <img src={cover} alt="test" style={{ margin: '0', padding: '0' }} />
+      <img
+        src={cover}
+        alt="login-page"
+        className="auth-image"
+        style={{ margin: '0', padding: '0' }}
+      />
     </div>
 
   )

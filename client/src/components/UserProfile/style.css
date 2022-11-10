@@ -31,7 +31,8 @@ body {
 .profile-img {
   position: absolute;
   top: 1rem;
-  right: 100%;
+  /* right: 100%; */
+  left: -10%;
   transform: translateY(-50%);
   width: 140px;
   height: 150px;
@@ -49,9 +50,11 @@ body {
   position: relative;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  flex-direction: column;
+  align-items: center;
+  /* align-items: flex-start; */
+  /* flex-direction: column; */
   width: 50%;
+  margin: 1rem;
 }
 
 .bio-infos h5 {
@@ -90,4 +93,67 @@ border-radius: 4px;
 
 .btns {
   background-color: red;
+}
+
+@media (max-width: 970px) {
+  .container-info{
+    flex-direction: column;
+    padding: 1rem;
+  } 
+  .profile-img {
+    top: -2rem;
+    transform: translateY(-50%);
+  }
+}
+@media (max-width: 670px) {
+  .container-info{
+    flex-direction: column;
+    padding: 1rem;
+  } 
+  .bio-infos{
+    width: 350px;
+  }
+  .profile-actions{
+    width: 350px !important;
+    display: flex;
+   justify-content: center;
+  }
+  .profile-img {
+    position: absolute;
+    top: -2rem;
+    left: -20%;
+    transform: translateY(-50%);
+  }
+}
+@media (max-width: 520px) {
+  .bio-infos{
+    width: 280px;
+  }
+  .profile-actions{
+    width: 280px !important;
+    display: flex;
+   justify-content: center;
+  }
+  .profile-img {
+    position: absolute;
+    top: -2rem;
+    left: -10%;
+    transform: translateY(-50%);
+  }
+}
+@media (max-width: 350px) {
+  .bio-infos{
+    width: 90%;
+  }
+  .profile-actions{
+    width: 90% !important;
+    display: flex;
+   justify-content: center;
+  }
+  .profile-img {
+    position: absolute;
+    top: -2rem;
+    left: 5%;
+    transform: translateY(-50%);
+  }
 }

@@ -1,6 +1,16 @@
+.ChatBox {
+  width: '70%';
+  height: '80vh';
+  margin: '2rem auto';
+  background-color: '#fff';
+  display: 'flex';
+}
+
 .single-message{
   padding: 0.5rem 1rem;
   width: max-content;
+  overflow-wrap: break-word;
+  line-height: 1rem;
   max-width: 60%;
   border-radius: 15px;
   margin-top: 5px;
@@ -8,9 +18,7 @@
 .me{
   background-color: #efefef;
   margin-right: auto;
-  display: inline;
-  /* display: flex; */
-  margin-top: 10px; 
+  display: inline-block;
 }
 .others{
   margin-left: auto;
@@ -63,7 +71,6 @@
 }
 
 .css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper{
-  top: 280px !important;
   height: max-content;
 }
 
@@ -75,7 +82,7 @@
 .message-un-send {
 
   display: block;
-  margin: 1.3rem;
+  margin: 0.7rem;
 
 }
 
@@ -83,4 +90,8 @@
   padding: 4px 8px;
   margin-left: 15px;
   display: none;
+}
+.MuiDrawer-paper{
+  height: 92vh !important;
+  margin-top: 8vh !important;
 }

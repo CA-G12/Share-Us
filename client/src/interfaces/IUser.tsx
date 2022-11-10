@@ -13,5 +13,8 @@ export default interface IUser {
   notifications?: string[] | null
   createdAt?: string
   updatedAt?: string
+  refreshToken?: string
+  expirationTime?:string
+  accessToken?:string
   onlineUsers?: any[]
 }
