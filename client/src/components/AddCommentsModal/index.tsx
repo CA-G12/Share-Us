@@ -125,7 +125,7 @@ const AddCommentModal:FC<modalProps> = ({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style} className="add-modal">
+      <Box sx={style} className="add-modal all-modal">
 
         <form
           onSubmit={formik.handleSubmit}

@@ -98,7 +98,7 @@ const UserAudience: FC<IModalProps> = ({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box className="joined-container" sx={sx.popUp}>
+        <Box className="joined-container all-modal" sx={sx.popUp}>
           <Typography
             id="modal-modal-title"
             variant="h6"

@@ -95,6 +95,7 @@ const ProfileBio:FC<UserProfileProp> = ({
               {user?.username}
 
             </Typography>
+
             <div className="friends">
               <Typography
                 variant="subtitle2"
