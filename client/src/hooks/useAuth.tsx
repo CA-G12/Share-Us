@@ -13,11 +13,15 @@ const initContext = {
     email: '',
     profileImg: '',
     headerImg: '',
+    refreshToken: '',
+    expirationTime: '',
+    accessToken: '',
   },
   setUser: () => {},
   signIn: () => {},
   signUp: () => {},
   signOut: () => {},
+  googleAuthenticate: () => {},
 }
 
 export const AuthContext = createContext<IAuthContext>(initContext)
@@ -38,6 +42,22 @@ export const useProvideAuth = ():IAuthContext => {
       return { isLogged: false, error: err }
     }
   }
+
+  const googleAuthenticate = async (payload:object):Promise<object> => {
+    try {
+      const googleUser = await ApiService.post('/api/v1/googleRegister', payload)
+      if (googleUser.status === 200) {
+        setUser(googleUser.data.data)
+        JwtService.setToken(googleUser.data.token)
+        ApiService.setHeader()
+      }
+      return { isLogged: true }
+    } catch (err) {
+      setUser(null)
+      return { isLogged: false, error: err }
+    }
+  }
+
   const signUp = async (payload:object):Promise<object> => {
     try {
       const userInfo = await ApiService.post('/api/v1/signup', payload)
@@ -72,7 +92,7 @@ export const useProvideAuth = ():IAuthContext => {
     getUser()
   }, [])
   return {
-    user, signIn, signUp, signOut, setUser,
+    user, signIn, signUp, signOut, setUser, googleAuthenticate,
   }
 }
 export const AuthProvider = ({ children }: IAuthContextProps):React.ReactElement => {

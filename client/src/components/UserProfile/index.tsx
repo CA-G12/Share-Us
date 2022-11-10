@@ -86,8 +86,8 @@ const ProfileBio:FC<UserProfileProp> = ({
         <div className="bio-infos">
           <div className="profile-img">
             <img
+              alt="Google/Initial"
               src={user?.profileImg}
-              alt=""
             />
           </div>
 

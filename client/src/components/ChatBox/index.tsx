@@ -1,5 +1,7 @@
-import { Grid } from '@mui/material'
-import {
+import { Drawer, Button } from '@mui/material'
+import { Box } from '@mui/system'
+import MenuIcon from '@mui/icons-material/Menu'
+import React, {
   FC, useContext, useEffect, useState,
 } from 'react'
 import { io } from 'socket.io-client'
@@ -113,22 +115,59 @@ const ChatBox:FC = () => {
     getChatMessages()
   }, [currentUser])
 
+  type Anchor = 'top' | 'left' | 'bottom' | 'right';
+  const [state, setState] = React.useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  })
+
+  const toggleDrawer = (anchor: Anchor, open: boolean) => (event: React.KeyboardEvent
+    | React.MouseEvent) => {
+    if (
+      event.type === 'keydown'
+      && ((event as React.KeyboardEvent).key === 'Tab'
+        || (event as React.KeyboardEvent).key === 'Shift')
+    ) {
+      return
+    }
+
+    setState({ ...state, [anchor]: open })
+  }
+
+  const anchor = 'left'
+
   return (
-    <Grid container sx={sx.ChatBox} justifyContent="center">
-      <Grid xs={3} item>
-        <Friends friends={allFriends} setCurrentUser={setCurrentUser} onlineUsers={onlineUsers} />
-      </Grid>
-      <Grid xs={9} item sx={{ position: 'relative' }}>
-        <Messages
-          currentUser={currentUser}
-          socket={socket}
-          realTimeMessages={realTimeMessages}
-          setMyMessages={setMyMessages}
-          myMessages={myMessages}
-          onlineUsers={onlineUsers}
-        />
-      </Grid>
-    </Grid>
+    <>
+      <Button
+        sx={{ width: '10px', height: 'max-content' }}
+        onClick={toggleDrawer(anchor, true)}
+      >
+        <MenuIcon sx={{ color: '#2a2a2a' }} />
+
+      </Button>
+
+      <Box sx={sx.ChatBox} className="chat-box">
+        <Box sx={{ width: '100%' }}>
+          <Messages
+            currentUser={currentUser}
+            socket={socket}
+            realTimeMessages={realTimeMessages}
+            setMyMessages={setMyMessages}
+            myMessages={myMessages}
+            onlineUsers={onlineUsers}
+          />
+        </Box>
+        <Drawer
+          anchor={anchor}
+          open={state[anchor]}
+          onClose={toggleDrawer(anchor, false)}
+        >
+          <Friends friends={allFriends} setCurrentUser={setCurrentUser} onlineUsers={onlineUsers} />
+        </Drawer>
+      </Box>
+    </>
   )
 }
 
