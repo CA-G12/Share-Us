@@ -33,9 +33,6 @@ const EditProfile:FC<IEditProfile> = ({ editUserData }) => {
     profileImg: yup
       .string()
       .nullable(),
-    location: yup
-      .string()
-      .nullable(),
   })
 
   const initialValues = {
@@ -126,17 +123,6 @@ const EditProfile:FC<IEditProfile> = ({ editUserData }) => {
                 error={formik.touched.bio && Boolean(formik.errors.bio)}
                 onChange={formik.handleChange}
                 helperText={formik.touched.bio && formik.errors.bio}
-              />
-              <TextField
-                label="Location"
-                id="outlined-size-small"
-                size="small"
-                name="location"
-                sx={{ width: '100%' }}
-                value={formik.values.location}
-                error={formik.touched.location && Boolean(formik.errors.location)}
-                onChange={formik.handleChange}
-                helperText={formik.touched.location && formik.errors.location}
               />
               <Uploader name="profileImg" formik={formik} btnName="Profile Image" />
               <Uploader name="headerImg" formik={formik} btnName="Header Image" />

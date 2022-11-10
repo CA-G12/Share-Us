@@ -25,11 +25,11 @@ const CapturePage:FC = () => {
           sx={{
             zIndex: '10000',
             color: '#eee',
-            border: '1px solid #eee',
-            width: '100%',
             textTransform: 'none',
+            width: 'max-content',
             fontSize: '1rem',
-            padding: '0.3rem 1rem',
+            padding: '0.5rem 1.5rem',
+            alignSelf: 'center',
             background: '#2A2A2A',
             boxShadow: '0px 2px 1px -1px rgb(0 0 0 / 20%),',
             ' &:hover': {
@@ -41,12 +41,6 @@ const CapturePage:FC = () => {
 
         </Button>
       </div>
-      <img
-        // eslint-disable-next-line max-len
-        src="https://images.pexels.com/photos/35969/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-        alt=""
-      />
-
     </div>
   )
 }

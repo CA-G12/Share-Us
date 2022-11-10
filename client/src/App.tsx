@@ -24,7 +24,6 @@ import { useAuth } from './hooks/useAuth'
 const App: React.FC = () => {
   const auth = useAuth()
   const [isAdded, setIsAdded] = useState<boolean>(false)
-
   const router = createBrowserRouter([
     {
       path: '/',
@@ -56,11 +55,11 @@ const App: React.FC = () => {
     },
     {
       path: 'chat',
-      element: <Chat />,
+      element: !auth.user ? <Navigate to="/" replace /> : <Chat />,
     },
     {
       path: 'calendar',
-      element: <Calender />,
+      element: !auth.user ? <Navigate to="/" replace /> : <Calender />,
     },
     {
       path: '*',
