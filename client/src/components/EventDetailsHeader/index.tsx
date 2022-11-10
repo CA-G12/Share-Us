@@ -14,6 +14,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import dayjs from 'dayjs'
 import CommentsContainer from '../CommentsContainer'
+import GoogleCalendar from '../GoogleCalendar'
 import { IEventDetails } from '../../interfaces'
 import ITabPanelProps from '../../interfaces/props/EventDetails'
 import AboutEvent from '../AboutEvent'
@@ -169,6 +170,16 @@ const EventDetailsHeader:FC = () => {
     }
   }
 
+  const getEventDataForCalendar = ():void => {
+    ApiService.post('/api/v1/events/googleCalendar', {
+      summary: eventInfo.name,
+      description: eventInfo.description,
+      startTime: eventInfo.startTime,
+      endTime: eventInfo.endTime,
+
+    })
+  }
+
   React.useEffect(() => {
     (async ():Promise<void> => {
       const result = await ApiService.get(`/api/v1/events/${idParams}/Joined`)
@@ -227,7 +238,7 @@ const EventDetailsHeader:FC = () => {
           <Tab label="Comments" {...a11yProps(1)} />
         </Tabs>
         <div className="btn-container">
-
+          <GoogleCalendar getEventDataForCalendar={getEventDataForCalendar} />
           <Button
             startIcon={join ? <CancelOutlinedIcon /> : <CheckCircleOutlinedIcon />}
             onClick={() => handleJoin(userId)}

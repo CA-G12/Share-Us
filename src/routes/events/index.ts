@@ -20,7 +20,7 @@ router.get('/events', expressWrapper(EventsController.index))
 router.get('/events/joined', expressWrapper(isAuth), expressWrapper(CalendarJoinedController.index))
 
 router.get('/events/interested', expressWrapper(isAuth), expressWrapper(CalendarInterestedController.index))
-router.get('/events/googleCalendar', expressWrapper(isAuth), expressWrapper(GoogleCalendar))
+router.post('/events/googleCalendar', expressWrapper(isAuth), expressWrapper(GoogleCalendar))
 router.get('/events/:id', expressWrapper(EventsController.show))
 router.get('/events/:eventId/joined', expressWrapper(JoinedController.index))
 router.get('/events/:eventId/interested', expressWrapper(InterestedController.index))

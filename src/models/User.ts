@@ -16,7 +16,7 @@ class User extends Model {
   declare notifications: any[]
   declare refreshToken?: string
   declare oauthAccessToken?: string
-  declare oauthExpireIn?: string
+  declare oauthExpireIn?: number
 }
 
 User.init(
