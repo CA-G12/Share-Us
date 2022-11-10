@@ -18,7 +18,7 @@ import './style.css'
 
 const socket = io(`${process.env.REACT_APP_BASE_URL}/chat`)
 
-const ChatBox:FC = () => {
+const ChatBox:FC<{setAsRead: Function }> = ({ setAsRead }) => {
   const friendsInit = {
     id: 0,
     username: '',
@@ -115,6 +115,17 @@ const ChatBox:FC = () => {
     getChatMessages()
   }, [currentUser])
 
+  useEffect(() => {
+    (async ():Promise<void> => {
+      if (currentUser.id) {
+        const result2 = await ApiService.put(
+          '/api/v1/chat/messages/status',
+          { senderId: currentUser.id },
+        )
+        setAsRead(result2.data.data[0])
+      }
+    })()
+  }, [currentUser, realTimeMessages])
   type Anchor = 'top' | 'left' | 'bottom' | 'right';
   const [state, setState] = React.useState({
     top: false,

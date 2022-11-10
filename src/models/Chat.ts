@@ -15,6 +15,11 @@ Chat.init({
   message: {
     type: DataTypes.TEXT,
     allowNull: false
+  },
+  status: {
+    type: DataTypes.TEXT,
+    defaultValue: 'unread',
+    allowNull: false
   }
 }, {
   sequelize
