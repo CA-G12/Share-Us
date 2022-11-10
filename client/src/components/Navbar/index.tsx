@@ -73,13 +73,18 @@ const Navbar:FC<any> = ({ asRead }) => {
   useEffect(() => {
     const getAllMessages = async ():Promise<void> => {
       const unreadMessagesCount = await ApiService.get('/api/v1/chat/messages/status/unread')
-      setUnreadMessageCount(unreadMessagesCount.data.data)
+      setUnreadMessageCount(+unreadMessagesCount.data.data)
     }
     getAllMessages()
   }, [])
 
   useEffect(() => {
-    setUnreadMessageCount((prev) => prev - asRead)
+    setUnreadMessageCount((prev) => {
+      if (prev - asRead < 0) {
+        return prev
+      }
+      return prev - asRead
+    })
   }, [asRead])
 
   useEffect(() => {
@@ -89,7 +94,7 @@ const Navbar:FC<any> = ({ asRead }) => {
     if (auth?.user?.username) socket.emit('newUser', auth.user.username)
 
     socket.on('getMessageNotification', (msg) => {
-      setChatNotificationCount((prev) => prev + msg.counter)
+      if (location.pathname !== '/chat') { setChatNotificationCount((prev) => prev + msg.counter) }
     })
 
     socket.on('disconnect', () => {

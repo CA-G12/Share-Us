@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-expressions */
-import { User, Chat } from '../db'
+import { User, Chat, sequelize } from '../db'
 import { Op } from 'sequelize'
 
 import { Request, Response } from 'express'
@@ -40,11 +40,14 @@ export default class UserProfileController {
         model: Chat,
         as: 'received',
         attributes: []
-      }, {
+      },
+      {
         model: Chat,
         as: 'sent',
         attributes: []
-      }]
+      }
+      ]
+
     })
     res.json({
       data: users, message: Message.SUCCESS

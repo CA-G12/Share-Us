@@ -108,16 +108,22 @@ const ChatBox:FC<{setAsRead: Function }> = ({ setAsRead }) => {
         const oldMessages = await ApiService.get(`/api/v1/chat/messages/${currentUser.id}`)
         setMyMessages([])
         setRealTimeMessages(() => oldMessages.data.data)
-
-        const updateStatus = await ApiService.put(
-          '/api/v1/chat/messages/status',
-          { senderId: currentUser.id },
-        )
-        if (setAsRead) setAsRead(updateStatus.data.data[0])
       }
     }
     getChatMessages()
   }, [currentUser])
+
+  useEffect(() => {
+    (async ():Promise<void> => {
+      if (currentUser.id) {
+        const result2 = await ApiService.put(
+          '/api/v1/chat/messages/status',
+          { senderId: currentUser.id },
+        )
+        setAsRead(result2.data.data[0])
+      }
+    })()
+  }, [currentUser, realTimeMessages])
 
   return (
     <Grid container sx={sx.ChatBox} justifyContent="center">
