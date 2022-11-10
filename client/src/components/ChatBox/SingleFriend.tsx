@@ -15,7 +15,7 @@ const SingleFriend:FC<Partial<IUser>> = ({ username, profileImg, onlineUsers }) 
     >
       <Avatar alt="user" src={profileImg} />
     </StyledBadge>
-    <Typography>{username}</Typography>
+    <Typography sx={{ overflowWrap: 'wrap', wordBreak: 'break-all' }}>{username}</Typography>
   </Stack>
 )
 

@@ -1,14 +1,18 @@
 export const sx = {
   ChatBox: {
-    width: '70%',
+    width: {
+      xs: '90%', sm: '90%', md: '80%', L: '70%',
+    },
     height: '80vh',
     margin: '2rem auto',
     backgroundColor: '#fff',
+    display: 'flex',
+
   },
   inputSearch: {
     width: '90%',
   },
-  inputSearchBox: {
+  friendsTitle: {
     height: '60px',
     borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
     width: '100%',
@@ -25,6 +29,7 @@ export const sx = {
   },
   allFriends: {
     borderRight: '1px solid rgba(0, 0, 0, 0.12)',
+    width: '200px',
     height: '80vh',
     display: 'flex',
     flexDirection: 'column',
@@ -35,7 +40,9 @@ export const sx = {
     width: '100%',
   },
   alertBox: {
-    display: 'grid', height: '100%', placeItems: 'center',
+    display: 'grid',
+    height: '100%',
+    placeItems: 'center',
   },
   alertItem: { width: '70%', margin: 'auto' },
 
