@@ -37,7 +37,7 @@ const ProfileActions: FC<IProfileActionsProp> = ({
   }
 
   return (
-    <Box>
+    <Box className="profile-actions">
       {user && <EditProfile editUserData={editUserData} userData={userData} />}
       {!user && (
       <Box sx={{
