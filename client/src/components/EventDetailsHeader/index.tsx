@@ -245,7 +245,9 @@ const EventDetailsHeader:FC = () => {
           <Tab className="tab-comments" label="Comments" {...a11yProps(1)} />
         </Tabs>
         <div className="btn-container">
+          {(join && useAuthorization.user.oauthAccessToken) && (
           <GoogleCalendar getEventDataForCalendar={getEventDataForCalendar} />
+          )}
           <Button
             startIcon={join ? <CancelOutlinedIcon /> : <CheckCircleOutlinedIcon />}
             onClick={() => handleJoin(userId)}
