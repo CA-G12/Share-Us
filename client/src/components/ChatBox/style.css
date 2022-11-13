@@ -89,11 +89,12 @@
   display: inline;
   cursor: pointer;
 }
+.message-un-send:hover .date {
+    visibility: visible;
+}
 .message-un-send {
-
   display: block;
   margin: 0.7rem;
-
 }
 
 .un-send-btn{
@@ -134,4 +135,14 @@
     height: 86.5vh !important;
     margin-top: 13.5vh !important;
   }
+}
+.message-un-send .date{
+  display: block ;
+  font-size: 0.7rem;
+  width: 100%;
+  color: #bbb;
+  visibility: hidden;
+}
+.others-date{
+  text-align: right;
 }

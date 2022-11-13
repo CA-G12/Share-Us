@@ -50,24 +50,26 @@ const Messages:FC<IMessagesProps> = (
   }
 
   const handleSendMessage = ():void => {
-    const messageObj = {
-      id: uuidv4(),
-      message,
-      senderName: auth.user?.username,
-      senderId: auth.user?.id,
-      receiverId: currentUser.id,
-      receiverName: currentUser.username,
+    if (message.trim() !== '') {
+      const messageObj = {
+        id: uuidv4(),
+        message,
+        senderName: auth.user?.username,
+        senderId: auth.user?.id,
+        receiverId: currentUser.id,
+        receiverName: currentUser.username,
+      }
+
+      socket.emit('sendMessage', messageObj)
+
+      socketNotification.emit('messageNotification', {
+        receiverName: currentUser.username,
+        senderName: auth.user?.username,
+      })
+
+      setMyMessages((prev:IMyMessages[]) => [...prev, { ...messageObj, createdAt: Date.now() }])
+      setMessage('')
     }
-
-    socket.emit('sendMessage', messageObj)
-
-    socketNotification.emit('messageNotification', {
-      receiverName: currentUser.username,
-      senderName: auth.user?.username,
-    })
-
-    setMyMessages((prev:IMyMessages[]) => [...prev, { ...messageObj, createdAt: Date.now() }])
-    setMessage('')
   }
 
   const handleEnter = (e: React.KeyboardEvent<HTMLDivElement>):void => {
@@ -169,6 +171,14 @@ const Messages:FC<IMessagesProps> = (
               filterMessages(realTimeMessages.concat(myMessages))
                 .map((ele:Partial<IRealTimeMessages>) => (
                   <div className="message-un-send" key={ele.id}>
+                    <div className={
+                      auth.user?.id === ele.senderId
+                        ? 'me-date date' : 'others-date date'
+                    }
+                    >
+                      {dayjs(ele.createdAt).format('YYYY-MM-DD hh:mm-A')}
+
+                    </div>
                     <p
                       className={
                       auth.user?.id === ele.senderId
