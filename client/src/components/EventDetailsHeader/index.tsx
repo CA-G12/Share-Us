@@ -89,6 +89,7 @@ const EventDetailsHeader:FC = () => {
   const [interestedList, setInterestedList] = useState<any>(0)
   const [joinedList, setJoinedList] = useState<any>(0)
   const [interested, setInterest] = useState<boolean>(false)
+  const [addToCalendar, setAddToCalendar] = useState<boolean>(false)
 
   const useAuthorization = useAuth()
   const userId = useAuthorization.user?.id
@@ -129,20 +130,20 @@ const EventDetailsHeader:FC = () => {
             JoinedPeople: [...eventInfo.JoinedPeople, addJoin.data.data],
           })
           setJoin(true)
-          toast(addJoin.data.message)
+          toast.info(addJoin.data.message)
         } else if (addJoin.data.status === 'canceled') {
           setEventInfo({
             ...eventInfo,
             JoinedPeople: eventInfo.JoinedPeople.filter((ele) => ele.UserId !== userId),
           })
           setJoin(false)
-          toast(addJoin.data.message)
+          toast.info(addJoin.data.message)
         }
       } else {
         navigate('/login')
       }
     } catch (err:any) {
-      toast(err.response.data.message)
+      toast.error(err.response.data.message)
     }
   }
   const handleInterest = async (UserId:number):Promise<void> => {
@@ -156,20 +157,20 @@ const EventDetailsHeader:FC = () => {
             InterestedPeople: [...eventInfo.InterestedPeople, addInterest.data.data],
           })
           setInterest(true)
-          toast(addInterest.data.message)
+          toast.success(addInterest.data.message)
         } else if (addInterest.data.status === 'canceled') {
           setEventInfo({
             ...eventInfo,
             InterestedPeople: eventInfo.InterestedPeople.filter((ele) => ele.UserId !== userId),
           })
           setInterest(false)
-          toast(addInterest.data.message)
+          toast.info(addInterest.data.message)
         }
       } else {
         navigate('/login')
       }
     } catch (err:any) {
-      toast(err.response.data.message)
+      toast.info(err.response.data.message)
     }
   }
 
@@ -180,7 +181,7 @@ const EventDetailsHeader:FC = () => {
       startTime: eventInfo.startTime,
       endTime: eventInfo.endTime,
       eventId: idParams,
-    })
+    }).then(() => setAddToCalendar(true))
   }
 
   React.useEffect(() => {
@@ -188,7 +189,7 @@ const EventDetailsHeader:FC = () => {
       const result = await ApiService.get(`/api/v1/events/${idParams}/Joined`)
       setJoinedList(result.data.data)
     })()
-  }, [eventInfo.JoinedPeople, isAddedToCalendar])
+  }, [eventInfo.JoinedPeople, addToCalendar])
 
   React.useEffect(() => {
     (async ():Promise<void> => {

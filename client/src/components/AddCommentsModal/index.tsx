@@ -70,13 +70,13 @@ const AddCommentModal:FC<modalProps> = ({
         const newComment = await ApiService.post(`/api/v1/events/${idParams}/comments`, body)
         handleClose()
         setNewComments(newComment.data)
-        toast(newComment.data.message)
+        toast.success(newComment.data.message)
         values.content = ''
       } else {
         navigate('/login')
       }
     } catch (error:any) {
-      toast(error.response.data.message)
+      toast.error(error.response.data.message)
     }
   }
 
