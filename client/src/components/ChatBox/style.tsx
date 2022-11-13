@@ -4,7 +4,7 @@ export const sx = {
       xs: '90%', sm: '90%', md: '80%', lg: '70%', xl: '60%',
     },
     height: '80vh',
-    margin: '2rem auto',
+    margin: '1rem auto 2.5rem',
     backgroundColor: '#fff',
     display: 'flex',
 
@@ -29,7 +29,7 @@ export const sx = {
   },
   allFriends: {
     borderRight: '1px solid rgba(0, 0, 0, 0.12)',
-    width: '200px',
+    width: '220px',
     height: '80vh',
     display: 'flex',
     flexDirection: 'column',

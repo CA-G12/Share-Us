@@ -1,12 +1,14 @@
 import { FC } from 'react'
 import {
-  Avatar, Stack, Typography,
+  Avatar, Stack, Typography, Badge,
 } from '@mui/material'
 import StyledBadge from './StyledBadge'
 import { sx } from './style'
 import { IUser } from '../../interfaces'
 
-const SingleFriend:FC<Partial<IUser>> = ({ username, profileImg, onlineUsers }) => (
+const SingleFriend:FC<Partial<IUser>> = ({
+  username, profileImg, onlineUsers, sent,
+}) => (
   <Stack direction="row" spacing={2} sx={sx.stackFriend}>
     <StyledBadge
       overlap="circular"
@@ -15,7 +17,30 @@ const SingleFriend:FC<Partial<IUser>> = ({ username, profileImg, onlineUsers }) 
     >
       <Avatar alt="user" src={profileImg} />
     </StyledBadge>
-    <Typography sx={{ overflowWrap: 'wrap', wordBreak: 'break-all' }}>{username}</Typography>
+    <Typography
+      className="friends-name"
+      sx={{ overflowWrap: 'wrap', wordBreak: 'break-all' }}
+    >
+      {username}
+
+    </Typography>
+    {sent?.length !== 0
+    && (
+    <Badge
+      color="error"
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'left',
+      }}
+      badgeContent={
+      sent?.length
+
+}
+      className="count-unread-friends"
+    />
+
+    )}
+
   </Stack>
 )
 

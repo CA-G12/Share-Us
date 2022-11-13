@@ -2,7 +2,7 @@ import './style.css'
 
 import { FC, useState, useEffect } from 'react'
 import {
-  Button, Alert, AlertTitle, CircularProgress,
+  Button, Alert, AlertTitle, CircularProgress, Typography,
 } from '@mui/material'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import { toast } from 'react-toastify'
@@ -114,7 +114,7 @@ const CommentsContainer:FC = () => {
         hasMore={hasMore}
         loader={<CircularProgress sx={{ margin: '10px auto', display: 'block' }} />}
       >
-        {!allComments.length ? 'No comments found'
+        {!allComments.length ? <Typography className="end-message">No comments found</Typography>
           : allComments.filter((comment:any) => !deletedId.includes(comment.id)).map((ele:any) => (
             <Comment
               key={ele.id * Math.random()}

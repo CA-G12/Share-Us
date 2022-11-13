@@ -57,6 +57,7 @@ margin: 0 auto;
   cursor: pointer;
   margin-top: 5px;
   border: none;
+  margin-left: 5px;
   }
 
   .participants-container div button span{

@@ -210,7 +210,9 @@ const Messages:FC<IMessagesProps> = (
                 </Alert>
               ) : (
                 <>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-around', padding: '0 15px' }}>
+                  <Box
+                    className="send-messages-container"
+                  >
 
                     <IconButton
                       className="Emoji-Btn-chat"
@@ -257,6 +259,7 @@ const Messages:FC<IMessagesProps> = (
                     MenuListProps={{
                       'aria-labelledby': 'basic-button',
                     }}
+                    sx={{ height: '100vh' }}
                   >
                     <Box className="chat-emoji">
                       <Picker

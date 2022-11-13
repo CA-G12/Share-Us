@@ -57,7 +57,7 @@ justify-content: space-between;
 padding: 8px 0;
 width: 90%;
 margin:0 auto;
-
+flex-wrap: wrap;
 }
   
 div.event-btns-container div.btn-container  {
@@ -139,7 +139,7 @@ font-size: 14px;
   width: 50px !important;
 }
 
-
-
-
+div.event-btns-container div.btn-container  {
+  margin: 20px auto  0;
+}
 }

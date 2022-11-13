@@ -21,22 +21,6 @@ background-color: #2a2a2ad0;
   font-size: 14px;
 }
 
-
-
-/* Large devices (desktops, less than 1200px)*/
-@media (max-width: 1200px) {
-}
-
-/*  Medium devices (tablets, less than 992px)*/
-@media (max-width: 992px) {	
-	.comments-container{
-  }
-}
-
-/* Small devices (landscape phones, less than 768px)*/
-@media (max-width: 768px) {
-}
-
 /* X-Small devices (portrait phones, less than 576px)*/
 @media (max-width: 575.98px) { 
   .comments-container{

@@ -37,6 +37,13 @@
   max-height: 470;
   overflow-y: auto;
 }
+
+.send-messages-container{
+  display: flex;
+  justify-content: space-around;
+  padding: 0 15px;
+}
+
 .messages-container::-webkit-scrollbar {
   width: 15px;
   height: 80%;
@@ -72,7 +79,9 @@
 
 .css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper{
   height: max-content;
-  border: 1px solid red;
+  position: absolute !important;
+  top: 40vh !important;
+
 }
 
 
@@ -101,4 +110,28 @@
 .MuiDrawer-paper{
   height: 92vh !important;
   margin-top: 8vh !important;
+}
+
+.count-unread-friends{
+  margin-left:auto !important ;
+  padding-right: 8px !important;
+}
+
+.friends-name{
+  width: max-content;
+  max-width: 120px !important;
+}
+
+@media (max-width: 575.98px) {
+  .chat-box{
+    height: 73vh !important;
+    width: 95% !important;
+  }
+  .messages-textField-container{
+    height: 63vh !important;
+  }
+  .MuiDrawer-paper{
+    height: 86.5vh !important;
+    margin-top: 13.5vh !important;
+  }
 }
