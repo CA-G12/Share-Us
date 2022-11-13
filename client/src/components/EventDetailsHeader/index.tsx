@@ -97,6 +97,9 @@ const EventDetailsHeader:FC = () => {
 
   const resultDuration = calculateDuration(eventInfo.startTime, eventInfo.endTime)
 
+  const isAddedToCalendar = joinedList.length
+    && joinedList.find((ele: any) => ele.UserId === userId)?.isAddedToCalendar
+
   React.useEffect(() => {
     (async ():Promise<void> => {
       try {
@@ -176,7 +179,7 @@ const EventDetailsHeader:FC = () => {
       description: eventInfo.description,
       startTime: eventInfo.startTime,
       endTime: eventInfo.endTime,
-
+      eventId: idParams,
     })
   }
 
@@ -185,7 +188,7 @@ const EventDetailsHeader:FC = () => {
       const result = await ApiService.get(`/api/v1/events/${idParams}/Joined`)
       setJoinedList(result.data.data)
     })()
-  }, [eventInfo.JoinedPeople])
+  }, [eventInfo.JoinedPeople, getEventDataForCalendar])
 
   React.useEffect(() => {
     (async ():Promise<void> => {
@@ -245,9 +248,14 @@ const EventDetailsHeader:FC = () => {
           <Tab className="tab-comments" label="Comments" {...a11yProps(1)} />
         </Tabs>
         <div className="btn-container">
+
           {(join && useAuthorization.user.oauthAccessToken) && (
-          <GoogleCalendar getEventDataForCalendar={getEventDataForCalendar} />
+            <GoogleCalendar
+              getEventDataForCalendar={getEventDataForCalendar}
+              disabled={isAddedToCalendar}
+            />
           )}
+
           <Button
             startIcon={join ? <CancelOutlinedIcon /> : <CheckCircleOutlinedIcon />}
             onClick={() => handleJoin(userId)}

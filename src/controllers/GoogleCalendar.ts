@@ -1,18 +1,25 @@
 import { Response } from 'express'
 import { google } from 'googleapis'
-import { User } from '../db'
+import { JoinedPeople, User } from '../db'
 // import validateParams from '../validation/paramsId'
 import { IUserRequest } from '../interfaces/IUserRequest'
 import config from '../config/environment'
+
 const Credentials = async (req:IUserRequest, res:Response):Promise<void> => {
   const oauth2Client = new google.auth.OAuth2(
     config.GOOGLE_CALENDAR_CLIENT_ID,
     config.GOOGLE_CALENDAR_CLIENT_SECRET
   )
   const user = req.user
-  const { id } = req.params
-  console.log(id)
   // await validateParams({ id })
+  const { eventId } = req.body
+
+  await JoinedPeople.update({ isAddedToCalendar: true }, {
+    where: {
+      UserId: user?.id,
+      EventId: eventId
+    }
+  })
 
   const accessToken = await User.findOne({
     where: {
@@ -26,6 +33,7 @@ const Credentials = async (req:IUserRequest, res:Response):Promise<void> => {
     scope: 'https://www.googleapis.com/auth/calendar',
     include_granted_scopes: true
   })
+
   oauth2Client.on('tokens', (tokens) => {
     if (tokens.refresh_token) {
       console.log(tokens.refresh_token)
@@ -39,6 +47,7 @@ const Credentials = async (req:IUserRequest, res:Response):Promise<void> => {
     refresh_token: accessToken?.refreshToken
     // expiry_date: accessToken?.oauthExpireIn
   })
+
   const calendar = google.calendar({ version: 'v3' })
 
   calendar.events.insert({

@@ -6,7 +6,9 @@ import {
 } from '@mui/material'
 import { toast } from 'react-toastify'
 
-const GCalendar: FC<{getEventDataForCalendar:Function}> = ({ getEventDataForCalendar }) => {
+const GCalendar: FC<{getEventDataForCalendar:Function, disabled: boolean}> = (
+  { getEventDataForCalendar, disabled },
+) => {
   const [open, setOpen] = React.useState(false)
   // const [openOnce, setOpenOnce] = React.useState(true)
   const handleClickOpen = ():void => {
@@ -19,7 +21,11 @@ const GCalendar: FC<{getEventDataForCalendar:Function}> = ({ getEventDataForCale
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button
+        variant="outlined"
+        onClick={handleClickOpen}
+        disabled={disabled}
+      >
         Google Calendar
       </Button>
       <Dialog
