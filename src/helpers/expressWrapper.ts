@@ -7,7 +7,6 @@ const expressWrapper = (controller: Function) => {
     try {
       await controller(req, res, next)
     } catch (err: any) {
-      console.log(err)
       if (err.name === 'ValidationError') {
         err.status = 422
         err.message = Message.VALIDATION_ERROR

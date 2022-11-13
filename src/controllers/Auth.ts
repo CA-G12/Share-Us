@@ -69,13 +69,10 @@ export default class Auth {
   }
 
   public static async googleRegister (req: Request, res: Response) {
-    const { email, username, oauthExpireIn, refreshToken, oauthAccessToken, profileImg } = req.body
-    const [row] = await User.findOrCreate({
-      where: { email },
-      defaults: { username, oauthExpireIn, refreshToken, oauthAccessToken, profileImg }
-    })
+    const { email, username, refreshToken, oauthExpireIn, oauthAccessToken, profileImg } = req.body
+    const [instance] = await User.upsert({ email, username, refreshToken, oauthExpireIn, oauthAccessToken, profileImg })
 
-    const token = await generateToken({ id: row.id, username: row.username })
-    res.json({ data: row, token })
+    const token = await generateToken({ id: instance.id, username: instance.username })
+    res.json({ data: instance, token })
   }
 }

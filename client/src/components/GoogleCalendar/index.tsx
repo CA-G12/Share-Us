@@ -1,16 +1,16 @@
 import * as React from 'react'
 import { FC } from 'react'
-import Button from '@mui/material/Button'
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import {
-  Dialog, DialogTitle, DialogContentText, DialogContent, DialogActions,
+  Dialog, DialogTitle, DialogContentText, DialogContent, DialogActions, Button,
 } from '@mui/material'
 import { toast } from 'react-toastify'
+import './style.css'
 
 const GCalendar: FC<{getEventDataForCalendar:Function, disabled: boolean}> = (
   { getEventDataForCalendar, disabled },
 ) => {
   const [open, setOpen] = React.useState(false)
-  // const [openOnce, setOpenOnce] = React.useState(true)
   const handleClickOpen = ():void => {
     setOpen(true)
   }
@@ -22,11 +22,16 @@ const GCalendar: FC<{getEventDataForCalendar:Function, disabled: boolean}> = (
   return (
     <div>
       <Button
-        variant="outlined"
+        startIcon={<CalendarMonthIcon />}
+        variant="contained"
         onClick={handleClickOpen}
         disabled={disabled}
+        sx={{
+          backgroundColor: '#FFE5E5',
+          width: 'fitContent',
+        }}
       >
-        Google Calendar
+        Add to Google Calendar
       </Button>
       <Dialog
         open={open}

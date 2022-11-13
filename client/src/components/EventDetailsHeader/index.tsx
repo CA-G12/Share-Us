@@ -188,7 +188,7 @@ const EventDetailsHeader:FC = () => {
       const result = await ApiService.get(`/api/v1/events/${idParams}/Joined`)
       setJoinedList(result.data.data)
     })()
-  }, [eventInfo.JoinedPeople, getEventDataForCalendar])
+  }, [eventInfo.JoinedPeople, isAddedToCalendar])
 
   React.useEffect(() => {
     (async ():Promise<void> => {

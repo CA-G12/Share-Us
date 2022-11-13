@@ -1,9 +1,9 @@
 import { Response } from 'express'
 import { google } from 'googleapis'
 import { JoinedPeople, User } from '../db'
-// import validateParams from '../validation/paramsId'
 import { IUserRequest } from '../interfaces/IUserRequest'
 import config from '../config/environment'
+import querySchema from '../validation/googleCalendarValidate'
 
 const Credentials = async (req:IUserRequest, res:Response):Promise<void> => {
   const oauth2Client = new google.auth.OAuth2(
@@ -11,7 +11,6 @@ const Credentials = async (req:IUserRequest, res:Response):Promise<void> => {
     config.GOOGLE_CALENDAR_CLIENT_SECRET
   )
   const user = req.user
-  // await validateParams({ id })
   const { eventId } = req.body
 
   await JoinedPeople.update({ isAddedToCalendar: true }, {
@@ -28,19 +27,6 @@ const Credentials = async (req:IUserRequest, res:Response):Promise<void> => {
     attributes: ['oauthAccessToken', 'refreshToken', 'oauthExpireIn']
   })
 
-  oauth2Client.generateAuthUrl({
-    access_type: 'offline',
-    scope: 'https://www.googleapis.com/auth/calendar',
-    include_granted_scopes: true
-  })
-
-  oauth2Client.on('tokens', (tokens) => {
-    if (tokens.refresh_token) {
-      console.log(tokens.refresh_token)
-    }
-    console.log(tokens.access_token)
-  })
-
   // access_token , refresh_token , expiry_date
   oauth2Client.setCredentials({
     access_token: accessToken?.oauthAccessToken,
@@ -49,42 +35,30 @@ const Credentials = async (req:IUserRequest, res:Response):Promise<void> => {
   })
 
   const calendar = google.calendar({ version: 'v3' })
-
+  const { summary, description, startTime, endTime } = req.body
+  querySchema.validate(req.body)
   calendar.events.insert({
     auth: oauth2Client,
     calendarId: 'primary',
     requestBody: {
-      summary: req.body.summary,
-      description: req.body.description,
+      summary,
+      description,
       start: {
-        dateTime: req.body.startTime,
+        dateTime: startTime,
         timeZone: 'Asia/Jerusalem'
       },
       end: {
-        dateTime: req.body.endTime,
+        dateTime: endTime,
         timeZone: 'Asia/Jerusalem'
       }
     }
   }, function (err:any, event:any) {
     if (err) {
-      console.error('Something went wrong' + err)
       res.json({ msg: err })
     } else {
-      console.log('Event Added')
       res.json({ msg: 'add successflly!' })
     }
   })
 }
-// export const GetEventId = async (req:Request, res:Response):Promise<void> => {
-//   const { id } = req.params
-//   console.log(id)
-//   const checkAdded = await Event.findOne({
-//     where: {
-//       id
-//     }
-//   })
-//   console.log(checkAdded?.Event?.isAdded, 'eventsssssssssssss')
-//   res.json({ msg: 'event' })
-// }
 
 export default Credentials

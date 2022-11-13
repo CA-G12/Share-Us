@@ -17,7 +17,6 @@ import {
   EventDetails,
   Calender,
   Chat,
-  // GoogleCalendar,
   ErrorPage,
 } from './pages'
 import { useAuth } from './hooks/useAuth'
@@ -62,10 +61,6 @@ const App: React.FC = () => {
       path: 'calendar',
       element: !auth.user ? <Navigate to="/" replace /> : <Calender />,
     },
-    // {
-    //   path: 'GoogleCalendar',
-    //   element: <GoogleCalendar />,
-    // },
     {
       path: '*',
       element: <ErrorPage />,
