@@ -44,10 +44,11 @@ export default class UserProfileController {
       {
         model: Chat,
         as: 'sent',
-        attributes: []
+        attributes: ['status', 'createdAt'],
+        where: { status: 'unread' },
+        required: false
       }
       ]
-
     })
     res.json({
       data: users, message: Message.SUCCESS
