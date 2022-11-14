@@ -44,7 +44,7 @@ export default class UserProfileController {
       {
         model: Chat,
         as: 'sent',
-        attributes: ['status', 'createdAt'],
+        attributes: ['status', 'createdAt', 'receiverId'],
         where: { status: 'unread' },
         required: false
       }

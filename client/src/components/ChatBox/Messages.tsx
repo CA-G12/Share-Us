@@ -14,6 +14,7 @@ import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 import { v4 as uuidv4 } from 'uuid'
 import { io } from 'socket.io-client'
+import { formatRelative, parseISO } from 'date-fns'
 import { IMessagesProps, IMyMessages, IRealTimeMessages } from '../../interfaces'
 import { sx } from './style'
 import SingleFriend from './SingleFriend'
@@ -67,7 +68,10 @@ const Messages:FC<IMessagesProps> = (
         senderName: auth.user?.username,
       })
 
-      setMyMessages((prev:IMyMessages[]) => [...prev, { ...messageObj, createdAt: Date.now() }])
+      setMyMessages((prev:IMyMessages[]) => [...prev, {
+        ...messageObj,
+        createdAt: new Date().toISOString(),
+      }])
       setMessage('')
     }
   }
@@ -155,6 +159,11 @@ const Messages:FC<IMessagesProps> = (
       b:Partial<IRealTimeMessages>,
     ) => dayjs(a.createdAt).diff(b.createdAt))
 
+  const checkMessageSender = (senderId:number | undefined):boolean => {
+    if (auth.user?.id === senderId) { return true }
+    return false
+  }
+
   if (currentUser.id) {
     return (
       <>
@@ -170,24 +179,26 @@ const Messages:FC<IMessagesProps> = (
             {
               filterMessages(realTimeMessages.concat(myMessages))
                 .map((ele:Partial<IRealTimeMessages>) => (
-                  <div className="message-un-send" key={ele.id}>
-                    <div className={
-                      auth.user?.id === ele.senderId
-                        ? 'me-date date' : 'others-date date'
-                    }
-                    >
-                      {dayjs(ele.createdAt).format('YYYY-MM-DD hh:mm-A')}
+                  <div
+                    className="message-un-send"
+                    style={{
+                      justifyContent: checkMessageSender(ele.senderId) ? 'end'
+                        : 'start',
+                      flexDirection: checkMessageSender(ele.senderId) ? 'row-reverse'
+                        : 'row',
+                    }}
+                    key={ele.id}
+                  >
 
-                    </div>
                     <p
                       className={
-                      auth.user?.id === ele.senderId
-                        ? 'me single-message' : 'others single-message'
+                        checkMessageSender(ele.senderId)
+                          ? 'me single-message' : 'others single-message'
                     }
                     >
                       {ele.message}
                     </p>
-                    { auth.user?.id === ele.senderId
+                    { checkMessageSender(ele.senderId)
                     && (
                     <button
                       className="unSend un-send-btn"
@@ -199,6 +210,13 @@ const Messages:FC<IMessagesProps> = (
                       unSend
                     </button>
                     )}
+
+                    <div className="date">
+                      { formatRelative(
+                        parseISO(ele?.createdAt || new Date().toISOString()),
+                        new Date(),
+                      )}
+                    </div>
                   </div>
 
                 ))

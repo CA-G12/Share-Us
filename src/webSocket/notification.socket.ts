@@ -49,9 +49,7 @@ class NotificationSocket implements MySocketInterface {
 
     socket.on('messageNotification', (data:any) => {
       const receiver = this.getUser(data.receiverName)
-      console.log(data)
       if (receiver?.socketId) {
-        console.log(receiver)
         socket.to(receiver.socketId).emit('getMessageNotification', {
           counter: 1,
           receiver: data.receiverName,

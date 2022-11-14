@@ -6,10 +6,11 @@ import { FC, useState } from 'react'
 import { IFriendChatProps } from '../../interfaces'
 import SingleFriend from './SingleFriend'
 import { sx } from './style'
+import { useAuth } from '../../hooks/useAuth'
 
 const Friends:FC<IFriendChatProps> = ({ friends, setCurrentUser, onlineUsers }) => {
   const [readMessages, setReadMessages] = useState<number[]>([])
-
+  const userId = useAuth().user.id
   return (
     <Box sx={sx.allFriends}>
       <Box sx={sx.friendsTitle}>
@@ -30,8 +31,8 @@ const Friends:FC<IFriendChatProps> = ({ friends, setCurrentUser, onlineUsers }) 
                 profileImg={ele.profileImg}
                 username={ele.username}
                 onlineUsers={onlineUsers}
-                sent={!readMessages.includes(ele.id)
-                  ? ele.sent : []}
+                sent={readMessages.includes(ele.id)
+                  ? [] : ele.sent.filter((msg:any) => msg.receiverId === userId)}
               />
             </Box>
             <Divider />
