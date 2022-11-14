@@ -38,15 +38,17 @@ const GoogleAuth: FC<prop> = ({ label }) => {
         displayName, email, uid, photoURL,
       } = result.user
 
-      const { refreshToken, expirationTime, accessToken } = result.user.stsTokenManager
+      // eslint-disable-next-line no-underscore-dangle
+      const { oauthExpireIn, refreshToken, oauthAccessToken } = result._tokenResponse
+
       if (email && displayName && uid) {
         await auth.googleAuthenticate({
           email,
           password: uid,
           username: displayName,
           refreshToken,
-          accessToken,
-          expirationTime,
+          oauthAccessToken,
+          oauthExpireIn,
           profileImg: photoURL,
         })
         navigate('/home')
