@@ -75,7 +75,7 @@ const CommentsContainer:FC = () => {
     const deletedEvent = await ApiService.delete(`api/v1/events/${idParams}/comments/${id}`)
     if (deletedEvent.data.status === 'deleted') {
       setDeletedId([...deletedId, id])
-      toast(deletedEvent.data.message)
+      toast.info(deletedEvent.data.message)
     }
   }
 

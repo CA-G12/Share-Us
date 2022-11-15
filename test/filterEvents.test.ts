@@ -5,6 +5,12 @@ import build from '../src/db/build'
 import sequelize from '../src/db/connection'
 
 beforeAll(() => build())
+afterAll(async () => {
+  cronJobs.forEach((job) => {
+    job.stop()
+  })
+  return await sequelize.close()
+})
 
 describe('Filter events tests', () => {
   test('length of all events', (done) => {
@@ -13,7 +19,7 @@ describe('Filter events tests', () => {
       .expect('Content-Type', /json/)
       .end((err, res) => {
         if (err) return done(err)
-        expect(res.body.data.length).toEqual(5)
+        expect(res.body.data.length).toEqual(25)
         return done()
       })
   })
