@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 /* eslint-disable react/jsx-props-no-spreading */
 import {
   useEffect,
@@ -272,20 +271,6 @@ const AddEvent: FC<addEventProps> = ({ setIsAdded }) => {
             >
               Publish Event
             </Button>
-            {/* <div className="atcb" style={{ display: 'none' }}>
-              {{
-                name: 'Reminder to star the add to calendar button repo',
-                description:
-                'Check out the maybe easiest way to include add to calendar buttons to your website at:<br>→ [url]https://github.com/add2cal/add-to-calendar-button[/url]',
-                startDate: 'today+2',
-                endDate: 'today+4',
-                location: 'https://github.com/add2cal/add-to-calendar-button',
-                options: [
-                  'Google',
-                ],
-                timeZone: 'Europe/Berlin',
-              }}
-            </div> */}
           </form>
         </Box>
       </Modal>
