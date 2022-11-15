@@ -14,6 +14,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import dayjs from 'dayjs'
 import CommentsContainer from '../CommentsContainer'
+import GoogleCalendar from '../GoogleCalendar'
 import { IEventDetails } from '../../interfaces'
 import ITabPanelProps from '../../interfaces/props/EventDetails'
 import AboutEvent from '../AboutEvent'
@@ -88,6 +89,7 @@ const EventDetailsHeader:FC = () => {
   const [interestedList, setInterestedList] = useState<any>(0)
   const [joinedList, setJoinedList] = useState<any>(0)
   const [interested, setInterest] = useState<boolean>(false)
+  const [addToCalendar, setAddToCalendar] = useState<boolean>(false)
 
   const useAuthorization = useAuth()
   const userId = useAuthorization.user?.id
@@ -95,6 +97,9 @@ const EventDetailsHeader:FC = () => {
   const navigate = useNavigate()
 
   const resultDuration = calculateDuration(eventInfo.startTime, eventInfo.endTime)
+
+  const isAddedToCalendar = joinedList.length
+    && joinedList.find((ele: any) => ele.UserId === userId)?.isAddedToCalendar
 
   React.useEffect(() => {
     (async ():Promise<void> => {
@@ -125,20 +130,20 @@ const EventDetailsHeader:FC = () => {
             JoinedPeople: [...eventInfo.JoinedPeople, addJoin.data.data],
           })
           setJoin(true)
-          toast(addJoin.data.message)
+          toast.info(addJoin.data.message)
         } else if (addJoin.data.status === 'canceled') {
           setEventInfo({
             ...eventInfo,
             JoinedPeople: eventInfo.JoinedPeople.filter((ele) => ele.UserId !== userId),
           })
           setJoin(false)
-          toast(addJoin.data.message)
+          toast.info(addJoin.data.message)
         }
       } else {
         navigate('/login')
       }
     } catch (err:any) {
-      toast(err.response.data.message)
+      toast.error(err.response.data.message)
     }
   }
   const handleInterest = async (UserId:number):Promise<void> => {
@@ -152,21 +157,31 @@ const EventDetailsHeader:FC = () => {
             InterestedPeople: [...eventInfo.InterestedPeople, addInterest.data.data],
           })
           setInterest(true)
-          toast(addInterest.data.message)
+          toast.success(addInterest.data.message)
         } else if (addInterest.data.status === 'canceled') {
           setEventInfo({
             ...eventInfo,
             InterestedPeople: eventInfo.InterestedPeople.filter((ele) => ele.UserId !== userId),
           })
           setInterest(false)
-          toast(addInterest.data.message)
+          toast.info(addInterest.data.message)
         }
       } else {
         navigate('/login')
       }
     } catch (err:any) {
-      toast(err.response.data.message)
+      toast.info(err.response.data.message)
     }
+  }
+
+  const getEventDataForCalendar = ():void => {
+    ApiService.post('/api/v1/events/googleCalendar', {
+      summary: eventInfo.name,
+      description: eventInfo.description,
+      startTime: eventInfo.startTime,
+      endTime: eventInfo.endTime,
+      eventId: idParams,
+    }).then(() => setAddToCalendar(true))
   }
 
   React.useEffect(() => {
@@ -174,7 +189,7 @@ const EventDetailsHeader:FC = () => {
       const result = await ApiService.get(`/api/v1/events/${idParams}/Joined`)
       setJoinedList(result.data.data)
     })()
-  }, [eventInfo.JoinedPeople])
+  }, [eventInfo.JoinedPeople, addToCalendar])
 
   React.useEffect(() => {
     (async ():Promise<void> => {
@@ -234,6 +249,13 @@ const EventDetailsHeader:FC = () => {
           <Tab className="tab-comments" label="Comments" {...a11yProps(1)} />
         </Tabs>
         <div className="btn-container">
+
+          {(join && useAuthorization.user.oauthAccessToken) && (
+            <GoogleCalendar
+              getEventDataForCalendar={getEventDataForCalendar}
+              disabled={isAddedToCalendar}
+            />
+          )}
 
           <Button
             startIcon={join ? <CancelOutlinedIcon /> : <CheckCircleOutlinedIcon />}
