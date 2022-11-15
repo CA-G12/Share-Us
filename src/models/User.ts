@@ -80,7 +80,7 @@ depositphotos_199564354-stock-illustration-creative-vector-illustration-default-
       allowNull: true
     },
     oauthExpireIn: {
-      type: DataTypes.TEXT,
+      type: DataTypes.INTEGER,
       allowNull: true
     },
     oauthAccessToken: {
