@@ -42,10 +42,7 @@ const GoogleAuth: FC<prop> = ({ label }) => {
 
       // eslint-disable-next-line no-underscore-dangle
       const { oauthExpireIn, refreshToken, oauthAccessToken } = result._tokenResponse
-<<<<<<< HEAD
 
-=======
->>>>>>> 8d1043d3a51b52f88c43cccdea532c2271c792a8
       if (email && displayName && uid) {
         await auth.googleAuthenticate({
           email,
