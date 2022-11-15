@@ -134,6 +134,9 @@ const AddEvent: FC<addEventProps> = ({ setIsAdded }) => {
                   }
                   renderInput={(params) => (
                     <TextField
+                      name="startTime"
+                      error={formik.touched.startTime && Boolean(formik.errors.startTime)}
+                      helperText={formik.touched.startTime && formik.errors.startTime}
                       // eslint-disable-next-line react/jsx-props-no-spreading
                       {...params}
                     />
@@ -145,7 +148,15 @@ const AddEvent: FC<addEventProps> = ({ setIsAdded }) => {
                   onChange={
                     (e:any) => formik.setFieldValue('endTime', e.toISOString())
                   }
-                  renderInput={(params) => <TextField {...params} />}
+                  renderInput={(params) => (
+                    <TextField
+                      name="endTime"
+                      error={formik.touched.endTime && Boolean(formik.errors.endTime)}
+                      helperText={formik.touched.endTime && formik.errors.endTime}
+                      {...params}
+                    />
+                  )}
+
                 />
               </LocalizationProvider>
             </div>
