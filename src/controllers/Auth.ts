@@ -61,7 +61,7 @@ export default class Auth {
 
   public static async verifyMe (req:IUserRequest, res:Response) {
     const user = req.user
-    const userData = await User.findOne({ where: { id: user?.id } })
+    const userData = await User.findOne({ where: { id: user.id } })
     if (userData?.password) {
       userData.password = ''
     }
