@@ -11,7 +11,6 @@ import 'react-toastify/dist/ReactToastify.css'
 import { useParams, useNavigate } from 'react-router-dom'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import EmojiEmotionsOutlinedIcon from '@mui/icons-material/EmojiEmotionsOutlined'
-// import Picker from 'emoji-picker-react'
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 import ApiService from '../../services/ApiService'
@@ -71,13 +70,13 @@ const AddCommentModal:FC<modalProps> = ({
         const newComment = await ApiService.post(`/api/v1/events/${idParams}/comments`, body)
         handleClose()
         setNewComments(newComment.data)
-        toast(newComment.data.message)
+        toast.success(newComment.data.message)
         values.content = ''
       } else {
         navigate('/login')
       }
     } catch (error:any) {
-      toast(error.response.data.message)
+      toast.error(error.response.data.message)
     }
   }
 

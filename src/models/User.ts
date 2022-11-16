@@ -15,8 +15,8 @@ class User extends Model {
   declare blocked: number[]
   declare notifications: any[]
   declare refreshToken?: string
-  declare accessToken?: string
-  declare expirationTime?: string
+  declare oauthAccessToken?: string
+  declare oauthExpireIn?: number
 }
 
 User.init(
@@ -79,11 +79,11 @@ depositphotos_199564354-stock-illustration-creative-vector-illustration-default-
       type: DataTypes.TEXT,
       allowNull: true
     },
-    expirationTime: {
-      type: DataTypes.TEXT,
+    oauthExpireIn: {
+      type: DataTypes.INTEGER,
       allowNull: true
     },
-    accessToken: {
+    oauthAccessToken: {
       type: DataTypes.TEXT,
       allowNull: true
     }

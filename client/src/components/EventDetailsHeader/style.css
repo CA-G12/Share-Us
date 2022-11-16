@@ -62,9 +62,8 @@ flex-wrap: wrap;
   
 div.event-btns-container div.btn-container  {
   display: flex;
-  justify-content: space-between;
-  text-align: center;
   flex-wrap: wrap;
+  align-items: center;
 }
 div.btn-container button{
   text-align: center;
@@ -81,10 +80,10 @@ div.btn-container :last-child:hover{
 div.event-btns-container div.btn-container Button:first-child,
 div.event-btns-container div.btn-container Button:last-child
 {
-padding: 0.4rem ;
+padding: 0.6rem ;
 margin: 0 5px;
 color: #2a2a2a;
-width: 140px;
+/* width: 140px; */
 text-align: center;
 }
 

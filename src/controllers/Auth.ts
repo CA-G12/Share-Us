@@ -69,13 +69,38 @@ export default class Auth {
   }
 
   public static async googleRegister (req: Request, res: Response) {
-    const { email, username, refreshToken, expirationTime, accessToken, profileImg } = req.body
-    const [row] = await User.findOrCreate({
-      where: { email },
-      defaults: { username, refreshToken, expirationTime, accessToken, profileImg }
+    const { email, username, refreshToken, oauthExpireIn, oauthAccessToken, profileImg } = req.body
+    const googleAccount = await User.findOne({
+      where: {
+        email
+      }
     })
 
-    const token = await generateToken({ id: row.id, username: row.username })
-    res.json({ data: row, token })
+    if (!googleAccount) {
+      const newAccount = await User.create({
+        email,
+        username,
+        refreshToken,
+        oauthExpireIn,
+        oauthAccessToken,
+        profileImg
+      })
+      const token = await generateToken({ id: newAccount.id, username: newAccount.username })
+      res.json({ data: newAccount, token })
+    } else {
+      const update = await User.update({
+        refreshToken,
+        oauthExpireIn,
+        oauthAccessToken
+      },
+      {
+        where: {
+          email
+        },
+        returning: true
+      })
+      const token = await generateToken({ id: update[1][0].getDataValue('id'), username: update[1][0].getDataValue('username') })
+      res.json({ data: update[1][0], token })
+    }
   }
 }

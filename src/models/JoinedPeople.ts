@@ -14,6 +14,10 @@ JoinedPeople.init({
   isEmailSent: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
+  },
+  isAddedToCalendar: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
   }
 }, {
   sequelize

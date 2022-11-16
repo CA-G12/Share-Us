@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-expressions */
-import { User, Chat, sequelize } from '../db'
+import { User, Chat } from '../db'
 import { Op } from 'sequelize'
 
 import { Request, Response } from 'express'
