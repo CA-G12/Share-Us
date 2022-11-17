@@ -13,9 +13,10 @@ import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import EmojiEmotionsOutlinedIcon from '@mui/icons-material/EmojiEmotionsOutlined'
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
+import { io } from 'socket.io-client'
 import ApiService from '../../services/ApiService'
 import './style.css'
-import { IOneComment } from '../../interfaces'
+import { IOneComment, IEventOwner } from '../../interfaces'
 import { useAuth } from '../../hooks/useAuth'
 import Uploader from '../Uploader'
 
@@ -39,15 +40,24 @@ interface modalProps {
   open: boolean;
   handleClose: ()=>void;
   setNewComments: Dispatch<SetStateAction<IOneComment>>;
+  eventOwner:IEventOwner;
+  eventId:string | undefined;
+  eventName:string |undefined;
 }
 
+const socket = io(`${process.env.REACT_APP_BASE_URL}/notifications`)
+
 const AddCommentModal:FC<modalProps> = ({
-  open, handleClose, setNewComments,
+  open, handleClose, setNewComments, eventOwner, eventId, eventName,
 }) => {
-  const useAuthorization = useAuth()
-  const userId = useAuthorization.user?.id
+  const auth = useAuth()
+  const userId = auth.user?.id
   const idParams = useParams().id
   const navigate = useNavigate()
+
+  const sendNotification = (message:any):void => {
+    socket.emit('commentsNotification', message)
+  }
 
   const onSubmitAddComment = async (values:any):Promise<any> => {
     const body: {
@@ -70,6 +80,20 @@ const AddCommentModal:FC<modalProps> = ({
         const newComment = await ApiService.post(`/api/v1/events/${idParams}/comments`, body)
         handleClose()
         setNewComments(newComment.data)
+        sendNotification({
+          senderInfo: {
+            id: auth.user.id,
+            username: auth.user.username,
+            profileImg: auth.user.profileImg,
+          },
+          receiverId: eventOwner.id,
+          receiverName: eventOwner.username,
+          message: `${auth.user.username} commented on your event '${eventName}'`,
+          createdAt: new Date(),
+          status: 'unread',
+          eventId,
+        })
+
         toast.success(newComment.data.message)
         values.content = ''
       } else {

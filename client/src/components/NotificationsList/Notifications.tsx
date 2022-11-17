@@ -70,7 +70,7 @@ const NotificationsList:FC<INotificationsList> = ({
       const updateState = await
       ApiService.patch(`/api/v1/users/${auth.id}/notifications`, { id })
       const newOne = oldNotifications.map((ele:any) => {
-        if (ele.id === +id) {
+        if (ele.id === id) {
           return { ...ele, status: updateState.data.status }
         }
         return ele
@@ -80,6 +80,15 @@ const NotificationsList:FC<INotificationsList> = ({
       navigate('/login')
     }
   }
+
+  const checkNotificationType = (ele:any):void => {
+    if (ele.eventId) {
+      navigate(`/events/${ele.eventId}`)
+    } else {
+      navigate(`/users/${ele?.senderInfo?.id}`)
+    }
+  }
+
   return (
     <StyledMenu
       id="demo-customized-menu"
@@ -101,7 +110,7 @@ const NotificationsList:FC<INotificationsList> = ({
               cursor: 'pointer',
             }}
             onClick={() => {
-              navigate(`/users/${ele?.senderInfo.id}`)
+              checkNotificationType(ele)
               handleClose()
             }}
           >
@@ -155,7 +164,7 @@ const NotificationsList:FC<INotificationsList> = ({
                     }}
                     onClick={() => {
                       readNotification(ele?.id)
-                      navigate(`/users/${ele?.senderInfo?.id}`)
+                      checkNotificationType(ele)
                       handleClose()
                       if (ele.status === 'unread') {
                         setNotificationCount((prev:any) => prev - 1)

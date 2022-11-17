@@ -1,5 +1,6 @@
 import { Socket } from 'socket.io'
 import MySocketInterface from './mySocketInterface'
+import { v4 as uuidv4 } from 'uuid'
 import { User } from '../models'
 import { formatDistance, parseISO } from 'date-fns'
 
@@ -29,7 +30,7 @@ class NotificationSocket implements MySocketInterface {
       if (receiverUser?.followers?.includes(data.senderInfo.id)) {
         await receiverUser.update({
           notifications:
-          [...receiverUser.notifications, { ...data, id: Math.floor(100000 + Math.random() * 900000) }]
+          [...receiverUser.notifications, { ...data, id: uuidv4() }]
         })
         const receiver = this.getUser(data.receiverName)
         if (receiver?.socketId) {
@@ -44,6 +45,28 @@ class NotificationSocket implements MySocketInterface {
             status: 'unread'
           })
         }
+      }
+    })
+
+    socket.on('commentsNotification', async (data:any) => {
+      const receiverUser:any = await User.findOne({ where: { id: data.receiverId } })
+      await receiverUser.update({
+        notifications:
+          [...receiverUser.notifications, { ...data, id: uuidv4() }]
+      })
+      const receiver = this.getUser(data.receiverName)
+      if (receiver?.socketId) {
+        socket.to(receiver.socketId).emit('getNotification', {
+          senderInfo: {
+            id: data.senderInfo.id,
+            senderName: data.senderInfo.username,
+            profileImg: data.senderInfo.profileImg
+          },
+          message: data.message,
+          createdAt: formatDistance(parseISO(data.createdAt), new Date(), { addSuffix: true }),
+          status: 'unread',
+          eventId: data.eventId
+        })
       }
     })
 

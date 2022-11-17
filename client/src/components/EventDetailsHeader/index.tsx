@@ -293,7 +293,7 @@ const EventDetailsHeader:FC = () => {
         />
       </TabPanel>
       <TabPanel value={countForTap} index={1}>
-        <CommentsContainer />
+        <CommentsContainer eventOwner={eventInfo.User} eventName={eventInfo.name} />
       </TabPanel>
     </div>
   )

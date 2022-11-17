@@ -13,10 +13,16 @@ import ApiService from '../../services/ApiService'
 import {
   IComments,
   IOneComment,
+  IEventOwner,
 } from '../../interfaces'
 import AddCommentModal from '../AddCommentsModal'
 
-const CommentsContainer:FC = () => {
+interface CommentsContainerProps{
+  eventOwner:IEventOwner
+  eventName:string
+}
+
+const CommentsContainer:FC<CommentsContainerProps> = ({ eventOwner, eventName }) => {
   const initOneCommentValue: IOneComment = {
     message: '',
     data:
@@ -133,6 +139,9 @@ const CommentsContainer:FC = () => {
         handleClose={handleClose}
         open={open}
         setNewComments={setNewComments}
+        eventOwner={eventOwner}
+        eventId={idParams}
+        eventName={eventName}
       />
     </div>
 

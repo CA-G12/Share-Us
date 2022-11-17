@@ -12,6 +12,8 @@ import IMessagesProps from './props/IMessagesProps'
 import IMyMessages from './IMyMessages'
 import IRealTimeMessages from './IRealTimeMessages'
 import ICurrentUser from './ICurrentUser'
+import IEventOwner from './IEventOwner'
+
 import IAddedEventProps from './props/IAddedEvent'
 
 export type {
@@ -21,4 +23,5 @@ export type {
   IOneComment,
   IEventCard, IFriendCard, IFriendChatProps, IMessagesProps, IMyMessages, IRealTimeMessages,
   ICurrentUser, IAddedEventProps,
+  IEventOwner,
 }
