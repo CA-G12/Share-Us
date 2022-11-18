@@ -86,10 +86,10 @@ border-radius: 4px;
 }
 
 .container-info {
-  width: 100%;
+  width: 65%;
   position: relative !important;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -105,6 +105,10 @@ border-radius: 4px;
   .profile-img {
     top: -2rem;
     transform: translateY(-50%);
+  }
+
+  .container-info {
+    width: 100%;
   }
 }
 @media (max-width: 670px) {

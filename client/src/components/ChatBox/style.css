@@ -67,13 +67,11 @@
   overflow: hidden;
 }
 
-.css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper{
+.chat-emoji-container .css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper{
   height: max-content;
   position: absolute !important;
   top: 40vh !important;
-
-}
-
+} 
 
 .message-un-send:hover .me + .un-send-btn{
   display: inline;

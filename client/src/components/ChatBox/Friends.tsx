@@ -32,7 +32,7 @@ const Friends:FC<IFriendChatProps> = ({ friends, setCurrentUser, onlineUsers }) 
                 username={ele.username}
                 onlineUsers={onlineUsers}
                 sent={readMessages.includes(ele.id)
-                  ? [] : ele.sent.filter((msg:any) => msg.receiverId === userId)}
+                  ? [] : ele.sent?.filter((msg:any) => msg.receiverId === userId)}
               />
             </Box>
             <Divider />
