@@ -1,6 +1,29 @@
 {
   "Events": [
-
+    {
+      "name": "Halloween Party",
+      "description": "you should wear a custom",
+      "img": "https://i.pinimg.com/736x/34/26/d8/3426d811fa533196469116a9b31d1561.jpg",
+      "startTime": "2022-10-31T08:55:00.925Z",
+      "endTime": "2022-1-29 12:28:44.411133+03",
+      "status": "in-progress",
+      "longitude": "11,50,2",
+      "latitude": "25,288,10",
+      "placeName": "Gaza",
+      "UserId": "2"
+    },
+    {
+      "name": "Dance Party",
+      "description": "you should wear a custom",
+      "img": "https://i.pinimg.com/736x/34/26/d8/3426d811fa533196469116a9b31d1561.jpg",
+      "startTime": "2022-10-31T08:30:00.218Z",
+      "endTime": "2022-1-29 12:28:44.411133+03",
+      "longitude": "11,50,2",
+      "status": "upcoming",
+      "latitude": "25,288,10",
+      "placeName": "Gaza",
+      "UserId": "1"
+    },
     {
       "name": "Hiking",
       "description": "you should bring your items",
@@ -37,8 +60,54 @@
       "placeName": "Gaza",
       "UserId": "2"
     },
- 
- 
+    {
+      "name": "Halloween Party",
+      "description": "you should wear a custom",
+      "img": "https://i.pinimg.com/736x/34/26/d8/3426d811fa533196469116a9b31d1561.jpg",
+      "startTime": "2022-10-31T08:55:00.925Z",
+      "endTime": "2022-1-29 12:28:44.411133+03",
+      "status": "in-progress",
+      "longitude": "11,50,2",
+      "latitude": "25,288,10",
+      "placeName": "Gaza",
+      "UserId": "2"
+    },
+    {
+      "name": "Dance Party",
+      "description": "you should wear a custom",
+      "img": "https://i.pinimg.com/736x/34/26/d8/3426d811fa533196469116a9b31d1561.jpg",
+      "startTime": "2022-10-31T08:30:00.218Z",
+      "endTime": "2022-1-29 12:28:44.411133+03",
+      "longitude": "11,50,2",
+      "status": "upcoming",
+      "latitude": "25,288,10",
+      "placeName": "Gaza",
+      "UserId": "1"
+    },
+    {
+      "name": "Hiking",
+      "description": "you should bring your items",
+      "img": "https://i.pinimg.com/736x/34/26/d8/3426d811fa533196469116a9b31d1561.jpg",
+      "startTime": "2022-10-30T19:50:00.186Z",
+      "endTime": "2022-11-1 12:28:44.411133+03",
+      "status": "upcoming",
+      "longitude": "11,50,2",
+      "latitude": "25,288,10",
+      "placeName": "Gaza",
+      "UserId": "1"
+    },
+    {
+      "name": "Brian Shields And Dean Miller",
+      "description": "you should wear a custom",
+      "img": "https://i.pinimg.com/736x/34/26/d8/3426d811fa533196469116a9b31d1561.jpg",
+      "startTime": "2022-10-30T19:20:00.186Z",
+      "endTime": "2022-1-29 12:28:44.411133+03",
+      "status": "closed",
+      "longitude": "11,50,2",
+      "latitude": "25,288,10",
+      "placeName": "Gaza",
+      "UserId": "2"
+    },
     {
       "name": "Going to the sea",
       "description": "you should bring your money",
@@ -74,8 +143,163 @@
       "latitude": "25,288,10",
       "placeName": "Gaza",
       "UserId": "1"
+    },
+    {
+      "name": "Hiking",
+      "description": "you should bring your items",
+      "img": "https://i.pinimg.com/736x/34/26/d8/3426d811fa533196469116a9b31d1561.jpg",
+      "startTime": "2022-10-30T19:50:00.186Z",
+      "endTime": "2022-11-1 12:28:44.411133+03",
+      "status": "upcoming",
+      "longitude": "11,50,2",
+      "latitude": "25,288,10",
+      "placeName": "Gaza",
+      "UserId": "1"
+    },
+    {
+      "name": "Brian Shields And Dean Miller",
+      "description": "you should wear a custom",
+      "img": "https://i.pinimg.com/736x/34/26/d8/3426d811fa533196469116a9b31d1561.jpg",
+      "startTime": "2022-10-30T19:20:00.186Z",
+      "endTime": "2022-1-29 12:28:44.411133+03",
+      "status": "closed",
+      "longitude": "11,50,2",
+      "latitude": "25,288,10",
+      "placeName": "Gaza",
+      "UserId": "2"
+    },
+    {
+      "name": "Going to the sea",
+      "description": "you should bring your money",
+      "img": "https://i.pinimg.com/736x/34/26/d8/3426d811fa533196469116a9b31d1561.jpg",
+      "startTime": "2022-10-30T18:55:00.894Z",
+      "endTime": "2022-1-29 12:28:44.411133+03",
+      "status": "in-progress",
+      "longitude": "11,50,2",
+      "latitude": "25,288,10",
+      "placeName": "Gaza",
+      "UserId": "2"
+    },
+    {
+      "name": "Halloween Party",
+      "description": "you should wear a custom",
+      "img": "https://i.pinimg.com/736x/34/26/d8/3426d811fa533196469116a9b31d1561.jpg",
+      "startTime": "2022-10-31T08:55:00.925Z",
+      "endTime": "2022-1-29 12:28:44.411133+03",
+      "status": "in-progress",
+      "longitude": "11,50,2",
+      "latitude": "25,288,10",
+      "placeName": "Gaza",
+      "UserId": "2"
+    },
+    {
+      "name": "Dance Party",
+      "description": "you should wear a custom",
+      "img": "https://i.pinimg.com/736x/34/26/d8/3426d811fa533196469116a9b31d1561.jpg",
+      "startTime": "2022-10-31T08:30:00.218Z",
+      "endTime": "2022-1-29 12:28:44.411133+03",
+      "longitude": "11,50,2",
+      "status": "upcoming",
+      "latitude": "25,288,10",
+      "placeName": "Gaza",
+      "UserId": "1"
+    },
+    {
+      "name": "Hiking",
+      "description": "you should bring your items",
+      "img": "https://i.pinimg.com/736x/34/26/d8/3426d811fa533196469116a9b31d1561.jpg",
+      "startTime": "2022-10-30T19:50:00.186Z",
+      "endTime": "2022-11-1 12:28:44.411133+03",
+      "status": "upcoming",
+      "longitude": "11,50,2",
+      "latitude": "25,288,10",
+      "placeName": "Gaza",
+      "UserId": "1"
+    },
+    {
+      "name": "Brian Shields And Dean Miller",
+      "description": "you should wear a custom",
+      "img": "https://i.pinimg.com/736x/34/26/d8/3426d811fa533196469116a9b31d1561.jpg",
+      "startTime": "2022-10-30T19:20:00.186Z",
+      "endTime": "2022-1-29 12:28:44.411133+03",
+      "status": "closed",
+      "longitude": "11,50,2",
+      "latitude": "25,288,10",
+      "placeName": "Gaza",
+      "UserId": "2"
+    },
+    {
+      "name": "Going to the sea",
+      "description": "you should bring your money",
+      "img": "https://i.pinimg.com/736x/34/26/d8/3426d811fa533196469116a9b31d1561.jpg",
+      "startTime": "2022-10-30T18:55:00.894Z",
+      "endTime": "2022-1-29 12:28:44.411133+03",
+      "status": "in-progress",
+      "longitude": "11,50,2",
+      "latitude": "25,288,10",
+      "placeName": "Gaza",
+      "UserId": "2"
+    },
+    {
+      "name": "Halloween Party",
+      "description": "you should wear a custom",
+      "img": "https://i.pinimg.com/736x/34/26/d8/3426d811fa533196469116a9b31d1561.jpg",
+      "startTime": "2022-10-31T08:55:00.925Z",
+      "endTime": "2022-1-29 12:28:44.411133+03",
+      "status": "in-progress",
+      "longitude": "11,50,2",
+      "latitude": "25,288,10",
+      "placeName": "Gaza",
+      "UserId": "2"
+    },
+    {
+      "name": "Dance Party",
+      "description": "you should wear a custom",
+      "img": "https://i.pinimg.com/736x/34/26/d8/3426d811fa533196469116a9b31d1561.jpg",
+      "startTime": "2022-10-31T08:30:00.218Z",
+      "endTime": "2022-1-29 12:28:44.411133+03",
+      "longitude": "11,50,2",
+      "status": "upcoming",
+      "latitude": "25,288,10",
+      "placeName": "Gaza",
+      "UserId": "1"
+    },
+    {
+      "name": "Hiking",
+      "description": "you should bring your items",
+      "img": "https://i.pinimg.com/736x/34/26/d8/3426d811fa533196469116a9b31d1561.jpg",
+      "startTime": "2022-10-30T19:50:00.186Z",
+      "endTime": "2022-11-1 12:28:44.411133+03",
+      "status": "upcoming",
+      "longitude": "11,50,2",
+      "latitude": "25,288,10",
+      "placeName": "Gaza",
+      "UserId": "1"
+    },
+    {
+      "name": "Brian Shields And Dean Miller",
+      "description": "you should wear a custom",
+      "img": "https://i.pinimg.com/736x/34/26/d8/3426d811fa533196469116a9b31d1561.jpg",
+      "startTime": "2022-10-30T19:20:00.186Z",
+      "endTime": "2022-1-29 12:28:44.411133+03",
+      "status": "closed",
+      "longitude": "11,50,2",
+      "latitude": "25,288,10",
+      "placeName": "Gaza",
+      "UserId": "2"
+    },
+    {
+      "name": "Going to the sea",
+      "description": "you should bring your money",
+      "img": "https://i.pinimg.com/736x/34/26/d8/3426d811fa533196469116a9b31d1561.jpg",
+      "startTime": "2022-10-30T18:55:00.894Z",
+      "endTime": "2022-1-29 12:28:44.411133+03",
+      "status": "in-progress",
+      "longitude": "11,50,2",
+      "latitude": "25,288,10",
+      "placeName": "Gaza",
+      "UserId": "2"
     }
-
   ],
   "Users": [
     {
