@@ -54,7 +54,7 @@ depositphotos_199564354-stock-illustration-creative-vector-illustration-default-
     headerImg: {
       type: DataTypes.TEXT,
       defaultValue:
-    'https://cdn.discordapp.com/attachments/959502807071867000/1029123702052376686/Rectangle_2.png'
+    'https://images.pexels.com/photos/2693529/pexels-photo-2693529.jpeg'
     },
     followers: {
       type: DataTypes.ARRAY(DataTypes.INTEGER),
