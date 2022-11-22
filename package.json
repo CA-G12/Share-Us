@@ -42,6 +42,7 @@
     "@types/passport-jwt": "^3.0.7",
     "@types/passport-local": "^1.0.34",
     "@types/supertest": "^2.0.12",
+    "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.39.0",
     "eslint": "^8.25.0",
     "eslint-config-standard-with-typescript": "^23.0.0",
@@ -86,7 +87,7 @@
   },
   "optionalDependencies": {
     "fsevents": "^2.3.2"
-},
+  },
   "pre-commit": [
     "lint",
     "lint:client"

@@ -36,3 +36,7 @@ p.secondary{
   align-items:flex-end;
   margin: 0 5%;
 }
+
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation8.MuiPickersPopper-paper.css-1yllih9-MuiPaper-root-MuiPickersPopper-paper {
+  position: relative;
+}

@@ -1,10 +1,3 @@
-.ChatBox {
-  width: '70%';
-  height: '80vh';
-  margin: '2rem auto';
-  background-color: '#fff';
-  display: 'flex';
-}
 
 .single-message{
   padding: 0.5rem 1rem;
@@ -17,11 +10,8 @@
 }
 .me{
   background-color: #efefef;
-  margin-right: auto;
-  display: inline-block;
 }
 .others{
-  margin-left: auto;
   border: 0.5px solid #efefef;
 }
 .messages-textField-container{
@@ -37,6 +27,13 @@
   max-height: 470;
   overflow-y: auto;
 }
+
+.send-messages-container{
+  display: flex;
+  justify-content: space-around;
+  padding: 0 15px;
+}
+
 .messages-container::-webkit-scrollbar {
   width: 15px;
   height: 80%;
@@ -70,35 +67,80 @@
   overflow: hidden;
 }
 
-.css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper{
+.chat-emoji-container .css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper{
   height: max-content;
-  border: 1px solid red;
-}
-
+  position: absolute !important;
+  top: 40vh !important;
+} 
 
 .message-un-send:hover .me + .un-send-btn{
   display: inline;
   cursor: pointer;
 }
+.message-un-send:hover .date {
+    visibility: visible;
+}
 .message-un-send {
-
-  display: block;
-  margin: 0.7rem;
-
+  display: flex;
+  align-items: center;
+  margin:0rem 0.7rem;
 }
 
 .un-send-btn{
   padding: 4px 12px;
-  margin-left: 15px;
+  margin:  0 5px;
   display: none;
   background-color: #2a2a2a;
   color: white;
   cursor: pointer;
   border: none;
   border-radius: 11px;
-
 }
 .MuiDrawer-paper{
   height: 92vh !important;
   margin-top: 8vh !important;
+}
+
+.count-unread-friends{
+  margin-left:auto !important ;
+  padding-right: 8px !important;
+}
+
+.friends-name{
+  width: max-content;
+  max-width: 120px !important;
+}
+
+.message-un-send .date{
+  display: block ;
+  font-size: 13px;
+  width: max-content;
+  color: #bbb;
+  visibility:hidden;  
+  margin: 0 8px;
+}
+
+@media (max-width: 575.98px) {
+  .chat-box{
+    height: 73vh !important;
+    width: 95% !important;
+  }
+  .messages-textField-container{
+    height: 63vh !important;
+  }
+  .MuiDrawer-paper{
+    height: 86.5vh !important;
+    margin-top: 13.5vh !important;
+  }
+
+  .single-message{
+    max-width: 50%;
+  }
+
+  .un-send-btn{
+    font-size: 11px;
+  }
+  .message-un-send .date{
+    font-size: 11px;
+  }
 }

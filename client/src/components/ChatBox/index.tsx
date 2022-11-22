@@ -126,6 +126,7 @@ const ChatBox:FC<{setAsRead: Function }> = ({ setAsRead }) => {
       }
     })()
   }, [currentUser, realTimeMessages])
+
   type Anchor = 'top' | 'left' | 'bottom' | 'right';
   const [state, setState] = React.useState({
     top: false,
@@ -174,6 +175,7 @@ const ChatBox:FC<{setAsRead: Function }> = ({ setAsRead }) => {
           anchor={anchor}
           open={state[anchor]}
           onClose={toggleDrawer(anchor, false)}
+          className="all-friends"
         >
           <Friends friends={allFriends} setCurrentUser={setCurrentUser} onlineUsers={onlineUsers} />
         </Drawer>

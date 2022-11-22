@@ -11,6 +11,7 @@ export default interface IUser {
   following?: number[] | null
   blocked?: number[] | null
   notifications?: string[] | null
+  sent?:any
   createdAt?: string
   updatedAt?: string
   refreshToken?: string

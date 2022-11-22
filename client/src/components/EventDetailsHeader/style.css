@@ -57,7 +57,7 @@ justify-content: space-between;
 padding: 8px 0;
 width: 90%;
 margin:0 auto;
-
+flex-wrap: wrap;
 }
   
 div.event-btns-container div.btn-container  {
@@ -69,22 +69,18 @@ div.btn-container button{
   text-align: center;
   height: 42px;
 }
-div.btn-container :first-child:hover{
+div.btn-container Button:hover{
   background-color:#eeeeeeca;
 }
 
-div.btn-container :last-child:hover{
-  background-color:#eeeeeeca;
-}
-
-div.event-btns-container div.btn-container Button:first-child,
-div.event-btns-container div.btn-container Button:last-child
-{
+div.event-btns-container div.btn-container Button{
 padding: 0.6rem ;
 margin: 0 5px;
 color: #2a2a2a;
-/* width: 140px; */
+min-width: 120px;
+width: max-content;
 text-align: center;
+
 }
 
 div.event-btns-container Button {
@@ -96,34 +92,27 @@ div.event-btns-container Button {
   text-transform: capitalize !important;
 }
 
-
-/* Large devices (desktops, less than 1200px)*/
-@media (max-width: 1200px) {
-}
-
-/*  Medium devices (tablets, less than 992px)*/
 @media (max-width: 992px) {	
-div.event-btns-container div.btn-container Button:first-child,
-div.event-btns-container div.btn-container Button:last-child
-{
-width: 120px;
+div.event-btns-container div.btn-container Button{
+    min-width: 120px;
+  }
 }
 
-}
-
-/* Small devices (landscape phones, less than 768px)*/
 @media (max-width: 768px) {
+  div.event-btns-container div.btn-container Button{
+    margin-top: 5px;
+  }
 }
 
-/* X-Small devices (portrait phones, less than 576px)*/
 @media (max-width: 575.98px) { 
 
-  div.event-btns-container div.btn-container Button:first-child,
-  div.event-btns-container div.btn-container Button:last-child
-{
-width: 120px;
-margin-top: 5px;
-font-size: 14px;
+  div.event-details-header div.image-container img.event-cover-img{
+    max-width: 100% ;
+    height: 240px;
+  }
+
+  div.event-btns-container div.btn-container Button  {
+  font-size: 14px;
 }
 
 .event-btns-container .taps{
@@ -138,7 +127,7 @@ font-size: 14px;
   width: 50px !important;
 }
 
-
-
-
+div.event-btns-container div.btn-container  {
+  margin: 20px auto  0;
+}
 }

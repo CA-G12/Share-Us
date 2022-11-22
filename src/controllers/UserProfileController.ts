@@ -44,10 +44,11 @@ export default class UserProfileController {
       {
         model: Chat,
         as: 'sent',
-        attributes: []
+        attributes: ['status', 'createdAt', 'receiverId'],
+        where: { status: 'unread' },
+        required: false
       }
       ]
-
     })
     res.json({
       data: users, message: Message.SUCCESS
@@ -83,10 +84,9 @@ export default class UserProfileController {
     const id = req.user?.id
     const notificationId = req.body.id
     await validateParams({ id })
-
     const user:any = await User.findOne({ where: { id } })
     const notifications = user.notifications.map((element:any, i:number) => {
-      if (element.id === +notificationId) {
+      if (element.id === notificationId) {
         return { ...element, status: 'read' }
       }
       return element

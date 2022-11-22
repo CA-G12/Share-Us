@@ -3,9 +3,8 @@ const imagePattern: RegExp = /\.(jpe?g|png|gif|bmp)$/i
 const querySchema = Joi.object({
   name: Joi.string().required(),
   description: Joi.string()
-    .min(3)
     .required(),
-  startTime: Joi.date().greater(Date.now())
+  startTime: Joi.date()
     .required(),
   endTime: Joi.date().min(Joi.ref('startTime'))
     .required(),
